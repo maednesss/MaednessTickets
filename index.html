@@ -2,12 +2,18 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>MAEDNESS — TICKETS</title>
+<title>MÆDNESS — RED NIGHT</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;800;900&display=swap');
+
+:root {
+  --red: #ff0000;
+  --black: #050505;
+  --white: #ffffff;
+}
 
 * {
   margin: 0;
@@ -17,485 +23,953 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--black);
 }
 
 body {
-  background: #050505;
-  color: #fff;
+  background: var(--black);
+  color: var(--white);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
 }
 
-/* ---------- LOADER ---------- */
+/* =====================================================
+   LOADER
+===================================================== */
 
 .loader {
   position: fixed;
   inset: 0;
+  z-index: 99999;
   background: #050505;
-  z-index: 9999;
   display: flex;
-  justify-content: center;
   align-items: center;
-  animation: loaderOut 1s ease 1.5s forwards;
+  justify-content: center;
+  overflow: hidden;
+  animation: loaderHide 1s cubic-bezier(.77,0,.18,1) 1.5s forwards;
 }
 
-.loader span {
+.loader::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--red);
+  transform-origin: left;
+  animation: loadBar 1.5s ease forwards;
+}
+
+.loader-text {
   font-family: 'Anton', sans-serif;
-  font-size: 12vw;
-  letter-spacing: -5px;
+  font-size: 18vw;
+  letter-spacing: -7px;
+  line-height: .7;
 }
 
-@keyframes loaderOut {
+.loader-text span {
+  color: var(--red);
+}
+
+@keyframes loadBar {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes loaderHide {
   to {
     opacity: 0;
-    pointer-events: none;
+    visibility: hidden;
   }
 }
 
-/* ---------- NAV ---------- */
+/* =====================================================
+   FIXED UI
+===================================================== */
 
-nav {
+.topbar {
   position: fixed;
+  z-index: 500;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 25px 35px;
+  padding: 18px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 100;
+  pointer-events: none;
   mix-blend-mode: difference;
 }
 
-.logo {
+.brand {
   font-weight: 900;
-  font-size: 20px;
+  font-size: 13px;
   letter-spacing: 2px;
 }
 
-.nav-right {
-  font-size: 11px;
+.counter {
+  font-size: 9px;
   letter-spacing: 3px;
 }
 
-/* ---------- HERO ---------- */
+.progress {
+  position: fixed;
+  z-index: 600;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 100vh;
+  background: rgba(255,255,255,.12);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 0%;
+  background: var(--red);
+}
+
+/* =====================================================
+   HERO
+===================================================== */
 
 .hero {
-  height: 100vh;
-  min-height: 700px;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 100svh;
+  min-height: 620px;
   overflow: hidden;
+  background: #050505;
 }
 
-.hero::before {
+.hero-photo {
+  position: absolute;
+  inset: -8%;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,.45),
+      rgba(0,0,0,.20) 35%,
+      rgba(0,0,0,.85) 100%
+    ),
+    url("https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1400&q=85");
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(100%) contrast(1.25) brightness(.55);
+  transform: scale(1.08);
+  transition: transform .1s linear;
+}
+
+.hero-photo::after {
   content: "";
   position: absolute;
-  width: 650px;
-  height: 650px;
-  border-radius: 50%;
-  background: #e00000;
-  filter: blur(180px);
-  opacity: .18;
-  animation: pulse 5s infinite alternate ease-in-out;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 48%, transparent 0%, rgba(0,0,0,.65) 65%),
+    linear-gradient(135deg, rgba(255,0,0,.18), transparent 45%);
+  mix-blend-mode: screen;
 }
 
-@keyframes pulse {
+/* red light */
+.red-light {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: var(--red);
+  filter: blur(80px);
+  opacity: .32;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: redPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes redPulse {
   from {
-    transform: scale(.7);
+    opacity: .15;
+    transform: translate(-50%, -50%) scale(.7);
   }
 
   to {
-    transform: scale(1.3);
+    opacity: .4;
+    transform: translate(-50%, -50%) scale(1.3);
   }
 }
 
+/* scanlines */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .12;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    #fff 4px
+  );
+}
+
+/* noise */
+.noise {
+  position: absolute;
+  inset: -100%;
+  opacity: .06;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+  animation: noiseMove .18s steps(2) infinite;
+}
+
+@keyframes noiseMove {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(4%, -3%); }
+  50% { transform: translate(-3%, 5%); }
+  75% { transform: translate(5%, 3%); }
+  100% { transform: translate(-4%, -4%); }
+}
+
+/* hero content */
+
 .hero-content {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  text-align: center;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
 }
 
 .kicker {
-  font-size: 11px;
-  letter-spacing: 8px;
-  margin-bottom: 25px;
-  opacity: .65;
-}
-
-.hero-title {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(90px, 19vw, 270px);
-  line-height: .72;
-  letter-spacing: -8px;
-  text-transform: uppercase;
-  transform: scaleY(1.05);
-}
-
-.hero-title span {
-  display: block;
-}
-
-.hero-title .red {
-  color: #e00000;
-}
-
-.hero-info {
-  margin-top: 55px;
-  font-size: 12px;
+  font-size: 8px;
   letter-spacing: 5px;
-}
-
-.cta {
-  display: inline-flex;
-  margin-top: 35px;
-  padding: 18px 40px;
-  border: 1px solid #fff;
-  border-radius: 100px;
-  text-decoration: none;
-  color: #fff;
-  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 4px;
-  transition: .4s;
+  margin-bottom: 20px;
+  opacity: .75;
 }
 
-.cta:hover {
-  background: #e00000;
-  border-color: #e00000;
-  transform: scale(1.08);
-}
-
-/* ---------- MOVING TEXT ---------- */
-
-.marquee {
-  overflow: hidden;
-  white-space: nowrap;
-  border-top: 1px solid #222;
-  border-bottom: 1px solid #222;
-  padding: 18px 0;
-  background: #e00000;
-  color: #000;
-}
-
-.marquee-track {
-  display: inline-block;
-  animation: marquee 18s linear infinite;
+.main-title {
+  position: relative;
   font-family: 'Anton', sans-serif;
-  font-size: 35px;
-  letter-spacing: 2px;
+  font-size: 31vw;
+  line-height: .68;
+  letter-spacing: -5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  left: -4vw;
+  transform: scaleY(1.08);
+  transition: transform .15s ease-out;
 }
 
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
+.main-title .red {
+  color: var(--red);
+}
 
+.event-name {
+  margin-top: 38px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.event-name strong {
+  font-family: 'Anton', sans-serif;
+  font-size: 15vw;
+  line-height: .8;
+  letter-spacing: -2px;
+}
+
+.event-name span {
+  font-size: 10px;
+  letter-spacing: 4px;
+  font-weight: 700;
+}
+
+.date {
+  color: var(--red);
+}
+
+/* floating coordinates */
+
+.coordinates {
+  position: absolute;
+  right: 18px;
+  top: 48%;
+  writing-mode: vertical-rl;
+  font-size: 7px;
+  letter-spacing: 3px;
+  opacity: .7;
+}
+
+/* scroll indicator */
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 25px;
+  left: 20px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 8px;
+  letter-spacing: 4px;
+}
+
+.scroll-line {
+  width: 45px;
+  height: 1px;
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  transform: translateX(-100%);
+  animation: scrollLine 1.5s infinite;
+}
+
+@keyframes scrollLine {
   to {
-    transform: translateX(-50%);
+    transform: translateX(100%);
   }
 }
 
-/* ---------- EVENT ---------- */
+/* =====================================================
+   TRANSITION SECTION
+===================================================== */
+
+.transition {
+  position: relative;
+  height: 100svh;
+  min-height: 650px;
+  overflow: hidden;
+  background: var(--black);
+}
+
+.transition-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,0,0,.25), transparent 35%);
+}
+
+.big-word {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Anton', sans-serif;
+  font-size: 46vw;
+  line-height: .7;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,.25);
+  letter-spacing: -8px;
+  transition: transform .1s linear;
+}
+
+.red-line {
+  position: absolute;
+  left: -20%;
+  width: 140%;
+  height: 2px;
+  background: var(--red);
+  top: 50%;
+  transform: rotate(-7deg);
+  box-shadow: 0 0 25px rgba(255,0,0,.8);
+}
+
+.transition-copy {
+  position: absolute;
+  z-index: 5;
+  left: 20px;
+  bottom: 35px;
+}
+
+.transition-copy small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+}
+
+.transition-copy h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: 20vw;
+  line-height: .72;
+  letter-spacing: -3px;
+}
+
+.transition-copy h2 span {
+  color: var(--red);
+}
+
+/* =====================================================
+   EVENT
+===================================================== */
 
 .event {
-  min-height: 100vh;
-  padding: 150px 8vw;
   position: relative;
+  min-height: 100svh;
+  background: #fff;
+  color: #050505;
+  padding: 90px 20px;
+  overflow: hidden;
+}
+
+.event::before {
+  content: "001";
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 8px;
+  letter-spacing: 4px;
+}
+
+.event-top {
+  font-size: 8px;
+  letter-spacing: 5px;
+  color: var(--red);
+  font-weight: 900;
+  margin-bottom: 25px;
+}
+
+.event-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 27vw;
+  line-height: .72;
+  letter-spacing: -5px;
+  text-transform: uppercase;
+}
+
+.event-title .outline {
+  color: transparent;
+  -webkit-text-stroke: 1px #050505;
+}
+
+.event-date {
+  margin-top: 45px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+}
+
+.event-date div {
+  padding: 18px 0;
+}
+
+.event-date div + div {
+  border-left: 1px solid #111;
+  padding-left: 15px;
+}
+
+.event-date small {
+  display: block;
+  font-size: 7px;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+.event-date strong {
+  font-size: 13px;
 }
 
 .event-number {
-  color: #e00000;
-  font-size: 12px;
+  position: absolute;
+  bottom: 25px;
+  left: 20px;
+  font-family: 'Anton', sans-serif;
+  font-size: 28vw;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(0,0,0,.12);
+}
+
+/* =====================================================
+   REGISTRATION
+===================================================== */
+
+.register {
+  position: relative;
+  min-height: 100svh;
+  background: #050505;
+  padding: 90px 20px 40px;
+  overflow: hidden;
+}
+
+.register-glow {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background: var(--red);
+  filter: blur(120px);
+  opacity: .18;
+  right: -100px;
+  top: 25%;
+}
+
+.register-top {
+  font-size: 8px;
   letter-spacing: 5px;
-  margin-bottom: 30px;
+  color: var(--red);
+  font-weight: 900;
+  margin-bottom: 22px;
 }
 
-.event h2 {
+.register-title {
   font-family: 'Anton', sans-serif;
-  font-size: clamp(80px, 15vw, 210px);
-  line-height: .8;
-  text-transform: uppercase;
-  max-width: 1100px;
+  font-size: 27vw;
+  line-height: .68;
   letter-spacing: -5px;
+  margin-bottom: 55px;
 }
 
-.event-details {
-  display: flex;
-  gap: 80px;
-  margin-top: 80px;
-  flex-wrap: wrap;
-}
-
-.detail {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.detail small {
-  color: #666;
-  font-size: 10px;
-  letter-spacing: 3px;
-}
-
-.detail strong {
-  font-size: 20px;
-}
-
-/* ---------- FORM ---------- */
-
-.ticket {
-  min-height: 100vh;
-  padding: 140px 8vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ticket-inner {
-  width: 100%;
-  max-width: 900px;
-}
-
-.ticket h3 {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(70px, 13vw, 180px);
-  line-height: .8;
-  margin-bottom: 70px;
+.register-title span {
+  color: var(--red);
 }
 
 .form {
-  display: grid;
-  gap: 30px;
+  position: relative;
+  z-index: 5;
 }
 
 .field {
-  position: relative;
-}
-
-.field input {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #444;
-  padding: 18px 0;
-  color: #fff;
-  font-size: 20px;
-  outline: none;
-  transition: .3s;
-}
-
-.field input:focus {
-  border-bottom-color: #e00000;
+  margin-bottom: 28px;
 }
 
 .field label {
   display: block;
-  font-size: 9px;
+  font-size: 7px;
   letter-spacing: 4px;
+  margin-bottom: 9px;
   color: #777;
-  margin-bottom: 5px;
+}
+
+.field input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #444;
+  background: transparent;
+  color: white;
+  padding: 10px 0 13px;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  outline: none;
+  border-radius: 0;
+  transition: border-color .3s;
+}
+
+.field input:focus {
+  border-bottom-color: var(--red);
+}
+
+.field input::placeholder {
+  color: #444;
 }
 
 .submit {
-  margin-top: 25px;
-  padding: 22px;
-  background: #e00000;
+  width: 100%;
+  margin-top: 12px;
+  padding: 21px 15px;
+  background: var(--red);
+  color: white;
   border: none;
-  color: #fff;
+  font-family: 'Inter', sans-serif;
   font-weight: 900;
+  font-size: 10px;
   letter-spacing: 4px;
   cursor: pointer;
-  font-size: 12px;
   transition: .3s;
 }
 
-.submit:hover {
-  background: #fff;
-  color: #000;
-  transform: translateY(-5px);
+.submit:active {
+  transform: scale(.97);
+  background: white;
+  color: black;
 }
 
-/* ---------- FOOTER ---------- */
-
-footer {
-  padding: 30px;
-  border-top: 1px solid #222;
-  display: flex;
-  justify-content: space-between;
-  font-size: 9px;
+.form-status {
+  text-align: center;
+  margin-top: 20px;
+  min-height: 20px;
+  font-size: 8px;
   letter-spacing: 3px;
-  color: #555;
+  color: var(--red);
 }
 
-/* ---------- RESPONSIVE ---------- */
+.bottom-mark {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-family: 'Anton', sans-serif;
+  font-size: 13vw;
+  line-height: .7;
+  color: transparent;
+  -webkit-text-stroke: 1px #222;
+}
 
-@media (max-width: 600px) {
+/* =====================================================
+   DESKTOP - intentionally secondary
+===================================================== */
 
-  nav {
-    padding: 20px;
+@media (min-width: 700px) {
+
+  body::before {
+    content: "THIS EXPERIENCE IS DESIGNED FOR MOBILE";
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: #050505;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-align: center;
+    padding: 30px;
   }
 
-  .nav-right {
-    display: none;
+  .hero,
+  .transition,
+  .event,
+  .register {
+    max-width: 430px;
+    margin: auto;
   }
 
-  .hero-title {
-    font-size: 25vw;
-    letter-spacing: -3px;
-  }
-
-  .event {
-    padding: 120px 25px;
-  }
-
-  .event h2 {
-    font-size: 24vw;
-  }
-
-  .event-details {
-    gap: 40px;
-    margin-top: 60px;
-  }
-
-  .ticket {
-    padding: 100px 25px;
-  }
-
-  .ticket h3 {
-    font-size: 24vw;
-  }
-
-  footer {
-    padding: 25px 20px;
-  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOADER -->
 <div class="loader">
-  <span>MAEDNESS</span>
+  <div class="loader-text">MÆD<span>NESS</span></div>
 </div>
 
-<nav>
-  <div class="logo">MAEDNESS®</div>
-  <div class="nav-right">TICKETS / 2026</div>
-</nav>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="brand">MÆDNESS®</div>
+  <div class="counter">001 / 2026</div>
+</div>
 
-<section class="hero">
+<div class="progress">
+  <div class="progress-bar"></div>
+</div>
+
+
+<!-- ==================================================
+     HERO
+================================================== -->
+
+<section class="hero" id="top">
+
+  <div class="hero-photo"></div>
+
+  <div class="red-light"></div>
+
+  <div class="scanlines"></div>
+  <div class="noise"></div>
+
+  <div class="coordinates">
+    41°27'N / 15°33'E — FOGGIA
+  </div>
 
   <div class="hero-content">
 
     <div class="kicker">
-      MAEDNESS PRESENTS
+      MÆDNESS PRESENTS
     </div>
 
-    <div class="hero-title">
-      <span>RED</span>
-      <span class="red">NIGHT</span>
+    <div class="main-title">
+      MÆD<br>
+      <span class="red">NESS</span>
     </div>
 
-    <div class="hero-info">
-      18.10.2026 — FOGGIA — ITALY
+    <div class="event-name">
+      <strong>RED NIGHT</strong>
+      <span>18 OCTOBER 2026 — <span class="date">FOGGIA</span></span>
     </div>
 
-    <a href="#ticket" class="cta">
-      GET YOUR TICKET
-    </a>
+  </div>
 
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    SCROLL TO ENTER
   </div>
 
 </section>
 
-<div class="marquee">
-  <div class="marquee-track">
-    MAEDNESS — RED NIGHT — MAEDNESS — RED NIGHT — MAEDNESS — RED NIGHT —
-    MAEDNESS — RED NIGHT — MAEDNESS — RED NIGHT —
+
+<!-- ==================================================
+     TRANSITION
+================================================== -->
+
+<section class="transition">
+
+  <div class="transition-bg"></div>
+
+  <div class="big-word">RED</div>
+
+  <div class="red-line"></div>
+
+  <div class="transition-copy">
+    <small>THE NIGHT STARTS HERE</small>
+
+    <h2>
+      RED<br>
+      <span>NIGHT</span>
+    </h2>
   </div>
-</div>
+
+</section>
+
+
+<!-- ==================================================
+     EVENT
+================================================== -->
 
 <section class="event">
 
-  <div class="event-number">
+  <div class="event-top">
     001 / THE EVENT
   </div>
 
-  <h2>
+  <div class="event-title">
     RED<br>
-    NIGHT
-  </h2>
+    <span class="outline">NIGHT</span>
+  </div>
 
-  <div class="event-details">
+  <div class="event-date">
 
-    <div class="detail">
+    <div>
       <small>DATE</small>
-      <strong>18 OCTOBER 2026</strong>
+      <strong>18.10.2026</strong>
     </div>
 
-    <div class="detail">
+    <div>
       <small>LOCATION</small>
-      <strong>FOGGIA — ITALY</strong>
-    </div>
-
-    <div class="detail">
-      <small>PRESENTED BY</small>
-      <strong>MAEDNESS®</strong>
+      <strong>FOGGIA / IT</strong>
     </div>
 
   </div>
 
+  <div class="event-number">01</div>
+
 </section>
 
-<section class="ticket" id="ticket">
 
-  <div class="ticket-inner">
+<!-- ==================================================
+     REGISTRATION
+================================================== -->
 
-    <div class="event-number">
-      002 / REGISTRATION
+<section class="register" id="register">
+
+  <div class="register-glow"></div>
+
+  <div class="register-top">
+    002 / REGISTRATION
+  </div>
+
+  <div class="register-title">
+    GET<br>
+    <span>IN.</span>
+  </div>
+
+  <form class="form" id="ticketForm">
+
+    <div class="field">
+      <label>NOME</label>
+      <input
+        type="text"
+        name="nome"
+        placeholder="Il tuo nome"
+        autocomplete="given-name"
+        required
+      >
     </div>
 
-    <h3>
-      GET<br>
-      IN.
-    </h3>
+    <div class="field">
+      <label>COGNOME</label>
+      <input
+        type="text"
+        name="cognome"
+        placeholder="Il tuo cognome"
+        autocomplete="family-name"
+        required
+      >
+    </div>
 
-    <form class="form">
+    <div class="field">
+      <label>EMAIL</label>
+      <input
+        type="email"
+        name="email"
+        placeholder="nome@email.com"
+        autocomplete="email"
+        required
+      >
+    </div>
 
-      <div class="field">
-        <label>NOME</label>
-        <input type="text" placeholder="Nome" required>
-      </div>
+    <button class="submit" type="submit">
+      OTTIENI IL BIGLIETTO →
+    </button>
 
-      <div class="field">
-        <label>COGNOME</label>
-        <input type="text" placeholder="Cognome" required>
-      </div>
+    <div class="form-status" id="status"></div>
 
-      <div class="field">
-        <label>EMAIL</label>
-        <input type="email" placeholder="nome@email.com" required>
-      </div>
+  </form>
 
-      <button class="submit" type="submit">
-        OTTIENI IL BIGLIETTO →
-      </button>
-
-    </form>
-
+  <div class="bottom-mark">
+    MÆDNESS
   </div>
 
 </section>
 
-<footer>
-  <span>MAEDNESS®</span>
-  <span>FOGGIA / ITALY</span>
-</footer>
+
+<script>
+
+/* =====================================================
+   SCROLL PROGRESS
+===================================================== */
+
+const progressBar = document.querySelector('.progress-bar');
+
+function updateProgress() {
+
+  const scrollTop = window.scrollY;
+
+  const pageHeight =
+    document.documentElement.scrollHeight -
+    window.innerHeight;
+
+  const percentage =
+    (scrollTop / pageHeight) * 100;
+
+  progressBar.style.height = percentage + "%";
+}
+
+window.addEventListener("scroll", updateProgress);
+
+
+/* =====================================================
+   HERO PARALLAX
+===================================================== */
+
+const heroPhoto = document.querySelector('.hero-photo');
+const mainTitle = document.querySelector('.main-title');
+const bigWord = document.querySelector('.big-word');
+
+window.addEventListener("scroll", () => {
+
+  const scroll = window.scrollY;
+
+  if (scroll < window.innerHeight) {
+
+    heroPhoto.style.transform =
+      `scale(${1.08 + scroll * 0.0007})
+       translateY(${scroll * 0.08}px)`;
+
+    mainTitle.style.transform =
+      `translateY(${scroll * -0.12}px)
+       scaleY(1.08)`;
+
+  }
+
+  bigWord.style.transform =
+    `translate(-50%, calc(-50% + ${scroll * -0.08}px))`;
+});
+
+
+/* =====================================================
+   TOUCH / MOUSE MOVEMENT
+===================================================== */
+
+let targetX = 0;
+let targetY = 0;
+
+let currentX = 0;
+let currentY = 0;
+
+function animateMovement() {
+
+  currentX += (targetX - currentX) * .06;
+  currentY += (targetY - currentY) * .06;
+
+  heroPhoto.style.transform += "";
+
+  document.documentElement.style.setProperty(
+    '--moveX',
+    currentX + 'px'
+  );
+
+  document.documentElement.style.setProperty(
+    '--moveY',
+    currentY + 'px'
+  );
+
+  requestAnimationFrame(animateMovement);
+}
+
+animateMovement();
+
+
+/* mobile touch */
+
+window.addEventListener("touchmove", (e) => {
+
+  const touch = e.touches[0];
+
+  const x =
+    (touch.clientX / window.innerWidth - .5) * 12;
+
+  const y =
+    (touch.clientY / window.innerHeight - .5) * 12;
+
+  targetX = x;
+  targetY = y;
+
+  heroPhoto.style.marginLeft = x + "px";
+  heroPhoto.style.marginTop = y + "px";
+
+});
+
+
+/* =====================================================
+   FORM DEMO
+===================================================== */
+
+const form = document.getElementById("ticketForm");
+const status = document.getElementById("status");
+
+form.addEventListener("submit", function(e) {
+
+  e.preventDefault();
+
+  const button =
+    form.querySelector(".submit");
+
+  button.innerHTML = "GENERATING ACCESS...";
+  button.style.background = "#ffffff";
+  button.style.color = "#000000";
+
+  setTimeout(() => {
+
+    button.innerHTML = "ACCESS REQUESTED ✓";
+
+    status.innerHTML =
+      "SISTEMA TICKET IN ATTESA DI CONFIGURAZIONE";
+
+  }, 1500);
+
+});
+
+</script>
 
 </body>
 </html>
