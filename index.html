@@ -1,148 +1,501 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>MY EVENT</title>
+<title>MAEDNESS — TICKETS</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;900&display=swap');
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #050505;
-      color: white;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    body {
-      overflow-x: hidden;
-    }
+html {
+  scroll-behavior: smooth;
+}
 
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 40px 20px;
-      position: relative;
-      overflow: hidden;
-    }
+body {
+  background: #050505;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
 
-    .glow {
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: #7c00ff;
-      filter: blur(180px);
-      opacity: 0.35;
-      animation: move 8s infinite alternate ease-in-out;
-    }
+/* ---------- LOADER ---------- */
 
-    @keyframes move {
-      from {
-        transform: translate(-150px, -100px);
-      }
-      to {
-        transform: translate(150px, 100px);
-      }
-    }
+.loader {
+  position: fixed;
+  inset: 0;
+  background: #050505;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: loaderOut 1s ease 1.5s forwards;
+}
 
-    .content {
-      position: relative;
-      z-index: 2;
-    }
+.loader span {
+  font-family: 'Anton', sans-serif;
+  font-size: 12vw;
+  letter-spacing: -5px;
+}
 
-    .small {
-      font-size: 13px;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 25px;
-    }
+@keyframes loaderOut {
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
 
-    h1 {
-      font-size: clamp(60px, 14vw, 180px);
-      line-height: 0.8;
-      letter-spacing: -7px;
-      text-transform: uppercase;
-      margin-bottom: 35px;
-    }
+/* ---------- NAV ---------- */
 
-    .date {
-      font-size: 18px;
-      letter-spacing: 4px;
-      margin-bottom: 45px;
-    }
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 25px 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  mix-blend-mode: difference;
+}
 
-    .button {
-      display: inline-block;
-      padding: 18px 40px;
-      border: 1px solid white;
-      border-radius: 50px;
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      letter-spacing: 3px;
-      transition: 0.3s;
-    }
+.logo {
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
 
-    .button:hover {
-      background: white;
-      color: black;
-      transform: scale(1.05);
-    }
+.nav-right {
+  font-size: 11px;
+  letter-spacing: 3px;
+}
 
-    .scroll {
-      position: absolute;
-      bottom: 30px;
-      font-size: 11px;
-      letter-spacing: 3px;
-      opacity: 0.5;
-    }
-  </style>
+/* ---------- HERO ---------- */
+
+.hero {
+  height: 100vh;
+  min-height: 700px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  border-radius: 50%;
+  background: #e00000;
+  filter: blur(180px);
+  opacity: .18;
+  animation: pulse 5s infinite alternate ease-in-out;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(.7);
+  }
+
+  to {
+    transform: scale(1.3);
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+}
+
+.kicker {
+  font-size: 11px;
+  letter-spacing: 8px;
+  margin-bottom: 25px;
+  opacity: .65;
+}
+
+.hero-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(90px, 19vw, 270px);
+  line-height: .72;
+  letter-spacing: -8px;
+  text-transform: uppercase;
+  transform: scaleY(1.05);
+}
+
+.hero-title span {
+  display: block;
+}
+
+.hero-title .red {
+  color: #e00000;
+}
+
+.hero-info {
+  margin-top: 55px;
+  font-size: 12px;
+  letter-spacing: 5px;
+}
+
+.cta {
+  display: inline-flex;
+  margin-top: 35px;
+  padding: 18px 40px;
+  border: 1px solid #fff;
+  border-radius: 100px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  transition: .4s;
+}
+
+.cta:hover {
+  background: #e00000;
+  border-color: #e00000;
+  transform: scale(1.08);
+}
+
+/* ---------- MOVING TEXT ---------- */
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid #222;
+  border-bottom: 1px solid #222;
+  padding: 18px 0;
+  background: #e00000;
+  color: #000;
+}
+
+.marquee-track {
+  display: inline-block;
+  animation: marquee 18s linear infinite;
+  font-family: 'Anton', sans-serif;
+  font-size: 35px;
+  letter-spacing: 2px;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- EVENT ---------- */
+
+.event {
+  min-height: 100vh;
+  padding: 150px 8vw;
+  position: relative;
+}
+
+.event-number {
+  color: #e00000;
+  font-size: 12px;
+  letter-spacing: 5px;
+  margin-bottom: 30px;
+}
+
+.event h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(80px, 15vw, 210px);
+  line-height: .8;
+  text-transform: uppercase;
+  max-width: 1100px;
+  letter-spacing: -5px;
+}
+
+.event-details {
+  display: flex;
+  gap: 80px;
+  margin-top: 80px;
+  flex-wrap: wrap;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail small {
+  color: #666;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+.detail strong {
+  font-size: 20px;
+}
+
+/* ---------- FORM ---------- */
+
+.ticket {
+  min-height: 100vh;
+  padding: 140px 8vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ticket-inner {
+  width: 100%;
+  max-width: 900px;
+}
+
+.ticket h3 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(70px, 13vw, 180px);
+  line-height: .8;
+  margin-bottom: 70px;
+}
+
+.form {
+  display: grid;
+  gap: 30px;
+}
+
+.field {
+  position: relative;
+}
+
+.field input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #444;
+  padding: 18px 0;
+  color: #fff;
+  font-size: 20px;
+  outline: none;
+  transition: .3s;
+}
+
+.field input:focus {
+  border-bottom-color: #e00000;
+}
+
+.field label {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.submit {
+  margin-top: 25px;
+  padding: 22px;
+  background: #e00000;
+  border: none;
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: .3s;
+}
+
+.submit:hover {
+  background: #fff;
+  color: #000;
+  transform: translateY(-5px);
+}
+
+/* ---------- FOOTER ---------- */
+
+footer {
+  padding: 30px;
+  border-top: 1px solid #222;
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #555;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 600px) {
+
+  nav {
+    padding: 20px;
+  }
+
+  .nav-right {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 25vw;
+    letter-spacing: -3px;
+  }
+
+  .event {
+    padding: 120px 25px;
+  }
+
+  .event h2 {
+    font-size: 24vw;
+  }
+
+  .event-details {
+    gap: 40px;
+    margin-top: 60px;
+  }
+
+  .ticket {
+    padding: 100px 25px;
+  }
+
+  .ticket h3 {
+    font-size: 24vw;
+  }
+
+  footer {
+    padding: 25px 20px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <main class="hero">
+<div class="loader">
+  <span>MAEDNESS</span>
+</div>
 
-    <div class="glow"></div>
+<nav>
+  <div class="logo">MAEDNESS®</div>
+  <div class="nav-right">TICKETS / 2026</div>
+</nav>
 
-    <div class="content">
+<section class="hero">
 
-      <div class="small">
-        PRESENTS
-      </div>
+  <div class="hero-content">
 
-      <h1>
-        MY EVENT
-      </h1>
-
-      <div class="date">
-        18.10.2026 — VENICE
-      </div>
-
-      <a href="#" class="button">
-        GET YOUR TICKET
-      </a>
-
+    <div class="kicker">
+      MAEDNESS PRESENTS
     </div>
 
-    <div class="scroll">
-      SCROLL TO ENTER
+    <div class="hero-title">
+      <span>RED</span>
+      <span class="red">NIGHT</span>
     </div>
 
-  </main>
+    <div class="hero-info">
+      18.10.2026 — FOGGIA — ITALY
+    </div>
+
+    <a href="#ticket" class="cta">
+      GET YOUR TICKET
+    </a>
+
+  </div>
+
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    MAEDNESS — RED NIGHT — MAEDNESS — RED NIGHT — MAEDNESS — RED NIGHT —
+    MAEDNESS — RED NIGHT — MAEDNESS — RED NIGHT —
+  </div>
+</div>
+
+<section class="event">
+
+  <div class="event-number">
+    001 / THE EVENT
+  </div>
+
+  <h2>
+    RED<br>
+    NIGHT
+  </h2>
+
+  <div class="event-details">
+
+    <div class="detail">
+      <small>DATE</small>
+      <strong>18 OCTOBER 2026</strong>
+    </div>
+
+    <div class="detail">
+      <small>LOCATION</small>
+      <strong>FOGGIA — ITALY</strong>
+    </div>
+
+    <div class="detail">
+      <small>PRESENTED BY</small>
+      <strong>MAEDNESS®</strong>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="ticket" id="ticket">
+
+  <div class="ticket-inner">
+
+    <div class="event-number">
+      002 / REGISTRATION
+    </div>
+
+    <h3>
+      GET<br>
+      IN.
+    </h3>
+
+    <form class="form">
+
+      <div class="field">
+        <label>NOME</label>
+        <input type="text" placeholder="Nome" required>
+      </div>
+
+      <div class="field">
+        <label>COGNOME</label>
+        <input type="text" placeholder="Cognome" required>
+      </div>
+
+      <div class="field">
+        <label>EMAIL</label>
+        <input type="email" placeholder="nome@email.com" required>
+      </div>
+
+      <button class="submit" type="submit">
+        OTTIENI IL BIGLIETTO →
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
+
+<footer>
+  <span>MAEDNESS®</span>
+  <span>FOGGIA / ITALY</span>
+</footer>
 
 </body>
 </html>
