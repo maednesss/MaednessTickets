@@ -4,642 +4,547 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>MÆDNESS — RED NIGHT</title>
+<title>MÆDNESS — ROTAROTT</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;800;900&display=swap');
 
-:root {
-  --red: #ff0000;
-  --black: #050505;
-  --white: #ffffff;
+:root{
+  --red:#ff0000;
+  --black:#050505;
+  --white:#fff;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-  background: var(--black);
+html{
+  background:#050505;
 }
 
-body {
-  background: var(--black);
-  color: var(--white);
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
+body{
+  background:#050505;
+  color:white;
+  font-family:Inter,sans-serif;
+  overflow-x:hidden;
 }
 
-/* =====================================================
-   LOADER
-===================================================== */
+/* =========================
+   GLOBAL
+========================= */
 
-.loader {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  background: #050505;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  animation: loaderHide 1s cubic-bezier(.77,0,.18,1) 1.5s forwards;
+.page{
+  position:relative;
+  overflow:hidden;
 }
 
-.loader::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 3px;
-  background: var(--red);
-  transform-origin: left;
-  animation: loadBar 1.5s ease forwards;
+.noise{
+  position:fixed;
+  inset:-100%;
+  z-index:1000;
+  pointer-events:none;
+  opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:noise .18s steps(2) infinite;
 }
 
-.loader-text {
-  font-family: 'Anton', sans-serif;
-  font-size: 18vw;
-  letter-spacing: -7px;
-  line-height: .7;
+@keyframes noise{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(3%,-2%)}
+  50%{transform:translate(-2%,3%)}
+  75%{transform:translate(2%,2%)}
+  100%{transform:translate(-3%,-3%)}
 }
 
-.loader-text span {
-  color: var(--red);
+/* =========================
+   TOP BAR
+========================= */
+
+.top{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:500;
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:9px;
+  letter-spacing:3px;
+  pointer-events:none;
+  mix-blend-mode:difference;
 }
 
-@keyframes loadBar {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+.top strong{
+  font-size:13px;
+  letter-spacing:2px;
 }
 
-@keyframes loaderHide {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
+/* =========================
+   SCROLL BAR
+========================= */
+
+.scroll-progress{
+  position:fixed;
+  right:0;
+  top:0;
+  width:3px;
+  height:100vh;
+  background:#222;
+  z-index:600;
 }
 
-/* =====================================================
-   FIXED UI
-===================================================== */
-
-.topbar {
-  position: fixed;
-  z-index: 500;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 18px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  pointer-events: none;
-  mix-blend-mode: difference;
+.scroll-progress span{
+  display:block;
+  width:100%;
+  height:0;
+  background:var(--red);
 }
 
-.brand {
-  font-weight: 900;
-  font-size: 13px;
-  letter-spacing: 2px;
+/* =========================
+   FLOATING GRAPHICS
+========================= */
+
+.graphics{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:300;
+  overflow:hidden;
 }
 
-.counter {
-  font-size: 9px;
-  letter-spacing: 3px;
+.line{
+  position:absolute;
+  height:1px;
+  background:white;
+  opacity:.45;
 }
 
-.progress {
-  position: fixed;
-  z-index: 600;
-  top: 0;
-  right: 0;
-  width: 3px;
-  height: 100vh;
-  background: rgba(255,255,255,.12);
+.line.red{
+  background:var(--red);
+  opacity:.9;
 }
 
-.progress-bar {
-  width: 100%;
-  height: 0%;
-  background: var(--red);
+.l1{
+  width:120vw;
+  left:-40vw;
+  top:24%;
+  transform:rotate(-12deg);
 }
 
-/* =====================================================
+.l2{
+  width:100vw;
+  left:-20vw;
+  top:64%;
+  transform:rotate(7deg);
+}
+
+.l3{
+  width:70vw;
+  right:-35vw;
+  top:43%;
+  transform:rotate(-32deg);
+}
+
+.l4{
+  width:130vw;
+  left:-50vw;
+  top:82%;
+  transform:rotate(-4deg);
+}
+
+.circle{
+  position:absolute;
+  width:150px;
+  height:150px;
+  border:1px solid var(--red);
+  border-radius:50%;
+  left:50%;
+  top:55%;
+  transform:translate(-50%,-50%);
+  opacity:.35;
+}
+
+.circle::before,
+.circle::after{
+  content:"";
+  position:absolute;
+  inset:18px;
+  border:1px solid white;
+  border-radius:50%;
+  opacity:.25;
+}
+
+.circle::after{
+  inset:45px;
+  border-color:var(--red);
+}
+
+.micro{
+  position:absolute;
+  font-size:7px;
+  letter-spacing:3px;
+  color:white;
+  opacity:.5;
+}
+
+.m1{top:18%;left:18px}
+.m2{top:36%;right:18px}
+.m3{top:71%;left:18px}
+.m4{top:88%;right:18px}
+
+/* =========================
    HERO
-===================================================== */
+========================= */
 
-.hero {
-  position: relative;
-  height: 100svh;
-  min-height: 620px;
-  overflow: hidden;
-  background: #050505;
+.hero{
+  height:82svh;
+  min-height:570px;
+  position:relative;
+  overflow:hidden;
 }
 
-.hero-photo {
-  position: absolute;
-  inset: -8%;
+.hero-image{
+  position:absolute;
+  inset:-12%;
+
   background-image:
     linear-gradient(
       to bottom,
-      rgba(0,0,0,.45),
-      rgba(0,0,0,.20) 35%,
-      rgba(0,0,0,.85) 100%
+      rgba(0,0,0,.35),
+      rgba(0,0,0,.2) 35%,
+      rgba(0,0,0,.92) 100%
     ),
-    url("https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1400&q=85");
-  background-size: cover;
-  background-position: center;
-  filter: grayscale(100%) contrast(1.25) brightness(.55);
-  transform: scale(1.08);
-  transition: transform .1s linear;
+    url("https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=85");
+
+  background-size:cover;
+  background-position:center;
+
+  filter:
+    grayscale(100%)
+    contrast(1.3)
+    brightness(.48);
+
+  transform:scale(1.12);
+  will-change:transform;
 }
 
-.hero-photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
+.hero-image::after{
+  content:"";
+  position:absolute;
+  inset:0;
+
   background:
-    radial-gradient(circle at 50% 48%, transparent 0%, rgba(0,0,0,.65) 65%),
-    linear-gradient(135deg, rgba(255,0,0,.18), transparent 45%);
-  mix-blend-mode: screen;
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(255,0,0,.2),
+      transparent 45%
+    ),
+    linear-gradient(
+      120deg,
+      rgba(255,0,0,.2),
+      transparent 50%
+    );
 }
 
-/* red light */
-.red-light {
-  position: absolute;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: var(--red);
-  filter: blur(80px);
-  opacity: .32;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: redPulse 3s ease-in-out infinite alternate;
+.red-glow{
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:var(--red);
+  filter:blur(90px);
+  opacity:.3;
+  left:50%;
+  top:42%;
+  transform:translate(-50%,-50%);
+  animation:pulse 2.8s ease-in-out infinite alternate;
 }
 
-@keyframes redPulse {
-  from {
-    opacity: .15;
-    transform: translate(-50%, -50%) scale(.7);
-  }
-
-  to {
-    opacity: .4;
-    transform: translate(-50%, -50%) scale(1.3);
-  }
+@keyframes pulse{
+  from{transform:translate(-50%,-50%) scale(.7);opacity:.15}
+  to{transform:translate(-50%,-50%) scale(1.4);opacity:.4}
 }
 
-/* scanlines */
-.scanlines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: .12;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 3px,
-    #fff 4px
-  );
+.hero-content{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:20px 20px 48px;
 }
 
-/* noise */
-.noise {
-  position: absolute;
-  inset: -100%;
-  opacity: .06;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
-  animation: noiseMove .18s steps(2) infinite;
+.kicker{
+  font-size:8px;
+  letter-spacing:5px;
+  margin-bottom:18px;
+  font-weight:700;
 }
 
-@keyframes noiseMove {
-  0% { transform: translate(0,0); }
-  25% { transform: translate(4%, -3%); }
-  50% { transform: translate(-3%, 5%); }
-  75% { transform: translate(5%, 3%); }
-  100% { transform: translate(-4%, -4%); }
+.logo-title{
+  font-family:Anton,sans-serif;
+  font-size:31vw;
+  line-height:.63;
+  letter-spacing:-5px;
+  white-space:nowrap;
+  transform:translateX(-4vw);
+  will-change:transform;
 }
 
-/* hero content */
-
-.hero-content {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 20px;
+.logo-title span{
+  color:var(--red);
 }
 
-.kicker {
-  font-size: 8px;
-  letter-spacing: 5px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  opacity: .75;
+.event{
+  margin-top:28px;
 }
 
-.main-title {
-  position: relative;
-  font-family: 'Anton', sans-serif;
-  font-size: 31vw;
-  line-height: .68;
-  letter-spacing: -5px;
-  text-transform: uppercase;
-  white-space: nowrap;
-  left: -4vw;
-  transform: scaleY(1.08);
-  transition: transform .15s ease-out;
+.event small{
+  display:block;
+  font-size:8px;
+  letter-spacing:4px;
+  margin-bottom:8px;
 }
 
-.main-title .red {
-  color: var(--red);
+.event h1{
+  font-family:Anton,sans-serif;
+  font-size:18vw;
+  line-height:.72;
+  letter-spacing:-3px;
 }
 
-.event-name {
-  margin-top: 38px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.event-date{
+  margin-top:10px;
+  color:var(--red);
+  font-weight:800;
+  font-size:10px;
+  letter-spacing:3px;
 }
 
-.event-name strong {
-  font-family: 'Anton', sans-serif;
-  font-size: 15vw;
-  line-height: .8;
-  letter-spacing: -2px;
+.scroll{
+  position:absolute;
+  bottom:15px;
+  left:20px;
+  z-index:20;
+  font-size:7px;
+  letter-spacing:4px;
+  display:flex;
+  gap:9px;
+  align-items:center;
 }
 
-.event-name span {
-  font-size: 10px;
-  letter-spacing: 4px;
-  font-weight: 700;
+.scroll i{
+  width:32px;
+  height:1px;
+  background:var(--red);
 }
 
-.date {
-  color: var(--red);
+/* =========================
+   BETWEEN
+========================= */
+
+.between{
+  height:32svh;
+  min-height:230px;
+  position:relative;
+  background:#050505;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
-/* floating coordinates */
-
-.coordinates {
-  position: absolute;
-  right: 18px;
-  top: 48%;
-  writing-mode: vertical-rl;
-  font-size: 7px;
-  letter-spacing: 3px;
-  opacity: .7;
+.moving-word{
+  font-family:Anton,sans-serif;
+  font-size:35vw;
+  line-height:.7;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.2);
+  white-space:nowrap;
+  transform:translateX(0);
+  will-change:transform;
 }
 
-/* scroll indicator */
-
-.scroll-indicator {
-  position: absolute;
-  bottom: 25px;
-  left: 20px;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 8px;
-  letter-spacing: 4px;
+.red-block{
+  position:absolute;
+  width:100%;
+  height:35px;
+  background:var(--red);
+  transform:rotate(-7deg) scaleX(1.2);
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  mix-blend-mode:screen;
 }
 
-.scroll-line {
-  width: 45px;
-  height: 1px;
-  background: var(--white);
-  position: relative;
-  overflow: hidden;
+.red-block span{
+  white-space:nowrap;
+  font-family:Anton,sans-serif;
+  color:#050505;
+  font-size:20px;
+  letter-spacing:2px;
+  animation:marquee 7s linear infinite;
 }
 
-.scroll-line::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--red);
-  transform: translateX(-100%);
-  animation: scrollLine 1.5s infinite;
+@keyframes marquee{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
 }
 
-@keyframes scrollLine {
-  to {
-    transform: translateX(100%);
-  }
-}
-
-/* =====================================================
-   TRANSITION SECTION
-===================================================== */
-
-.transition {
-  position: relative;
-  height: 100svh;
-  min-height: 650px;
-  overflow: hidden;
-  background: var(--black);
-}
-
-.transition-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(255,0,0,.25), transparent 35%);
-}
-
-.big-word {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Anton', sans-serif;
-  font-size: 46vw;
-  line-height: .7;
-  white-space: nowrap;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255,255,255,.25);
-  letter-spacing: -8px;
-  transition: transform .1s linear;
-}
-
-.red-line {
-  position: absolute;
-  left: -20%;
-  width: 140%;
-  height: 2px;
-  background: var(--red);
-  top: 50%;
-  transform: rotate(-7deg);
-  box-shadow: 0 0 25px rgba(255,0,0,.8);
-}
-
-.transition-copy {
-  position: absolute;
-  z-index: 5;
-  left: 20px;
-  bottom: 35px;
-}
-
-.transition-copy small {
-  display: block;
-  font-size: 8px;
-  letter-spacing: 4px;
-  margin-bottom: 12px;
-}
-
-.transition-copy h2 {
-  font-family: 'Anton', sans-serif;
-  font-size: 20vw;
-  line-height: .72;
-  letter-spacing: -3px;
-}
-
-.transition-copy h2 span {
-  color: var(--red);
-}
-
-/* =====================================================
-   EVENT
-===================================================== */
-
-.event {
-  position: relative;
-  min-height: 100svh;
-  background: #fff;
-  color: #050505;
-  padding: 90px 20px;
-  overflow: hidden;
-}
-
-.event::before {
-  content: "001";
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 8px;
-  letter-spacing: 4px;
-}
-
-.event-top {
-  font-size: 8px;
-  letter-spacing: 5px;
-  color: var(--red);
-  font-weight: 900;
-  margin-bottom: 25px;
-}
-
-.event-title {
-  font-family: 'Anton', sans-serif;
-  font-size: 27vw;
-  line-height: .72;
-  letter-spacing: -5px;
-  text-transform: uppercase;
-}
-
-.event-title .outline {
-  color: transparent;
-  -webkit-text-stroke: 1px #050505;
-}
-
-.event-date {
-  margin-top: 45px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-top: 1px solid #111;
-  border-bottom: 1px solid #111;
-}
-
-.event-date div {
-  padding: 18px 0;
-}
-
-.event-date div + div {
-  border-left: 1px solid #111;
-  padding-left: 15px;
-}
-
-.event-date small {
-  display: block;
-  font-size: 7px;
-  letter-spacing: 3px;
-  margin-bottom: 8px;
-}
-
-.event-date strong {
-  font-size: 13px;
-}
-
-.event-number {
-  position: absolute;
-  bottom: 25px;
-  left: 20px;
-  font-family: 'Anton', sans-serif;
-  font-size: 28vw;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(0,0,0,.12);
-}
-
-/* =====================================================
+/* =========================
    REGISTRATION
-===================================================== */
+========================= */
 
-.register {
-  position: relative;
-  min-height: 100svh;
-  background: #050505;
-  padding: 90px 20px 40px;
-  overflow: hidden;
+.register{
+  min-height:88svh;
+  position:relative;
+  padding:55px 20px 35px;
+  background:#fff;
+  color:#050505;
+  overflow:hidden;
 }
 
-.register-glow {
-  position: absolute;
-  width: 250px;
-  height: 250px;
-  background: var(--red);
-  filter: blur(120px);
-  opacity: .18;
-  right: -100px;
-  top: 25%;
+.register::before{
+  content:"002";
+  position:absolute;
+  top:16px;
+  right:18px;
+  font-size:8px;
+  letter-spacing:4px;
+  color:var(--red);
 }
 
-.register-top {
-  font-size: 8px;
-  letter-spacing: 5px;
-  color: var(--red);
-  font-weight: 900;
-  margin-bottom: 22px;
+.reg-kicker{
+  color:var(--red);
+  font-size:8px;
+  letter-spacing:5px;
+  font-weight:900;
+  margin-bottom:20px;
 }
 
-.register-title {
-  font-family: 'Anton', sans-serif;
-  font-size: 27vw;
-  line-height: .68;
-  letter-spacing: -5px;
-  margin-bottom: 55px;
+.reg-title{
+  font-family:Anton,sans-serif;
+  font-size:29vw;
+  line-height:.63;
+  letter-spacing:-5px;
+  margin-bottom:45px;
 }
 
-.register-title span {
-  color: var(--red);
+.reg-title span{
+  color:var(--red);
 }
 
-.form {
-  position: relative;
-  z-index: 5;
+.form{
+  position:relative;
+  z-index:10;
 }
 
-.field {
-  margin-bottom: 28px;
+.field{
+  margin-bottom:24px;
 }
 
-.field label {
-  display: block;
-  font-size: 7px;
-  letter-spacing: 4px;
-  margin-bottom: 9px;
-  color: #777;
+.field label{
+  display:block;
+  font-size:7px;
+  letter-spacing:4px;
+  margin-bottom:8px;
+  font-weight:800;
 }
 
-.field input {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid #444;
-  background: transparent;
-  color: white;
-  padding: 10px 0 13px;
-  font-family: 'Inter', sans-serif;
-  font-size: 18px;
-  outline: none;
-  border-radius: 0;
-  transition: border-color .3s;
+.field input{
+  width:100%;
+  border:0;
+  border-bottom:1px solid #111;
+  background:transparent;
+  color:#050505;
+  border-radius:0;
+  outline:none;
+  padding:8px 0 12px;
+  font-size:17px;
+  font-family:Inter,sans-serif;
 }
 
-.field input:focus {
-  border-bottom-color: var(--red);
+.field input:focus{
+  border-bottom:2px solid var(--red);
 }
 
-.field input::placeholder {
-  color: #444;
+.field input::placeholder{
+  color:#999;
 }
 
-.submit {
-  width: 100%;
-  margin-top: 12px;
-  padding: 21px 15px;
-  background: var(--red);
-  color: white;
-  border: none;
-  font-family: 'Inter', sans-serif;
-  font-weight: 900;
-  font-size: 10px;
-  letter-spacing: 4px;
-  cursor: pointer;
-  transition: .3s;
+.submit{
+  width:100%;
+  margin-top:8px;
+  padding:20px;
+  border:0;
+  background:#050505;
+  color:white;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:4px;
+  transition:.2s;
 }
 
-.submit:active {
-  transform: scale(.97);
-  background: white;
-  color: black;
+.submit:active{
+  transform:scale(.97);
+  background:var(--red);
 }
 
-.form-status {
-  text-align: center;
-  margin-top: 20px;
-  min-height: 20px;
-  font-size: 8px;
-  letter-spacing: 3px;
-  color: var(--red);
+.status{
+  text-align:center;
+  min-height:18px;
+  margin-top:15px;
+  color:var(--red);
+  font-size:7px;
+  letter-spacing:2px;
 }
 
-.bottom-mark {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  font-family: 'Anton', sans-serif;
-  font-size: 13vw;
-  line-height: .7;
-  color: transparent;
-  -webkit-text-stroke: 1px #222;
+.bottom-type{
+  position:absolute;
+  bottom:-8px;
+  left:15px;
+  font-family:Anton,sans-serif;
+  font-size:18vw;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(0,0,0,.12);
+  white-space:nowrap;
 }
 
-/* =====================================================
-   DESKTOP - intentionally secondary
-===================================================== */
+/* =========================
+   MOBILE ONLY
+========================= */
 
-@media (min-width: 700px) {
+@media(min-width:700px){
 
-  body::before {
-    content: "THIS EXPERIENCE IS DESIGNED FOR MOBILE";
-    position: fixed;
-    inset: 0;
-    z-index: 999999;
-    background: #050505;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    letter-spacing: 4px;
-    text-align: center;
-    padding: 30px;
+  body{
+    background:#111;
   }
 
-  .hero,
-  .transition,
-  .event,
-  .register {
-    max-width: 430px;
-    margin: auto;
+  .page{
+    max-width:430px;
+    margin:auto;
+    background:#050505;
+  }
+
+  body::after{
+    content:"MÆDNESS / MOBILE EXPERIENCE";
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:#050505;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-size:10px;
+    letter-spacing:4px;
   }
 
 }
@@ -648,38 +553,45 @@ body {
 
 <body>
 
-<!-- LOADER -->
-<div class="loader">
-  <div class="loader-text">MÆD<span>NESS</span></div>
+<div class="noise"></div>
+
+<div class="top">
+  <strong>MÆDNESS®</strong>
+  <span>ROTAROTT / 001</span>
 </div>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div class="brand">MÆDNESS®</div>
-  <div class="counter">001 / 2026</div>
+<div class="scroll-progress">
+  <span></span>
 </div>
 
-<div class="progress">
-  <div class="progress-bar"></div>
+<div class="graphics">
+
+  <div class="line l1"></div>
+  <div class="line red l2"></div>
+  <div class="line l3"></div>
+  <div class="line red l4"></div>
+
+  <div class="circle"></div>
+
+  <div class="micro m1">41°27'N / 15°33'E</div>
+  <div class="micro m2">NO SIGNAL / 001</div>
+  <div class="micro m3">MÆDNESS / FOGGIA</div>
+  <div class="micro m4">ACCESS / 2026</div>
+
 </div>
 
 
-<!-- ==================================================
+<div class="page">
+
+<!-- =========================
      HERO
-================================================== -->
+========================= -->
 
-<section class="hero" id="top">
+<section class="hero">
 
-  <div class="hero-photo"></div>
+  <div class="hero-image"></div>
 
-  <div class="red-light"></div>
-
-  <div class="scanlines"></div>
-  <div class="noise"></div>
-
-  <div class="coordinates">
-    41°27'N / 15°33'E — FOGGIA
-  </div>
+  <div class="red-glow"></div>
 
   <div class="hero-content">
 
@@ -687,97 +599,64 @@ body {
       MÆDNESS PRESENTS
     </div>
 
-    <div class="main-title">
+    <div class="logo-title">
       MÆD<br>
-      <span class="red">NESS</span>
+      <span>NESS</span>
     </div>
 
-    <div class="event-name">
-      <strong>RED NIGHT</strong>
-      <span>18 OCTOBER 2026 — <span class="date">FOGGIA</span></span>
+    <div class="event">
+
+      <small>THE NEXT EVENT</small>
+
+      <h1>ROTAROTT</h1>
+
+      <div class="event-date">
+        18.10.2026 — FOGGIA / ITALY
+      </div>
+
     </div>
 
   </div>
 
-  <div class="scroll-indicator">
-    <div class="scroll-line"></div>
-    SCROLL TO ENTER
+  <div class="scroll">
+    <i></i>
+    SCROLL
   </div>
 
 </section>
 
 
-<!-- ==================================================
-     TRANSITION
-================================================== -->
+<!-- =========================
+     MOTION
+========================= -->
 
-<section class="transition">
+<section class="between">
 
-  <div class="transition-bg"></div>
+  <div class="moving-word">
+    MÆDNESS
+  </div>
 
-  <div class="big-word">RED</div>
-
-  <div class="red-line"></div>
-
-  <div class="transition-copy">
-    <small>THE NIGHT STARTS HERE</small>
-
-    <h2>
-      RED<br>
-      <span>NIGHT</span>
-    </h2>
+  <div class="red-block">
+    <span>
+      ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
+      ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
+    </span>
   </div>
 
 </section>
 
 
-<!-- ==================================================
-     EVENT
-================================================== -->
+<!-- =========================
+     REGISTER
+========================= -->
 
-<section class="event">
+<section class="register">
 
-  <div class="event-top">
-    001 / THE EVENT
+  <div class="reg-kicker">
+    002 / GET ACCESS
   </div>
 
-  <div class="event-title">
-    RED<br>
-    <span class="outline">NIGHT</span>
-  </div>
-
-  <div class="event-date">
-
-    <div>
-      <small>DATE</small>
-      <strong>18.10.2026</strong>
-    </div>
-
-    <div>
-      <small>LOCATION</small>
-      <strong>FOGGIA / IT</strong>
-    </div>
-
-  </div>
-
-  <div class="event-number">01</div>
-
-</section>
-
-
-<!-- ==================================================
-     REGISTRATION
-================================================== -->
-
-<section class="register" id="register">
-
-  <div class="register-glow"></div>
-
-  <div class="register-top">
-    002 / REGISTRATION
-  </div>
-
-  <div class="register-title">
+  <div class="reg-title">
     GET<br>
     <span>IN.</span>
   </div>
@@ -789,7 +668,7 @@ body {
       <input
         type="text"
         name="nome"
-        placeholder="Il tuo nome"
+        placeholder="Nome"
         autocomplete="given-name"
         required
       >
@@ -800,7 +679,7 @@ body {
       <input
         type="text"
         name="cognome"
-        placeholder="Il tuo cognome"
+        placeholder="Cognome"
         autocomplete="family-name"
         required
       >
@@ -818,156 +697,201 @@ body {
     </div>
 
     <button class="submit" type="submit">
-      OTTIENI IL BIGLIETTO →
+      OTTIENI IL TICKET →
     </button>
 
-    <div class="form-status" id="status"></div>
+    <div class="status" id="status"></div>
 
   </form>
 
-  <div class="bottom-mark">
-    MÆDNESS
+  <div class="bottom-type">
+    ROTAROTT
   </div>
 
 </section>
 
+</div>
+
 
 <script>
 
-/* =====================================================
-   SCROLL PROGRESS
-===================================================== */
+/* ==========================================
+   SMOOTH SCROLL PROGRESS
+========================================== */
 
-const progressBar = document.querySelector('.progress-bar');
+const progress =
+  document.querySelector(".scroll-progress span");
 
-function updateProgress() {
+const hero =
+  document.querySelector(".hero");
 
-  const scrollTop = window.scrollY;
+const heroImage =
+  document.querySelector(".hero-image");
 
-  const pageHeight =
+const logo =
+  document.querySelector(".logo-title");
+
+const movingWord =
+  document.querySelector(".moving-word");
+
+const lines =
+  document.querySelectorAll(".line");
+
+const circle =
+  document.querySelector(".circle");
+
+let ticking = false;
+
+function updateScroll(){
+
+  const scroll =
+    window.scrollY;
+
+  const max =
     document.documentElement.scrollHeight -
     window.innerHeight;
 
-  const percentage =
-    (scrollTop / pageHeight) * 100;
+  const percent =
+    (scroll / max) * 100;
 
-  progressBar.style.height = percentage + "%";
-}
-
-window.addEventListener("scroll", updateProgress);
+  progress.style.height =
+    percent + "%";
 
 
-/* =====================================================
-   HERO PARALLAX
-===================================================== */
+  /* HERO */
 
-const heroPhoto = document.querySelector('.hero-photo');
-const mainTitle = document.querySelector('.main-title');
-const bigWord = document.querySelector('.big-word');
+  if(scroll < window.innerHeight){
 
-window.addEventListener("scroll", () => {
+    heroImage.style.transform =
+      `scale(${1.12 + scroll * .0007})
+       translateY(${scroll * .08}px)`;
 
-  const scroll = window.scrollY;
-
-  if (scroll < window.innerHeight) {
-
-    heroPhoto.style.transform =
-      `scale(${1.08 + scroll * 0.0007})
-       translateY(${scroll * 0.08}px)`;
-
-    mainTitle.style.transform =
-      `translateY(${scroll * -0.12}px)
-       scaleY(1.08)`;
-
+    logo.style.transform =
+      `translate(${scroll * -.025}vw,
+       ${scroll * -.08}px)`;
   }
 
-  bigWord.style.transform =
-    `translate(-50%, calc(-50% + ${scroll * -0.08}px))`;
-});
+
+  /* MOVING WORD */
+
+  const wordStart =
+    window.innerHeight * .45;
+
+  const wordMovement =
+    Math.max(0, scroll - wordStart);
+
+  movingWord.style.transform =
+    `translateX(${wordMovement * -.18}px)`;
 
 
-/* =====================================================
-   TOUCH / MOUSE MOVEMENT
-===================================================== */
+  /* GRAPHIC LINES */
 
-let targetX = 0;
-let targetY = 0;
+  lines.forEach((line,index)=>{
 
-let currentX = 0;
-let currentY = 0;
+    const speed =
+      (index + 1) * .35;
 
-function animateMovement() {
+    const direction =
+      index % 2 === 0 ? 1 : -1;
 
-  currentX += (targetX - currentX) * .06;
-  currentY += (targetY - currentY) * .06;
+    line.style.transform =
+      `translateX(${scroll * speed * direction}px)
+       rotate(${index === 1 ? 7 : index === 2 ? -32 : index === 3 ? -4 : -12}deg)`;
 
-  heroPhoto.style.transform += "";
+  });
 
-  document.documentElement.style.setProperty(
-    '--moveX',
-    currentX + 'px'
-  );
 
-  document.documentElement.style.setProperty(
-    '--moveY',
-    currentY + 'px'
-  );
+  /* CIRCLE */
 
-  requestAnimationFrame(animateMovement);
+  circle.style.transform =
+    `translate(-50%,-50%)
+     rotate(${scroll * .12}deg)
+     scale(${1 + scroll * .00035})`;
+
+  ticking = false;
 }
 
-animateMovement();
+window.addEventListener(
+  "scroll",
+  ()=>{
+    if(!ticking){
+      requestAnimationFrame(updateScroll);
+      ticking=true;
+    }
+  },
+  {passive:true}
+);
 
 
-/* mobile touch */
+/* ==========================================
+   TOUCH PARALLAX
+========================================== */
 
-window.addEventListener("touchmove", (e) => {
+window.addEventListener(
+  "touchmove",
+  (event)=>{
 
-  const touch = e.touches[0];
+    const touch =
+      event.touches[0];
 
-  const x =
-    (touch.clientX / window.innerWidth - .5) * 12;
+    const x =
+      (touch.clientX /
+      window.innerWidth - .5) * 10;
 
-  const y =
-    (touch.clientY / window.innerHeight - .5) * 12;
+    const y =
+      (touch.clientY /
+      window.innerHeight - .5) * 10;
 
-  targetX = x;
-  targetY = y;
+    heroImage.style.marginLeft =
+      x + "px";
 
-  heroPhoto.style.marginLeft = x + "px";
-  heroPhoto.style.marginTop = y + "px";
+    heroImage.style.marginTop =
+      y + "px";
 
-});
+  },
+  {passive:true}
+);
 
 
-/* =====================================================
+/* ==========================================
    FORM DEMO
-===================================================== */
+========================================== */
 
-const form = document.getElementById("ticketForm");
-const status = document.getElementById("status");
+const form =
+  document.getElementById("ticketForm");
 
-form.addEventListener("submit", function(e) {
+const status =
+  document.getElementById("status");
 
-  e.preventDefault();
+form.addEventListener(
+  "submit",
+  function(event){
 
-  const button =
-    form.querySelector(".submit");
+    event.preventDefault();
 
-  button.innerHTML = "GENERATING ACCESS...";
-  button.style.background = "#ffffff";
-  button.style.color = "#000000";
+    const button =
+      form.querySelector(".submit");
 
-  setTimeout(() => {
+    button.textContent =
+      "CREATING ACCESS...";
 
-    button.innerHTML = "ACCESS REQUESTED ✓";
+    button.style.background =
+      "#ff0000";
 
-    status.innerHTML =
-      "SISTEMA TICKET IN ATTESA DI CONFIGURAZIONE";
+    setTimeout(()=>{
 
-  }, 1500);
+      button.textContent =
+        "ACCESS REQUESTED ✓";
 
-});
+      status.textContent =
+        "TICKET SYSTEM — COMING NEXT";
+
+    },1200);
+
+  }
+);
+
+updateScroll();
 
 </script>
 
