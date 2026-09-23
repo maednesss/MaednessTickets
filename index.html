@@ -197,10 +197,10 @@
       background:
         linear-gradient(
           to bottom,
-          rgba(0, 0, 0, 0.08),
-          rgba(0, 0, 0, 0.82)
+          rgba(0, 0, 0, 0.25),
+          rgba(0, 0, 0, 0.88)
         ),
-        url("https://cdn.phototourl.com/member/2026-09-23-5b98fa2f-bc01-4af6-a18b-37b5a336f005.png")
+        url("https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1400&q=85")
         center / cover;
 
       isolation: isolate;
@@ -285,96 +285,6 @@
       display: block;
       color: #888;
       margin-top: 4px;
-    }
-
-    /* =========================
-       HERO LOGO
-    ========================== */
-
-    .hero-logo {
-      position: absolute;
-      top: 70px;
-      right: 15px;
-      z-index: 3;
-
-      width: 62px;
-      height: 62px;
-
-      object-fit: contain;
-
-      mix-blend-mode: screen;
-
-      opacity: 0.95;
-
-      animation: logoFloat 4s ease-in-out infinite;
-    }
-
-    @keyframes logoFloat {
-      0%,
-      100% {
-        transform: rotate(0deg) scale(1);
-      }
-
-      50% {
-        transform: rotate(4deg) scale(1.04);
-      }
-    }
-
-    /* =========================
-       SCROLL INDICATOR
-    ========================== */
-
-    .scroll-indicator {
-      position: absolute;
-      left: 50%;
-      bottom: 18px;
-
-      transform: translateX(-50%);
-
-      z-index: 4;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-
-      color: #fff;
-
-      pointer-events: none;
-    }
-
-    .scroll-indicator span {
-      font-size: 7px;
-      font-weight: 900;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-
-      opacity: 0.65;
-    }
-
-    .scroll-arrow {
-      width: 15px;
-      height: 15px;
-
-      border-right: 2px solid #fff;
-      border-bottom: 2px solid #fff;
-
-      transform: rotate(45deg);
-
-      animation: scrollArrow 1.5s ease-in-out infinite;
-    }
-
-    @keyframes scrollArrow {
-      0%,
-      100% {
-        transform: translateY(0) rotate(45deg);
-        opacity: 0.45;
-      }
-
-      50% {
-        transform: translateY(6px) rotate(45deg);
-        opacity: 1;
-      }
     }
 
     /* =========================
@@ -847,9 +757,7 @@
   <!-- TOP BAR -->
 
   <header class="topbar">
-    <div class="topbar-brand">
-      MÆDNESS®
-    </div>
+    <div class="topbar-brand">MÆDNESS®</div>
 
     <div class="topbar-event">
       ROTAROTT / 18.10.2026
@@ -857,10 +765,7 @@
   </header>
 
   <div class="progress">
-    <div
-      class="progress-bar"
-      id="progressBar"
-    ></div>
+    <div class="progress-bar" id="progressBar"></div>
   </div>
 
 
@@ -868,37 +773,11 @@
 
   <main>
 
-    <section
-      class="hero"
-      id="hero"
-    >
+    <section class="hero" id="hero">
 
       <div class="section-label">
         01 / ROTAROTT
       </div>
-
-
-      <!-- SMALL LOGO -->
-
-      <img
-        class="hero-logo"
-        src="https://cdn.phototourl.com/member/2026-09-23-ae1331d5-e0a2-4a67-9cda-efdbecdb40d2.png"
-        alt="MÆDNESS®"
-      />
-
-
-      <!-- SCROLL INDICATOR -->
-
-      <div class="scroll-indicator">
-
-        <span>
-          SCROLL
-        </span>
-
-        <div class="scroll-arrow"></div>
-
-      </div>
-
 
       <div class="hero-content">
 
@@ -907,17 +786,9 @@
         </div>
 
         <h1 class="hero-title">
-
-          <span>
-            ROTA
-          </span>
-
-          <span class="red">
-            ROTT
-          </span>
-
+          <span>ROTA</span>
+          <span class="red">ROTT</span>
         </h1>
-
 
         <div class="hero-meta">
 
@@ -926,13 +797,8 @@
           </div>
 
           <div class="hero-location">
-
             FOGGIA
-
-            <span>
-              ITALY
-            </span>
-
+            <span>ITALY</span>
           </div>
 
         </div>
@@ -944,15 +810,11 @@
 
     <!-- MOTION -->
 
-    <section
-      class="motion"
-      id="motion"
-    >
+    <section class="motion" id="motion">
 
       <div class="motion-label">
         02 / MOTION
       </div>
-
 
       <div class="motion-word">
         MÆDNESS
@@ -961,7 +823,6 @@
       <div class="motion-word second">
         MÆDNESS
       </div>
-
 
       <div class="marquee">
 
@@ -984,15 +845,11 @@
 
     <!-- REGISTRATION -->
 
-    <section
-      class="registration"
-      id="registration"
-    >
+    <section class="registration" id="registration">
 
       <div class="section-label">
         03 / ACCESS
       </div>
-
 
       <div class="registration-header reveal">
 
@@ -1001,22 +858,14 @@
         </div>
 
         <h2 class="registration-title">
-
           GET<br>
-
-          <span>
-            IN
-          </span>
-
+          <span>IN</span>
         </h2>
 
       </div>
 
 
-      <form
-        class="form"
-        id="registrationForm"
-      >
+      <form class="form" id="registrationForm">
 
         <!-- NAME -->
 
@@ -1116,6 +965,8 @@
             id="instagramButton"
           >
 
+            <!-- INSTAGRAM SVG -->
+
             <svg
               class="instagram-icon"
               viewBox="0 0 24 24"
@@ -1123,7 +974,6 @@
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
             >
-
               <rect
                 x="3"
                 y="3"
@@ -1190,7 +1040,6 @@
         ROTAROTT
       </div>
 
-
       <div class="bottom-info">
 
         <div>
@@ -1198,10 +1047,7 @@
         </div>
 
         <div>
-          <strong>
-            FOGGIA
-          </strong>
-          / ITALY
+          <strong>FOGGIA</strong> / ITALY
         </div>
 
       </div>
@@ -1218,44 +1064,28 @@
     ========================== */
 
     const progressBar =
-      document.getElementById(
-        "progressBar"
-      );
+      document.getElementById("progressBar");
 
     const instagramButton =
-      document.getElementById(
-        "instagramButton"
-      );
+      document.getElementById("instagramButton");
 
     const instagramText =
-      document.getElementById(
-        "instagramText"
-      );
+      document.getElementById("instagramText");
 
     const instagramStatus =
-      document.getElementById(
-        "instagramStatus"
-      );
+      document.getElementById("instagramStatus");
 
     const registrationForm =
-      document.getElementById(
-        "registrationForm"
-      );
+      document.getElementById("registrationForm");
 
     const submitButton =
-      document.getElementById(
-        "submitButton"
-      );
+      document.getElementById("submitButton");
 
     const accessMessage =
-      document.getElementById(
-        "accessMessage"
-      );
+      document.getElementById("accessMessage");
 
     const revealElements =
-      document.querySelectorAll(
-        ".reveal"
-      );
+      document.querySelectorAll(".reveal");
 
 
     /* =========================
@@ -1269,9 +1099,7 @@
 
     function activateInstagramState() {
 
-      instagramButton.classList.add(
-        "clicked"
-      );
+      instagramButton.classList.add("clicked");
 
       instagramText.textContent =
         "MÆDNESS MODE: ON ✓";
@@ -1279,9 +1107,7 @@
       instagramStatus.textContent =
         "GRAZIE PER IL SUPPORTO";
 
-      instagramStatus.classList.add(
-        "active"
-      );
+      instagramStatus.classList.add("active");
 
     }
 
@@ -1293,9 +1119,7 @@
           INSTAGRAM_MEMORY_KEY
         );
 
-      if (
-        alreadyClicked === "true"
-      ) {
+      if (alreadyClicked === "true") {
 
         activateInstagramState();
 
@@ -1352,16 +1176,12 @@
         window.scrollY;
 
       const documentHeight =
-        document.documentElement
-          .scrollHeight -
+        document.documentElement.scrollHeight -
         window.innerHeight;
 
       const progress =
         documentHeight > 0
-          ? (
-              scrollTop /
-              documentHeight
-            ) * 100
+          ? (scrollTop / documentHeight) * 100
           : 0;
 
       progressBar.style.width =
@@ -1373,9 +1193,7 @@
     window.addEventListener(
       "scroll",
       updateScroll,
-      {
-        passive: true
-      }
+      { passive: true }
     );
 
 
@@ -1427,7 +1245,6 @@
 
     let lastTouchY = 0;
 
-
     document.addEventListener(
       "touchmove",
       (event) => {
@@ -1439,7 +1256,6 @@
           return;
         }
 
-
         const currentY =
           event.touches[0].clientY;
 
@@ -1448,12 +1264,8 @@
 
         lastTouchY = currentY;
 
-
         const hero =
-          document.querySelector(
-            ".hero"
-          );
-
+          document.querySelector(".hero");
 
         if (hero) {
 
@@ -1466,16 +1278,13 @@
               )
             );
 
-
           hero.style.backgroundPosition =
             `center calc(50% + ${offset}px)`;
 
         }
 
       },
-      {
-        passive: true
-      }
+      { passive: true }
     );
 
 
@@ -1494,9 +1303,7 @@
         }
 
       },
-      {
-        passive: true
-      }
+      { passive: true }
     );
 
 
