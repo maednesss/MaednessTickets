@@ -1,732 +1,723 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  />
-  <title>MÆDNESS® — ROTAROTT</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;800;900&display=swap"
-    rel="stylesheet"
-  >
-
-  <style>
-    :root {
-      --red: #ff0000;
-      --black: #050505;
-      --white: #ffffff;
-      --green: #20d878;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      background: var(--black);
-    }
-
-    body {
-      background: var(--black);
-      color: var(--white);
-      font-family: "Inter", sans-serif;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    /* DESKTOP WARNING */
-
-    .desktop-warning {
-      display: none;
-    }
-
-    @media (min-width: 700px) {
-      body > *:not(.desktop-warning) {
-        display: none !important;
-      }
-
-      .desktop-warning {
-        position: fixed;
-        inset: 0;
-        background: #050505;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 40px;
-        font-family: "Anton", sans-serif;
-        font-size: 34px;
-        letter-spacing: .04em;
-      }
-    }
-
-    /* TOPBAR */
-
-    .topbar {
-      position: fixed;
-      z-index: 100;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 52px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 16px;
-      mix-blend-mode: difference;
-      pointer-events: none;
-    }
-
-    .top-logo {
-      font-family: "Anton", sans-serif;
-      font-size: 21px;
-      letter-spacing: .04em;
-    }
-
-    .top-event {
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: .15em;
-    }
-
-    /* SCROLL PROGRESS */
-
-    .scroll-progress {
-      position: fixed;
-      z-index: 110;
-      top: 52px;
-      right: 7px;
-      width: 2px;
-      height: calc(100vh - 70px);
-      background: rgba(255,255,255,.2);
-    }
-
-    .scroll-progress span {
-      display: block;
-      width: 100%;
-      height: 0%;
-      background: var(--red);
-      transform-origin: top;
-    }
-
-    /* FIXED GRAPHICS */
-
-    .graphics {
-      position: fixed;
-      inset: 0;
-      z-index: 20;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .graphic-line {
-      position: absolute;
-      width: 170%;
-      height: 1px;
-      background: rgba(255,255,255,.28);
-      transform-origin: left center;
-    }
-
-    .line-1 {
-      top: 31%;
-      left: -35%;
-      transform: rotate(-28deg);
-    }
-
-    .line-2 {
-      top: 48%;
-      left: -30%;
-      transform: rotate(-28deg);
-    }
-
-    .line-3 {
-      top: 66%;
-      left: -25%;
-      transform: rotate(-28deg);
-    }
-
-    .line-4 {
-      top: 83%;
-      left: -20%;
-      transform: rotate(-28deg);
-    }
-
-    .graphic-circle {
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border: 1px solid rgba(255,0,0,.5);
-      border-radius: 50%;
-      right: -70px;
-      top: 43%;
-    }
-
-    .micro {
-      position: absolute;
-      font-size: 7px;
-      letter-spacing: .2em;
-      font-weight: 800;
-      white-space: nowrap;
-      opacity: .7;
-    }
-
-    .micro-1 {
-      top: 18%;
-      left: 15px;
-    }
-
-    .micro-2 {
-      top: 72%;
-      right: 14px;
-      transform: rotate(90deg);
-    }
-
-    .micro-3 {
-      bottom: 7%;
-      left: 15px;
-    }
-
-    .micro-4 {
-      top: 55%;
-      left: 14px;
-      transform: rotate(-90deg);
-    }
-
-    /* HERO */
-
-    .hero {
-      position: relative;
-      height: 82svh;
-      min-height: 580px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 16px 32px;
-
-      background: url("./hero.png");
-
-      background-size: cover;
-      background-position: center;
-
-      filter: contrast(1.15);
-    }
-
-    /* SMOOTH DARK GRADIENT */
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-
-      background:
-        linear-gradient(
-          to bottom,
-          rgba(0,0,0,0) 0%,
-          rgba(0,0,0,.03) 18%,
-          rgba(0,0,0,.10) 34%,
-          rgba(0,0,0,.24) 50%,
-          rgba(0,0,0,.48) 65%,
-          rgba(0,0,0,.75) 78%,
-          rgba(0,0,0,.92) 90%,
-          rgba(5,5,5,1) 100%
-        );
-
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      opacity: .18;
-      pointer-events: none;
-
-      background-image:
-        repeating-linear-gradient(
-          to bottom,
-          transparent 0px,
-          transparent 3px,
-          rgba(255,255,255,.25) 4px
-        );
-
-      z-index: 2;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 3;
-    }
-
-    .hero-small {
-      font-size: 9px;
-      font-weight: 900;
-      letter-spacing: .25em;
-      margin-bottom: 7px;
-    }
-
-    .hero-logo {
-      font-family: "Anton", sans-serif;
-      font-size: clamp(70px, 23vw, 120px);
-      line-height: .78;
-      letter-spacing: -.035em;
-      white-space: nowrap;
-      text-shadow:
-        4px 0 var(--red),
-        -2px 0 rgba(255,255,255,.3);
-      transform: translateX(-3px);
-    }
-
-    .hero-event {
-      margin-top: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .hero-event-name {
-      font-family: "Anton", sans-serif;
-      font-size: 38px;
-      line-height: .9;
-      letter-spacing: .01em;
-    }
-
-    .hero-event-meta {
-      font-size: 8px;
-      line-height: 1.5;
-      letter-spacing: .16em;
-      font-weight: 800;
-    }
-
-    .scroll-label {
-      position: absolute;
-      z-index: 4;
-      right: 16px;
-      bottom: 31px;
-      font-size: 7px;
-      letter-spacing: .3em;
-      font-weight: 900;
-      writing-mode: vertical-rl;
-    }
-
-    .scroll-label::after {
-      content: "";
-      display: block;
-      width: 1px;
-      height: 35px;
-      margin: 8px auto 0;
-      background: var(--white);
-    }
-
-    /* MOTION */
-
-    .motion {
-      position: relative;
-      height: 32svh;
-      min-height: 220px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      background: var(--black);
-    }
-
-    .motion-word {
-      position: absolute;
-      left: -8%;
-      white-space: nowrap;
-      font-family: "Anton", sans-serif;
-      font-size: 29vw;
-      line-height: .8;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,.35);
-      transform: translateX(0);
-    }
-
-    .marquee {
-      position: absolute;
-      left: -20%;
-      width: 145%;
-      padding: 13px 0;
-      background: var(--red);
-      color: var(--black);
-      transform: rotate(-7deg);
-      overflow: hidden;
-    }
-
-    .marquee-track {
-      white-space: nowrap;
-      font-family: "Anton", sans-serif;
-      font-size: 25px;
-      letter-spacing: .03em;
-      animation: marquee 9s linear infinite;
-    }
-
-    @keyframes marquee {
-      from {
-        transform: translateX(0);
-      }
-
-      to {
-        transform: translateX(-35%);
-      }
-    }
-
-    /* REGISTRATION */
-
-    .registration {
-      position: relative;
-      z-index: 5;
-      background: var(--white);
-      color: var(--black);
-      padding: 24px 16px 45px;
-      min-height: 680px;
-    }
-
-    .registration-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 22px;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: .2em;
-    }
-
-    .registration-top span:last-child {
-      color: var(--red);
-    }
-
-    .register-title {
-      font-family: "Anton", sans-serif;
-      font-size: 76px;
-      line-height: .78;
-      letter-spacing: -.02em;
-      margin-bottom: 28px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: .2em;
-    }
-
-    .form-group input {
-      width: 100%;
-      height: 52px;
-      border: 1px solid #000;
-      border-radius: 0;
-      padding: 0 13px;
-      background: #fff;
-      color: #000;
-      outline: none;
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .form-group input:focus {
-      border-color: var(--red);
-      box-shadow: inset 4px 0 0 var(--red);
-    }
-
-    /* INSTAGRAM */
-
-    .instagram-box {
-      margin-top: 22px;
-      margin-bottom: 18px;
-    }
-
-    .instagram-button {
-      position: relative;
-      width: 100%;
-      min-height: 58px;
-      border: 2px solid #000;
-      border-radius: 0;
-      background: #fff;
-      color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 11px;
-      cursor: pointer;
-      overflow: hidden;
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: .07em;
-      transition:
-        background .25s ease,
-        color .25s ease,
-        border-color .25s ease,
-        transform .12s ease;
-    }
-
-    .instagram-button::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--red);
-      transition: left .25s ease;
-      z-index: 0;
-    }
-
-    .instagram-button:active {
-      transform: scale(.97);
-    }
-
-    .instagram-button > * {
-      position: relative;
-      z-index: 2;
-    }
-
-    .instagram-icon {
-      width: 22px;
-      height: 22px;
-      flex: 0 0 22px;
-    }
-
-    .instagram-icon svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    .instagram-status {
-      min-height: 16px;
-      margin-top: 7px;
-      font-size: 7px;
-      font-weight: 900;
-      letter-spacing: .15em;
-      text-align: center;
-      opacity: .55;
-    }
-
-    .instagram-button.clicked {
-      background: var(--green);
-      border-color: var(--green);
-      color: #000;
-      animation: instaClick .42s ease;
-    }
-
-    .instagram-button.clicked::before {
-      display: none;
-    }
-
-    .instagram-button.clicked .instagram-icon {
-      animation: iconPop .45s ease;
-    }
-
-    @keyframes instaClick {
-      0% {
-        transform: scale(1);
-      }
-
-      35% {
-        transform: scale(.95);
-      }
-
-      65% {
-        transform: scale(1.025);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    @keyframes iconPop {
-      0% {
-        transform: rotate(0) scale(1);
-      }
-
-      45% {
-        transform: rotate(-12deg) scale(1.25);
-      }
-
-      100% {
-        transform: rotate(0) scale(1);
-      }
-    }
-
-    .instagram-status.active {
-      opacity: 1;
-      color: #15934c;
-    }
-
-    /* SUBMIT */
-
-    .submit-button {
-      width: 100%;
-      height: 58px;
-      margin-top: 7px;
-      border: 0;
-      border-radius: 0;
-      background: var(--black);
-      color: var(--white);
-      font-family: "Anton", sans-serif;
-      font-size: 21px;
-      letter-spacing: .04em;
-      cursor: pointer;
-      transition:
-        background .2s ease,
-        transform .12s ease;
-    }
-
-    .submit-button:active {
-      transform: scale(.98);
-    }
-
-    .submit-button:hover {
-      background: var(--red);
-    }
-
-    .form-status {
-      min-height: 20px;
-      margin-top: 10px;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: .14em;
-      text-align: center;
-    }
-
-    /* BOTTOM */
-
-    .registration-bottom {
-      margin-top: 45px;
-      font-family: "Anton", sans-serif;
-      font-size: 17vw;
-      line-height: .75;
-      color: transparent;
-      -webkit-text-stroke: 1px #000;
-      white-space: nowrap;
-    }
-
-    .registration-footer {
-      margin-top: 28px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 7px;
-      font-weight: 900;
-      letter-spacing: .16em;
-    }
-
-    /* GLITCH */
-
-    .glitch {
-      animation: glitch .22s steps(2, end);
-    }
-
-    @keyframes glitch {
-      0% {
-        transform: translate(0);
-      }
-
-      25% {
-        transform: translate(3px, -1px);
-      }
-
-      50% {
-        transform: translate(-3px, 1px);
-      }
-
-      75% {
-        transform: translate(2px, 0);
-      }
-
-      100% {
-        transform: translate(0);
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MÆDNESS® — ROTAROTT</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  min-height:100%;
+  background:#050505;
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+}
+
+body{
+  -webkit-font-smoothing:antialiased;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+.desktop-warning{
+  display:none;
+}
+
+@media (min-width:700px){
+  body{
+    overflow:hidden;
+  }
+
+  .desktop-warning{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:#050505;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:30px;
+  }
+
+  .desktop-warning .warning-title{
+    font-family:'Anton',sans-serif;
+    font-size:clamp(60px,10vw,130px);
+    line-height:.85;
+    letter-spacing:-2px;
+  }
+
+  .desktop-warning .warning-sub{
+    margin-top:20px;
+    font-size:11px;
+    letter-spacing:3px;
+    color:#ff1e1e;
+  }
+
+  .page{
+    display:none;
+  }
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.page{
+  position:relative;
+  width:100%;
+  min-height:100vh;
+  background:#050505;
+  overflow:hidden;
+}
+
+/* =========================
+   FIXED TOP BAR
+========================= */
+
+.topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:54px;
+  z-index:50;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 16px;
+
+  mix-blend-mode:difference;
+  pointer-events:none;
+}
+
+.topbar-left,
+.topbar-center,
+.topbar-right{
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.7px;
+  white-space:nowrap;
+}
+
+.topbar-left{
+  font-size:11px;
+}
+
+.topbar-center{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.topbar-right{
+  color:#ff1e1e;
+}
+
+/* =========================
+   SCROLL PROGRESS
+========================= */
+
+.scroll-progress{
+  position:fixed;
+  top:0;
+  right:0;
+  width:3px;
+  height:0%;
+  z-index:100;
+  background:#ff1e1e;
+}
+
+/* =========================
+   GRAPHIC OVERLAY
+========================= */
+
+.graphic-lines{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.graphic-lines::before,
+.graphic-lines::after{
+  content:"";
+  position:absolute;
+  width:180%;
+  height:1px;
+  background:rgba(255,255,255,.14);
+  transform:rotate(-27deg);
+  transform-origin:center;
+  left:-40%;
+}
+
+.graphic-lines::before{
+  top:27%;
+}
+
+.graphic-lines::after{
+  top:73%;
+}
+
+.graphic-circle{
+  position:fixed;
+  width:210px;
+  height:210px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:50%;
+  right:-100px;
+  top:46%;
+  z-index:20;
+  pointer-events:none;
+}
+
+.micro-label{
+  position:fixed;
+  z-index:25;
+  font-size:7px;
+  line-height:1;
+  letter-spacing:2px;
+  font-weight:700;
+  color:rgba(255,255,255,.48);
+  pointer-events:none;
+}
+
+.micro-label.one{
+  top:82px;
+  left:15px;
+}
+
+.micro-label.two{
+  top:96px;
+  right:16px;
+  color:#ff1e1e;
+}
+
+.micro-label.three{
+  bottom:19px;
+  left:15px;
+}
+
+.micro-label.four{
+  bottom:19px;
+  right:16px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  position:relative;
+  min-height:100svh;
+  height:100svh;
+  overflow:hidden;
+
+  background-image:url("./hero.png");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+
+  filter:contrast(1.15);
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,.03) 18%,
+      rgba(0,0,0,.10) 34%,
+      rgba(0,0,0,.24) 50%,
+      rgba(0,0,0,.48) 65%,
+      rgba(0,0,0,.75) 78%,
+      rgba(0,0,0,.92) 90%,
+      rgba(5,5,5,1) 100%
+    );
+
+  pointer-events:none;
+  z-index:2;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.025) 0px,
+      rgba(255,255,255,.025) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+
+  mix-blend-mode:soft-light;
+  pointer-events:none;
+  z-index:3;
+}
+
+.hero-content{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:38px;
+  z-index:10;
+  padding:0 15px;
+}
+
+.hero-kicker{
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:3px;
+  margin-bottom:5px;
+}
+
+.hero-logo{
+  font-family:'Anton',sans-serif;
+  font-size:26vw;
+  line-height:.78;
+  letter-spacing:-4px;
+  white-space:nowrap;
+  transform:translateX(0);
+  will-change:transform;
+}
+
+.hero-event{
+  margin-top:13px;
+
+  font-family:'Anton',sans-serif;
+  font-size:16vw;
+  line-height:.8;
+  letter-spacing:-2px;
+
+  color:#ff1e1e;
+}
+
+.hero-meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+
+  margin-top:18px;
+
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.hero-meta span:last-child{
+  text-align:right;
+}
+
+.scroll-label{
+  position:absolute;
+  right:15px;
+  bottom:45px;
+
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:3px;
+
+  color:rgba(255,255,255,.65);
+}
+
+/* =========================
+   MOTION SECTION
+========================= */
+
+.motion{
+  position:relative;
+  min-height:72svh;
+  background:#050505;
+  overflow:hidden;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.motion-outline{
+  position:absolute;
+  white-space:nowrap;
+
+  font-family:'Anton',sans-serif;
+  font-size:47vw;
+  line-height:.75;
+  letter-spacing:-5px;
+
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.16);
+
+  transform:translateX(0);
+  will-change:transform;
+}
+
+.motion-copy{
+  position:relative;
+  z-index:4;
+  width:100%;
+  padding:0 15px;
+}
+
+.motion-copy small{
+  display:block;
+  margin-bottom:10px;
+
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:3px;
+  color:#ff1e1e;
+}
+
+.motion-copy h2{
+  font-family:'Anton',sans-serif;
+  font-size:22vw;
+  line-height:.78;
+  letter-spacing:-3px;
+}
+
+.motion-copy p{
+  max-width:245px;
+  margin-top:20px;
+
+  font-size:10px;
+  line-height:1.5;
+  font-weight:500;
+  letter-spacing:.5px;
+  color:rgba(255,255,255,.62);
+}
+
+.motion-marquee{
+  position:absolute;
+  bottom:18%;
+  left:-20%;
+
+  width:140%;
+  padding:9px 0;
+
+  background:#ff1e1e;
+  color:#050505;
+
+  transform:rotate(-5deg);
+
+  font-family:'Anton',sans-serif;
+  font-size:24px;
+  letter-spacing:1px;
+
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.motion-marquee span{
+  display:inline-block;
+  will-change:transform;
+}
+
+/* =========================
+   REGISTER
+========================= */
+
+.register{
+  position:relative;
+  min-height:100svh;
+  background:#fff;
+  color:#050505;
+
+  padding:24px 15px 30px;
+
+  overflow:hidden;
+}
+
+.register-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+.register-top .red{
+  color:#ff1e1e;
+}
+
+.register-title{
+  margin-top:54px;
+
+  font-family:'Anton',sans-serif;
+  font-size:27vw;
+  line-height:.72;
+  letter-spacing:-4px;
+}
+
+.register-subtitle{
+  margin-top:17px;
+
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+.register-form{
+  margin-top:38px;
+}
+
+.field{
+  position:relative;
+  margin-bottom:24px;
+}
+
+.field label{
+  display:block;
+
+  margin-bottom:7px;
+
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+.field input{
+  width:100%;
+  height:42px;
+
+  border:0;
+  border-bottom:2px solid #050505;
+  outline:none;
+
+  border-radius:0;
+
+  background:transparent;
+
+  font-size:15px;
+  font-weight:600;
+  color:#050505;
+}
+
+.field input::placeholder{
+  color:rgba(5,5,5,.28);
+}
+
+.instagram-wrap{
+  margin-top:34px;
+}
+
+.instagram-button{
+  width:100%;
+  min-height:48px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 14px;
+
+  background:#050505;
+  color:#fff;
+
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.5px;
+
+  transition:
+    background .25s ease,
+    color .25s ease;
+}
+
+.instagram-button.clicked{
+  background:#0b8f3c;
+}
+
+.instagram-arrow{
+  font-size:16px;
+}
+
+.instagram-status{
+  margin-top:8px;
+
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:2px;
+
+  color:rgba(5,5,5,.35);
+}
+
+.instagram-status.active{
+  color:#0b8f3c;
+}
+
+.submit-button{
+  width:100%;
+  min-height:58px;
+
+  margin-top:30px;
+
+  background:#ff1e1e;
+  color:#fff;
+
+  font-family:'Anton',sans-serif;
+  font-size:23px;
+  letter-spacing:.5px;
+
+  transition:
+    background .25s ease,
+    color .25s ease;
+}
+
+.submit-button.done{
+  background:#0b8f3c;
+}
+
+.form-status{
+  min-height:13px;
+
+  margin-top:9px;
+
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:2px;
+
+  color:rgba(5,5,5,.38);
+}
+
+.register-outline{
+  position:absolute;
+  left:15px;
+  right:15px;
+  bottom:74px;
+
+  font-family:'Anton',sans-serif;
+  font-size:28vw;
+  line-height:.7;
+  letter-spacing:-4px;
+
+  color:transparent;
+  -webkit-text-stroke:1px rgba(5,5,5,.12);
+
+  white-space:nowrap;
+  pointer-events:none;
+}
+
+.footer{
+  position:absolute;
+  left:15px;
+  right:15px;
+  bottom:20px;
+
+  display:flex;
+  justify-content:space-between;
+
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+/* =========================
+   RESPONSIVE MOBILE
+========================= */
+
+@media (max-width:380px){
+  .hero-logo{
+    font-size:25vw;
+  }
+
+  .hero-event{
+    font-size:15vw;
+  }
+
+  .register-title{
+    font-size:25vw;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="desktop-warning">
-    MÆDNESS®<br>
-    MOBILE EXPERIENCE ONLY
+<div class="desktop-warning">
+  <div class="warning-title">MÆDNESS®</div>
+  <div class="warning-sub">MOBILE EXPERIENCE ONLY</div>
+</div>
+
+<div class="page">
+
+  <div class="topbar">
+    <div class="topbar-left">MÆDNESS®</div>
+    <div class="topbar-center">ROTAROTT</div>
+    <div class="topbar-right">001</div>
   </div>
 
-  <header class="topbar">
-    <div class="top-logo">MÆDNESS®</div>
-    <div class="top-event">ROTAROTT / 001</div>
-  </header>
+  <div class="scroll-progress"></div>
 
-  <div class="scroll-progress">
-    <span id="progress"></span>
-  </div>
+  <div class="graphic-lines"></div>
+  <div class="graphic-circle"></div>
 
-  <div class="graphics">
-    <div class="graphic-line line-1"></div>
-    <div class="graphic-line line-2"></div>
-    <div class="graphic-line line-3"></div>
-    <div class="graphic-line line-4"></div>
+  <div class="micro-label one">41°27'N / 15°33'E</div>
+  <div class="micro-label two">NO SIGNAL / 001</div>
+  <div class="micro-label three">MÆDNESS / FOGGIA</div>
+  <div class="micro-label four">ACCESS / 2026</div>
 
-    <div class="graphic-circle" id="graphicCircle"></div>
-
-    <div class="micro micro-1">
-      41°27'N / 15°33'E
-    </div>
-
-    <div class="micro micro-2">
-      NO SIGNAL / 001
-    </div>
-
-    <div class="micro micro-3">
-      MÆDNESS / FOGGIA
-    </div>
-
-    <div class="micro micro-4">
-      ACCESS / 2026
-    </div>
-  </div>
-
-  <section class="hero" id="hero">
+  <!-- HERO -->
+  <section class="hero">
 
     <div class="hero-content">
 
-      <div class="hero-small">
+      <div class="hero-kicker">
         MÆDNESS PRESENTS
       </div>
 
-      <div class="hero-logo" id="heroLogo">
+      <div class="hero-logo">
         MÆDNESS
       </div>
 
       <div class="hero-event">
+        ROTAROTT
+      </div>
 
-        <div class="hero-event-name">
-          ROTAROTT
-        </div>
-
-        <div class="hero-event-meta">
-          18.10.2026<br>
-          FOGGIA / ITALY
-        </div>
-
+      <div class="hero-meta">
+        <span>18.10.2026</span>
+        <span>FOGGIA / ITALY</span>
       </div>
 
     </div>
@@ -737,136 +728,104 @@
 
   </section>
 
+  <!-- MOTION -->
   <section class="motion">
 
-    <div class="motion-word" id="motionWord">
+    <div class="motion-outline">
       MÆDNESS
     </div>
 
-    <div class="marquee">
+    <div class="motion-copy">
 
-      <div class="marquee-track">
+      <small>001 / THE SIGNAL</small>
+
+      <h2>
+        NO<br>
+        RULES.
+      </h2>
+
+      <p>
+        Un nuovo segnale sta arrivando.
+        Una notte sola. Un posto preciso.
+        Se lo senti, sai già cosa fare.
+      </p>
+
+    </div>
+
+    <div class="motion-marquee">
+      <span>
         ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
-      </div>
-
+      </span>
     </div>
 
   </section>
 
-  <section class="registration">
+  <!-- REGISTER -->
+  <section class="register">
 
-    <div class="registration-top">
+    <div class="register-top">
       <span>002 / GET ACCESS</span>
-      <span>ROTAROTT</span>
+      <span class="red">ROTAROTT</span>
     </div>
 
-    <h2 class="register-title">
+    <div class="register-title">
       GET<br>
       IN.
-    </h2>
+    </div>
 
-    <form id="registrationForm">
+    <div class="register-subtitle">
+      LASCIA I TUOI DATI. IL RESTO ARRIVA DOPO.
+    </div>
 
-      <div class="form-group">
+    <form class="register-form" id="registerForm">
 
-        <label for="name">
-          NOME
-        </label>
-
+      <div class="field">
+        <label for="nome">NOME</label>
         <input
-          id="name"
-          name="name"
+          id="nome"
           type="text"
+          placeholder="il tuo nome"
           autocomplete="given-name"
           required
-        />
-
+        >
       </div>
 
-      <div class="form-group">
-
-        <label for="surname">
-          COGNOME
-        </label>
-
+      <div class="field">
+        <label for="cognome">COGNOME</label>
         <input
-          id="surname"
-          name="surname"
+          id="cognome"
           type="text"
+          placeholder="il tuo cognome"
           autocomplete="family-name"
           required
-        />
-
+        >
       </div>
 
-      <div class="form-group">
-
-        <label for="email">
-          EMAIL
-        </label>
-
+      <div class="field">
+        <label for="email">EMAIL</label>
         <input
           id="email"
-          name="email"
           type="email"
-          autocomplete="email"
           placeholder="dove arriverà il tuo QR"
+          autocomplete="email"
           required
-        />
-
+        >
       </div>
 
-      <div class="instagram-box">
+      <div class="instagram-wrap">
 
         <button
           type="button"
           class="instagram-button"
           id="instagramButton"
-          aria-label="Apri il profilo Instagram di MÆDNESS"
         >
-
-          <span class="instagram-icon">
-
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-
-              <rect
-                x="3"
-                y="3"
-                width="18"
-                height="18"
-                rx="5"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-
-              <circle
-                cx="12"
-                cy="12"
-                r="4"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-
-              <circle
-                cx="17.5"
-                cy="6.5"
-                r="1.2"
-                fill="currentColor"
-              />
-
-            </svg>
-
-          </span>
-
           <span id="instagramText">
             SEGUI @maednesss
           </span>
 
+          <span class="instagram-arrow">
+            ↗
+          </span>
         </button>
 
         <div
@@ -883,7 +842,7 @@
         class="submit-button"
         id="submitButton"
       >
-        RICHIEDI ACCESSO
+        BLOCCA IL TUO POSTO
       </button>
 
       <div
@@ -893,319 +852,192 @@
 
     </form>
 
-    <div class="registration-bottom">
+    <div class="register-outline">
       ROTAROTT
     </div>
 
-    <div class="registration-footer">
+    <div class="footer">
       <span>MÆDNESS®</span>
       <span>FOGGIA / 2026</span>
     </div>
 
   </section>
 
-  <script>
-    /* ELEMENTS */
+</div>
 
-    const progress =
-      document.getElementById("progress");
+<script>
+const scrollProgress = document.querySelector(".scroll-progress");
+const hero = document.querySelector(".hero");
+const heroLogo = document.querySelector(".hero-logo");
+const motionOutline = document.querySelector(".motion-outline");
+const marquee = document.querySelector(".motion-marquee span");
+const graphicLines = document.querySelector(".graphic-lines");
+const graphicCircle = document.querySelector(".graphic-circle");
 
-    const hero =
-      document.getElementById("hero");
+function updateScroll(){
 
-    const heroLogo =
-      document.getElementById("heroLogo");
+  const scrollTop = window.scrollY;
+  const maxScroll =
+    document.documentElement.scrollHeight - window.innerHeight;
 
-    const motionWord =
-      document.getElementById("motionWord");
+  const progress =
+    maxScroll > 0
+      ? (scrollTop / maxScroll) * 100
+      : 0;
 
-    const graphicCircle =
-      document.getElementById("graphicCircle");
+  scrollProgress.style.height = progress + "%";
 
-    const lines =
-      document.querySelectorAll(".graphic-line");
+  const heroMove = scrollTop * 0.16;
+  hero.style.backgroundPosition =
+    `center calc(50% + ${heroMove}px)`;
 
-    const instagramButton =
-      document.getElementById("instagramButton");
+  heroLogo.style.transform =
+    `translateX(${scrollTop * -0.045}px)`;
 
-    const instagramText =
-      document.getElementById("instagramText");
+  motionOutline.style.transform =
+    `translateX(${scrollTop * -0.08}px)`;
 
-    const instagramStatus =
-      document.getElementById("instagramStatus");
+  marquee.style.transform =
+    `translateX(${scrollTop * -0.18}px)`;
 
-    const registrationForm =
-      document.getElementById("registrationForm");
+  graphicLines.style.transform =
+    `translateY(${scrollTop * 0.08}px)`;
 
-    const submitButton =
-      document.getElementById("submitButton");
+  graphicCircle.style.transform =
+    `rotate(${scrollTop * 0.08}deg) scale(${1 + scrollTop * 0.00008})`;
+}
 
-    const formStatus =
-      document.getElementById("formStatus");
+window.addEventListener("scroll", updateScroll, {
+  passive:true
+});
 
+window.addEventListener("resize", updateScroll);
 
-    /* INSTAGRAM MEMORY */
+updateScroll();
 
-    const INSTAGRAM_MEMORY_KEY =
-      "maedness_instagram_clicked";
+/* =========================
+   TOUCH MOVEMENT
+========================= */
 
+let touchStartX = null;
 
-    function activateInstagramState() {
+hero.addEventListener("touchstart", (event) => {
+  if(event.touches.length === 1){
+    touchStartX = event.touches[0].clientX;
+  }
+}, {passive:true});
 
-      instagramButton.classList.add("clicked");
+hero.addEventListener("touchmove", (event) => {
 
-      instagramText.textContent =
-        "MÆDNESS MODE: ON ✓";
+  if(
+    touchStartX === null ||
+    event.touches.length !== 1
+  ) return;
 
-      instagramStatus.textContent =
-        "SIGNAL RECEIVED";
+  const currentX = event.touches[0].clientX;
+  const delta = currentX - touchStartX;
 
-      instagramStatus.classList.add("active");
+  heroLogo.style.transform =
+    `translateX(${delta * 0.18}px)`;
 
-    }
+}, {passive:true});
 
+hero.addEventListener("touchend", () => {
+  touchStartX = null;
+});
 
-    function checkInstagramMemory() {
+/* =========================
+   INSTAGRAM
+========================= */
 
-      const alreadyClicked =
-        sessionStorage.getItem(
-          INSTAGRAM_MEMORY_KEY
-        );
+const instagramButton =
+  document.getElementById("instagramButton");
 
-      if (alreadyClicked === "true") {
+const instagramText =
+  document.getElementById("instagramText");
 
-        activateInstagramState();
+const instagramStatus =
+  document.getElementById("instagramStatus");
 
-      }
+const INSTAGRAM_MEMORY_KEY =
+  "maedness_instagram_clicked";
 
-    }
+function activateInstagramState(){
 
+  instagramButton.classList.add("clicked");
 
-    /* INSTAGRAM CLICK */
+  instagramText.textContent =
+    "MÆDNESS MODE: ON ✓";
 
-    instagramButton.addEventListener(
-      "click",
-      () => {
+  instagramStatus.textContent =
+    "GRAZIE DEL SUPPORTO";
 
-        sessionStorage.setItem(
-          INSTAGRAM_MEMORY_KEY,
-          "true"
-        );
+  instagramStatus.classList.add("active");
+}
 
-        instagramButton.classList.remove(
-          "glitch"
-        );
+if(
+  sessionStorage.getItem(INSTAGRAM_MEMORY_KEY)
+  === "true"
+){
+  activateInstagramState();
+}
 
-        void instagramButton.offsetWidth;
+instagramButton.addEventListener("click", () => {
 
-        instagramButton.classList.add(
-          "glitch"
-        );
+  sessionStorage.setItem(
+    INSTAGRAM_MEMORY_KEY,
+    "true"
+  );
 
-        window.open(
-          "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
-          "_blank",
-          "noopener,noreferrer"
-        );
+  window.open(
+    "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
+    "_blank",
+    "noopener,noreferrer"
+  );
 
-        activateInstagramState();
+  activateInstagramState();
 
-      }
-    );
+});
 
+/* =========================
+   FORM
+========================= */
 
-    /* SCROLL ANIMATION */
+const form =
+  document.getElementById("registerForm");
 
-    let ticking = false;
+const submitButton =
+  document.getElementById("submitButton");
 
+const formStatus =
+  document.getElementById("formStatus");
 
-    function updateScroll() {
+form.addEventListener("submit", (event) => {
 
-      const scrollTop =
-        window.scrollY;
+  event.preventDefault();
 
-      const documentHeight =
-        document.documentElement.scrollHeight -
-        window.innerHeight;
+  submitButton.disabled = true;
 
-      const scrollPercent =
-        documentHeight > 0
-          ? scrollTop / documentHeight
-          : 0;
+  submitButton.textContent =
+    "GENERAZIONE ACCESSO IN CORSO";
 
+  formStatus.textContent =
+    "GENERAZIONE ACCESSO IN CORSO";
 
-      /* Progress */
+  setTimeout(() => {
 
-      progress.style.height =
-        `${scrollPercent * 100}%`;
+    submitButton.classList.add("done");
 
+    submitButton.textContent =
+      "ACCESS REQUESTED ✓";
 
-      /* Hero parallax */
+    formStatus.textContent =
+      "TICKET SYSTEM — COMING NEXT";
 
-      const heroOffset =
-        Math.min(
-          scrollTop * 0.22,
-          120
-        );
+  }, 1400);
 
-      hero.style.backgroundPosition =
-        `center calc(50% + ${heroOffset}px)`;
-
-
-      /* Hero logo */
-
-      const logoMove =
-        Math.min(
-          scrollTop * 0.08,
-          45
-        );
-
-      heroLogo.style.transform =
-        `translateX(${-3 + logoMove}px)`;
-
-
-      /* Motion word */
-
-      const motionMove =
-        scrollTop * -0.18;
-
-      motionWord.style.transform =
-        `translateX(${motionMove}px)`;
-
-
-      /* Lines */
-
-      lines.forEach(
-        (line, index) => {
-
-          const movement =
-            scrollTop *
-            (0.12 + index * 0.035);
-
-          line.style.transform =
-            `translateX(${movement}px) rotate(-28deg)`;
-
-        }
-      );
-
-
-      /* Circle */
-
-      const rotation =
-        scrollTop * 0.18;
-
-      const scale =
-        1 +
-        Math.min(
-          scrollTop / 3000,
-          .25
-        );
-
-      graphicCircle.style.transform =
-        `rotate(${rotation}deg) scale(${scale})`;
-
-
-      ticking = false;
-
-    }
-
-
-    window.addEventListener(
-      "scroll",
-      () => {
-
-        if (!ticking) {
-
-          window.requestAnimationFrame(
-            updateScroll
-          );
-
-          ticking = true;
-
-        }
-
-      },
-      { passive: true }
-    );
-
-
-    /* TOUCH PARALLAX */
-
-    let touchStartY = 0;
-
-
-    window.addEventListener(
-      "touchstart",
-      (event) => {
-
-        touchStartY =
-          event.touches[0].clientY;
-
-      },
-      { passive: true }
-    );
-
-
-    window.addEventListener(
-      "touchmove",
-      (event) => {
-
-        const currentY =
-          event.touches[0].clientY;
-
-        const delta =
-          touchStartY - currentY;
-
-        heroLogo.style.transform =
-          `translateX(${-3 + delta * .025}px)`;
-
-      },
-      { passive: true }
-    );
-
-
-    /* FORM */
-
-    registrationForm.addEventListener(
-      "submit",
-      (event) => {
-
-        event.preventDefault();
-
-        submitButton.textContent =
-          "CREATING ACCESS...";
-
-        submitButton.style.background =
-          "#ff0000";
-
-        formStatus.textContent =
-          "GENERAZIONE ACCESSO IN CORSO";
-
-        setTimeout(
-          () => {
-
-            submitButton.textContent =
-              "ACCESS REQUESTED ✓";
-
-            submitButton.style.background =
-              "#20d878";
-
-            formStatus.textContent =
-              "TICKET SYSTEM — COMING NEXT";
-
-          },
-          1300
-        );
-
-      }
-    );
-
-
-    /* INITIALIZATION */
-
-    checkInstagramMemory();
-    updateScroll();
-  </script>
+});
+</script>
 
 </body>
 </html>
