@@ -2,19 +2,13 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
   <title>MÆDNESS® — ROTAROTT</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;800;900&display=swap"
-    rel="stylesheet"
-  >
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -40,91 +34,80 @@
       color: var(--white);
       font-family: "Inter", sans-serif;
       overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
     }
 
-    button,
-    input {
-      font: inherit;
-    }
-
-    /* DESKTOP WARNING */
-
-    .desktop-warning {
-      display: none;
+    body::selection {
+      background: var(--red);
+      color: var(--white);
     }
 
     @media (min-width: 700px) {
-      body > *:not(.desktop-warning) {
-        display: none !important;
-      }
-
-      .desktop-warning {
+      body::before {
+        content: "MÆDNESS® / MOBILE EXPERIENCE ONLY";
         position: fixed;
         inset: 0;
-        background: #050505;
-        color: #fff;
+        z-index: 9999;
         display: flex;
         align-items: center;
         justify-content: center;
-        text-align: center;
-        padding: 40px;
+        background: var(--black);
+        color: var(--white);
         font-family: "Anton", sans-serif;
-        font-size: 34px;
-        letter-spacing: .04em;
+        font-size: 30px;
+        letter-spacing: 2px;
+        text-align: center;
+      }
+
+      body > * {
+        display: none !important;
       }
     }
 
-    /* TOPBAR */
+    /* =========================
+       TOPBAR
+    ========================= */
 
     .topbar {
       position: fixed;
-      z-index: 100;
       top: 0;
       left: 0;
       width: 100%;
       height: 52px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       padding: 0 16px;
-      mix-blend-mode: difference;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
       pointer-events: none;
+      mix-blend-mode: difference;
+      color: var(--white);
     }
 
-    .top-logo {
-      font-family: "Anton", sans-serif;
-      font-size: 21px;
-      letter-spacing: .04em;
-    }
-
-    .top-event {
-      font-size: 9px;
+    .topbar-left,
+    .topbar-right {
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: .15em;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
     }
 
-    /* SCROLL PROGRESS */
+    /* =========================
+       SCROLL PROGRESS
+    ========================= */
 
-    .scroll-progress {
+    .progress {
       position: fixed;
-      z-index: 110;
-      top: 52px;
-      right: 7px;
+      top: 0;
+      right: 0;
       width: 2px;
-      height: calc(100vh - 70px);
-      background: rgba(255,255,255,.2);
-    }
-
-    .scroll-progress span {
-      display: block;
-      width: 100%;
-      height: 0%;
+      height: 0;
       background: var(--red);
-      transform-origin: top;
+      z-index: 120;
     }
 
-    /* FIXED GRAPHICS */
+    /* =========================
+       DECORATIVE UI ELEMENTS
+    ========================= */
 
     .graphics {
       position: fixed;
@@ -134,106 +117,236 @@
       overflow: hidden;
     }
 
-    .graphic-line {
+    /* piccoli cross tecnici */
+
+    .graphic-cross {
       position: absolute;
-      width: 170%;
+      width: 17px;
+      height: 17px;
+      transform-origin: center;
+      opacity: .9;
+    }
+
+    .graphic-cross::before,
+    .graphic-cross::after {
+      content: "";
+      position: absolute;
+      background: var(--white);
+    }
+
+    .graphic-cross::before {
+      width: 100%;
       height: 1px;
-      background: rgba(255,255,255,.28);
-      transform-origin: left center;
+      top: 50%;
+      left: 0;
     }
 
-    .line-1 {
-      top: 31%;
-      left: -35%;
-      transform: rotate(-28deg);
+    .graphic-cross::after {
+      width: 1px;
+      height: 100%;
+      left: 50%;
+      top: 0;
     }
 
-    .line-2 {
-      top: 48%;
-      left: -30%;
-      transform: rotate(-28deg);
+    .cross-1 {
+      top: 22%;
+      left: 9%;
     }
 
-    .line-3 {
-      top: 66%;
-      left: -25%;
-      transform: rotate(-28deg);
+    .cross-2 {
+      top: 67%;
+      right: 10%;
+      width: 12px;
+      height: 12px;
     }
 
-    .line-4 {
-      top: 83%;
-      left: -20%;
-      transform: rotate(-28deg);
-    }
-
-    .graphic-circle {
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border: 1px solid rgba(255,0,0,.5);
-      border-radius: 50%;
-      right: -70px;
+    .cross-3 {
       top: 43%;
+      right: 18%;
+      width: 7px;
+      height: 7px;
+      opacity: .55;
     }
+
+    /* marker rosso */
+
+    .graphic-marker {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--red);
+      transform-origin: center;
+    }
+
+    .graphic-marker::before {
+      content: "";
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: var(--red);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .marker-1 {
+      top: 34%;
+      left: 78%;
+    }
+
+    .marker-2 {
+      top: 79%;
+      left: 17%;
+      width: 8px;
+      height: 8px;
+    }
+
+    /* brackets */
+
+    .graphic-bracket {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      opacity: .75;
+    }
+
+    .graphic-bracket::before,
+    .graphic-bracket::after {
+      content: "";
+      position: absolute;
+    }
+
+    .bracket-1 {
+      top: 15%;
+      right: 8%;
+      border-top: 1px solid var(--white);
+      border-right: 1px solid var(--white);
+    }
+
+    .bracket-1::before {
+      width: 1px;
+      height: 9px;
+      background: var(--white);
+      left: -1px;
+      bottom: 0;
+    }
+
+    .bracket-1::after {
+      width: 9px;
+      height: 1px;
+      background: var(--white);
+      left: 0;
+      bottom: -1px;
+    }
+
+    .bracket-2 {
+      bottom: 15%;
+      left: 7%;
+      border-bottom: 1px solid var(--white);
+      border-left: 1px solid var(--white);
+    }
+
+    .bracket-2::before {
+      width: 1px;
+      height: 9px;
+      background: var(--white);
+      right: -1px;
+      top: 0;
+    }
+
+    .bracket-2::after {
+      width: 9px;
+      height: 1px;
+      background: var(--white);
+      right: 0;
+      top: -1px;
+    }
+
+    /* dotted cluster */
+
+    .graphic-dots {
+      position: absolute;
+      width: 44px;
+      height: 30px;
+      display: grid;
+      grid-template-columns: repeat(6, 3px);
+      grid-auto-rows: 3px;
+      gap: 5px;
+      opacity: .35;
+    }
+
+    .graphic-dots span {
+      width: 2px;
+      height: 2px;
+      background: var(--white);
+      display: block;
+    }
+
+    .dots-1 {
+      top: 55%;
+      left: 6%;
+    }
+
+    /* =========================
+       MICRO LABELS
+    ========================= */
 
     .micro {
-      position: absolute;
+      position: fixed;
+      z-index: 21;
       font-size: 7px;
-      letter-spacing: .2em;
-      font-weight: 800;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.65);
       white-space: nowrap;
-      opacity: .7;
+      pointer-events: none;
     }
 
     .micro-1 {
-      top: 18%;
-      left: 15px;
+      top: 31%;
+      left: 7%;
+      transform: rotate(-90deg);
+      transform-origin: left top;
     }
 
     .micro-2 {
-      top: 72%;
-      right: 14px;
+      top: 48%;
+      right: 5%;
       transform: rotate(90deg);
+      transform-origin: right top;
     }
 
     .micro-3 {
-      bottom: 7%;
-      left: 15px;
+      bottom: 19%;
+      left: 8%;
     }
 
     .micro-4 {
-      top: 55%;
-      left: 14px;
-      transform: rotate(-90deg);
+      bottom: 7%;
+      right: 7%;
     }
 
-    /* HERO */
+    /* =========================
+       HERO
+    ========================= */
 
     .hero {
       position: relative;
       height: 82svh;
       min-height: 580px;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 16px 32px;
-
       background: url("./hero.png");
-
       background-size: cover;
       background-position: center;
-
       filter: contrast(1.15);
     }
-
-    /* SMOOTH DARK GRADIENT */
 
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-
+      z-index: 1;
       background:
         linear-gradient(
           to bottom,
@@ -246,487 +359,387 @@
           rgba(0,0,0,.92) 90%,
           rgba(5,5,5,1) 100%
         );
-
       pointer-events: none;
-      z-index: 2;
     }
 
     .hero::after {
       content: "";
       position: absolute;
       inset: 0;
-      opacity: .18;
+      z-index: 2;
       pointer-events: none;
-
-      background-image:
+      opacity: .13;
+      background:
         repeating-linear-gradient(
           to bottom,
           transparent 0px,
           transparent 3px,
-          rgba(255,255,255,.25) 4px
+          rgba(255,255,255,.16) 4px
         );
-
-      z-index: 2;
+      mix-blend-mode: overlay;
     }
 
     .hero-content {
-      position: relative;
-      z-index: 3;
+      position: absolute;
+      z-index: 5;
+      left: 16px;
+      right: 16px;
+      bottom: 34px;
     }
 
-    .hero-small {
+    .hero-kicker {
       font-size: 9px;
-      font-weight: 900;
-      letter-spacing: .25em;
-      margin-bottom: 7px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-family: "Anton", sans-serif;
+      font-size: 23vw;
+      line-height: .76;
+      letter-spacing: -3px;
+      text-transform: uppercase;
+      overflow: hidden;
     }
 
     .hero-logo {
-      font-family: "Anton", sans-serif;
-      font-size: clamp(70px, 23vw, 120px);
-      line-height: .78;
-      letter-spacing: -.035em;
+      display: inline-block;
       white-space: nowrap;
-      text-shadow:
-        4px 0 var(--red),
-        -2px 0 rgba(255,255,255,.3);
-      transform: translateX(-3px);
+      transform: translateX(0);
     }
 
-    .hero-event {
+    .hero-subtitle {
       margin-top: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .hero-event-name {
-      font-family: "Anton", sans-serif;
-      font-size: 38px;
-      line-height: .9;
-      letter-spacing: .01em;
-    }
-
-    .hero-event-meta {
-      font-size: 8px;
-      line-height: 1.5;
-      letter-spacing: .16em;
+      font-size: 9px;
       font-weight: 800;
+      letter-spacing: 1.4px;
     }
 
     .scroll-label {
       position: absolute;
-      z-index: 4;
       right: 16px;
-      bottom: 31px;
-      font-size: 7px;
-      letter-spacing: .3em;
-      font-weight: 900;
+      bottom: 36px;
+      z-index: 5;
       writing-mode: vertical-rl;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 2px;
     }
 
-    .scroll-label::after {
-      content: "";
-      display: block;
-      width: 1px;
-      height: 35px;
-      margin: 8px auto 0;
-      background: var(--white);
-    }
-
-    /* MOTION */
+    /* =========================
+       MOTION SECTION
+    ========================= */
 
     .motion {
       position: relative;
       height: 32svh;
       min-height: 220px;
+      background: var(--black);
       overflow: hidden;
       display: flex;
       align-items: center;
-      background: var(--black);
     }
 
     .motion-word {
       position: absolute;
-      left: -8%;
+      left: -15%;
       white-space: nowrap;
       font-family: "Anton", sans-serif;
-      font-size: 29vw;
+      font-size: 30vw;
       line-height: .8;
       color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,.35);
-      transform: translateX(0);
+      -webkit-text-stroke: 1px rgba(255,255,255,.22);
+      text-transform: uppercase;
     }
 
     .marquee {
       position: absolute;
+      width: 140%;
       left: -20%;
-      width: 145%;
-      padding: 13px 0;
+      transform: rotate(-6deg);
       background: var(--red);
-      color: var(--black);
-      transform: rotate(-7deg);
+      color: var(--white);
+      padding: 7px 0;
       overflow: hidden;
     }
 
     .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 15s linear infinite;
+    }
+
+    .marquee span {
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-right: 25px;
       white-space: nowrap;
-      font-family: "Anton", sans-serif;
-      font-size: 25px;
-      letter-spacing: .03em;
-      animation: marquee 9s linear infinite;
     }
 
     @keyframes marquee {
       from {
         transform: translateX(0);
       }
-
       to {
-        transform: translateX(-35%);
+        transform: translateX(-50%);
       }
     }
 
-    /* REGISTRATION */
+    /* =========================
+       REGISTRATION
+    ========================= */
 
     .registration {
       position: relative;
-      z-index: 5;
       background: var(--white);
       color: var(--black);
-      padding: 24px 16px 45px;
-      min-height: 680px;
+      padding: 28px 16px 20px;
+      min-height: 100svh;
+      overflow: hidden;
     }
 
     .registration-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 22px;
       font-size: 8px;
       font-weight: 900;
-      letter-spacing: .2em;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(0,0,0,.18);
+      padding-bottom: 12px;
     }
 
-    .registration-top span:last-child {
-      color: var(--red);
-    }
-
-    .register-title {
+    .registration-title {
+      margin-top: 28px;
       font-family: "Anton", sans-serif;
-      font-size: 76px;
+      font-size: 24vw;
       line-height: .78;
-      letter-spacing: -.02em;
-      margin-bottom: 28px;
+      letter-spacing: -2px;
+      text-transform: uppercase;
     }
 
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: .2em;
-    }
-
-    .form-group input {
-      width: 100%;
-      height: 52px;
-      border: 1px solid #000;
-      border-radius: 0;
-      padding: 0 13px;
-      background: #fff;
-      color: #000;
-      outline: none;
-      font-size: 15px;
+    .registration-copy {
+      margin-top: 20px;
+      font-size: 9px;
+      line-height: 1.5;
+      max-width: 270px;
       font-weight: 600;
     }
 
-    .form-group input:focus {
-      border-color: var(--red);
-      box-shadow: inset 4px 0 0 var(--red);
+    .form {
+      margin-top: 30px;
     }
 
-    /* INSTAGRAM */
+    .field {
+      position: relative;
+      border-bottom: 1px solid rgba(0,0,0,.35);
+      margin-bottom: 20px;
+    }
 
-    .instagram-box {
-      margin-top: 22px;
-      margin-bottom: 18px;
+    .field label {
+      display: block;
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    .field input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      padding: 4px 0 10px;
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .field input::placeholder {
+      color: rgba(0,0,0,.35);
+    }
+
+    .instagram-wrap {
+      margin-top: 28px;
     }
 
     .instagram-button {
-      position: relative;
       width: 100%;
-      min-height: 58px;
-      border: 2px solid #000;
-      border-radius: 0;
-      background: #fff;
-      color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 11px;
-      cursor: pointer;
-      overflow: hidden;
-      font-size: 13px;
+      border: 1px solid var(--black);
+      background: var(--black);
+      color: var(--white);
+      min-height: 48px;
+      padding: 0 14px;
+      font-family: "Inter", sans-serif;
+      font-size: 9px;
       font-weight: 900;
-      letter-spacing: .07em;
+      letter-spacing: 1.3px;
+      cursor: pointer;
       transition:
         background .25s ease,
         color .25s ease,
-        border-color .25s ease,
-        transform .12s ease;
-    }
-
-    .instagram-button::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--red);
-      transition: left .25s ease;
-      z-index: 0;
-    }
-
-    .instagram-button:active {
-      transform: scale(.97);
-    }
-
-    .instagram-button > * {
-      position: relative;
-      z-index: 2;
-    }
-
-    .instagram-icon {
-      width: 22px;
-      height: 22px;
-      flex: 0 0 22px;
-    }
-
-    .instagram-icon svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    .instagram-status {
-      min-height: 16px;
-      margin-top: 7px;
-      font-size: 7px;
-      font-weight: 900;
-      letter-spacing: .15em;
-      text-align: center;
-      opacity: .55;
+        border-color .25s ease;
     }
 
     .instagram-button.clicked {
       background: var(--green);
       border-color: var(--green);
-      color: #000;
-      animation: instaClick .42s ease;
+      color: var(--black);
     }
 
-    .instagram-button.clicked::before {
-      display: none;
-    }
-
-    .instagram-button.clicked .instagram-icon {
-      animation: iconPop .45s ease;
-    }
-
-    @keyframes instaClick {
-      0% {
-        transform: scale(1);
-      }
-
-      35% {
-        transform: scale(.95);
-      }
-
-      65% {
-        transform: scale(1.025);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    @keyframes iconPop {
-      0% {
-        transform: rotate(0) scale(1);
-      }
-
-      45% {
-        transform: rotate(-12deg) scale(1.25);
-      }
-
-      100% {
-        transform: rotate(0) scale(1);
-      }
+    .instagram-status {
+      margin-top: 7px;
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      color: rgba(0,0,0,.45);
+      text-transform: uppercase;
     }
 
     .instagram-status.active {
-      opacity: 1;
-      color: #15934c;
+      color: var(--green);
     }
-
-    /* SUBMIT */
 
     .submit-button {
       width: 100%;
-      height: 58px;
-      margin-top: 7px;
+      min-height: 58px;
+      margin-top: 14px;
       border: 0;
-      border-radius: 0;
-      background: var(--black);
+      background: var(--red);
       color: var(--white);
       font-family: "Anton", sans-serif;
-      font-size: 21px;
-      letter-spacing: .04em;
+      font-size: 20px;
+      letter-spacing: .5px;
       cursor: pointer;
-      transition:
-        background .2s ease,
-        transform .12s ease;
+      transition: transform .15s ease;
     }
 
     .submit-button:active {
       transform: scale(.98);
     }
 
-    .submit-button:hover {
-      background: var(--red);
-    }
-
     .form-status {
-      min-height: 20px;
-      margin-top: 10px;
+      min-height: 24px;
+      margin-top: 12px;
       font-size: 8px;
       font-weight: 900;
-      letter-spacing: .14em;
-      text-align: center;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
     }
 
-    /* BOTTOM */
+    .ticket-status {
+      margin-top: 4px;
+      font-size: 7px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: rgba(0,0,0,.45);
+    }
 
     .registration-bottom {
-      margin-top: 45px;
+      margin-top: 65px;
       font-family: "Anton", sans-serif;
-      font-size: 17vw;
-      line-height: .75;
-      color: transparent;
-      -webkit-text-stroke: 1px #000;
+      font-size: 24vw;
+      line-height: .8;
+      letter-spacing: -2px;
+      color: var(--black);
       white-space: nowrap;
+      transform: translateX(-4%);
     }
 
-    .registration-footer {
-      margin-top: 28px;
+    .footer {
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(0,0,0,.2);
       display: flex;
       justify-content: space-between;
       font-size: 7px;
       font-weight: 900;
-      letter-spacing: .16em;
+      letter-spacing: 1.2px;
     }
 
-    /* GLITCH */
+    /* =========================
+       FORM STATES
+    ========================= */
 
-    .glitch {
-      animation: glitch .22s steps(2, end);
+    .loading {
+      opacity: .65;
+      pointer-events: none;
     }
 
-    @keyframes glitch {
-      0% {
-        transform: translate(0);
-      }
-
-      25% {
-        transform: translate(3px, -1px);
-      }
-
-      50% {
-        transform: translate(-3px, 1px);
-      }
-
-      75% {
-        transform: translate(2px, 0);
-      }
-
-      100% {
-        transform: translate(0);
-      }
+    .success {
+      color: var(--green);
     }
   </style>
 </head>
 
 <body>
 
-  <div class="desktop-warning">
-    MÆDNESS®<br>
-    MOBILE EXPERIENCE ONLY
-  </div>
+  <!-- TOPBAR -->
 
   <header class="topbar">
-    <div class="top-logo">MÆDNESS®</div>
-    <div class="top-event">ROTAROTT / 001</div>
+    <div class="topbar-left">MÆDNESS®</div>
+    <div class="topbar-right">ROTAROTT / 001</div>
   </header>
 
-  <div class="scroll-progress">
-    <span id="progress"></span>
-  </div>
+  <div class="progress"></div>
+
+
+  <!-- DECORATIVE ELEMENTS -->
 
   <div class="graphics">
-    <div class="graphic-line line-1"></div>
-    <div class="graphic-line line-2"></div>
-    <div class="graphic-line line-3"></div>
-    <div class="graphic-line line-4"></div>
 
-    <div class="graphic-circle" id="graphicCircle"></div>
+    <div class="graphic-cross cross-1"></div>
+    <div class="graphic-cross cross-2"></div>
+    <div class="graphic-cross cross-3"></div>
 
-    <div class="micro micro-1">
-      41°27'N / 15°33'E
+    <div class="graphic-marker marker-1"></div>
+    <div class="graphic-marker marker-2"></div>
+
+    <div class="graphic-bracket bracket-1"></div>
+    <div class="graphic-bracket bracket-2"></div>
+
+    <div class="graphic-dots dots-1">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
     </div>
 
-    <div class="micro micro-2">
-      NO SIGNAL / 001
-    </div>
-
-    <div class="micro micro-3">
-      MÆDNESS / FOGGIA
-    </div>
-
-    <div class="micro micro-4">
-      ACCESS / 2026
-    </div>
   </div>
+
+
+  <!-- MICRO LABELS -->
+
+  <div class="micro micro-1">41°27'N / 15°33'E</div>
+  <div class="micro micro-2">NO SIGNAL / 001</div>
+  <div class="micro micro-3">MÆDNESS / FOGGIA</div>
+  <div class="micro micro-4">ACCESS / 2026</div>
+
+
+  <!-- HERO -->
 
   <section class="hero" id="hero">
 
     <div class="hero-content">
 
-      <div class="hero-small">
+      <div class="hero-kicker">
         MÆDNESS PRESENTS
       </div>
 
-      <div class="hero-logo" id="heroLogo">
-        MÆDNESS
+      <div class="hero-title">
+        <span class="hero-logo">MÆDNESS</span>
       </div>
 
-      <div class="hero-event">
+      <div class="hero-title">
+        ROTAROTT
+      </div>
 
-        <div class="hero-event-name">
-          ROTAROTT
-        </div>
-
-        <div class="hero-event-meta">
-          18.10.2026<br>
-          FOGGIA / ITALY
-        </div>
-
+      <div class="hero-subtitle">
+        18.10.2026 / FOGGIA / ITALY
       </div>
 
     </div>
@@ -737,21 +750,28 @@
 
   </section>
 
+
+  <!-- MOTION -->
+
   <section class="motion">
 
-    <div class="motion-word" id="motionWord">
+    <div class="motion-word">
       MÆDNESS
     </div>
 
     <div class="marquee">
-
       <div class="marquee-track">
-        ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
-      </div>
 
+        <span>ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —</span>
+        <span>ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —</span>
+
+      </div>
     </div>
 
   </section>
+
+
+  <!-- REGISTRATION -->
 
   <section class="registration">
 
@@ -760,113 +780,63 @@
       <span>ROTAROTT</span>
     </div>
 
-    <h2 class="register-title">
-      GET<br>
-      IN.
+    <h2 class="registration-title">
+      GET IN.
     </h2>
 
-    <form id="registrationForm">
+    <p class="registration-copy">
+      L'accesso a ROTAROTT sarà limitato.
+      Lascia i tuoi dati per ricevere il tuo accesso.
+    </p>
 
-      <div class="form-group">
 
-        <label for="name">
-          NOME
-        </label>
+    <form class="form" id="accessForm">
 
+      <div class="field">
+        <label for="nome">NOME</label>
         <input
-          id="name"
-          name="name"
+          id="nome"
+          name="nome"
           type="text"
           autocomplete="given-name"
           required
-        />
-
+        >
       </div>
 
-      <div class="form-group">
-
-        <label for="surname">
-          COGNOME
-        </label>
-
+      <div class="field">
+        <label for="cognome">COGNOME</label>
         <input
-          id="surname"
-          name="surname"
+          id="cognome"
+          name="cognome"
           type="text"
           autocomplete="family-name"
           required
-        />
-
+        >
       </div>
 
-      <div class="form-group">
-
-        <label for="email">
-          EMAIL
-        </label>
-
+      <div class="field">
+        <label for="email">EMAIL</label>
         <input
           id="email"
           name="email"
           type="email"
-          autocomplete="email"
           placeholder="dove arriverà il tuo QR"
+          autocomplete="email"
           required
-        />
-
+        >
       </div>
 
-      <div class="instagram-box">
+
+      <div class="instagram-wrap">
 
         <button
           type="button"
           class="instagram-button"
           id="instagramButton"
-          aria-label="Apri il profilo Instagram di MÆDNESS"
         >
-
-          <span class="instagram-icon">
-
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-
-              <rect
-                x="3"
-                y="3"
-                width="18"
-                height="18"
-                rx="5"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-
-              <circle
-                cx="12"
-                cy="12"
-                r="4"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-
-              <circle
-                cx="17.5"
-                cy="6.5"
-                r="1.2"
-                fill="currentColor"
-              />
-
-            </svg>
-
-          </span>
-
           <span id="instagramText">
             SEGUI @maednesss
           </span>
-
         </button>
 
         <div
@@ -878,12 +848,13 @@
 
       </div>
 
+
       <button
         type="submit"
         class="submit-button"
         id="submitButton"
       >
-        BLOCCA IL TUO POSTO
+        RICHIEDI ACCESSO
       </button>
 
       <div
@@ -891,39 +862,61 @@
         id="formStatus"
       ></div>
 
+      <div
+        class="ticket-status"
+        id="ticketStatus"
+      ></div>
+
     </form>
+
 
     <div class="registration-bottom">
       ROTAROTT
     </div>
 
-    <div class="registration-footer">
+
+    <footer class="footer">
       <span>MÆDNESS®</span>
       <span>FOGGIA / 2026</span>
-    </div>
+    </footer>
 
   </section>
 
+
   <script>
-    /* ELEMENTS */
+
+    /* =========================
+       ELEMENTS
+    ========================= */
 
     const progress =
-      document.getElementById("progress");
+      document.querySelector(".progress");
 
     const hero =
-      document.getElementById("hero");
+      document.querySelector(".hero");
 
     const heroLogo =
-      document.getElementById("heroLogo");
+      document.querySelector(".hero-logo");
 
     const motionWord =
-      document.getElementById("motionWord");
+      document.querySelector(".motion-word");
 
-    const graphicCircle =
-      document.getElementById("graphicCircle");
+    const crosses =
+      document.querySelectorAll(".graphic-cross");
 
-    const lines =
-      document.querySelectorAll(".graphic-line");
+    const markers =
+      document.querySelectorAll(".graphic-marker");
+
+    const brackets =
+      document.querySelectorAll(".graphic-bracket");
+
+    const dots =
+      document.querySelector(".graphic-dots");
+
+
+    /* =========================
+       INSTAGRAM
+    ========================= */
 
     const instagramButton =
       document.getElementById("instagramButton");
@@ -934,20 +927,8 @@
     const instagramStatus =
       document.getElementById("instagramStatus");
 
-    const registrationForm =
-      document.getElementById("registrationForm");
-
-    const submitButton =
-      document.getElementById("submitButton");
-
-    const formStatus =
-      document.getElementById("formStatus");
-
-
-    /* INSTAGRAM MEMORY */
-
-    const INSTAGRAM_MEMORY_KEY =
-      "maedness_instagram_clicked";
+    const instagramUrl =
+      "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80";
 
 
     function activateInstagramState() {
@@ -965,144 +946,223 @@
     }
 
 
-    function checkInstagramMemory() {
-
-      const alreadyClicked =
-        sessionStorage.getItem(
-          INSTAGRAM_MEMORY_KEY
-        );
-
-      if (alreadyClicked === "true") {
-
-        activateInstagramState();
-
-      }
-
+    if (
+      sessionStorage.getItem(
+        "maedness_instagram_clicked"
+      ) === "true"
+    ) {
+      activateInstagramState();
     }
 
-
-    /* INSTAGRAM CLICK */
 
     instagramButton.addEventListener(
       "click",
       () => {
 
         sessionStorage.setItem(
-          INSTAGRAM_MEMORY_KEY,
+          "maedness_instagram_clicked",
           "true"
         );
 
-        instagramButton.classList.remove(
-          "glitch"
-        );
-
-        void instagramButton.offsetWidth;
-
-        instagramButton.classList.add(
-          "glitch"
-        );
+        activateInstagramState();
 
         window.open(
-          "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
+          instagramUrl,
           "_blank",
           "noopener,noreferrer"
         );
-
-        activateInstagramState();
 
       }
     );
 
 
-    /* SCROLL ANIMATION */
+    /* =========================
+       SCROLL ENGINE
+    ========================= */
 
     let ticking = false;
 
-
     function updateScroll() {
 
-      const scrollTop =
-        window.scrollY;
+      const scrollY = window.scrollY;
 
-      const documentHeight =
+      const maxScroll =
         document.documentElement.scrollHeight -
         window.innerHeight;
 
-      const scrollPercent =
-        documentHeight > 0
-          ? scrollTop / documentHeight
+      const progressValue =
+        maxScroll > 0
+          ? scrollY / maxScroll
           : 0;
 
-
-      /* Progress */
-
       progress.style.height =
-        `${scrollPercent * 100}%`;
+        `${progressValue * 100}%`;
 
 
-      /* Hero parallax */
+      /* HERO PARALLAX */
 
-      const heroOffset =
-        Math.min(
-          scrollTop * 0.22,
-          120
-        );
+      if (hero) {
 
-      hero.style.backgroundPosition =
-        `center calc(50% + ${heroOffset}px)`;
+        const heroOffset =
+          Math.min(scrollY * 0.12, 80);
 
+        hero.style.backgroundPosition =
+          `center ${50 + heroOffset / 3}%`;
 
-      /* Hero logo */
-
-      const logoMove =
-        Math.min(
-          scrollTop * 0.08,
-          45
-        );
-
-      heroLogo.style.transform =
-        `translateX(${-3 + logoMove}px)`;
+      }
 
 
-      /* Motion word */
+      /* HERO LOGO */
 
-      const motionMove =
-        scrollTop * -0.18;
+      if (heroLogo) {
 
-      motionWord.style.transform =
-        `translateX(${motionMove}px)`;
+        const logoMovement =
+          scrollY * 0.055;
 
+        heroLogo.style.transform =
+          `translateX(${logoMovement}px)`;
 
-      /* Lines */
-
-      lines.forEach(
-        (line, index) => {
-
-          const movement =
-            scrollTop *
-            (0.12 + index * 0.035);
-
-          line.style.transform =
-            `translateX(${movement}px) rotate(-28deg)`;
-
-        }
-      );
+      }
 
 
-      /* Circle */
+      /* MOTION WORD */
 
-      const rotation =
-        scrollTop * 0.18;
+      if (motionWord) {
 
-      const scale =
-        1 +
-        Math.min(
-          scrollTop / 3000,
-          .25
-        );
+        const motionMovement =
+          scrollY * -0.12;
 
-      graphicCircle.style.transform =
-        `rotate(${rotation}deg) scale(${scale})`;
+        motionWord.style.transform =
+          `translateX(${motionMovement}px)`;
+
+      }
+
+
+      /*
+        CROSS 1
+        movimento verticale + rotazione
+      */
+
+      if (crosses[0]) {
+
+        crosses[0].style.transform =
+          `translate(
+            ${scrollY * 0.025}px,
+            ${scrollY * -0.055}px
+          )
+          rotate(${scrollY * 0.16}deg)`;
+
+      }
+
+
+      /*
+        CROSS 2
+        movimento opposto
+      */
+
+      if (crosses[1]) {
+
+        crosses[1].style.transform =
+          `translate(
+            ${scrollY * -0.018}px,
+            ${scrollY * 0.075}px
+          )
+          rotate(${scrollY * -0.12}deg)`;
+
+      }
+
+
+      /*
+        CROSS 3
+        più piccolo e veloce
+      */
+
+      if (crosses[2]) {
+
+        crosses[2].style.transform =
+          `translate(
+            ${scrollY * 0.035}px,
+            ${scrollY * -0.09}px
+          )
+          rotate(${scrollY * 0.28}deg)`;
+
+      }
+
+
+      /*
+        MARKER 1
+        ruota + si sposta lateralmente
+      */
+
+      if (markers[0]) {
+
+        markers[0].style.transform =
+          `translate(
+            ${scrollY * -0.04}px,
+            ${scrollY * 0.08}px
+          )
+          rotate(${scrollY * 0.18}deg)`;
+
+      }
+
+
+      /*
+        MARKER 2
+      */
+
+      if (markers[1]) {
+
+        markers[1].style.transform =
+          `translate(
+            ${scrollY * 0.025}px,
+            ${scrollY * -0.065}px
+          )
+          rotate(${scrollY * -0.25}deg)`;
+
+      }
+
+
+      /*
+        BRACKET 1
+      */
+
+      if (brackets[0]) {
+
+        brackets[0].style.transform =
+          `translateY(${scrollY * -0.045}px)
+           rotate(${scrollY * 0.025}deg)`;
+
+      }
+
+
+      /*
+        BRACKET 2
+      */
+
+      if (brackets[1]) {
+
+        brackets[1].style.transform =
+          `translateY(${scrollY * 0.06}px)
+           rotate(${scrollY * -0.035}deg)`;
+
+      }
+
+
+      /*
+        DOT GRID
+        effetto "floating"
+      */
+
+      if (dots) {
+
+        dots.style.transform =
+          `translate(
+            ${scrollY * -0.035}px,
+            ${scrollY * 0.12}px
+          )
+          rotate(${scrollY * 0.03}deg)`;
+
+      }
 
 
       ticking = false;
@@ -1129,68 +1189,122 @@
     );
 
 
-    /* TOUCH PARALLAX */
-
-    let touchStartY = 0;
+    updateScroll();
 
 
-    window.addEventListener(
+    /* =========================
+       TOUCH PARALLAX
+    ========================= */
+
+    let touchStartX = 0;
+
+    document.addEventListener(
       "touchstart",
       (event) => {
 
-        touchStartY =
-          event.touches[0].clientY;
+        if (
+          event.touches &&
+          event.touches.length
+        ) {
+
+          touchStartX =
+            event.touches[0].clientX;
+
+        }
 
       },
       { passive: true }
     );
 
 
-    window.addEventListener(
+    document.addEventListener(
       "touchmove",
       (event) => {
 
-        const currentY =
-          event.touches[0].clientY;
+        if (
+          !event.touches ||
+          !event.touches.length ||
+          !heroLogo
+        ) {
+          return;
+        }
+
+        const currentX =
+          event.touches[0].clientX;
 
         const delta =
-          touchStartY - currentY;
+          currentX - touchStartX;
 
         heroLogo.style.transform =
-          `translateX(${-3 + delta * .025}px)`;
+          `translateX(${delta * 0.12}px)`;
 
       },
       { passive: true }
     );
 
 
-    /* FORM */
+    /* =========================
+       FORM
+    ========================= */
 
-    registrationForm.addEventListener(
+    const form =
+      document.getElementById("accessForm");
+
+    const submitButton =
+      document.getElementById("submitButton");
+
+    const formStatus =
+      document.getElementById("formStatus");
+
+    const ticketStatus =
+      document.getElementById("ticketStatus");
+
+
+    form.addEventListener(
       "submit",
       (event) => {
 
         event.preventDefault();
 
+        submitButton.classList.add("loading");
+
         submitButton.textContent =
           "CREATING ACCESS...";
-
-        submitButton.style.background =
-          "#ff0000";
 
         formStatus.textContent =
           "GENERAZIONE ACCESSO IN CORSO";
 
+        formStatus.classList.remove(
+          "success"
+        );
+
+        ticketStatus.textContent = "";
+
+
         setTimeout(
           () => {
+
+            submitButton.classList.remove(
+              "loading"
+            );
 
             submitButton.textContent =
               "ACCESS REQUESTED ✓";
 
             submitButton.style.background =
-              "#20d878";
+              "var(--green)";
+
+            submitButton.style.color =
+              "var(--black)";
 
             formStatus.textContent =
+              "ACCESS REQUESTED ✓";
+
+            formStatus.classList.add(
+              "success"
+            );
+
+            ticketStatus.textContent =
               "TICKET SYSTEM — COMING NEXT";
 
           },
@@ -1200,11 +1314,6 @@
       }
     );
 
-
-    /* INITIALIZATION */
-
-    checkInstagramMemory();
-    updateScroll();
   </script>
 
 </body>
