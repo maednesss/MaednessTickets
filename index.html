@@ -200,7 +200,7 @@
           rgba(0, 0, 0, 0.25),
           rgba(0, 0, 0, 0.88)
         ),
-        url("https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1400&q=85")
+        url("https://cdn.phototourl.com/member/2026-09-23-5b98fa2f-bc01-4af6-a18b-37b5a336f005.png")
         center / cover;
 
       isolation: isolate;
@@ -229,6 +229,47 @@
     .hero-content {
       position: relative;
       z-index: 2;
+    }
+
+    .hero-logo {
+      position: absolute;
+      top: 68px;
+      right: 15px;
+      z-index: 3;
+
+      width: 58px;
+      height: auto;
+
+      object-fit: contain;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 12px;
+      left: 15px;
+      z-index: 3;
+
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+
+      color: rgba(255, 255, 255, 0.65);
+
+      animation: scrollPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%,
+      100% {
+        opacity: 0.45;
+        transform: translateY(0);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translateY(4px);
+      }
     }
 
     .hero-small {
@@ -779,6 +820,14 @@
         01 / ROTAROTT
       </div>
 
+      <!-- LOGO -->
+
+      <img
+        class="hero-logo"
+        src="https://cdn.phototourl.com/member/2026-09-23-ae1331d5-e0a2-4a67-9cda-efdbecdb40d2.png"
+        alt="MÆDNESS®"
+      />
+
       <div class="hero-content">
 
         <div class="hero-small">
@@ -803,6 +852,12 @@
 
         </div>
 
+      </div>
+
+      <!-- SCROLL INDICATOR -->
+
+      <div class="hero-scroll">
+        SCROLL ↓
       </div>
 
     </section>
