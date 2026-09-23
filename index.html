@@ -134,48 +134,6 @@
       overflow: hidden;
     }
 
-    .graphic-line {
-      position: absolute;
-      width: 170%;
-      height: 1px;
-      background: rgba(255,255,255,.28);
-      transform-origin: left center;
-    }
-
-    .line-1 {
-      top: 31%;
-      left: -35%;
-      transform: rotate(-28deg);
-    }
-
-    .line-2 {
-      top: 48%;
-      left: -30%;
-      transform: rotate(-28deg);
-    }
-
-    .line-3 {
-      top: 66%;
-      left: -25%;
-      transform: rotate(-28deg);
-    }
-
-    .line-4 {
-      top: 83%;
-      left: -20%;
-      transform: rotate(-28deg);
-    }
-
-    .graphic-circle {
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border: 1px solid rgba(255,0,0,.5);
-      border-radius: 50%;
-      right: -70px;
-      top: 43%;
-    }
-
     .micro {
       position: absolute;
       font-size: 7px;
@@ -680,12 +638,6 @@
   </div>
 
   <div class="graphics">
-    <div class="graphic-line line-1"></div>
-    <div class="graphic-line line-2"></div>
-    <div class="graphic-line line-3"></div>
-    <div class="graphic-line line-4"></div>
-
-    <div class="graphic-circle" id="graphicCircle"></div>
 
     <div class="micro micro-1">
       41°27'N / 15°33'E
@@ -702,6 +654,7 @@
     <div class="micro micro-4">
       ACCESS / 2026
     </div>
+
   </div>
 
   <section class="hero" id="hero">
@@ -883,7 +836,6 @@
         class="submit-button"
         id="submitButton"
       >
-      
         BLOCCA IL TUO POSTO
       </button>
 
@@ -919,12 +871,6 @@
 
     const motionWord =
       document.getElementById("motionWord");
-
-    const graphicCircle =
-      document.getElementById("graphicCircle");
-
-    const lines =
-      document.querySelectorAll(".graphic-line");
 
     const instagramButton =
       document.getElementById("instagramButton");
@@ -1072,38 +1018,6 @@
 
       motionWord.style.transform =
         `translateX(${motionMove}px)`;
-
-
-      /* Lines */
-
-      lines.forEach(
-        (line, index) => {
-
-          const movement =
-            scrollTop *
-            (0.12 + index * 0.035);
-
-          line.style.transform =
-            `translateX(${movement}px) rotate(-28deg)`;
-
-        }
-      );
-
-
-      /* Circle */
-
-      const rotation =
-        scrollTop * 0.18;
-
-      const scale =
-        1 +
-        Math.min(
-          scrollTop / 3000,
-          .25
-        );
-
-      graphicCircle.style.transform =
-        `rotate(${rotation}deg) scale(${scale})`;
 
 
       ticking = false;
