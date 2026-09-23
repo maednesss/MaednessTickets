@@ -1,899 +1,1244 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>MÆDNESS — ROTAROTT</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;800;900&display=swap');
-
-:root{
-  --red:#ff0000;
-  --black:#050505;
-  --white:#fff;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html{
-  background:#050505;
-}
-
-body{
-  background:#050505;
-  color:white;
-  font-family:Inter,sans-serif;
-  overflow-x:hidden;
-}
-
-/* =========================
-   GLOBAL
-========================= */
-
-.page{
-  position:relative;
-  overflow:hidden;
-}
-
-.noise{
-  position:fixed;
-  inset:-100%;
-  z-index:1000;
-  pointer-events:none;
-  opacity:.045;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation:noise .18s steps(2) infinite;
-}
-
-@keyframes noise{
-  0%{transform:translate(0,0)}
-  25%{transform:translate(3%,-2%)}
-  50%{transform:translate(-2%,3%)}
-  75%{transform:translate(2%,2%)}
-  100%{transform:translate(-3%,-3%)}
-}
-
-/* =========================
-   TOP BAR
-========================= */
-
-.top{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  z-index:500;
-  padding:18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:9px;
-  letter-spacing:3px;
-  pointer-events:none;
-  mix-blend-mode:difference;
-}
-
-.top strong{
-  font-size:13px;
-  letter-spacing:2px;
-}
-
-/* =========================
-   SCROLL BAR
-========================= */
-
-.scroll-progress{
-  position:fixed;
-  right:0;
-  top:0;
-  width:3px;
-  height:100vh;
-  background:#222;
-  z-index:600;
-}
-
-.scroll-progress span{
-  display:block;
-  width:100%;
-  height:0;
-  background:var(--red);
-}
-
-/* =========================
-   FLOATING GRAPHICS
-========================= */
-
-.graphics{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:300;
-  overflow:hidden;
-}
-
-.line{
-  position:absolute;
-  height:1px;
-  background:white;
-  opacity:.45;
-}
-
-.line.red{
-  background:var(--red);
-  opacity:.9;
-}
-
-.l1{
-  width:120vw;
-  left:-40vw;
-  top:24%;
-  transform:rotate(-12deg);
-}
-
-.l2{
-  width:100vw;
-  left:-20vw;
-  top:64%;
-  transform:rotate(7deg);
-}
-
-.l3{
-  width:70vw;
-  right:-35vw;
-  top:43%;
-  transform:rotate(-32deg);
-}
-
-.l4{
-  width:130vw;
-  left:-50vw;
-  top:82%;
-  transform:rotate(-4deg);
-}
-
-.circle{
-  position:absolute;
-  width:150px;
-  height:150px;
-  border:1px solid var(--red);
-  border-radius:50%;
-  left:50%;
-  top:55%;
-  transform:translate(-50%,-50%);
-  opacity:.35;
-}
-
-.circle::before,
-.circle::after{
-  content:"";
-  position:absolute;
-  inset:18px;
-  border:1px solid white;
-  border-radius:50%;
-  opacity:.25;
-}
-
-.circle::after{
-  inset:45px;
-  border-color:var(--red);
-}
-
-.micro{
-  position:absolute;
-  font-size:7px;
-  letter-spacing:3px;
-  color:white;
-  opacity:.5;
-}
-
-.m1{top:18%;left:18px}
-.m2{top:36%;right:18px}
-.m3{top:71%;left:18px}
-.m4{top:88%;right:18px}
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-  height:82svh;
-  min-height:570px;
-  position:relative;
-  overflow:hidden;
-}
-
-.hero-image{
-  position:absolute;
-  inset:-12%;
-
-  background-image:
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,.35),
-      rgba(0,0,0,.2) 35%,
-      rgba(0,0,0,.92) 100%
-    ),
-    url("https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=85");
-
-  background-size:cover;
-  background-position:center;
-
-  filter:
-    grayscale(100%)
-    contrast(1.3)
-    brightness(.48);
-
-  transform:scale(1.12);
-  will-change:transform;
-}
-
-.hero-image::after{
-  content:"";
-  position:absolute;
-  inset:0;
-
-  background:
-    radial-gradient(
-      circle at 50% 40%,
-      rgba(255,0,0,.2),
-      transparent 45%
-    ),
-    linear-gradient(
-      120deg,
-      rgba(255,0,0,.2),
-      transparent 50%
-    );
-}
-
-.red-glow{
-  position:absolute;
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  background:var(--red);
-  filter:blur(90px);
-  opacity:.3;
-  left:50%;
-  top:42%;
-  transform:translate(-50%,-50%);
-  animation:pulse 2.8s ease-in-out infinite alternate;
-}
-
-@keyframes pulse{
-  from{transform:translate(-50%,-50%) scale(.7);opacity:.15}
-  to{transform:translate(-50%,-50%) scale(1.4);opacity:.4}
-}
-
-.hero-content{
-  position:absolute;
-  inset:0;
-  z-index:10;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  padding:20px 20px 48px;
-}
-
-.kicker{
-  font-size:8px;
-  letter-spacing:5px;
-  margin-bottom:18px;
-  font-weight:700;
-}
-
-.logo-title{
-  font-family:Anton,sans-serif;
-  font-size:31vw;
-  line-height:.63;
-  letter-spacing:-5px;
-  white-space:nowrap;
-  transform:translateX(-4vw);
-  will-change:transform;
-}
-
-.logo-title span{
-  color:var(--red);
-}
-
-.event{
-  margin-top:28px;
-}
-
-.event small{
-  display:block;
-  font-size:8px;
-  letter-spacing:4px;
-  margin-bottom:8px;
-}
-
-.event h1{
-  font-family:Anton,sans-serif;
-  font-size:18vw;
-  line-height:.72;
-  letter-spacing:-3px;
-}
-
-.event-date{
-  margin-top:10px;
-  color:var(--red);
-  font-weight:800;
-  font-size:10px;
-  letter-spacing:3px;
-}
-
-.scroll{
-  position:absolute;
-  bottom:15px;
-  left:20px;
-  z-index:20;
-  font-size:7px;
-  letter-spacing:4px;
-  display:flex;
-  gap:9px;
-  align-items:center;
-}
-
-.scroll i{
-  width:32px;
-  height:1px;
-  background:var(--red);
-}
-
-/* =========================
-   BETWEEN
-========================= */
-
-.between{
-  height:32svh;
-  min-height:230px;
-  position:relative;
-  background:#050505;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.moving-word{
-  font-family:Anton,sans-serif;
-  font-size:35vw;
-  line-height:.7;
-  color:transparent;
-  -webkit-text-stroke:1px rgba(255,255,255,.2);
-  white-space:nowrap;
-  transform:translateX(0);
-  will-change:transform;
-}
-
-.red-block{
-  position:absolute;
-  width:100%;
-  height:35px;
-  background:var(--red);
-  transform:rotate(-7deg) scaleX(1.2);
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-  mix-blend-mode:screen;
-}
-
-.red-block span{
-  white-space:nowrap;
-  font-family:Anton,sans-serif;
-  color:#050505;
-  font-size:20px;
-  letter-spacing:2px;
-  animation:marquee 7s linear infinite;
-}
-
-@keyframes marquee{
-  from{transform:translateX(0)}
-  to{transform:translateX(-50%)}
-}
-
-/* =========================
-   REGISTRATION
-========================= */
-
-.register{
-  min-height:88svh;
-  position:relative;
-  padding:55px 20px 35px;
-  background:#fff;
-  color:#050505;
-  overflow:hidden;
-}
-
-.register::before{
-  content:"002";
-  position:absolute;
-  top:16px;
-  right:18px;
-  font-size:8px;
-  letter-spacing:4px;
-  color:var(--red);
-}
-
-.reg-kicker{
-  color:var(--red);
-  font-size:8px;
-  letter-spacing:5px;
-  font-weight:900;
-  margin-bottom:20px;
-}
-
-.reg-title{
-  font-family:Anton,sans-serif;
-  font-size:29vw;
-  line-height:.63;
-  letter-spacing:-5px;
-  margin-bottom:45px;
-}
-
-.reg-title span{
-  color:var(--red);
-}
-
-.form{
-  position:relative;
-  z-index:10;
-}
-
-.field{
-  margin-bottom:24px;
-}
-
-.field label{
-  display:block;
-  font-size:7px;
-  letter-spacing:4px;
-  margin-bottom:8px;
-  font-weight:800;
-}
-
-.field input{
-  width:100%;
-  border:0;
-  border-bottom:1px solid #111;
-  background:transparent;
-  color:#050505;
-  border-radius:0;
-  outline:none;
-  padding:8px 0 12px;
-  font-size:17px;
-  font-family:Inter,sans-serif;
-}
-
-.field input:focus{
-  border-bottom:2px solid var(--red);
-}
-
-.field input::placeholder{
-  color:#999;
-}
-
-.submit{
-  width:100%;
-  margin-top:8px;
-  padding:20px;
-  border:0;
-  background:#050505;
-  color:white;
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:4px;
-  transition:.2s;
-}
-
-.submit:active{
-  transform:scale(.97);
-  background:var(--red);
-}
-
-.status{
-  text-align:center;
-  min-height:18px;
-  margin-top:15px;
-  color:var(--red);
-  font-size:7px;
-  letter-spacing:2px;
-}
-
-.bottom-type{
-  position:absolute;
-  bottom:-8px;
-  left:15px;
-  font-family:Anton,sans-serif;
-  font-size:18vw;
-  color:transparent;
-  -webkit-text-stroke:1px rgba(0,0,0,.12);
-  white-space:nowrap;
-}
-
-/* =========================
-   MOBILE ONLY
-========================= */
-
-@media(min-width:700px){
-
-  body{
-    background:#111;
-  }
-
-  .page{
-    max-width:430px;
-    margin:auto;
-    background:#050505;
-  }
-
-  body::after{
-    content:"MÆDNESS / MOBILE EXPERIENCE";
-    position:fixed;
-    inset:0;
-    z-index:9999;
-    background:#050505;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    font-size:10px;
-    letter-spacing:4px;
-  }
-
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+
+  <title>MÆDNESS® — ROTAROTT</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --red: #ff0000;
+      --black: #050505;
+      --white: #ffffff;
+      --green: #20d878;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--black);
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: "Inter", sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    /* =========================
+       MOBILE ONLY
+    ========================= */
+
+    .desktop-warning {
+      display: none;
+    }
+
+    @media (min-width: 700px) {
+      body > *:not(.desktop-warning) {
+        display: none !important;
+      }
+
+      .desktop-warning {
+        position: fixed;
+        inset: 0;
+        background: #050505;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px;
+        font-family: "Anton", sans-serif;
+        font-size: 34px;
+        letter-spacing: .04em;
+      }
+    }
+
+    /* =========================
+       TOP BAR
+    ========================= */
+
+    .topbar {
+      position: fixed;
+      z-index: 100;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 52px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 0 16px;
+
+      mix-blend-mode: difference;
+      pointer-events: none;
+    }
+
+    .top-logo {
+      font-family: "Anton", sans-serif;
+      font-size: 21px;
+      letter-spacing: .04em;
+    }
+
+    .top-event {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .15em;
+    }
+
+    /* =========================
+       SCROLL PROGRESS
+    ========================= */
+
+    .scroll-progress {
+      position: fixed;
+      z-index: 110;
+      top: 52px;
+      right: 7px;
+      width: 2px;
+      height: calc(100vh - 70px);
+      background: rgba(255,255,255,.2);
+    }
+
+    .scroll-progress span {
+      display: block;
+      width: 100%;
+      height: 0%;
+      background: var(--red);
+      transform-origin: top;
+    }
+
+    /* =========================
+       GRAPHIC OVERLAY
+    ========================= */
+
+    .graphics {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .graphic-line {
+      position: absolute;
+      width: 170%;
+      height: 1px;
+      background: rgba(255,255,255,.28);
+      transform-origin: left center;
+    }
+
+    .line-1 {
+      top: 31%;
+      left: -35%;
+      transform: rotate(-28deg);
+    }
+
+    .line-2 {
+      top: 48%;
+      left: -30%;
+      transform: rotate(-28deg);
+    }
+
+    .line-3 {
+      top: 66%;
+      left: -25%;
+      transform: rotate(-28deg);
+    }
+
+    .line-4 {
+      top: 83%;
+      left: -20%;
+      transform: rotate(-28deg);
+    }
+
+    .graphic-circle {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border: 1px solid rgba(255,0,0,.5);
+      border-radius: 50%;
+      right: -70px;
+      top: 43%;
+    }
+
+    .micro {
+      position: absolute;
+      font-size: 7px;
+      letter-spacing: .2em;
+      font-weight: 800;
+      white-space: nowrap;
+      opacity: .7;
+    }
+
+    .micro-1 {
+      top: 18%;
+      left: 15px;
+    }
+
+    .micro-2 {
+      top: 72%;
+      right: 14px;
+      transform: rotate(90deg);
+    }
+
+    .micro-3 {
+      bottom: 7%;
+      left: 15px;
+    }
+
+    .micro-4 {
+      top: 55%;
+      left: 14px;
+      transform: rotate(-90deg);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      position: relative;
+      height: 82svh;
+      min-height: 580px;
+      overflow: hidden;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+
+      padding: 0 16px 32px;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,.15),
+          rgba(0,0,0,.72)
+        ),
+        url("https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=85");
+
+      background-size: cover;
+      background-position: center;
+      filter: grayscale(1) contrast(1.15);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(
+          circle at 50% 50%,
+          transparent 20%,
+          rgba(255,0,0,.14) 70%,
+          rgba(0,0,0,.55) 100%
+        );
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .18;
+      pointer-events: none;
+
+      background-image:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0px,
+          transparent 3px,
+          rgba(255,255,255,.25) 4px
+        );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-small {
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .25em;
+      margin-bottom: 7px;
+    }
+
+    .hero-logo {
+      font-family: "Anton", sans-serif;
+      font-size: clamp(70px, 23vw, 120px);
+      line-height: .78;
+      letter-spacing: -.035em;
+      white-space: nowrap;
+
+      text-shadow:
+        4px 0 var(--red),
+        -2px 0 rgba(255,255,255,.3);
+
+      transform: translateX(-3px);
+    }
+
+    .hero-event {
+      margin-top: 18px;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-event-name {
+      font-family: "Anton", sans-serif;
+      font-size: 38px;
+      line-height: .9;
+      letter-spacing: .01em;
+    }
+
+    .hero-event-meta {
+      font-size: 8px;
+      line-height: 1.5;
+      letter-spacing: .16em;
+      font-weight: 800;
+    }
+
+    .scroll-label {
+      position: absolute;
+      z-index: 4;
+      right: 16px;
+      bottom: 31px;
+
+      font-size: 7px;
+      letter-spacing: .3em;
+      font-weight: 900;
+
+      writing-mode: vertical-rl;
+    }
+
+    .scroll-label::after {
+      content: "";
+      display: block;
+      width: 1px;
+      height: 35px;
+      margin: 8px auto 0;
+      background: var(--white);
+    }
+
+    /* =========================
+       MOTION SECTION
+    ========================= */
+
+    .motion {
+      position: relative;
+      height: 32svh;
+      min-height: 220px;
+      overflow: hidden;
+
+      display: flex;
+      align-items: center;
+
+      background: var(--black);
+    }
+
+    .motion-word {
+      position: absolute;
+      left: -8%;
+      white-space: nowrap;
+
+      font-family: "Anton", sans-serif;
+      font-size: 29vw;
+      line-height: .8;
+
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,.35);
+
+      transform: translateX(0);
+    }
+
+    .marquee {
+      position: absolute;
+      left: -20%;
+      width: 145%;
+      padding: 13px 0;
+
+      background: var(--red);
+      color: var(--black);
+
+      transform: rotate(-7deg);
+      overflow: hidden;
+    }
+
+    .marquee-track {
+      white-space: nowrap;
+
+      font-family: "Anton", sans-serif;
+      font-size: 25px;
+      letter-spacing: .03em;
+
+      animation: marquee 9s linear infinite;
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-35%);
+      }
+    }
+
+    /* =========================
+       REGISTRATION
+    ========================= */
+
+    .registration {
+      position: relative;
+      z-index: 5;
+
+      background: var(--white);
+      color: var(--black);
+
+      padding: 24px 16px 45px;
+      min-height: 680px;
+    }
+
+    .registration-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 22px;
+
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .2em;
+    }
+
+    .registration-top span:last-child {
+      color: var(--red);
+    }
+
+    .register-title {
+      font-family: "Anton", sans-serif;
+      font-size: 76px;
+      line-height: .78;
+      letter-spacing: -.02em;
+
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .2em;
+    }
+
+    .form-group input {
+      width: 100%;
+      height: 52px;
+
+      border: 1px solid #000;
+      border-radius: 0;
+
+      padding: 0 13px;
+
+      background: #fff;
+      color: #000;
+
+      outline: none;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .form-group input:focus {
+      border-color: var(--red);
+      box-shadow: inset 4px 0 0 var(--red);
+    }
+
+    /* =========================
+       INSTAGRAM BUTTON
+    ========================= */
+
+    .instagram-box {
+      margin-top: 22px;
+      margin-bottom: 18px;
+    }
+
+    .instagram-button {
+      position: relative;
+
+      width: 100%;
+      min-height: 58px;
+
+      border: 2px solid #000;
+      border-radius: 0;
+
+      background: #fff;
+      color: #000;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+
+      cursor: pointer;
+      overflow: hidden;
+
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .07em;
+
+      transition:
+        background .25s ease,
+        color .25s ease,
+        border-color .25s ease,
+        transform .12s ease;
+    }
+
+    .instagram-button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+
+      background: var(--red);
+
+      transition: left .25s ease;
+      z-index: 0;
+    }
+
+    .instagram-button:hover::before {
+      left: 0;
+    }
+
+    .instagram-button:active {
+      transform: scale(.97);
+    }
+
+    .instagram-button > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .instagram-icon {
+      width: 22px;
+      height: 22px;
+      flex: 0 0 22px;
+    }
+
+    .instagram-icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .instagram-status {
+      min-height: 16px;
+
+      margin-top: 7px;
+
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: .15em;
+      text-align: center;
+
+      opacity: .55;
+    }
+
+    .instagram-button.clicked {
+      background: var(--green);
+      border-color: var(--green);
+      color: #000;
+
+      animation: instaClick .42s ease;
+    }
+
+    .instagram-button.clicked::before {
+      display: none;
+    }
+
+    .instagram-button.clicked .instagram-icon {
+      animation: iconPop .45s ease;
+    }
+
+    @keyframes instaClick {
+      0% {
+        transform: scale(1);
+      }
+
+      35% {
+        transform: scale(.95);
+      }
+
+      65% {
+        transform: scale(1.025);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes iconPop {
+      0% {
+        transform: rotate(0) scale(1);
+      }
+
+      45% {
+        transform: rotate(-12deg) scale(1.25);
+      }
+
+      100% {
+        transform: rotate(0) scale(1);
+      }
+    }
+
+    .instagram-status.active {
+      opacity: 1;
+      color: #15934c;
+    }
+
+    /* =========================
+       SUBMIT
+    ========================= */
+
+    .submit-button {
+      width: 100%;
+      height: 58px;
+
+      margin-top: 7px;
+
+      border: 0;
+      border-radius: 0;
+
+      background: var(--black);
+      color: var(--white);
+
+      font-family: "Anton", sans-serif;
+      font-size: 21px;
+      letter-spacing: .04em;
+
+      cursor: pointer;
+
+      transition:
+        background .2s ease,
+        transform .12s ease;
+    }
+
+    .submit-button:active {
+      transform: scale(.98);
+    }
+
+    .submit-button:hover {
+      background: var(--red);
+    }
+
+    .form-status {
+      min-height: 20px;
+
+      margin-top: 10px;
+
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-align: center;
+    }
+
+    /* =========================
+       BOTTOM
+    ========================= */
+
+    .registration-bottom {
+      margin-top: 45px;
+
+      font-family: "Anton", sans-serif;
+      font-size: 17vw;
+      line-height: .75;
+
+      color: transparent;
+      -webkit-text-stroke: 1px #000;
+
+      white-space: nowrap;
+    }
+
+    .registration-footer {
+      margin-top: 28px;
+
+      display: flex;
+      justify-content: space-between;
+
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: .16em;
+    }
+
+    /* =========================
+       GLITCH
+    ========================= */
+
+    .glitch {
+      animation: glitch .22s steps(2, end);
+    }
+
+    @keyframes glitch {
+      0% {
+        transform: translate(0);
+      }
+
+      25% {
+        transform: translate(3px, -1px);
+      }
+
+      50% {
+        transform: translate(-3px, 1px);
+      }
+
+      75% {
+        transform: translate(2px, 0);
+      }
+
+      100% {
+        transform: translate(0);
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="noise"></div>
+  <!-- DESKTOP WARNING -->
+  <div class="desktop-warning">
+    MÆDNESS®<br>
+    MOBILE EXPERIENCE ONLY
+  </div>
 
-<div class="top">
-  <strong>MÆDNESS®</strong>
-  <span>ROTAROTT / 001</span>
-</div>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="top-logo">MÆDNESS®</div>
+    <div class="top-event">ROTAROTT / 001</div>
+  </header>
 
-<div class="scroll-progress">
-  <span></span>
-</div>
+  <!-- SCROLL PROGRESS -->
+  <div class="scroll-progress">
+    <span id="progress"></span>
+  </div>
 
-<div class="graphics">
+  <!-- FIXED GRAPHICS -->
+  <div class="graphics">
+    <div class="graphic-line line-1"></div>
+    <div class="graphic-line line-2"></div>
+    <div class="graphic-line line-3"></div>
+    <div class="graphic-line line-4"></div>
 
-  <div class="line l1"></div>
-  <div class="line red l2"></div>
-  <div class="line l3"></div>
-  <div class="line red l4"></div>
+    <div class="graphic-circle" id="graphicCircle"></div>
 
-  <div class="circle"></div>
+    <div class="micro micro-1">41°27'N / 15°33'E</div>
+    <div class="micro micro-2">NO SIGNAL / 001</div>
+    <div class="micro micro-3">MÆDNESS / FOGGIA</div>
+    <div class="micro micro-4">ACCESS / 2026</div>
+  </div>
 
-  <div class="micro m1">41°27'N / 15°33'E</div>
-  <div class="micro m2">NO SIGNAL / 001</div>
-  <div class="micro m3">MÆDNESS / FOGGIA</div>
-  <div class="micro m4">ACCESS / 2026</div>
+  <!-- HERO -->
+  <section class="hero" id="hero">
 
-</div>
+    <div class="hero-content">
 
+      <div class="hero-small">
+        MÆDNESS PRESENTS
+      </div>
 
-<div class="page">
+      <div class="hero-logo" id="heroLogo">
+        MÆDNESS
+      </div>
 
-<!-- =========================
-     HERO
-========================= -->
+      <div class="hero-event">
 
-<section class="hero">
+        <div class="hero-event-name">
+          ROTAROTT
+        </div>
 
-  <div class="hero-image"></div>
+        <div class="hero-event-meta">
+          18.10.2026<br>
+          FOGGIA / ITALY
+        </div>
 
-  <div class="red-glow"></div>
-
-  <div class="hero-content">
-
-    <div class="kicker">
-      MÆDNESS PRESENTS
-    </div>
-
-    <div class="logo-title">
-      MÆD<br>
-      <span>NESS</span>
-    </div>
-
-    <div class="event">
-
-      <small>THE NEXT EVENT</small>
-
-      <h1>ROTAROTT</h1>
-
-      <div class="event-date">
-        18.10.2026 — FOGGIA / ITALY
       </div>
 
     </div>
 
-  </div>
-
-  <div class="scroll">
-    <i></i>
-    SCROLL
-  </div>
-
-</section>
-
-
-<!-- =========================
-     MOTION
-========================= -->
-
-<section class="between">
-
-  <div class="moving-word">
-    MÆDNESS
-  </div>
-
-  <div class="red-block">
-    <span>
-      ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
-      ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
-    </span>
-  </div>
-
-</section>
-
-
-<!-- =========================
-     REGISTER
-========================= -->
-
-<section class="register">
-
-  <div class="reg-kicker">
-    002 / GET ACCESS
-  </div>
-
-  <div class="reg-title">
-    GET<br>
-    <span>IN.</span>
-  </div>
-
-  <form class="form" id="ticketForm">
-
-    <div class="field">
-      <label>NOME</label>
-      <input
-        type="text"
-        name="nome"
-        placeholder="Nome"
-        autocomplete="given-name"
-        required
-      >
+    <div class="scroll-label">
+      SCROLL
     </div>
 
-    <div class="field">
-      <label>COGNOME</label>
-      <input
-        type="text"
-        name="cognome"
-        placeholder="Cognome"
-        autocomplete="family-name"
-        required
-      >
+  </section>
+
+  <!-- MOTION -->
+  <section class="motion">
+
+    <div class="motion-word" id="motionWord">
+      MÆDNESS
     </div>
 
-    <div class="field">
-      <label>EMAIL</label>
-      <input
-        type="email"
-        name="email"
-        placeholder="nome@email.com"
-        autocomplete="email"
-        required
-      >
+    <div class="marquee">
+
+      <div class="marquee-track">
+        ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
+      </div>
+
     </div>
 
-    <button class="submit" type="submit">
-      OTTIENI IL TICKET →
-    </button>
+  </section>
 
-    <div class="status" id="status"></div>
+  <!-- REGISTRATION -->
+  <section class="registration">
 
-  </form>
+    <div class="registration-top">
+      <span>002 / GET ACCESS</span>
+      <span>ROTAROTT</span>
+    </div>
 
-  <div class="bottom-type">
-    ROTAROTT
-  </div>
+    <h2 class="register-title">
+      GET<br>
+      IN.
+    </h2>
 
-</section>
+    <form id="registrationForm">
 
-</div>
+      <!-- NAME -->
+      <div class="form-group">
+        <label for="name">
+          NOME
+        </label>
+
+        <input
+          id="name"
+          name="name"
+          type="text"
+          autocomplete="given-name"
+          required
+        />
+      </div>
+
+      <!-- SURNAME -->
+      <div class="form-group">
+        <label for="surname">
+          COGNOME
+        </label>
+
+        <input
+          id="surname"
+          name="surname"
+          type="text"
+          autocomplete="family-name"
+          required
+        />
+      </div>
+
+      <!-- EMAIL -->
+      <div class="form-group">
+        <label for="email">
+          EMAIL
+        </label>
+
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          placeholder="dove arriverà il tuo QR"
+          required
+        />
+      </div>
+
+      <!-- INSTAGRAM -->
+      <div class="instagram-box">
+
+        <button
+          type="button"
+          class="instagram-button"
+          id="instagramButton"
+          aria-label="Apri il profilo Instagram di MÆDNESS"
+        >
+
+          <span class="instagram-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+
+              <rect
+                x="3"
+                y="3"
+                width="18"
+                height="18"
+                rx="5"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+
+              <circle
+                cx="12"
+                cy="12"
+                r="4"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+
+              <circle
+                cx="17.5"
+                cy="6.5"
+                r="1.2"
+                fill="currentColor"
+              />
+
+            </svg>
+
+          </span>
+
+          <span id="instagramText">
+            SEGUI @maednesss
+          </span>
+
+        </button>
+
+        <div
+          class="instagram-status"
+          id="instagramStatus"
+        >
+          INSTAGRAM / OPTIONAL
+        </div>
+
+      </div>
+
+      <!-- SUBMIT -->
+      <button
+        type="submit"
+        class="submit-button"
+        id="submitButton"
+      >
+        RICHIEDI ACCESSO
+      </button>
+
+      <div
+        class="form-status"
+        id="formStatus"
+      ></div>
+
+    </form>
+
+    <div class="registration-bottom">
+      ROTAROTT
+    </div>
+
+    <div class="registration-footer">
+      <span>MÆDNESS®</span>
+      <span>FOGGIA / 2026</span>
+    </div>
+
+  </section>
 
 
-<script>
+  <script>
 
-/* ==========================================
-   SMOOTH SCROLL PROGRESS
-========================================== */
+    /* =========================
+       ELEMENTS
+    ========================= */
 
-const progress =
-  document.querySelector(".scroll-progress span");
+    const progress = document.getElementById("progress");
+    const hero = document.getElementById("hero");
+    const heroLogo = document.getElementById("heroLogo");
+    const motionWord = document.getElementById("motionWord");
+    const graphicCircle = document.getElementById("graphicCircle");
 
-const hero =
-  document.querySelector(".hero");
+    const lines = document.querySelectorAll(".graphic-line");
 
-const heroImage =
-  document.querySelector(".hero-image");
+    const instagramButton =
+      document.getElementById("instagramButton");
 
-const logo =
-  document.querySelector(".logo-title");
+    const instagramText =
+      document.getElementById("instagramText");
 
-const movingWord =
-  document.querySelector(".moving-word");
+    const instagramStatus =
+      document.getElementById("instagramStatus");
 
-const lines =
-  document.querySelectorAll(".line");
+    const registrationForm =
+      document.getElementById("registrationForm");
 
-const circle =
-  document.querySelector(".circle");
+    const submitButton =
+      document.getElementById("submitButton");
 
-let ticking = false;
-
-function updateScroll(){
-
-  const scroll =
-    window.scrollY;
-
-  const max =
-    document.documentElement.scrollHeight -
-    window.innerHeight;
-
-  const percent =
-    (scroll / max) * 100;
-
-  progress.style.height =
-    percent + "%";
+    const formStatus =
+      document.getElementById("formStatus");
 
 
-  /* HERO */
+    /* =========================
+       SCROLL ANIMATION
+    ========================= */
 
-  if(scroll < window.innerHeight){
+    let ticking = false;
 
-    heroImage.style.transform =
-      `scale(${1.12 + scroll * .0007})
-       translateY(${scroll * .08}px)`;
+    function updateScroll() {
 
-    logo.style.transform =
-      `translate(${scroll * -.025}vw,
-       ${scroll * -.08}px)`;
-  }
+      const scrollTop = window.scrollY;
 
+      const documentHeight =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
 
-  /* MOVING WORD */
+      const scrollPercent =
+        documentHeight > 0
+          ? scrollTop / documentHeight
+          : 0;
 
-  const wordStart =
-    window.innerHeight * .45;
-
-  const wordMovement =
-    Math.max(0, scroll - wordStart);
-
-  movingWord.style.transform =
-    `translateX(${wordMovement * -.18}px)`;
+      /* Progress */
+      progress.style.height =
+        `${scrollPercent * 100}%`;
 
 
-  /* GRAPHIC LINES */
+      /* Hero parallax */
+      const heroOffset =
+        Math.min(scrollTop * 0.22, 120);
 
-  lines.forEach((line,index)=>{
-
-    const speed =
-      (index + 1) * .35;
-
-    const direction =
-      index % 2 === 0 ? 1 : -1;
-
-    line.style.transform =
-      `translateX(${scroll * speed * direction}px)
-       rotate(${index === 1 ? 7 : index === 2 ? -32 : index === 3 ? -4 : -12}deg)`;
-
-  });
+      hero.style.backgroundPosition =
+        `center calc(50% + ${heroOffset}px)`;
 
 
-  /* CIRCLE */
+      /* Hero logo */
+      const logoMove =
+        Math.min(scrollTop * 0.08, 45);
 
-  circle.style.transform =
-    `translate(-50%,-50%)
-     rotate(${scroll * .12}deg)
-     scale(${1 + scroll * .00035})`;
+      heroLogo.style.transform =
+        `translateX(${-3 + logoMove}px)`;
 
-  ticking = false;
-}
 
-window.addEventListener(
-  "scroll",
-  ()=>{
-    if(!ticking){
-      requestAnimationFrame(updateScroll);
-      ticking=true;
+      /* Motion word */
+      const motionMove =
+        scrollTop * -0.18;
+
+      motionWord.style.transform =
+        `translateX(${motionMove}px)`;
+
+
+      /* Graphic lines */
+      lines.forEach((line, index) => {
+
+        const movement =
+          scrollTop * (0.12 + index * 0.035);
+
+        line.style.transform =
+          `translateX(${movement}px) rotate(-28deg)`;
+
+      });
+
+
+      /* Circle */
+      const rotation =
+        scrollTop * 0.18;
+
+      const scale =
+        1 + Math.min(scrollTop / 3000, .25);
+
+      graphicCircle.style.transform =
+        `rotate(${rotation}deg) scale(${scale})`;
+
+      ticking = false;
     }
-  },
-  {passive:true}
-);
 
 
-/* ==========================================
-   TOUCH PARALLAX
-========================================== */
+    window.addEventListener(
+      "scroll",
+      () => {
 
-window.addEventListener(
-  "touchmove",
-  (event)=>{
+        if (!ticking) {
 
-    const touch =
-      event.touches[0];
+          window.requestAnimationFrame(
+            updateScroll
+          );
 
-    const x =
-      (touch.clientX /
-      window.innerWidth - .5) * 10;
+          ticking = true;
 
-    const y =
-      (touch.clientY /
-      window.innerHeight - .5) * 10;
+        }
 
-    heroImage.style.marginLeft =
-      x + "px";
-
-    heroImage.style.marginTop =
-      y + "px";
-
-  },
-  {passive:true}
-);
+      },
+      { passive: true }
+    );
 
 
-/* ==========================================
-   FORM DEMO
-========================================== */
+    /* =========================
+       TOUCH PARALLAX
+    ========================= */
 
-const form =
-  document.getElementById("ticketForm");
+    let touchStartY = 0;
 
-const status =
-  document.getElementById("status");
+    window.addEventListener(
+      "touchstart",
+      (event) => {
 
-form.addEventListener(
-  "submit",
-  function(event){
+        touchStartY =
+          event.touches[0].clientY;
 
-    event.preventDefault();
+      },
+      { passive: true }
+    );
 
-    const button =
-      form.querySelector(".submit");
 
-    button.textContent =
-      "CREATING ACCESS...";
+    window.addEventListener(
+      "touchmove",
+      (event) => {
 
-    button.style.background =
-      "#ff0000";
+        const currentY =
+          event.touches[0].clientY;
 
-    setTimeout(()=>{
+        const delta =
+          touchStartY - currentY;
 
-      button.textContent =
-        "ACCESS REQUESTED ✓";
+        heroLogo.style.transform =
+          `translateX(${-3 + delta * .025}px)`;
 
-      status.textContent =
-        "TICKET SYSTEM — COMING NEXT";
+      },
+      { passive: true }
+    );
 
-    },1200);
 
-  }
-);
+    /* =========================
+       INSTAGRAM
+    ========================= */
 
-updateScroll();
+    instagramButton.addEventListener(
+      "click",
+      () => {
 
-</script>
+        /* Glitch */
+        instagramButton.classList.remove("glitch");
+
+        void instagramButton.offsetWidth;
+
+        instagramButton.classList.add("glitch");
+
+
+        /*
+          Opens Instagram.
+          We do NOT claim the user actually followed,
+          because the website cannot verify that.
+        */
+
+        window.open(
+          "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
+          "_blank",
+          "noopener,noreferrer"
+        );
+
+
+        /* Visual confirmation */
+        instagramButton.classList.add("clicked");
+
+        instagramText.textContent =
+          "INSTAGRAM APERTO ✓";
+
+        instagramStatus.textContent =
+          "GRAZIE PER IL SUPPORTO";
+
+        instagramStatus.classList.add("active");
+
+      }
+    );
+
+
+    /* =========================
+       FORM
+    ========================= */
+
+    registrationForm.addEventListener(
+      "submit",
+      (event) => {
+
+        event.preventDefault();
+
+
+        /*
+          DEMO ONLY
+
+          Qui successivamente collegheremo
+          il vero sistema ticket:
+          
+          Nome
+          Cognome
+          Email
+          Ticket ID
+          QR Code
+          Email automatica
+        */
+
+
+        submitButton.textContent =
+          "CREATING ACCESS...";
+
+        submitButton.style.background =
+          "#ff0000";
+
+
+        formStatus.textContent =
+          "GENERAZIONE ACCESSO IN CORSO";
+
+
+        setTimeout(() => {
+
+          submitButton.textContent =
+            "ACCESS REQUESTED ✓";
+
+          submitButton.style.background =
+            "#20d878";
+
+          formStatus.textContent =
+            "TICKET SYSTEM — COMING NEXT";
+
+        }, 1300);
+
+      }
+    );
+
+
+    /* Initial position */
+    updateScroll();
+
+  </script>
 
 </body>
 </html>
