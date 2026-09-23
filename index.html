@@ -98,11 +98,19 @@
       letter-spacing: .04em;
     }
 
-    .top-logo sup {
-      font-size: 16.8px;
+    .top-logo {
       position: relative;
-      top: -3px;
-      margin-left: -1px;
+    }
+
+    .top-logo::after {
+      content: "®";
+      position: relative;
+      top: -0.38em;
+      font-family: "Inter", sans-serif;
+      font-size: .42em;
+      font-weight: 800;
+      letter-spacing: 0;
+      margin-left: 1px;
     }
 
     .top-event {
@@ -642,7 +650,7 @@
   </div>
 
   <header class="topbar">
-    <div class="top-logo">MÆDNESS<sup>®</sup></div>
+    <div class="top-logo">MÆDNESS</div>
     <div class="top-event">ROTAROTT / 001</div>
   </header>
 
