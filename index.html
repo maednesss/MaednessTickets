@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -11,12 +12,14 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link
     href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;800;900&display=swap"
     rel="stylesheet"
-  />
+  >
 
   <style>
+
     :root {
       --red: #ff0000;
       --black: #050505;
@@ -48,6 +51,7 @@
       font: inherit;
     }
 
+
     /* =========================
        MOBILE ONLY
     ========================= */
@@ -57,6 +61,7 @@
     }
 
     @media (min-width: 700px) {
+
       body > *:not(.desktop-warning) {
         display: none !important;
       }
@@ -64,18 +69,23 @@
       .desktop-warning {
         position: fixed;
         inset: 0;
+
         background: #050505;
         color: #fff;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
         text-align: center;
         padding: 40px;
+
         font-family: "Anton", sans-serif;
         font-size: 34px;
         letter-spacing: .04em;
       }
     }
+
 
     /* =========================
        TOP BAR
@@ -84,8 +94,10 @@
     .topbar {
       position: fixed;
       z-index: 100;
+
       top: 0;
       left: 0;
+
       width: 100%;
       height: 52px;
 
@@ -96,6 +108,7 @@
       padding: 0 16px;
 
       mix-blend-mode: difference;
+
       pointer-events: none;
     }
 
@@ -111,6 +124,7 @@
       letter-spacing: .15em;
     }
 
+
     /* =========================
        SCROLL PROGRESS
     ========================= */
@@ -118,20 +132,27 @@
     .scroll-progress {
       position: fixed;
       z-index: 110;
+
       top: 52px;
       right: 7px;
+
       width: 2px;
       height: calc(100vh - 70px);
+
       background: rgba(255,255,255,.2);
     }
 
     .scroll-progress span {
       display: block;
+
       width: 100%;
       height: 0%;
+
       background: var(--red);
+
       transform-origin: top;
     }
+
 
     /* =========================
        GRAPHIC OVERLAY
@@ -140,16 +161,22 @@
     .graphics {
       position: fixed;
       inset: 0;
+
       z-index: 20;
+
       pointer-events: none;
+
       overflow: hidden;
     }
 
     .graphic-line {
       position: absolute;
+
       width: 170%;
       height: 1px;
+
       background: rgba(255,255,255,.28);
+
       transform-origin: left center;
     }
 
@@ -179,20 +206,27 @@
 
     .graphic-circle {
       position: absolute;
+
       width: 180px;
       height: 180px;
+
       border: 1px solid rgba(255,0,0,.5);
+
       border-radius: 50%;
+
       right: -70px;
       top: 43%;
     }
 
     .micro {
       position: absolute;
+
       font-size: 7px;
       letter-spacing: .2em;
       font-weight: 800;
+
       white-space: nowrap;
+
       opacity: .7;
     }
 
@@ -218,14 +252,17 @@
       transform: rotate(-90deg);
     }
 
+
     /* =========================
        HERO
     ========================= */
 
     .hero {
       position: relative;
+
       height: 82svh;
       min-height: 580px;
+
       overflow: hidden;
 
       display: flex;
@@ -243,14 +280,18 @@
         url("https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=85");
 
       background-size: cover;
+
       background-position: center;
+
       filter: grayscale(1) contrast(1.15);
     }
 
     .hero::before {
       content: "";
+
       position: absolute;
       inset: 0;
+
       background:
         radial-gradient(
           circle at 50% 50%,
@@ -258,14 +299,18 @@
           rgba(255,0,0,.14) 70%,
           rgba(0,0,0,.55) 100%
         );
+
       pointer-events: none;
     }
 
     .hero::after {
       content: "";
+
       position: absolute;
       inset: 0;
+
       opacity: .18;
+
       pointer-events: none;
 
       background-image:
@@ -286,14 +331,19 @@
       font-size: 9px;
       font-weight: 900;
       letter-spacing: .25em;
+
       margin-bottom: 7px;
     }
 
     .hero-logo {
       font-family: "Anton", sans-serif;
+
       font-size: clamp(70px, 23vw, 120px);
+
       line-height: .78;
+
       letter-spacing: -.035em;
+
       white-space: nowrap;
 
       text-shadow:
@@ -308,31 +358,42 @@
 
       display: flex;
       align-items: center;
+
       gap: 10px;
     }
 
     .hero-event-name {
       font-family: "Anton", sans-serif;
+
       font-size: 38px;
+
       line-height: .9;
+
       letter-spacing: .01em;
     }
 
     .hero-event-meta {
       font-size: 8px;
+
       line-height: 1.5;
+
       letter-spacing: .16em;
+
       font-weight: 800;
     }
 
     .scroll-label {
       position: absolute;
+
       z-index: 4;
+
       right: 16px;
       bottom: 31px;
 
       font-size: 7px;
+
       letter-spacing: .3em;
+
       font-weight: 900;
 
       writing-mode: vertical-rl;
@@ -340,12 +401,17 @@
 
     .scroll-label::after {
       content: "";
+
       display: block;
+
       width: 1px;
       height: 35px;
+
       margin: 8px auto 0;
+
       background: var(--white);
     }
+
 
     /* =========================
        MOTION SECTION
@@ -353,8 +419,10 @@
 
     .motion {
       position: relative;
+
       height: 32svh;
       min-height: 220px;
+
       overflow: hidden;
 
       display: flex;
@@ -365,14 +433,19 @@
 
     .motion-word {
       position: absolute;
+
       left: -8%;
+
       white-space: nowrap;
 
       font-family: "Anton", sans-serif;
+
       font-size: 29vw;
+
       line-height: .8;
 
       color: transparent;
+
       -webkit-text-stroke: 1px rgba(255,255,255,.35);
 
       transform: translateX(0);
@@ -380,14 +453,19 @@
 
     .marquee {
       position: absolute;
+
       left: -20%;
+
       width: 145%;
+
       padding: 13px 0;
 
       background: var(--red);
+
       color: var(--black);
 
       transform: rotate(-7deg);
+
       overflow: hidden;
     }
 
@@ -395,13 +473,16 @@
       white-space: nowrap;
 
       font-family: "Anton", sans-serif;
+
       font-size: 25px;
+
       letter-spacing: .03em;
 
       animation: marquee 9s linear infinite;
     }
 
     @keyframes marquee {
+
       from {
         transform: translateX(0);
       }
@@ -409,7 +490,9 @@
       to {
         transform: translateX(-35%);
       }
+
     }
+
 
     /* =========================
        REGISTRATION
@@ -417,24 +500,31 @@
 
     .registration {
       position: relative;
+
       z-index: 5;
 
       background: var(--white);
+
       color: var(--black);
 
       padding: 24px 16px 45px;
+
       min-height: 680px;
     }
 
     .registration-top {
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
 
       margin-bottom: 22px;
 
       font-size: 8px;
+
       font-weight: 900;
+
       letter-spacing: .2em;
     }
 
@@ -444,8 +534,11 @@
 
     .register-title {
       font-family: "Anton", sans-serif;
+
       font-size: 76px;
+
       line-height: .78;
+
       letter-spacing: -.02em;
 
       margin-bottom: 28px;
@@ -457,42 +550,53 @@
 
     .form-group label {
       display: block;
+
       margin-bottom: 7px;
 
       font-size: 8px;
+
       font-weight: 900;
+
       letter-spacing: .2em;
     }
 
     .form-group input {
       width: 100%;
+
       height: 52px;
 
       border: 1px solid #000;
+
       border-radius: 0;
 
       padding: 0 13px;
 
       background: #fff;
+
       color: #000;
 
       outline: none;
 
       font-size: 15px;
+
       font-weight: 600;
     }
 
     .form-group input:focus {
       border-color: var(--red);
-      box-shadow: inset 4px 0 0 var(--red);
+
+      box-shadow:
+        inset 4px 0 0 var(--red);
     }
 
+
     /* =========================
-       INSTAGRAM BUTTON
+       INSTAGRAM
     ========================= */
 
     .instagram-box {
       margin-top: 22px;
+
       margin-bottom: 18px;
     }
 
@@ -500,24 +604,33 @@
       position: relative;
 
       width: 100%;
+
       min-height: 58px;
 
       border: 2px solid #000;
+
       border-radius: 0;
 
       background: #fff;
+
       color: #000;
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       gap: 11px;
 
       cursor: pointer;
+
       overflow: hidden;
 
       font-size: 13px;
+
       font-weight: 900;
+
       letter-spacing: .07em;
 
       transition:
@@ -529,20 +642,20 @@
 
     .instagram-button::before {
       content: "";
+
       position: absolute;
+
       top: 0;
       left: -100%;
+
       width: 100%;
       height: 100%;
 
       background: var(--red);
 
       transition: left .25s ease;
-      z-index: 0;
-    }
 
-    .instagram-button:hover::before {
-      left: 0;
+      z-index: 0;
     }
 
     .instagram-button:active {
@@ -551,17 +664,20 @@
 
     .instagram-button > * {
       position: relative;
+
       z-index: 2;
     }
 
     .instagram-icon {
       width: 22px;
       height: 22px;
+
       flex: 0 0 22px;
     }
 
     .instagram-icon svg {
       display: block;
+
       width: 100%;
       height: 100%;
     }
@@ -572,8 +688,11 @@
       margin-top: 7px;
 
       font-size: 7px;
+
       font-weight: 900;
+
       letter-spacing: .15em;
+
       text-align: center;
 
       opacity: .55;
@@ -581,7 +700,9 @@
 
     .instagram-button.clicked {
       background: var(--green);
+
       border-color: var(--green);
+
       color: #000;
 
       animation: instaClick .42s ease;
@@ -596,6 +717,7 @@
     }
 
     @keyframes instaClick {
+
       0% {
         transform: scale(1);
       }
@@ -611,9 +733,11 @@
       100% {
         transform: scale(1);
       }
+
     }
 
     @keyframes iconPop {
+
       0% {
         transform: rotate(0) scale(1);
       }
@@ -625,12 +749,15 @@
       100% {
         transform: rotate(0) scale(1);
       }
+
     }
 
     .instagram-status.active {
       opacity: 1;
+
       color: #15934c;
     }
+
 
     /* =========================
        SUBMIT
@@ -638,18 +765,23 @@
 
     .submit-button {
       width: 100%;
+
       height: 58px;
 
       margin-top: 7px;
 
       border: 0;
+
       border-radius: 0;
 
       background: var(--black);
+
       color: var(--white);
 
       font-family: "Anton", sans-serif;
+
       font-size: 21px;
+
       letter-spacing: .04em;
 
       cursor: pointer;
@@ -673,10 +805,14 @@
       margin-top: 10px;
 
       font-size: 8px;
+
       font-weight: 900;
+
       letter-spacing: .14em;
+
       text-align: center;
     }
+
 
     /* =========================
        BOTTOM
@@ -686,10 +822,13 @@
       margin-top: 45px;
 
       font-family: "Anton", sans-serif;
+
       font-size: 17vw;
+
       line-height: .75;
 
       color: transparent;
+
       -webkit-text-stroke: 1px #000;
 
       white-space: nowrap;
@@ -699,12 +838,16 @@
       margin-top: 28px;
 
       display: flex;
+
       justify-content: space-between;
 
       font-size: 7px;
+
       font-weight: 900;
+
       letter-spacing: .16em;
     }
+
 
     /* =========================
        GLITCH
@@ -715,6 +858,7 @@
     }
 
     @keyframes glitch {
+
       0% {
         transform: translate(0);
       }
@@ -734,46 +878,99 @@
       100% {
         transform: translate(0);
       }
+
     }
+
   </style>
 </head>
 
+
 <body>
 
+
   <!-- DESKTOP WARNING -->
+
   <div class="desktop-warning">
+
     MÆDNESS®<br>
+
     MOBILE EXPERIENCE ONLY
+
   </div>
+
+
 
   <!-- TOP BAR -->
+
   <header class="topbar">
-    <div class="top-logo">MÆDNESS®</div>
-    <div class="top-event">ROTAROTT / 001</div>
+
+    <div class="top-logo">
+      MÆDNESS®
+    </div>
+
+    <div class="top-event">
+      ROTAROTT / 001
+    </div>
+
   </header>
 
+
+
   <!-- SCROLL PROGRESS -->
+
   <div class="scroll-progress">
+
     <span id="progress"></span>
+
   </div>
+
+
 
   <!-- FIXED GRAPHICS -->
+
   <div class="graphics">
+
     <div class="graphic-line line-1"></div>
+
     <div class="graphic-line line-2"></div>
+
     <div class="graphic-line line-3"></div>
+
     <div class="graphic-line line-4"></div>
 
-    <div class="graphic-circle" id="graphicCircle"></div>
 
-    <div class="micro micro-1">41°27'N / 15°33'E</div>
-    <div class="micro micro-2">NO SIGNAL / 001</div>
-    <div class="micro micro-3">MÆDNESS / FOGGIA</div>
-    <div class="micro micro-4">ACCESS / 2026</div>
+    <div
+      class="graphic-circle"
+      id="graphicCircle"
+    ></div>
+
+
+    <div class="micro micro-1">
+      41°27'N / 15°33'E
+    </div>
+
+    <div class="micro micro-2">
+      NO SIGNAL / 001
+    </div>
+
+    <div class="micro micro-3">
+      MÆDNESS / FOGGIA
+    </div>
+
+    <div class="micro micro-4">
+      ACCESS / 2026
+    </div>
+
   </div>
 
+
+
   <!-- HERO -->
-  <section class="hero" id="hero">
+
+  <section
+    class="hero"
+    id="hero"
+  >
 
     <div class="hero-content">
 
@@ -781,9 +978,14 @@
         MÆDNESS PRESENTS
       </div>
 
-      <div class="hero-logo" id="heroLogo">
+
+      <div
+        class="hero-logo"
+        id="heroLogo"
+      >
         MÆDNESS
       </div>
+
 
       <div class="hero-event">
 
@@ -791,14 +993,19 @@
           ROTAROTT
         </div>
 
+
         <div class="hero-event-meta">
+
           18.10.2026<br>
+
           FOGGIA / ITALY
+
         </div>
 
       </div>
 
     </div>
+
 
     <div class="scroll-label">
       SCROLL
@@ -806,40 +1013,70 @@
 
   </section>
 
+
+
   <!-- MOTION -->
+
   <section class="motion">
 
-    <div class="motion-word" id="motionWord">
+    <div
+      class="motion-word"
+      id="motionWord"
+    >
       MÆDNESS
     </div>
+
 
     <div class="marquee">
 
       <div class="marquee-track">
+
         ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
+
       </div>
 
     </div>
 
   </section>
 
+
+
   <!-- REGISTRATION -->
+
   <section class="registration">
 
+
     <div class="registration-top">
-      <span>002 / GET ACCESS</span>
-      <span>ROTAROTT</span>
+
+      <span>
+        002 / GET ACCESS
+      </span>
+
+      <span>
+        ROTAROTT
+      </span>
+
     </div>
 
+
+
     <h2 class="register-title">
+
       GET<br>
+
       IN.
+
     </h2>
+
+
 
     <form id="registrationForm">
 
+
       <!-- NAME -->
+
       <div class="form-group">
+
         <label for="name">
           NOME
         </label>
@@ -851,10 +1088,15 @@
           autocomplete="given-name"
           required
         />
+
       </div>
 
+
+
       <!-- SURNAME -->
+
       <div class="form-group">
+
         <label for="surname">
           COGNOME
         </label>
@@ -866,10 +1108,15 @@
           autocomplete="family-name"
           required
         />
+
       </div>
 
+
+
       <!-- EMAIL -->
+
       <div class="form-group">
+
         <label for="email">
           EMAIL
         </label>
@@ -882,10 +1129,15 @@
           placeholder="dove arriverà il tuo QR"
           required
         />
+
       </div>
 
+
+
       <!-- INSTAGRAM -->
+
       <div class="instagram-box">
+
 
         <button
           type="button"
@@ -894,7 +1146,9 @@
           aria-label="Apri il profilo Instagram di MÆDNESS"
         >
 
+
           <span class="instagram-icon">
+
 
             <svg
               viewBox="0 0 24 24"
@@ -930,13 +1184,17 @@
 
             </svg>
 
+
           </span>
+
 
           <span id="instagramText">
             SEGUI @maednesss
           </span>
 
+
         </button>
+
 
         <div
           class="instagram-status"
@@ -945,49 +1203,84 @@
           INSTAGRAM / OPTIONAL
         </div>
 
+
       </div>
 
+
+
       <!-- SUBMIT -->
+
       <button
         type="submit"
         class="submit-button"
         id="submitButton"
       >
+
         RICHIEDI ACCESSO
+
       </button>
+
 
       <div
         class="form-status"
         id="formStatus"
       ></div>
 
+
     </form>
 
+
+
     <div class="registration-bottom">
+
       ROTAROTT
+
     </div>
 
+
+
     <div class="registration-footer">
-      <span>MÆDNESS®</span>
-      <span>FOGGIA / 2026</span>
+
+      <span>
+        MÆDNESS®
+      </span>
+
+      <span>
+        FOGGIA / 2026
+      </span>
+
     </div>
+
 
   </section>
 
 
+
   <script>
+
 
     /* =========================
        ELEMENTS
     ========================= */
 
-    const progress = document.getElementById("progress");
-    const hero = document.getElementById("hero");
-    const heroLogo = document.getElementById("heroLogo");
-    const motionWord = document.getElementById("motionWord");
-    const graphicCircle = document.getElementById("graphicCircle");
+    const progress =
+      document.getElementById("progress");
 
-    const lines = document.querySelectorAll(".graphic-line");
+    const hero =
+      document.getElementById("hero");
+
+    const heroLogo =
+      document.getElementById("heroLogo");
+
+    const motionWord =
+      document.getElementById("motionWord");
+
+    const graphicCircle =
+      document.getElementById("graphicCircle");
+
+    const lines =
+      document.querySelectorAll(".graphic-line");
+
 
     const instagramButton =
       document.getElementById("instagramButton");
@@ -997,6 +1290,7 @@
 
     const instagramStatus =
       document.getElementById("instagramStatus");
+
 
     const registrationForm =
       document.getElementById("registrationForm");
@@ -1008,83 +1302,222 @@
       document.getElementById("formStatus");
 
 
+
+    /* =========================
+       INSTAGRAM MEMORY
+    ========================= */
+
+    const INSTAGRAM_MEMORY_KEY =
+      "maedness_instagram_clicked";
+
+
+    function activateInstagramState() {
+
+      instagramButton.classList.add("clicked");
+
+      instagramText.textContent =
+        "MÆDNESS MODE: ON ✓";
+
+      instagramStatus.textContent =
+        "SIGNAL RECEIVED";
+
+      instagramStatus.classList.add("active");
+
+    }
+
+
+
+    function checkInstagramMemory() {
+
+      const alreadyClicked =
+        localStorage.getItem(
+          INSTAGRAM_MEMORY_KEY
+        );
+
+      if (alreadyClicked === "true") {
+
+        activateInstagramState();
+
+      }
+
+    }
+
+
+
+    /* =========================
+       INSTAGRAM CLICK
+    ========================= */
+
+    instagramButton.addEventListener(
+      "click",
+      () => {
+
+
+        /*
+          SAVE MEMORY FIRST
+
+          Il browser ricorderà che
+          il pulsante è stato premuto.
+        */
+
+        localStorage.setItem(
+          INSTAGRAM_MEMORY_KEY,
+          "true"
+        );
+
+
+        /* GLITCH */
+
+        instagramButton.classList.remove(
+          "glitch"
+        );
+
+        void instagramButton.offsetWidth;
+
+        instagramButton.classList.add(
+          "glitch"
+        );
+
+
+        /*
+          OPEN INSTAGRAM
+        */
+
+        window.open(
+          "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
+          "_blank",
+          "noopener,noreferrer"
+        );
+
+
+        /*
+          UPDATE BUTTON
+        */
+
+        activateInstagramState();
+
+      }
+    );
+
+
+
     /* =========================
        SCROLL ANIMATION
     ========================= */
 
     let ticking = false;
 
+
     function updateScroll() {
 
-      const scrollTop = window.scrollY;
+
+      const scrollTop =
+        window.scrollY;
+
 
       const documentHeight =
         document.documentElement.scrollHeight -
         window.innerHeight;
+
 
       const scrollPercent =
         documentHeight > 0
           ? scrollTop / documentHeight
           : 0;
 
+
+
       /* Progress */
+
       progress.style.height =
         `${scrollPercent * 100}%`;
 
 
+
       /* Hero parallax */
+
       const heroOffset =
-        Math.min(scrollTop * 0.22, 120);
+        Math.min(
+          scrollTop * 0.22,
+          120
+        );
+
 
       hero.style.backgroundPosition =
         `center calc(50% + ${heroOffset}px)`;
 
 
+
       /* Hero logo */
+
       const logoMove =
-        Math.min(scrollTop * 0.08, 45);
+        Math.min(
+          scrollTop * 0.08,
+          45
+        );
+
 
       heroLogo.style.transform =
         `translateX(${-3 + logoMove}px)`;
 
 
+
       /* Motion word */
+
       const motionMove =
         scrollTop * -0.18;
+
 
       motionWord.style.transform =
         `translateX(${motionMove}px)`;
 
 
-      /* Graphic lines */
-      lines.forEach((line, index) => {
 
-        const movement =
-          scrollTop * (0.12 + index * 0.035);
+      /* Lines */
 
-        line.style.transform =
-          `translateX(${movement}px) rotate(-28deg)`;
+      lines.forEach(
+        (line, index) => {
 
-      });
+          const movement =
+            scrollTop *
+            (0.12 + index * 0.035);
+
+          line.style.transform =
+            `translateX(${movement}px) rotate(-28deg)`;
+
+        }
+      );
+
 
 
       /* Circle */
+
       const rotation =
         scrollTop * 0.18;
 
+
       const scale =
-        1 + Math.min(scrollTop / 3000, .25);
+        1 +
+        Math.min(
+          scrollTop / 3000,
+          .25
+        );
+
 
       graphicCircle.style.transform =
         `rotate(${rotation}deg) scale(${scale})`;
 
+
       ticking = false;
+
     }
+
 
 
     window.addEventListener(
       "scroll",
       () => {
+
 
         if (!ticking) {
 
@@ -1101,11 +1534,13 @@
     );
 
 
+
     /* =========================
        TOUCH PARALLAX
     ========================= */
 
     let touchStartY = 0;
+
 
     window.addEventListener(
       "touchstart",
@@ -1129,6 +1564,7 @@
         const delta =
           touchStartY - currentY;
 
+
         heroLogo.style.transform =
           `translateX(${-3 + delta * .025}px)`;
 
@@ -1136,49 +1572,6 @@
       { passive: true }
     );
 
-
-    /* =========================
-       INSTAGRAM
-    ========================= */
-
-    instagramButton.addEventListener(
-      "click",
-      () => {
-
-        /* Glitch */
-        instagramButton.classList.remove("glitch");
-
-        void instagramButton.offsetWidth;
-
-        instagramButton.classList.add("glitch");
-
-
-        /*
-          Opens Instagram.
-          We do NOT claim the user actually followed,
-          because the website cannot verify that.
-        */
-
-        window.open(
-          "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
-          "_blank",
-          "noopener,noreferrer"
-        );
-
-
-        /* Visual confirmation */
-        instagramButton.classList.add("clicked");
-
-        instagramText.textContent =
-          "INSTAGRAM APERTO ✓";
-
-        instagramStatus.textContent =
-          "GRAZIE PER IL SUPPORTO";
-
-        instagramStatus.classList.add("active");
-
-      }
-    );
 
 
     /* =========================
@@ -1189,15 +1582,15 @@
       "submit",
       (event) => {
 
+
         event.preventDefault();
 
 
         /*
           DEMO ONLY
 
-          Qui successivamente collegheremo
-          il vero sistema ticket:
-          
+          In seguito collegheremo:
+
           Nome
           Cognome
           Email
@@ -1210,6 +1603,7 @@
         submitButton.textContent =
           "CREATING ACCESS...";
 
+
         submitButton.style.background =
           "#ff0000";
 
@@ -1218,27 +1612,43 @@
           "GENERAZIONE ACCESSO IN CORSO";
 
 
-        setTimeout(() => {
 
-          submitButton.textContent =
-            "ACCESS REQUESTED ✓";
+        setTimeout(
+          () => {
 
-          submitButton.style.background =
-            "#20d878";
 
-          formStatus.textContent =
-            "TICKET SYSTEM — COMING NEXT";
+            submitButton.textContent =
+              "ACCESS REQUESTED ✓";
 
-        }, 1300);
+
+            submitButton.style.background =
+              "#20d878";
+
+
+            formStatus.textContent =
+              "TICKET SYSTEM — COMING NEXT";
+
+
+          },
+          1300
+        );
 
       }
     );
 
 
-    /* Initial position */
+
+    /* =========================
+       INITIALIZATION
+    ========================= */
+
+    checkInstagramMemory();
+
     updateScroll();
 
+
   </script>
+
 
 </body>
 </html>
