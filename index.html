@@ -370,12 +370,32 @@
       color: var(--red);
     }
 
+    /* GET IN + IMAGE */
+
+    .register-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
     .register-title {
       font-family: "Anton", sans-serif;
       font-size: 76px;
       line-height: .78;
       letter-spacing: -.02em;
-      margin-bottom: 28px;
+      margin-bottom: 0;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .register-image {
+      width: 38%;
+      height: 96px;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
     }
 
     .form-group {
@@ -713,10 +733,20 @@
       <span>ROTAROTT</span>
     </div>
 
-    <h2 class="register-title">
-      GET<br>
-      IN.
-    </h2>
+    <div class="register-heading">
+
+      <h2 class="register-title">
+        GET<br>
+        IN.
+      </h2>
+
+      <img
+        src="./hero2.png"
+        alt=""
+        class="register-image"
+      />
+
+    </div>
 
     <form id="registrationForm">
 
