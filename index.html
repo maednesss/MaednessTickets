@@ -313,7 +313,10 @@
       line-height: .8;
       color: transparent;
       -webkit-text-stroke: 1px rgba(255,255,255,.35);
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     .marquee {
@@ -1020,10 +1023,10 @@
       /* Motion word */
 
       const motionMove =
-        scrollTop * -0.18;
+        Math.round(scrollTop * -0.18);
 
       motionWord.style.transform =
-        `translateX(${motionMove}px)`;
+        `translate3d(${motionMove}px, 0, 0)`;
 
 
       ticking = false;
