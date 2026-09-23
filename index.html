@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   />
 
   <title>MÆDNESS® — ROTAROTT</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
   <link
     href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -30,78 +30,50 @@
     }
 
     body {
+      font-family: "Inter", sans-serif;
       background: #050505;
       color: #ffffff;
-      font-family: "Inter", sans-serif;
       overflow-x: hidden;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    body::selection {
+      background: #ff0000;
+      color: #ffffff;
     }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    :root {
-      --red: #ff0000;
-      --black: #050505;
-      --white: #ffffff;
-      --green: #20d878;
-      --gray: #7d7d7d;
-    }
-
-    /* =========================
-       MOBILE ONLY
-    ========================== */
 
     .desktop-warning {
       display: none;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 769px) {
       body > * {
         display: none !important;
       }
 
       .desktop-warning {
         display: flex !important;
-        min-height: 100vh;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
+        position: fixed;
+        inset: 0;
         background: #050505;
         color: #ffffff;
+        align-items: center;
+        justify-content: center;
         text-align: center;
+        font-family: "Anton", sans-serif;
+        font-size: 42px;
+        letter-spacing: -1px;
         padding: 30px;
       }
+    }
 
-      .desktop-warning-inner {
-        max-width: 600px;
-      }
-
-      .desktop-warning h1 {
-        font-family: "Anton", sans-serif;
-        font-size: 14vw;
-        line-height: 0.8;
-        text-transform: uppercase;
-      }
-
-      .desktop-warning p {
-        margin-top: 25px;
-        font-size: 13px;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: #888;
-      }
+    main {
+      width: 100%;
+      overflow: hidden;
     }
 
     /* =========================
        TOP BAR
-    ========================== */
+    ========================= */
 
     .topbar {
       position: fixed;
@@ -109,37 +81,30 @@
       left: 0;
       width: 100%;
       height: 48px;
-      z-index: 1000;
-
+      padding: 0 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      padding: 0 14px;
-
-      background: rgba(5, 5, 5, 0.9);
-      backdrop-filter: blur(12px);
-
+      background: rgba(5, 5, 5, 0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 100;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .topbar-brand {
       font-family: "Anton", sans-serif;
-      font-size: 20px;
-      letter-spacing: 0.02em;
+      font-size: 16px;
+      letter-spacing: -0.4px;
     }
 
     .topbar-event {
-      font-size: 9px;
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.14em;
-      color: #999;
-      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      text-align: right;
+      line-height: 1.2;
     }
-
-    /* =========================
-       PROGRESS
-    ========================== */
 
     .progress {
       position: fixed;
@@ -147,51 +112,26 @@
       left: 0;
       width: 100%;
       height: 2px;
-      z-index: 999;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.12);
+      z-index: 101;
     }
 
     .progress-bar {
       width: 0%;
       height: 100%;
-      background: var(--red);
-    }
-
-    /* =========================
-       GENERAL
-    ========================== */
-
-    section {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-    }
-
-    .section-label {
-      position: absolute;
-      top: 18px;
-      left: 15px;
-      z-index: 5;
-
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-
-      color: rgba(255, 255, 255, 0.6);
+      background: #ff0000;
     }
 
     /* =========================
        HERO
-    ========================== */
+    ========================= */
 
     .hero {
       min-height: 100svh;
-
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-
       padding: 100px 14px 28px;
 
       background:
@@ -206,127 +146,43 @@
       isolation: isolate;
     }
 
-    .hero::before {
+    .hero::after {
       content: "";
       position: absolute;
       inset: 0;
       pointer-events: none;
-
+      opacity: 0.12;
       background:
         repeating-linear-gradient(
           to bottom,
-          rgba(255, 255, 255, 0.035) 0px,
-          rgba(255, 255, 255, 0.035) 1px,
+          rgba(255, 255, 255, 0.16) 0px,
+          rgba(255, 255, 255, 0.16) 1px,
           transparent 1px,
           transparent 4px
         );
-
-      mix-blend-mode: overlay;
-      opacity: 0.4;
-      z-index: 1;
+      z-index: -1;
     }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-    }
-
-    /* =========================
-       HERO LOGO
-       ========================== */
 
     .hero-logo {
       position: absolute;
-
       top: 72px;
       right: 14px;
-
       width: 58px;
       height: auto;
-
       z-index: 3;
-
       object-fit: contain;
-
-      filter:
-        drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
     }
-
-    .hero-small {
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      color: #ccc;
-    }
-
-    .hero-title {
-      font-family: "Anton", sans-serif;
-      font-size: 23vw;
-      line-height: 0.75;
-      letter-spacing: -0.035em;
-      text-transform: uppercase;
-    }
-
-    .hero-title span {
-      display: block;
-    }
-
-    .hero-title .red {
-      color: var(--red);
-    }
-
-    .hero-meta {
-      margin-top: 28px;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-
-      border-top: 1px solid rgba(255, 255, 255, 0.3);
-      padding-top: 12px;
-    }
-
-    .hero-date {
-      font-family: "Anton", sans-serif;
-      font-size: 25px;
-      line-height: 1;
-    }
-
-    .hero-location {
-      text-align: right;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .hero-location span {
-      display: block;
-      color: #888;
-      margin-top: 4px;
-    }
-
-    /* =========================
-       HERO SCROLL ARROW
-    ========================== */
 
     .hero-scroll {
       position: absolute;
-
       left: 50%;
       bottom: 13px;
-
       transform: translateX(-50%);
-
       z-index: 4;
-
       color: rgba(255, 255, 255, 0.8);
-
       font-size: 19px;
       line-height: 1;
-
       animation: scrollPulse 1.6s ease-in-out infinite;
     }
 
@@ -343,81 +199,130 @@
       }
     }
 
-    /* =========================
-       MOTION
-    ========================== */
-
-    .motion {
-      min-height: 100svh;
-      background: var(--white);
-      color: var(--black);
-
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      padding: 70px 0;
-
-      overflow: hidden;
-    }
-
-    .motion-label {
+    .section-label {
       position: absolute;
-      top: 20px;
-      left: 15px;
-
-      color: #000;
+      top: 68px;
+      left: 14px;
       font-size: 9px;
       font-weight: 800;
-      letter-spacing: 0.2em;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-small {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-family: "Anton", sans-serif;
+      font-size: clamp(82px, 27vw, 150px);
+      line-height: 0.78;
+      letter-spacing: -3px;
       text-transform: uppercase;
     }
 
-    .motion-word {
-      font-family: "Anton", sans-serif;
-      font-size: 30vw;
-      line-height: 0.72;
-      white-space: nowrap;
-
-      color: transparent;
-      -webkit-text-stroke: 1px #000;
-
-      transform: translateX(-4%);
-      opacity: 0.95;
+    .hero-title span {
+      display: block;
     }
 
-    .motion-word.second {
+    .red {
+      color: #ff0000;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 22px;
+    }
+
+    .hero-date {
+      font-family: "Anton", sans-serif;
+      font-size: 29px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-location {
+      text-align: right;
+      font-family: "Anton", sans-serif;
+      font-size: 25px;
+      line-height: 0.9;
+      letter-spacing: -0.4px;
+    }
+
+    .hero-location span {
+      display: block;
+      font-family: "Inter", sans-serif;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-top: 7px;
+    }
+
+    /* =========================
+       MOTION
+    ========================= */
+
+    .motion {
+      min-height: 100svh;
+      position: relative;
+      background: #ffffff;
+      color: #050505;
+      padding: 70px 0 0;
+      overflow: hidden;
+    }
+
+    .motion .section-label {
+      color: #050505;
+      position: relative;
+      top: auto;
+      left: auto;
+      padding: 0 14px;
+    }
+
+    .motion-outline {
+      margin-top: 80px;
+      font-family: "Anton", sans-serif;
+      font-size: 30vw;
+      line-height: 0.78;
+      letter-spacing: -2px;
+      color: transparent;
+      -webkit-text-stroke: 1px #050505;
+      white-space: nowrap;
+    }
+
+    .motion-outline.second {
       transform: translateX(-22%);
     }
 
     .marquee {
       position: absolute;
-      left: 0;
+      left: -5%;
       bottom: 90px;
-
-      width: 100%;
+      width: 110%;
       overflow: hidden;
-
-      background: var(--red);
-      color: #fff;
-
-      padding: 12px 0;
-
+      background: #ff0000;
+      color: #ffffff;
       transform: rotate(-3deg) scale(1.08);
+      padding: 13px 0;
+      white-space: nowrap;
     }
 
     .marquee-track {
-      display: flex;
-      width: max-content;
-
-      animation: marquee 12s linear infinite;
-    }
-
-    .marquee span {
+      display: inline-block;
+      animation: marquee 15s linear infinite;
       font-family: "Anton", sans-serif;
-      font-size: 28px;
-      white-space: nowrap;
-      padding-right: 30px;
+      font-size: 27px;
+      letter-spacing: 0.5px;
     }
 
     @keyframes marquee {
@@ -431,169 +336,138 @@
     }
 
     /* =========================
-       REGISTRATION
-    ========================== */
+       REGISTRATION / ACCESS
+    ========================= */
 
     .registration {
       min-height: 100svh;
-      background: var(--black);
-
-      padding: 80px 15px 40px;
+      position: relative;
+      background: #ffffff;
+      color: #050505;
+      padding: 70px 14px 34px;
+      padding-bottom: calc(34px + env(safe-area-inset-bottom));
+      overflow: hidden;
     }
 
-    .registration-header {
-      margin-bottom: 38px;
-    }
-
-    .registration-kicker {
-      color: var(--red);
-
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-
-      margin-bottom: 10px;
+    .registration .section-label {
+      position: relative;
+      top: auto;
+      left: auto;
+      color: #050505;
+      opacity: 0.65;
     }
 
     .registration-title {
+      margin-top: 72px;
       font-family: "Anton", sans-serif;
-      font-size: 21vw;
-      line-height: 0.75;
+      font-size: clamp(58px, 17vw, 100px);
+      line-height: 0.84;
+      letter-spacing: -2px;
       text-transform: uppercase;
     }
 
     .registration-title span {
-      color: var(--red);
-    }
-
-    /* =========================
-       FORM
-    ========================== */
-
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
-    }
-
-    .input-wrap {
-      position: relative;
-    }
-
-    .input-label {
       display: block;
-
-      margin-bottom: 6px;
-
-      font-size: 8px;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-
-      color: #777;
     }
 
-    .input {
+    .registration-title .red {
+      color: #ff0000;
+    }
+
+    .registration-form {
+      margin-top: 48px;
+    }
+
+    .field {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      color: #050505;
+    }
+
+    .field input {
       width: 100%;
-
-      border: 1px solid #292929;
-      background: #0b0b0b;
-      color: #fff;
-
-      padding: 17px 13px;
-
+      height: 46px;
+      border: 0;
+      border-bottom: 1px solid rgba(5, 5, 5, 0.35);
       border-radius: 0;
       outline: none;
-
-      font-size: 14px;
+      background: transparent;
+      color: #050505;
+      font-family: "Inter", sans-serif;
+      font-size: 17px;
       font-weight: 600;
-
-      transition:
-        border-color 0.2s ease,
-        background 0.2s ease;
+      padding: 0;
     }
 
-    .input:focus {
-      border-color: var(--red);
-      background: #101010;
+    .field input::placeholder {
+      color: rgba(5, 5, 5, 0.3);
     }
 
-    .input::placeholder {
-      color: #444;
-      text-transform: uppercase;
+    .field input:focus {
+      border-bottom-color: #ff0000;
     }
 
     /* =========================
        INSTAGRAM
-    ========================== */
+    ========================= */
 
-    .instagram-box {
-      margin-top: 18px;
-
-      border-top: 1px solid #242424;
-      border-bottom: 1px solid #242424;
-
-      padding: 16px 0;
+    .instagram-block {
+      margin-top: 40px;
+      margin-bottom: 26px;
     }
 
     .instagram-top {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-
+      align-items: center;
       margin-bottom: 10px;
     }
 
     .instagram-title {
       font-size: 9px;
-      font-weight: 900;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #777;
-    }
-
-    .instagram-status {
-      font-size: 8px;
       font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #555;
-
-      transition: color 0.25s ease;
+      letter-spacing: 1.8px;
     }
 
-    .instagram-status.active {
-      color: var(--green);
+    .instagram-optional {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      opacity: 0.5;
     }
 
     .instagram-button {
-      position: relative;
-
       width: 100%;
-      min-height: 52px;
-
+      min-height: 58px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-
-      border: 1px solid var(--red);
+      border: 1px solid #ff0000;
       background: transparent;
-      color: var(--red);
-
+      color: #ff0000;
+      font-family: "Anton", sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.3px;
       cursor: pointer;
-
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-
       transition:
         background 0.25s ease,
         color 0.25s ease,
-        border-color 0.25s ease,
-        transform 0.15s ease;
+        transform 0.2s ease;
+    }
+
+    .instagram-button svg {
+      width: 21px;
+      height: 21px;
+      fill: currentColor;
     }
 
     .instagram-button:active {
@@ -601,179 +475,134 @@
     }
 
     .instagram-button.clicked {
-      background: var(--green);
-      border-color: var(--green);
-      color: #000;
+      background: #20d878;
+      color: #050505;
+      border-color: #20d878;
     }
 
-    .instagram-icon {
-      width: 19px;
-      height: 19px;
-      flex: 0 0 auto;
+    .instagram-status {
+      height: 0;
+      overflow: hidden;
+      opacity: 0;
+      margin-top: 0;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      transition:
+        height 0.25s ease,
+        opacity 0.25s ease,
+        margin 0.25s ease;
     }
 
-    /* =========================
-       GLITCH
-    ========================== */
+    .instagram-status.active {
+      height: 18px;
+      margin-top: 9px;
+      opacity: 1;
+    }
 
     .glitch {
-      animation: glitch 0.45s steps(2, end);
+      animation: glitch 0.35s steps(2, end);
     }
 
     @keyframes glitch {
       0% {
-        transform: translate(0);
+        transform: translateX(0);
       }
 
-      20% {
-        transform: translate(-3px, 2px);
+      25% {
+        transform: translateX(-3px);
       }
 
-      40% {
-        transform: translate(3px, -2px);
+      50% {
+        transform: translateX(3px);
       }
 
-      60% {
-        transform: translate(-2px, -1px);
-      }
-
-      80% {
-        transform: translate(2px, 1px);
+      75% {
+        transform: translateX(-2px);
       }
 
       100% {
-        transform: translate(0);
+        transform: translateX(0);
       }
     }
 
     /* =========================
        SUBMIT
-    ========================== */
+    ========================= */
 
     .submit-button {
-      position: relative;
-
       width: 100%;
-      min-height: 64px;
-
-      margin-top: 15px;
-
-      border: none;
-      background: var(--red);
-      color: #fff;
-
-      cursor: pointer;
-
+      min-height: 68px;
+      border: 1px solid #ff0000;
+      background: #ff0000;
+      color: #ffffff;
       font-family: "Anton", sans-serif;
       font-size: 24px;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-
-      overflow: hidden;
-
+      letter-spacing: 0.3px;
+      cursor: pointer;
       transition:
-        transform 0.15s ease,
-        background 0.2s ease;
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease;
     }
 
-    .submit-button:active {
-      transform: scale(0.985);
+    .submit-button:disabled {
+      cursor: default;
     }
-
-    .submit-button::after {
-      content: "";
-
-      position: absolute;
-      top: 0;
-      left: -100%;
-
-      width: 100%;
-      height: 100%;
-
-      background: rgba(255, 255, 255, 0.15);
-
-      transform: skewX(-20deg);
-
-      transition: left 0.5s ease;
-    }
-
-    .submit-button:hover::after {
-      left: 120%;
-    }
-
-    /* =========================
-       FOOTER WORD
-    ========================== */
-
-    .bottom-word {
-      margin-top: 70px;
-
-      font-family: "Anton", sans-serif;
-      font-size: 28vw;
-      line-height: 0.72;
-
-      color: transparent;
-      -webkit-text-stroke: 1px #333;
-
-      white-space: nowrap;
-
-      transform: translateX(-5%);
-    }
-
-    .bottom-info {
-      margin-top: 35px;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-
-      font-size: 8px;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-
-      color: #555;
-    }
-
-    .bottom-info strong {
-      color: #fff;
-    }
-
-    /* =========================
-       ACCESS MESSAGE
-    ========================== */
 
     .access-message {
-      display: none;
-
-      margin-top: 18px;
-
-      border: 1px solid var(--green);
-
-      padding: 16px;
-
-      color: var(--green);
-
+      margin-top: 14px;
       font-size: 9px;
-      font-weight: 900;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-
-      line-height: 1.5;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      opacity: 0;
+      transform: translateY(5px);
+      transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
     }
 
     .access-message.show {
-      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .registration-bottom {
+      margin-top: 80px;
+    }
+
+    .bottom-outline {
+      font-family: "Anton", sans-serif;
+      font-size: 29vw;
+      line-height: 0.75;
+      letter-spacing: -2px;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(5, 5, 5, 0.35);
+      white-space: nowrap;
+      transform: translateX(-3%);
+    }
+
+    .bottom-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 28px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+    }
+
+    .bottom-info-right {
+      text-align: right;
     }
 
     /* =========================
-       SCROLL REVEAL
-    ========================== */
+       REVEAL
+    ========================= */
 
     .reveal {
       opacity: 0;
       transform: translateY(25px);
-
       transition:
         opacity 0.8s ease,
         transform 0.8s ease;
@@ -784,15 +613,17 @@
       transform: translateY(0);
     }
 
-    /* =========================
-       SAFE AREA
-    ========================== */
+    @media (max-width: 380px) {
+      .hero-title {
+        font-size: 25vw;
+      }
 
-    @supports (padding-bottom: env(safe-area-inset-bottom)) {
-      .registration {
-        padding-bottom: calc(
-          40px + env(safe-area-inset-bottom)
-        );
+      .registration-title {
+        font-size: 16vw;
+      }
+
+      .submit-button {
+        font-size: 22px;
       }
     }
   </style>
@@ -800,48 +631,42 @@
 
 <body>
 
-  <!-- DESKTOP WARNING -->
-
   <div class="desktop-warning">
-    <div class="desktop-warning-inner">
-      <h1>MÆDNESS®</h1>
-      <p>MOBILE EXPERIENCE ONLY</p>
-    </div>
+    MÆDNESS® / MOBILE EXPERIENCE ONLY
   </div>
 
-
-  <!-- TOP BAR -->
-
-  <header class="topbar">
-    <div class="topbar-brand">MÆDNESS®</div>
+  <div class="topbar">
+    <div class="topbar-brand">
+      MÆDNESS®
+    </div>
 
     <div class="topbar-event">
-      ROTAROTT / 18.10.2026
+      ROTAROTT<br />
+      18.10.2026
     </div>
-  </header>
+  </div>
 
   <div class="progress">
     <div class="progress-bar" id="progressBar"></div>
   </div>
 
-
-  <!-- HERO -->
-
   <main>
 
+    <!-- =========================
+         HERO
+    ========================= -->
+
     <section class="hero" id="hero">
-
-      <div class="section-label">
-        01 / ROTAROTT
-      </div>
-
-      <!-- LOGO AGGIUNTO -->
 
       <img
         class="hero-logo"
         src="https://cdn.phototourl.com/member/2026-09-23-ae1331d5-e0a2-4a67-9cda-efdbecdb40d2.png"
         alt="MÆDNESS®"
       />
+
+      <div class="section-label">
+        01 / ROTAROTT
+      </div>
 
       <div class="hero-content">
 
@@ -869,8 +694,6 @@
 
       </div>
 
-      <!-- FRECCIA AGGIUNTA -->
-
       <div class="hero-scroll" aria-hidden="true">
         ↓
       </div>
@@ -878,140 +701,98 @@
     </section>
 
 
-    <!-- MOTION -->
+    <!-- =========================
+         MOTION
+    ========================= -->
 
-    <section class="motion" id="motion">
+    <section class="motion reveal" id="motion">
 
-      <div class="motion-label">
+      <div class="section-label">
         02 / MOTION
       </div>
 
-      <div class="motion-word">
+      <div class="motion-outline">
         MÆDNESS
       </div>
 
-      <div class="motion-word second">
+      <div class="motion-outline second">
         MÆDNESS
       </div>
 
       <div class="marquee">
-
         <div class="marquee-track">
-
-          <span>
-            ROTAROTT — MÆDNESS® — 18.10.2026 — FOGGIA —
-          </span>
-
-          <span>
-            ROTAROTT — MÆDNESS® — 18.10.2026 — FOGGIA —
-          </span>
-
+          ROTAROTT — MÆDNESS® — 18.10.2026 — FOGGIA —
+          ROTAROTT — MÆDNESS® — 18.10.2026 — FOGGIA —
         </div>
-
       </div>
 
     </section>
 
 
-    <!-- REGISTRATION -->
+    <!-- =========================
+         REGISTRATION
+    ========================= -->
 
-    <section class="registration" id="registration">
+    <section class="registration reveal" id="registration">
 
       <div class="section-label">
         03 / ACCESS
       </div>
 
-      <div class="registration-header reveal">
+      <h2 class="registration-title">
+        <span>REQUEST</span>
+        <span>YOUR</span>
+        <span class="red">ACCESS</span>
+      </h2>
 
-        <div class="registration-kicker">
-          REQUEST YOUR ACCESS
-        </div>
+      <form class="registration-form" id="registrationForm">
 
-        <h2 class="registration-title">
-          GET<br>
-          <span>IN</span>
-        </h2>
-
-      </div>
-
-
-      <form class="form" id="registrationForm">
-
-        <!-- NAME -->
-
-        <div class="input-wrap reveal">
-
-          <label
-            class="input-label"
-            for="name"
-          >
+        <div class="field">
+          <label for="name">
             NAME
           </label>
 
           <input
-            class="input"
             id="name"
             name="name"
             type="text"
-            placeholder="YOUR NAME"
             autocomplete="given-name"
             required
           />
-
         </div>
 
-
-        <!-- SURNAME -->
-
-        <div class="input-wrap reveal">
-
-          <label
-            class="input-label"
-            for="surname"
-          >
+        <div class="field">
+          <label for="surname">
             SURNAME
           </label>
 
           <input
-            class="input"
             id="surname"
             name="surname"
             type="text"
-            placeholder="YOUR SURNAME"
             autocomplete="family-name"
             required
           />
-
         </div>
 
-
-        <!-- EMAIL -->
-
-        <div class="input-wrap reveal">
-
-          <label
-            class="input-label"
-            for="email"
-          >
+        <div class="field">
+          <label for="email">
             EMAIL
           </label>
 
           <input
-            class="input"
             id="email"
             name="email"
             type="email"
-            placeholder="YOUR EMAIL"
             autocomplete="email"
             required
           />
-
         </div>
 
 
         <!-- INSTAGRAM -->
 
-        <div class="instagram-box reveal">
+        <div class="instagram-block">
 
           <div class="instagram-top">
 
@@ -1019,15 +800,11 @@
               INSTAGRAM
             </div>
 
-            <div
-              class="instagram-status"
-              id="instagramStatus"
-            >
+            <div class="instagram-optional">
               INSTAGRAM / OPTIONAL
             </div>
 
           </div>
-
 
           <button
             type="button"
@@ -1035,13 +812,8 @@
             id="instagramButton"
           >
 
-            <!-- INSTAGRAM SVG -->
-
             <svg
-              class="instagram-icon"
               viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
             >
               <rect
@@ -1050,6 +822,8 @@
                 width="18"
                 height="18"
                 rx="5"
+                ry="5"
+                fill="none"
                 stroke="currentColor"
                 stroke-width="2"
               />
@@ -1058,6 +832,7 @@
                 cx="12"
                 cy="12"
                 r="4"
+                fill="none"
                 stroke="currentColor"
                 stroke-width="2"
               />
@@ -1068,15 +843,18 @@
                 r="1"
                 fill="currentColor"
               />
-
             </svg>
-
 
             <span id="instagramText">
               SEGUI @maednesss
             </span>
 
           </button>
+
+          <div
+            class="instagram-status"
+            id="instagramStatus"
+          ></div>
 
         </div>
 
@@ -1085,39 +863,37 @@
 
         <button
           type="submit"
-          class="submit-button reveal"
+          class="submit-button"
           id="submitButton"
         >
           REQUEST ACCESS
         </button>
 
-
-        <!-- ACCESS MESSAGE -->
-
         <div
           class="access-message"
           id="accessMessage"
-        >
-          CREATING ACCESS...
-        </div>
+        ></div>
 
       </form>
 
 
-      <!-- BOTTOM -->
+      <div class="registration-bottom">
 
-      <div class="bottom-word">
-        ROTAROTT
-      </div>
-
-      <div class="bottom-info">
-
-        <div>
-          MÆDNESS®
+        <div class="bottom-outline">
+          ROTAROTT
         </div>
 
-        <div>
-          <strong>FOGGIA</strong> / ITALY
+        <div class="bottom-info">
+
+          <div>
+            MÆDNESS®
+          </div>
+
+          <div class="bottom-info-right">
+            FOGGIA<br />
+            ITALY
+          </div>
+
         </div>
 
       </div>
@@ -1128,40 +904,133 @@
 
 
   <script>
-
     /* =========================
-       ELEMENTS
-    ========================== */
+       PROGRESS BAR
+    ========================= */
 
     const progressBar =
       document.getElementById("progressBar");
 
-    const instagramButton =
-      document.getElementById("instagramButton");
+    function updateProgress() {
+      const scrollTop =
+        window.scrollY;
 
-    const instagramText =
-      document.getElementById("instagramText");
+      const documentHeight =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
 
-    const instagramStatus =
-      document.getElementById("instagramStatus");
+      const progress =
+        documentHeight > 0
+          ? (scrollTop / documentHeight) * 100
+          : 0;
 
-    const registrationForm =
-      document.getElementById("registrationForm");
+      progressBar.style.width =
+        `${progress}%`;
+    }
 
-    const submitButton =
-      document.getElementById("submitButton");
+    window.addEventListener(
+      "scroll",
+      updateProgress,
+      { passive: true }
+    );
 
-    const accessMessage =
-      document.getElementById("accessMessage");
+    updateProgress();
+
+
+    /* =========================
+       SCROLL REVEAL
+    ========================= */
 
     const revealElements =
       document.querySelectorAll(".reveal");
 
+    const observer =
+      new IntersectionObserver(
+        (entries) => {
+
+          entries.forEach(
+            (entry) => {
+
+              if (entry.isIntersecting) {
+
+                entry.target.classList.add(
+                  "visible"
+                );
+
+              }
+
+            }
+          );
+
+        },
+        {
+          threshold: 0.12
+        }
+      );
+
+    revealElements.forEach(
+      (element) => {
+        observer.observe(element);
+      }
+    );
+
 
     /* =========================
-       INSTAGRAM MEMORY
-       SESSION ONLY
-    ========================== */
+       HERO TOUCH PARALLAX
+    ========================= */
+
+    const hero =
+      document.getElementById("hero");
+
+    let touchStartY = 0;
+
+    hero.addEventListener(
+      "touchstart",
+      (event) => {
+
+        touchStartY =
+          event.touches[0].clientY;
+
+      },
+      { passive: true }
+    );
+
+    hero.addEventListener(
+      "touchmove",
+      (event) => {
+
+        const currentY =
+          event.touches[0].clientY;
+
+        const diff =
+          (currentY - touchStartY) * 0.08;
+
+        hero.style.backgroundPosition =
+          `center ${50 + diff}%`;
+
+      },
+      { passive: true }
+    );
+
+
+    /* =========================
+       INSTAGRAM
+    ========================= */
+
+    const instagramButton =
+      document.getElementById(
+        "instagramButton"
+      );
+
+    const instagramText =
+      document.getElementById(
+        "instagramText"
+      );
+
+    const instagramStatus =
+      document.getElementById(
+        "instagramStatus"
+      );
 
     const INSTAGRAM_MEMORY_KEY =
       "maedness_instagram_clicked";
@@ -1169,7 +1038,9 @@
 
     function activateInstagramState() {
 
-      instagramButton.classList.add("clicked");
+      instagramButton.classList.add(
+        "clicked"
+      );
 
       instagramText.textContent =
         "MÆDNESS MODE: ON ✓";
@@ -1177,7 +1048,9 @@
       instagramStatus.textContent =
         "GRAZIE PER IL SUPPORTO";
 
-      instagramStatus.classList.add("active");
+      instagramStatus.classList.add(
+        "active"
+      );
 
     }
 
@@ -1198,10 +1071,6 @@
     }
 
 
-    /* =========================
-       INSTAGRAM CLICK
-    ========================== */
-
     instagramButton.addEventListener(
       "click",
       () => {
@@ -1210,7 +1079,6 @@
           INSTAGRAM_MEMORY_KEY,
           "true"
         );
-
 
         instagramButton.classList.remove(
           "glitch"
@@ -1222,171 +1090,45 @@
           "glitch"
         );
 
-
         window.open(
           "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
           "_blank",
           "noopener,noreferrer"
         );
 
-
         activateInstagramState();
 
       }
     );
 
-
-    /* =========================
-       SCROLL PROGRESS
-    ========================== */
-
-    function updateScroll() {
-
-      const scrollTop =
-        window.scrollY;
-
-      const documentHeight =
-        document.documentElement.scrollHeight -
-        window.innerHeight;
-
-      const progress =
-        documentHeight > 0
-          ? (scrollTop / documentHeight) * 100
-          : 0;
-
-      progressBar.style.width =
-        `${progress}%`;
-
-    }
-
-
-    window.addEventListener(
-      "scroll",
-      updateScroll,
-      { passive: true }
-    );
+    checkInstagramMemory();
 
 
     /* =========================
-       REVEAL
-    ========================== */
+       FORM
+    ========================= */
 
-    const revealObserver =
-      new IntersectionObserver(
-        (entries) => {
-
-          entries.forEach(
-            (entry) => {
-
-              if (
-                entry.isIntersecting
-              ) {
-
-                entry.target.classList.add(
-                  "visible"
-                );
-
-              }
-
-            }
-          );
-
-        },
-        {
-          threshold: 0.12
-        }
+    const registrationForm =
+      document.getElementById(
+        "registrationForm"
       );
 
+    const submitButton =
+      document.getElementById(
+        "submitButton"
+      );
 
-    revealElements.forEach(
-      (element) => {
+    const accessMessage =
+      document.getElementById(
+        "accessMessage"
+      );
 
-        revealObserver.observe(
-          element
-        );
-
-      }
-    );
-
-
-    /* =========================
-       TOUCH PARALLAX
-    ========================== */
-
-    let lastTouchY = 0;
-
-    document.addEventListener(
-      "touchmove",
-      (event) => {
-
-        if (
-          !event.touches ||
-          !event.touches.length
-        ) {
-          return;
-        }
-
-        const currentY =
-          event.touches[0].clientY;
-
-        const delta =
-          currentY - lastTouchY;
-
-        lastTouchY = currentY;
-
-        const hero =
-          document.querySelector(".hero");
-
-        if (hero) {
-
-          const offset =
-            Math.max(
-              -30,
-              Math.min(
-                30,
-                delta * 0.3
-              )
-            );
-
-          hero.style.backgroundPosition =
-            `center calc(50% + ${offset}px)`;
-
-        }
-
-      },
-      { passive: true }
-    );
-
-
-    document.addEventListener(
-      "touchstart",
-      (event) => {
-
-        if (
-          event.touches &&
-          event.touches.length
-        ) {
-
-          lastTouchY =
-            event.touches[0].clientY;
-
-        }
-
-      },
-      { passive: true }
-    );
-
-
-    /* =========================
-       FORM DEMO
-    ========================== */
 
     registrationForm.addEventListener(
       "submit",
       (event) => {
 
         event.preventDefault();
-
 
         submitButton.disabled = true;
 
@@ -1399,7 +1141,6 @@
         accessMessage.classList.add(
           "show"
         );
-
 
         setTimeout(
           () => {
@@ -1416,16 +1157,6 @@
 
       }
     );
-
-
-    /* =========================
-       INITIALIZATION
-    ========================== */
-
-    checkInstagramMemory();
-
-    updateScroll();
-
   </script>
 
 </body>
