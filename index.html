@@ -375,7 +375,7 @@
       color: var(--red);
     }
 
-    /* GET IN + IMAGE */
+    /* GET IN + IMAGE + VIDEO */
 
     .register-heading {
       display: flex;
@@ -396,12 +396,12 @@
     }
 
     .register-image {
-      width: 40%;
+      width: 105px;
       height: 105px;
       object-fit: contain;
       object-position: center;
       display: block;
-      flex-shrink: 0;
+      flex: 0 0 105px;
       border-radius: 50%;
       animation: rotateImage 7s linear infinite;
     }
@@ -414,6 +414,41 @@
       to {
         transform: rotate(360deg);
       }
+    }
+
+    /* VIDEO */
+
+    .register-video-box {
+      margin-left: auto;
+      margin-right: -16px;
+      width: 112px;
+      flex: 0 0 112px;
+      align-self: center;
+    }
+
+    .register-video {
+      display: block;
+      width: 112px;
+      height: 84px;
+      object-fit: cover;
+      object-position: center;
+      background: #000;
+      border: 0;
+      outline: none;
+      border-radius: 0;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .last-maed {
+      margin-top: 4px;
+      padding-right: 16px;
+      font-size: 6px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-align: right;
+      white-space: nowrap;
     }
 
     .form-group {
@@ -628,7 +663,6 @@
       font-weight: 900;
       letter-spacing: .16em;
     }
-
   </style>
 </head>
 
@@ -736,6 +770,29 @@
         alt=""
         class="register-image"
       />
+
+      <div class="register-video-box">
+
+        <video
+          class="register-video"
+          id="registerVideo"
+          autoplay
+          muted
+          loop
+          playsinline
+          webkit-playsinline
+          preload="auto"
+          disablepictureinpicture
+          controlslist="nodownload noplaybackrate nofullscreen"
+        >
+          <source src="./hero3.mp4" type="video/mp4">
+        </video>
+
+        <div class="last-maed">
+          LAST MÆD
+        </div>
+
+      </div>
 
     </div>
 
@@ -879,6 +936,7 @@
   </section>
 
   <script>
+
     /* ELEMENTS */
 
     const progress =
@@ -911,6 +969,98 @@
     const formStatus =
       document.getElementById("formStatus");
 
+    const registerVideo =
+      document.getElementById("registerVideo");
+
+
+    /* VIDEO AUTOPLAY */
+
+    function startRegisterVideo() {
+
+      if (!registerVideo) return;
+
+      registerVideo.muted = true;
+
+      registerVideo.defaultMuted = true;
+
+      registerVideo.setAttribute(
+        "muted",
+        ""
+      );
+
+      registerVideo.setAttribute(
+        "playsinline",
+        ""
+      );
+
+      registerVideo.setAttribute(
+        "webkit-playsinline",
+        ""
+      );
+
+      const playPromise =
+        registerVideo.play();
+
+      if (
+        playPromise !== undefined
+      ) {
+
+        playPromise.catch(() => {});
+
+      }
+
+    }
+
+
+    if (registerVideo) {
+
+      registerVideo.addEventListener(
+        "loadeddata",
+        startRegisterVideo
+      );
+
+      registerVideo.addEventListener(
+        "canplay",
+        startRegisterVideo
+      );
+
+      registerVideo.addEventListener(
+        "loadedmetadata",
+        startRegisterVideo
+      );
+
+      registerVideo.addEventListener(
+        "error",
+        () => {
+          console.log(
+            "Errore video:",
+            registerVideo.error
+          );
+        }
+      );
+
+    }
+
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      startRegisterVideo
+    );
+
+    window.addEventListener(
+      "load",
+      startRegisterVideo
+    );
+
+    document.addEventListener(
+      "touchstart",
+      startRegisterVideo,
+      {
+        passive: true,
+        once: true
+      }
+    );
+
 
     /* INSTAGRAM MEMORY */
 
@@ -920,7 +1070,9 @@
 
     function activateInstagramState() {
 
-      instagramButton.classList.add("clicked");
+      instagramButton.classList.add(
+        "clicked"
+      );
 
       instagramText.textContent =
         "MÆDNESS MODE: ON ✓";
@@ -928,7 +1080,9 @@
       instagramStatus.textContent =
         "GRAZIE DEL SUPPORTO";
 
-      instagramStatus.classList.add("active");
+      instagramStatus.classList.add(
+        "active"
+      );
 
     }
 
@@ -940,7 +1094,9 @@
           INSTAGRAM_MEMORY_KEY
         );
 
-      if (alreadyClicked === "true") {
+      if (
+        alreadyClicked === "true"
+      ) {
 
         activateInstagramState();
 
@@ -1051,7 +1207,9 @@
         }
 
       },
-      { passive: true }
+      {
+        passive: true
+      }
     );
 
 
@@ -1068,7 +1226,9 @@
           event.touches[0].clientY;
 
       },
-      { passive: true }
+      {
+        passive: true
+      }
     );
 
 
@@ -1086,7 +1246,9 @@
           `translateX(${-3 + delta * .025}px)`;
 
       },
-      { passive: true }
+      {
+        passive: true
+      }
     );
 
 
@@ -1130,7 +1292,11 @@
     /* INITIALIZATION */
 
     checkInstagramMemory();
+
     updateScroll();
+
+    startRegisterVideo();
+
   </script>
 
 </body>
