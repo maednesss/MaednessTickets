@@ -422,11 +422,13 @@
 
     .register-video {
       display: block;
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      height: auto;
+      width: 112px;
+      height: 84px;
       object-fit: cover;
+      object-position: center;
       background: #000;
+      border: 0;
+      outline: none;
     }
 
     .last-maed {
@@ -768,11 +770,15 @@
 
         <video
           class="register-video"
+          id="registerVideo"
           autoplay
           muted
           loop
           playsinline
-          preload="metadata"
+          webkit-playsinline
+          preload="auto"
+          disablepictureinpicture
+          controlslist="nodownload noplaybackrate"
         >
           <source src="./hero3.mp4" type="video/mp4">
         </video>
@@ -957,6 +963,59 @@
 
     const formStatus =
       document.getElementById("formStatus");
+
+    const registerVideo =
+      document.getElementById("registerVideo");
+
+
+    /* VIDEO AUTOPLAY */
+
+    function startRegisterVideo() {
+
+      if (!registerVideo) return;
+
+      registerVideo.muted = true;
+      registerVideo.setAttribute("muted", "");
+      registerVideo.setAttribute("playsinline", "");
+      registerVideo.setAttribute("webkit-playsinline", "");
+
+      const playPromise =
+        registerVideo.play();
+
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          /* Safari/iOS may block autoplay.
+             The video remains ready to play. */
+        });
+      }
+
+    }
+
+    registerVideo.addEventListener(
+      "loadeddata",
+      startRegisterVideo
+    );
+
+    registerVideo.addEventListener(
+      "canplay",
+      startRegisterVideo
+    );
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      startRegisterVideo
+    );
+
+    window.addEventListener(
+      "load",
+      startRegisterVideo
+    );
+
+    document.addEventListener(
+      "touchstart",
+      startRegisterVideo,
+      { passive: true, once: true }
+    );
 
 
     /* INSTAGRAM MEMORY */
@@ -1179,6 +1238,7 @@
 
     checkInstagramMemory();
     updateScroll();
+    startRegisterVideo();
 
   </script>
 
