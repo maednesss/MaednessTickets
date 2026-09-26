@@ -6,17 +6,13 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   />
-
   <title>MÆDNESS® — ROTAROTT</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link
     href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;800;900&display=swap"
     rel="stylesheet"
   >
-
   <style>
     :root {
       --red: #ff0000;
@@ -188,7 +184,6 @@
       content: "";
       position: absolute;
       inset: 0;
-
       background:
         linear-gradient(
           to bottom,
@@ -201,7 +196,6 @@
           rgba(0,0,0,.92) 90%,
           rgba(5,5,5,1) 100%
         );
-
       pointer-events: none;
       z-index: 2;
     }
@@ -212,7 +206,6 @@
       inset: 0;
       opacity: .18;
       pointer-events: none;
-
       background-image:
         repeating-linear-gradient(
           to bottom,
@@ -220,7 +213,6 @@
           transparent 3px,
           rgba(255,255,255,.25) 4px
         );
-
       z-index: 2;
     }
 
@@ -243,14 +235,28 @@
       line-height: .78;
       letter-spacing: -.035em;
       white-space: nowrap;
-
       text-shadow:
         4px 0 var(--red),
         -2px 0 rgba(255,255,255,.3);
-
       transform: translate3d(-3px, 0, 0);
-
       will-change: transform;
+      animation: heroLogoIntro .9s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    @keyframes heroLogoIntro {
+      0% {
+        opacity: 0;
+        transform:
+          translate3d(-3px, 18px, 0)
+          scale(.94);
+      }
+
+      100% {
+        opacity: 1;
+        transform:
+          translate3d(-3px, 0, 0)
+          scale(1);
+      }
     }
 
     .hero-event {
@@ -274,24 +280,80 @@
       font-weight: 800;
     }
 
+    /* SWIPE INDICATOR */
     .scroll-label {
       position: absolute;
       z-index: 4;
       right: 16px;
-      bottom: 31px;
+      bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
       font-size: 7px;
-      letter-spacing: .3em;
+      letter-spacing: .28em;
       font-weight: 900;
       writing-mode: vertical-rl;
     }
 
-    .scroll-label::after {
-      content: "";
+    .scroll-label-text {
+      display: block;
+      line-height: 1;
+    }
+
+    .scroll-arrow {
+      position: relative;
       display: block;
       width: 1px;
       height: 35px;
-      margin: 8px auto 0;
+      background: rgba(255,255,255,.45);
+      overflow: visible;
+    }
+
+    .scroll-arrow::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -1px;
+      width: 6px;
+      height: 6px;
+      border-right: 1px solid var(--white);
+      border-bottom: 1px solid var(--white);
+      transform:
+        translateX(-50%)
+        rotate(45deg);
+    }
+
+    .scroll-arrow::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: -10px;
+      width: 1px;
+      height: 12px;
       background: var(--white);
+      animation: swipeLine 1.5s ease-in-out infinite;
+    }
+
+    @keyframes swipeLine {
+      0% {
+        top: -10px;
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      70% {
+        top: 28px;
+        opacity: 1;
+      }
+
+      100% {
+        top: 35px;
+        opacity: 0;
+      }
     }
 
     /* MOTION */
@@ -376,13 +438,10 @@
       --register-title-size: clamp(60px, 19.5vw, 76px);
       --register-video-width: clamp(130px, 40vw, 155px);
       --register-heading-gap: clamp(2px, 1vw, 4px);
-
       display: grid;
-
       grid-template-columns:
         minmax(0, 1fr)
         var(--register-video-width);
-
       column-gap: var(--register-heading-gap);
       align-items: start;
       margin-bottom: 28px;
@@ -483,7 +542,6 @@
       font-size: 13px;
       font-weight: 900;
       letter-spacing: .07em;
-
       transition:
         background .25s ease,
         color .25s ease,
@@ -599,7 +657,6 @@
       font-size: 21px;
       letter-spacing: .04em;
       cursor: pointer;
-
       transition:
         background .2s ease,
         transform .12s ease;
@@ -674,14 +731,12 @@
 </head>
 
 <body>
-
   <div class="desktop-warning">
     MÆDNESS®<br>
     MOBILE EXPERIENCE ONLY
   </div>
 
   <header class="topbar">
-
     <div class="top-logo">
       MÆDNESS<span class="registered">®</span>
     </div>
@@ -689,7 +744,6 @@
     <div class="top-event">
       ROTAROTT / 001
     </div>
-
   </header>
 
   <div class="scroll-progress">
@@ -697,7 +751,6 @@
   </div>
 
   <div class="graphics">
-
     <div class="micro micro-1">
       41°27'N / 15°33'E
     </div>
@@ -713,14 +766,11 @@
     <div class="micro micro-4">
       ACCESS / 2026
     </div>
-
   </div>
 
   <!-- HERO -->
   <section class="hero" id="hero">
-
     <div class="hero-content">
-
       <div class="hero-small">
         MÆDNESS PRESENTS
       </div>
@@ -730,7 +780,6 @@
       </div>
 
       <div class="hero-event">
-
         <div class="hero-event-name">
           ROTAROTT
         </div>
@@ -739,39 +788,34 @@
           18.10.2026<br>
           FOGGIA / ITALY
         </div>
-
       </div>
-
     </div>
 
     <div class="scroll-label">
-      SCROLL
-    </div>
+      <span class="scroll-label-text">
+        SWIPE
+      </span>
 
+      <span class="scroll-arrow"></span>
+    </div>
   </section>
 
   <!-- MOTION -->
   <section class="motion">
-
     <div class="motion-word" id="motionWord">
       MÆDNESS
     </div>
 
     <div class="marquee">
-
       <div class="marquee-track">
         ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
       </div>
-
     </div>
-
   </section>
 
   <!-- REGISTRATION -->
   <section class="registration">
-
     <div class="registration-top">
-
       <span>
         002 / GET ACCESS
       </span>
@@ -779,19 +823,16 @@
       <span>
         ROTAROTT
       </span>
-
     </div>
 
     <!-- GET IN + VIDEO -->
     <div class="register-heading">
-
       <h2 class="register-title">
         GET<br>
         IN.
       </h2>
 
       <div class="register-video-box">
-
         <video
           class="register-video"
           id="registerVideo"
@@ -804,26 +845,20 @@
           disablepictureinpicture
           controlslist="nodownload noplaybackrate nofullscreen"
         >
-
           <source
             src="./hero3.mp4"
             type="video/mp4"
           >
-
         </video>
 
         <div class="last-maed">
           LAST MÆD
         </div>
-
       </div>
-
     </div>
 
     <form id="registrationForm">
-
       <div class="form-group">
-
         <label for="name">
           NOME
         </label>
@@ -835,11 +870,9 @@
           autocomplete="given-name"
           required
         />
-
       </div>
 
       <div class="form-group">
-
         <label for="surname">
           COGNOME
         </label>
@@ -851,11 +884,9 @@
           autocomplete="family-name"
           required
         />
-
       </div>
 
       <div class="form-group">
-
         <label for="email">
           EMAIL
         </label>
@@ -868,28 +899,23 @@
           placeholder="dove arriverà il tuo QR"
           required
         />
-
       </div>
 
       <!-- INSTAGRAM -->
       <div class="instagram-box">
-
         <button
           type="button"
           class="instagram-button"
           id="instagramButton"
           aria-label="Apri il profilo Instagram di MÆDNESS"
         >
-
           <span class="instagram-icon">
-
             <svg
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
             >
-
               <rect
                 x="3"
                 y="3"
@@ -914,15 +940,12 @@
                 r="1.2"
                 fill="currentColor"
               />
-
             </svg>
-
           </span>
 
           <span id="instagramText">
             SEGUI @maednesss
           </span>
-
         </button>
 
         <div
@@ -931,7 +954,6 @@
         >
           INSTAGRAM / OPTIONAL
         </div>
-
       </div>
 
       <!-- SUBMIT -->
@@ -947,12 +969,10 @@
         class="form-status"
         id="formStatus"
       ></div>
-
     </form>
 
     <!-- BOTTOM ROTAROTT + HERO2 -->
     <div class="registration-bottom">
-
       <div class="registration-bottom-title">
         ROTAROTT
       </div>
@@ -962,11 +982,9 @@
         alt=""
         class="registration-bottom-image"
       />
-
     </div>
 
     <div class="registration-footer">
-
       <span>
         MÆDNESS®
       </span>
@@ -974,15 +992,11 @@
       <span>
         FOGGIA / 2026
       </span>
-
     </div>
-
   </section>
 
   <script>
-
     /* ELEMENTS */
-
     const progress =
       document.getElementById("progress");
 
@@ -1016,11 +1030,8 @@
     const registerVideo =
       document.getElementById("registerVideo");
 
-
     /* VIDEO AUTOPLAY */
-
     function startRegisterVideo() {
-
       if (!registerVideo) return;
 
       registerVideo.muted = true;
@@ -1047,15 +1058,11 @@
       if (
         playPromise !== undefined
       ) {
-
         playPromise.catch(() => {});
-
       }
-
     }
 
     if (registerVideo) {
-
       registerVideo.addEventListener(
         "loadeddata",
         startRegisterVideo
@@ -1074,15 +1081,12 @@
       registerVideo.addEventListener(
         "error",
         () => {
-
           console.log(
             "Errore video:",
             registerVideo.error
           );
-
         }
       );
-
     }
 
     document.addEventListener(
@@ -1104,14 +1108,11 @@
       }
     );
 
-
     /* INSTAGRAM MEMORY */
-
     const INSTAGRAM_MEMORY_KEY =
       "maedness_instagram_clicked";
 
     function activateInstagramState() {
-
       instagramButton.classList.add(
         "clicked"
       );
@@ -1125,11 +1126,9 @@
       instagramStatus.classList.add(
         "active"
       );
-
     }
 
     function checkInstagramMemory() {
-
       const alreadyClicked =
         sessionStorage.getItem(
           INSTAGRAM_MEMORY_KEY
@@ -1138,20 +1137,14 @@
       if (
         alreadyClicked === "true"
       ) {
-
         activateInstagramState();
-
       }
-
     }
 
-
     /* INSTAGRAM CLICK */
-
     instagramButton.addEventListener(
       "click",
       () => {
-
         sessionStorage.setItem(
           INSTAGRAM_MEMORY_KEY,
           "true"
@@ -1164,66 +1157,65 @@
         );
 
         activateInstagramState();
-
       }
     );
 
-
     /* SCROLL ANIMATION */
-
     let ticking = false;
-
 
     /*
       HERO LOGO SMOOTH MOTION
-
-      Il logo si sposta verso destra
-      durante lo scroll.
-
-      Il movimento massimo è stato ridotto
-      per evitare che la scritta superi
-      il bordo dello schermo.
+      Il valore "logoTargetX" viene aggiornato
+      dallo scroll.
+      "logoCurrentX" invece segue lentamente
+      il target tramite requestAnimationFrame.
+      Questo evita il tremolio durante gli
+      scroll molto lenti.
     */
-
     let logoTargetX = -3;
     let logoCurrentX = -3;
 
     let logoTargetY = 0;
     let logoCurrentY = 0;
 
+    let logoAnimationRunning = false;
 
     function animateHeroLogo() {
-
-      const ease = 0.12;
+      const ease = 0.085;
 
       logoCurrentX +=
-        (
-          logoTargetX -
-          logoCurrentX
-        ) * ease;
+        (logoTargetX - logoCurrentX) * ease;
 
       logoCurrentY +=
-        (
-          logoTargetY -
-          logoCurrentY
-        ) * ease;
+        (logoTargetY - logoCurrentY) * ease;
 
       heroLogo.style.transform =
-        `translate3d(
-          ${logoCurrentX}px,
-          ${logoCurrentY}px,
-          0
-        )`;
+        `translate3d(${logoCurrentX}px, ${logoCurrentY}px, 0)`;
+
+      const stillMoving =
+        Math.abs(logoTargetX - logoCurrentX) > 0.01 ||
+        Math.abs(logoTargetY - logoCurrentY) > 0.01;
+
+      if (stillMoving) {
+        requestAnimationFrame(
+          animateHeroLogo
+        );
+      } else {
+        logoAnimationRunning = false;
+      }
+    }
+
+    function requestHeroLogoAnimation() {
+      if (logoAnimationRunning) return;
+
+      logoAnimationRunning = true;
 
       requestAnimationFrame(
         animateHeroLogo
       );
-
     }
 
-
     function updateScroll() {
-
       const scrollTop =
         window.scrollY;
 
@@ -1236,15 +1228,11 @@
           ? scrollTop / documentHeight
           : 0;
 
-
       /* Progress */
-
       progress.style.height =
         `${scrollPercent * 100}%`;
 
-
       /* Hero parallax */
-
       const heroOffset =
         Math.min(
           scrollTop * 0.22,
@@ -1254,94 +1242,66 @@
       hero.style.backgroundPosition =
         `center calc(50% + ${heroOffset}px)`;
 
-
       /*
         HERO LOGO
-
-        Movimento verso destra.
-
-        Prima:
-        massimo +118px
-
-        Ora:
-        massimo +55px
-
-        Così mantiene l'effetto
-        senza uscire dal bordo.
+        Movimento principale verso destra.
+        All'inizio:
+        -3px
+        Durante lo scroll:
+        fino a +65px circa.
       */
-
       const logoMove =
         Math.min(
-          scrollTop * 0.14,
-          55
+          scrollTop * 0.22,
+          65
         );
 
       logoTargetX =
         -3 + logoMove;
 
-
       /*
-        Leggerissimo movimento verticale.
+        Leggerissimo movimento verticale
+        per dare profondità senza spostare
+        troppo la scritta.
       */
-
       logoTargetY =
         Math.min(
           scrollTop * 0.025,
           10
         );
 
+      requestHeroLogoAnimation();
 
       /* Motion word */
-
       const motionMove =
         scrollTop * -0.18;
 
       motionWord.style.transform =
-        `translate3d(
-          ${motionMove}px,
-          0,
-          0
-        )`;
+        `translate3d(${motionMove}px, 0, 0)`;
 
       ticking = false;
-
     }
-
 
     window.addEventListener(
       "scroll",
       () => {
-
         if (!ticking) {
-
           window.requestAnimationFrame(
             updateScroll
           );
 
           ticking = true;
-
         }
-
       },
       {
         passive: true
       }
     );
 
-
-    /* AVVIO ANIMAZIONE LOGO */
-
-    requestAnimationFrame(
-      animateHeroLogo
-    );
-
-
     /* FORM */
-
     registrationForm.addEventListener(
       "submit",
       (event) => {
-
         event.preventDefault();
 
         submitButton.textContent =
@@ -1355,7 +1315,6 @@
 
         setTimeout(
           () => {
-
             submitButton.textContent =
               "ACCESS REQUESTED ✓";
 
@@ -1364,24 +1323,16 @@
 
             formStatus.textContent =
               "TICKET SYSTEM — COMING NEXT";
-
           },
           1300
         );
-
       }
     );
 
-
     /* INITIALIZATION */
-
     checkInstagramMemory();
-
     updateScroll();
-
     startRegisterVideo();
-
   </script>
-
 </body>
 </html>
