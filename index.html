@@ -254,59 +254,6 @@
       will-change: transform;
     }
 
-    /*
-      MICRO GLITCH HERO
-
-      Effetto molto breve e raro.
-      Il logo non rimane mai in stato glitch:
-      è solo una piccola interferenza visiva.
-    */
-
-    .hero-logo.glitch {
-      animation: heroLogoGlitch .12s steps(2, end);
-    }
-
-    @keyframes heroLogoGlitch {
-
-      0% {
-        filter: none;
-        text-shadow:
-          4px 0 var(--red),
-          -2px 0 rgba(255,255,255,.3);
-      }
-
-      25% {
-        transform: translate3d(-6px, 0, 0);
-        filter: contrast(1.25);
-        text-shadow:
-          7px 0 var(--red),
-          -5px 0 rgba(255,255,255,.45);
-      }
-
-      50% {
-        transform: translate3d(2px, 0, 0);
-        text-shadow:
-          -3px 0 var(--red),
-          4px 0 rgba(255,255,255,.3);
-      }
-
-      75% {
-        transform: translate3d(-1px, 1px, 0);
-        filter: contrast(1.1);
-        text-shadow:
-          5px 0 var(--red),
-          -3px 0 rgba(255,255,255,.35);
-      }
-
-      100% {
-        filter: none;
-        text-shadow:
-          4px 0 var(--red),
-          -2px 0 rgba(255,255,255,.3);
-      }
-
-    }
-
     .hero-event {
       margin-top: 18px;
       display: flex;
@@ -494,21 +441,26 @@
       margin-bottom: 0;
       min-width: 0;
 
-      /*
-        Entrata iniziale.
-        Parte solo quando la sezione viene
-        effettivamente visualizzata.
-      */
+      /* GET IN entrance animation */
       opacity: 0;
       transform: translate3d(0, 18px, 0);
-      transition:
-        opacity .4s ease,
-        transform .4s cubic-bezier(.22,.61,.36,1);
+      will-change: transform, opacity;
     }
 
-    .register-title.visible {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
+    .register-title.get-in-visible {
+      animation: getInReveal .42s cubic-bezier(.22,.75,.25,1) forwards;
+    }
+
+    @keyframes getInReveal {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 18px, 0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
     }
 
     /* VIDEO */
@@ -520,22 +472,6 @@
 
       /* Necessario per posizionare le cornici sugli angoli */
       position: relative;
-
-      /*
-        Il video parte leggermente spostato
-        e trasparente.
-      */
-      opacity: 0;
-      transform: translate3d(-12px, 0, 0);
-
-      transition:
-        opacity .35s ease,
-        transform .4s cubic-bezier(.22,.61,.36,1);
-    }
-
-    .register-video-box.visible {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
     }
 
     .register-video {
@@ -572,15 +508,6 @@
       height: 18px;
       pointer-events: none;
       z-index: 5;
-
-      opacity: 0;
-      transition:
-        opacity .25s ease;
-    }
-
-    .register-video-box.visible::before,
-    .register-video-box.visible::after {
-      opacity: 1;
     }
 
     /* Angolo superiore sinistro */
@@ -632,23 +559,11 @@
       outline: none;
       font-size: 15px;
       font-weight: 600;
-
-      transition:
-        border-color .18s ease,
-        box-shadow .18s ease;
     }
 
     .form-group input:focus {
       border-color: var(--red);
-
-      /*
-        Piccolo accento rosso laterale:
-        entra rapidamente quando l'utente
-        attiva il campo.
-      */
-      box-shadow:
-        inset 4px 0 0 var(--red),
-        0 0 0 1px rgba(255,0,0,.08);
+      box-shadow: inset 4px 0 0 var(--red);
     }
 
     /* INSTAGRAM */
@@ -797,35 +712,11 @@
     }
 
     .submit-button:active {
-      transform: scale(.96);
+      transform: scale(.98);
     }
 
     .submit-button:hover {
       background: var(--red);
-    }
-
-    /*
-      Feedback fisico del submit:
-      piccolo "colpo" quando viene premuto.
-    */
-    .submit-button.processing {
-      animation: submitPulse .28s ease;
-    }
-
-    @keyframes submitPulse {
-
-      0% {
-        transform: scale(1);
-      }
-
-      45% {
-        transform: scale(.965);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-
     }
 
     .form-status {
@@ -1006,12 +897,12 @@
     <!-- GET IN + VIDEO -->
     <div class="register-heading">
 
-      <h2 class="register-title" id="registerTitle">
+      <h2 class="register-title">
         GET<br>
         IN.
       </h2>
 
-      <div class="register-video-box" id="registerVideoBox">
+      <div class="register-video-box">
 
         <video
           class="register-video"
@@ -1219,12 +1110,6 @@
     const graphics =
       document.getElementById("graphics");
 
-    const registerTitle =
-      document.getElementById("registerTitle");
-
-    const registerVideoBox =
-      document.getElementById("registerVideoBox");
-
     const instagramButton =
       document.getElementById("instagramButton");
 
@@ -1245,6 +1130,46 @@
 
     const registerVideo =
       document.getElementById("registerVideo");
+
+    const registerTitle =
+      document.querySelector(".register-title");
+
+
+    /* GET IN ENTRANCE ANIMATION */
+
+    if (registerTitle) {
+
+      const getInObserver =
+        new IntersectionObserver(
+          (entries, observer) => {
+
+            entries.forEach((entry) => {
+
+              if (entry.isIntersecting) {
+
+                registerTitle.classList.add(
+                  "get-in-visible"
+                );
+
+                observer.unobserve(
+                  registerTitle
+                );
+
+              }
+
+            });
+
+          },
+          {
+            threshold: 0.35
+          }
+        );
+
+      getInObserver.observe(
+        registerTitle
+      );
+
+    }
 
 
     /* VIDEO AUTOPLAY */
@@ -1335,133 +1260,6 @@
         once: true
       }
     );
-
-
-    /*
-      VIDEO + GET IN REVEAL
-
-      La sezione entra una sola volta
-      quando viene visualizzata.
-    */
-
-    if (
-      "IntersectionObserver" in window
-    ) {
-
-      const revealObserver =
-        new IntersectionObserver(
-          (entries, observer) => {
-
-            entries.forEach(
-              (entry) => {
-
-                if (!entry.isIntersecting) {
-                  return;
-                }
-
-                registerTitle.classList.add(
-                  "visible"
-                );
-
-                /*
-                  Il video entra appena dopo
-                  il titolo, creando una piccola
-                  differenza temporale.
-                */
-
-                setTimeout(
-                  () => {
-
-                    registerVideoBox.classList.add(
-                      "visible"
-                    );
-
-                  },
-                  70
-                );
-
-                observer.unobserve(
-                  entry.target
-                );
-
-              }
-            );
-
-          },
-          {
-            threshold: 0.2
-          }
-        );
-
-      revealObserver.observe(
-        document.querySelector(".register-heading")
-      );
-
-    } else {
-
-      registerTitle.classList.add(
-        "visible"
-      );
-
-      registerVideoBox.classList.add(
-        "visible"
-      );
-
-    }
-
-
-    /* HERO LOGO MICRO GLITCH */
-
-    let glitchTimeout = null;
-
-    function triggerHeroGlitch() {
-
-      if (
-        heroLogo.classList.contains("glitch")
-      ) {
-        return;
-      }
-
-      heroLogo.classList.add(
-        "glitch"
-      );
-
-      setTimeout(
-        () => {
-
-          heroLogo.classList.remove(
-            "glitch"
-          );
-
-        },
-        140
-      );
-
-    }
-
-
-    function scheduleHeroGlitch() {
-
-      const delay =
-        4500 +
-        Math.random() * 5000;
-
-      glitchTimeout =
-        setTimeout(
-          () => {
-
-            triggerHeroGlitch();
-
-            scheduleHeroGlitch();
-
-          },
-          delay
-        );
-
-    }
-
-
-    scheduleHeroGlitch();
 
 
     /* INSTAGRAM MEMORY */
@@ -1569,23 +1367,12 @@
           logoCurrentY
         ) * ease;
 
-      /*
-        Durante il glitch l'animazione
-        di posizione continua normalmente.
-      */
-
-      if (
-        !heroLogo.classList.contains("glitch")
-      ) {
-
-        heroLogo.style.transform =
-          `translate3d(
-            ${logoCurrentX}px,
-            ${logoCurrentY}px,
-            0
-          )`;
-
-      }
+      heroLogo.style.transform =
+        `translate3d(
+          ${logoCurrentX}px,
+          ${logoCurrentY}px,
+          0
+        )`;
 
       requestAnimationFrame(
         animateHeroLogo
@@ -1733,20 +1520,6 @@
       (event) => {
 
         event.preventDefault();
-
-        /*
-          Micro feedback fisico sul pulsante.
-        */
-
-        submitButton.classList.remove(
-          "processing"
-        );
-
-        void submitButton.offsetWidth;
-
-        submitButton.classList.add(
-          "processing"
-        );
 
         submitButton.textContent =
           "CREATING ACCESS...";
