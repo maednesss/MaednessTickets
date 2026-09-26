@@ -50,11 +50,13 @@
     }
 
     /* DESKTOP WARNING */
+
     .desktop-warning {
       display: none;
     }
 
     @media (min-width: 700px) {
+
       body > *:not(.desktop-warning) {
         display: none !important;
       }
@@ -73,9 +75,11 @@
         font-size: 34px;
         letter-spacing: .04em;
       }
+
     }
 
     /* TOPBAR */
+
     .topbar {
       position: fixed;
       z-index: 100;
@@ -109,6 +113,7 @@
     }
 
     /* SCROLL PROGRESS */
+
     .scroll-progress {
       position: fixed;
       z-index: 110;
@@ -128,6 +133,7 @@
     }
 
     /* FIXED GRAPHICS */
+
     .graphics {
       position: fixed;
       inset: 0;
@@ -169,6 +175,7 @@
     }
 
     /* HERO */
+
     .hero {
       position: relative;
       height: 82svh;
@@ -184,7 +191,6 @@
       filter: contrast(1.15);
     }
 
-    /* SMOOTH DARK GRADIENT */
     .hero::before {
       content: "";
       position: absolute;
@@ -238,6 +244,7 @@
     }
 
     /* HERO LOGO */
+
     .hero-logo {
       font-family: "Anton", sans-serif;
       font-size: clamp(70px, 23vw, 120px);
@@ -276,6 +283,7 @@
     }
 
     /* SWIPE INDICATOR */
+
     .scroll-label {
       position: absolute;
       z-index: 4;
@@ -320,6 +328,7 @@
     }
 
     @keyframes scrollChevron {
+
       0% {
         opacity: 0;
         transform: translateY(-9px) rotate(45deg);
@@ -337,11 +346,11 @@
         opacity: 0;
         transform: translateY(17px) rotate(45deg);
       }
+
     }
 
-
     /* =========================================================
-       MOTION / TYPOGRAPHIC SCANNER
+       MOTION — FESSURA
        ========================================================= */
 
     .motion {
@@ -351,292 +360,230 @@
       overflow: hidden;
       display: flex;
       align-items: center;
-      background: var(--red);
-    }
-
-    /*
-      SOPRA:
-      nero -> rosso
-    */
-
-    .motion::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 30%;
-      z-index: 5;
-      pointer-events: none;
-
-      background:
-        linear-gradient(
-          to bottom,
-          rgba(5,5,5,1) 0%,
-          rgba(5,5,5,.72) 25%,
-          rgba(5,5,5,.28) 62%,
-          rgba(5,5,5,0) 100%
-        );
-    }
-
-    /*
-      SOTTO:
-      rosso -> bianco
-      NESSUN NERO
-    */
-
-    .motion::after {
-      content: "";
-      position: absolute;
-      inset: auto 0 0 0;
-      height: 23%;
-      z-index: 5;
-      pointer-events: none;
-
-      background:
-        linear-gradient(
-          to bottom,
-          rgba(255,255,255,0) 0%,
-          rgba(255,255,255,.35) 55%,
-          rgba(255,255,255,.82) 82%,
-          var(--white) 100%
-        );
-    }
-
-
-    /*
-      CAMPO TESTUALE
-    */
-
-    .scanner-field {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-
-      display: flex;
-      flex-direction: column;
       justify-content: center;
+      background: var(--black);
+    }
 
-      gap: 4px;
+    /*
+      ENORME MÆDNESS
 
-      overflow: hidden;
+      La scritta è molto più grande della viewport.
+      Non viene animata autonomamente.
+
+      La sua posizione verticale viene controllata
+      dallo scroll tramite JavaScript.
+    */
+
+    .motion-word {
+      position: absolute;
+      left: 50%;
+      top: 50%;
 
       transform:
         translate3d(
-          var(--field-x, 0px),
-          var(--field-y, 0px),
+          -50%,
+          -50%,
           0
         );
-
-      will-change: transform;
-    }
-
-
-    /*
-      RIGHE
-    */
-
-    .scanner-row {
-      position: relative;
-
-      width: max-content;
-      min-width: 150%;
 
       white-space: nowrap;
 
       font-family: "Anton", sans-serif;
-      font-size: clamp(9px, 2.45vw, 14px);
-      line-height: 1;
+      font-size: 46vw;
+      line-height: .72;
+      letter-spacing: -.035em;
 
-      letter-spacing: .08em;
+      color: transparent;
 
-      color: rgba(0,0,0,.88);
+      -webkit-text-stroke:
+        1px rgba(255,255,255,.48);
 
-      opacity: .9;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    /*
+      FESSURA
+
+      È una finestra nera molto stretta che
+      attraversa la scritta.
+
+      La sua posizione verticale viene controllata
+      dallo scroll.
+
+      La linea rossa dentro invece è autonoma.
+    */
+
+    .motion-slit {
+      position: absolute;
+      left: -5%;
+      width: 110%;
+      height: 54px;
+
+      top: 50%;
 
       transform:
         translate3d(
-          var(--row-x, 0px),
-          var(--row-y, 0px),
+          0,
+          -50%,
           0
         );
 
+      background: var(--black);
+
+      border-top:
+        1px solid rgba(255,255,255,.16);
+
+      border-bottom:
+        1px solid rgba(255,255,255,.16);
+
+      overflow: hidden;
+
+      z-index: 5;
+
       will-change: transform;
-
-      user-select: none;
+      pointer-events: none;
     }
-
 
     /*
-      SFALSAMENTO INIZIALE
+      LINEA ROSSA AUTONOMA
+
+      Questa è indipendente dallo scroll.
+
+      Attraversa continuamente la fessura.
     */
 
-    .scanner-row:nth-child(1) {
-      margin-left: -14%;
-    }
-
-    .scanner-row:nth-child(2) {
-      margin-left: 7%;
-    }
-
-    .scanner-row:nth-child(3) {
-      margin-left: -23%;
-    }
-
-    .scanner-row:nth-child(4) {
-      margin-left: 3%;
-    }
-
-    .scanner-row:nth-child(5) {
-      margin-left: -9%;
-    }
-
-    .scanner-row:nth-child(6) {
-      margin-left: 15%;
-    }
-
-    .scanner-row:nth-child(7) {
-      margin-left: -18%;
-    }
-
-    .scanner-row:nth-child(8) {
-      margin-left: 5%;
-    }
-
-    .scanner-row:nth-child(9) {
-      margin-left: -7%;
-    }
-
-    .scanner-row:nth-child(10) {
-      margin-left: 12%;
-    }
-
-    .scanner-row:nth-child(11) {
-      margin-left: -20%;
-    }
-
-    .scanner-row:nth-child(12) {
-      margin-left: 2%;
-    }
-
-
-    /*
-      PICCOLE VARIAZIONI DI DENSITÀ
-    */
-
-    .scanner-row:nth-child(3),
-    .scanner-row:nth-child(7),
-    .scanner-row:nth-child(11) {
-      opacity: .68;
-    }
-
-    .scanner-row:nth-child(5),
-    .scanner-row:nth-child(9) {
-      opacity: .78;
-    }
-
-
-    /*
-      SCANNER CENTRALE
-      UNA SOLA LINEA
-    */
-
-    .scanner-line {
+    .slit-runner {
       position: absolute;
 
-      top: 8%;
-      bottom: 8%;
-      left: 50%;
+      top: 50%;
+      left: -35%;
 
-      width: 1px;
+      width: 42%;
+      height: 4px;
 
-      z-index: 7;
-
-      background: rgba(0,0,0,.95);
+      background: var(--red);
 
       transform:
-        translateX(-50%)
-        scaleY(.92);
-
-      transform-origin: center;
-
-      pointer-events: none;
-
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.06);
-
-      animation:
-        scannerPulse 3.8s ease-in-out infinite;
-    }
-
-
-    /*
-      ZONA DI LETTURA DELLO SCANNER
-    */
-
-    .scanner-line::before {
-      content: "";
-
-      position: absolute;
-
-      top: 0;
-      bottom: 0;
-
-      left: 50%;
-
-      width: 17px;
-
-      transform: translateX(-50%);
-
-      background: rgba(255,255,255,.045);
-
-      pointer-events: none;
-    }
-
-
-    /*
-      PICCOLO SEGNALE LUMINOSO
-    */
-
-    .scanner-line::after {
-      content: "";
-
-      position: absolute;
-
-      top: 0;
-      bottom: 0;
-
-      left: 50%;
-
-      width: 3px;
-
-      transform: translateX(-50%);
-
-      background:
-        linear-gradient(
-          to bottom,
-          rgba(255,255,255,0),
-          rgba(255,255,255,.22),
-          rgba(255,255,255,0)
+        translate3d(
+          0,
+          -50%,
+          0
         );
 
-      pointer-events: none;
+      animation:
+        slitRunner 2.8s
+        cubic-bezier(.65,0,.35,1)
+        infinite;
+
+      will-change: transform;
     }
 
+    @keyframes slitRunner {
 
-    @keyframes scannerPulse {
+      0% {
+        transform:
+          translate3d(
+            0,
+            -50%,
+            0
+          );
+      }
 
-      0%,
       100% {
-        opacity: .72;
-      }
-
-      50% {
-        opacity: 1;
+        transform:
+          translate3d(
+            330%,
+            -50%,
+            0
+          );
       }
 
     }
 
+    /*
+      Seconda linea molto sottile.
+
+      Non segue il movimento principale:
+      crea profondità senza trasformare
+      la sezione in uno scanner.
+    */
+
+    .slit-runner-thin {
+      position: absolute;
+
+      top: 50%;
+      left: -20%;
+
+      width: 18%;
+      height: 1px;
+
+      background: rgba(255,255,255,.42);
+
+      transform:
+        translate3d(
+          0,
+          -50%,
+          0
+        );
+
+      animation:
+        slitRunnerThin 4.7s
+        linear
+        infinite;
+
+      will-change: transform;
+    }
+
+    @keyframes slitRunnerThin {
+
+      0% {
+        transform:
+          translate3d(
+            0,
+            -50%,
+            0
+          );
+      }
+
+      100% {
+        transform:
+          translate3d(
+            650%,
+            -50%,
+            0
+          );
+      }
+
+    }
+
+    /*
+      Bordo rosso minimo della fessura.
+
+      Rimane fermo rispetto alla finestra.
+    */
+
+    .motion-slit::before,
+    .motion-slit::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--red);
+      opacity: .65;
+    }
+
+    .motion-slit::before {
+      top: 0;
+    }
+
+    .motion-slit::after {
+      bottom: 0;
+    }
 
     /* REGISTRATION */
+
     .registration {
       position: relative;
       z-index: 5;
@@ -661,6 +608,7 @@
     }
 
     /* GET IN + VIDEO */
+
     .register-heading {
       --register-title-size: clamp(60px, 19.5vw, 76px);
       --register-video-width: clamp(130px, 40vw, 155px);
@@ -685,17 +633,21 @@
       margin-bottom: 0;
       min-width: 0;
 
-      /* GET IN entrance animation */
       opacity: 0;
       transform: translate3d(0, 18px, 0);
       will-change: transform, opacity;
     }
 
     .register-title.get-in-visible {
-      animation: getInReveal .42s cubic-bezier(.22,.75,.25,1) forwards;
+      animation:
+        getInReveal
+        .42s
+        cubic-bezier(.22,.75,.25,1)
+        forwards;
     }
 
     @keyframes getInReveal {
+
       0% {
         opacity: 0;
         transform: translate3d(0, 18px, 0);
@@ -705,15 +657,16 @@
         opacity: 1;
         transform: translate3d(0, 0, 0);
       }
+
     }
 
     /* VIDEO */
+
     .register-video-box {
       width: var(--register-video-width);
       margin: 0;
       justify-self: end;
       align-self: start;
-
       position: relative;
     }
 
@@ -731,10 +684,6 @@
       appearance: none;
     }
 
-    /*
-      CORNICI ROSSE VIDEO
-    */
-
     .register-video-box::before,
     .register-video-box::after {
       content: "";
@@ -746,14 +695,12 @@
       z-index: 5;
     }
 
-    /* Angolo superiore sinistro */
     .register-video-box::before {
       top: -5px;
       border-left: 1px solid var(--red);
       border-top: 1px solid var(--red);
     }
 
-    /* Angolo inferiore sinistro */
     .register-video-box::after {
       top: calc(clamp(97.5px, 30vw, 116px) - 13px);
       bottom: auto;
@@ -803,6 +750,7 @@
     }
 
     /* INSTAGRAM */
+
     .instagram-box {
       margin-top: 22px;
       margin-bottom: 18px;
@@ -892,6 +840,7 @@
     }
 
     @keyframes instaClick {
+
       0% {
         transform: scale(1);
       }
@@ -907,9 +856,11 @@
       100% {
         transform: scale(1);
       }
+
     }
 
     @keyframes iconPop {
+
       0% {
         transform: rotate(0) scale(1);
       }
@@ -921,6 +872,7 @@
       100% {
         transform: rotate(0) scale(1);
       }
+
     }
 
     .instagram-status.active {
@@ -929,6 +881,7 @@
     }
 
     /* SUBMIT */
+
     .submit-button {
       width: 100%;
       height: 58px;
@@ -965,6 +918,7 @@
     }
 
     /* BOTTOM */
+
     .registration-bottom {
       margin-top: 45px;
       display: flex;
@@ -995,6 +949,7 @@
     }
 
     @keyframes rotateImage {
+
       from {
         transform: rotate(0deg);
       }
@@ -1002,6 +957,7 @@
       to {
         transform: rotate(360deg);
       }
+
     }
 
     .registration-footer {
@@ -1012,6 +968,7 @@
       font-weight: 900;
       letter-spacing: .16em;
     }
+
   </style>
 </head>
 
@@ -1039,6 +996,7 @@
   </div>
 
   <!-- FIXED MICRO GRAPHICS -->
+
   <div class="graphics" id="graphics">
 
     <div class="micro micro-1">
@@ -1060,6 +1018,7 @@
   </div>
 
   <!-- HERO -->
+
   <section class="hero" id="hero">
 
     <div class="hero-content">
@@ -1098,71 +1057,36 @@
 
   </section>
 
+  <!-- =====================================================
+       MOTION — FESSURA
+       ===================================================== -->
 
-  <!-- MOTION / SCANNER -->
-  <section class="motion" id="motionScanner">
+  <section class="motion" id="motion">
 
-    <div class="scanner-field">
-
-      <div class="scanner-row">
-        MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT —
-      </div>
-
-      <div class="scanner-row">
-        18.10.2026 — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT —
-      </div>
-
-      <div class="scanner-row">
-        ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS —
-      </div>
-
-      <div class="scanner-row">
-        MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — ROTAROTT —
-      </div>
-
-      <div class="scanner-row">
-        ROTAROTT — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS —
-      </div>
-
-      <div class="scanner-row">
-        18.10.2026 — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS —
-      </div>
-
-      <div class="scanner-row">
-        MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT —
-      </div>
-
-      <div class="scanner-row">
-        ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — MÆDNESS —
-      </div>
-
-      <div class="scanner-row">
-        MÆDNESS — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT —
-      </div>
-
-      <div class="scanner-row">
-        18.10.2026 — MÆDNESS — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — ROTAROTT —
-      </div>
-
-      <div class="scanner-row">
-        ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS —
-      </div>
-
-      <div class="scanner-row">
-        MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT —
-      </div>
-
+    <div
+      class="motion-word"
+      id="motionWord"
+      aria-hidden="true"
+    >
+      MÆDNESS
     </div>
 
     <div
-      class="scanner-line"
+      class="motion-slit"
+      id="motionSlit"
       aria-hidden="true"
-    ></div>
+    >
+
+      <div class="slit-runner"></div>
+
+      <div class="slit-runner-thin"></div>
+
+    </div>
 
   </section>
 
-
   <!-- REGISTRATION -->
+
   <section class="registration">
 
     <div class="registration-top">
@@ -1178,6 +1102,7 @@
     </div>
 
     <!-- GET IN + VIDEO -->
+
     <div class="register-heading">
 
       <h2 class="register-title">
@@ -1267,6 +1192,7 @@
       </div>
 
       <!-- INSTAGRAM -->
+
       <div class="instagram-box">
 
         <button
@@ -1330,6 +1256,7 @@
       </div>
 
       <!-- SUBMIT -->
+
       <button
         type="submit"
         class="submit-button"
@@ -1346,6 +1273,7 @@
     </form>
 
     <!-- BOTTOM ROTAROTT + HERO2 -->
+
     <div class="registration-bottom">
 
       <div class="registration-bottom-title">
@@ -1374,7 +1302,6 @@
 
   </section>
 
-
   <script>
 
     /* ELEMENTS */
@@ -1388,14 +1315,11 @@
     const heroLogo =
       document.getElementById("heroLogo");
 
-    const motionScanner =
-      document.getElementById("motionScanner");
+    const motionWord =
+      document.getElementById("motionWord");
 
-    const scannerField =
-      document.querySelector(".scanner-field");
-
-    const scannerRows =
-      document.querySelectorAll(".scanner-row");
+    const motionSlit =
+      document.getElementById("motionSlit");
 
     const graphics =
       document.getElementById("graphics");
@@ -1625,13 +1549,6 @@
 
     /*
       HERO LOGO SMOOTH MOTION
-
-      Il logo si sposta verso destra
-      durante lo scroll.
-
-      Il movimento massimo è stato ridotto
-      per evitare che la scritta superi
-      il bordo dello schermo.
     */
 
     let logoTargetX = -3;
@@ -1692,15 +1609,7 @@
         `${scrollPercent * 100}%`;
 
 
-      /*
-        MICRO GRAPHICS FADE
-
-        Le scritte rimangono completamente
-        visibili all'inizio.
-
-        Durante i primi 420px di scroll
-        diventano gradualmente trasparenti.
-      */
+      /* MICRO GRAPHICS FADE */
 
       const graphicsFade =
         Math.max(
@@ -1712,7 +1621,7 @@
         graphicsFade;
 
 
-      /* Hero parallax */
+      /* HERO PARALLAX */
 
       const heroOffset =
         Math.min(
@@ -1724,13 +1633,7 @@
         `center calc(50% + ${heroOffset}px)`;
 
 
-      /*
-        HERO LOGO
-
-        Movimento verso destra.
-
-        Massimo +55px.
-      */
+      /* HERO LOGO */
 
       const logoMove =
         Math.min(
@@ -1742,10 +1645,6 @@
         -3 + logoMove;
 
 
-      /*
-        Leggerissimo movimento verticale.
-      */
-
       logoTargetY =
         Math.min(
           scrollTop * 0.025,
@@ -1754,106 +1653,79 @@
 
 
       /*
-        TYPOGRAPHIC SCANNER
+        =====================================================
+        FESSURA — SCROLL CONTROL
 
-        Lo scroll muove il campo e
-        soprattutto le singole righe.
+        La posizione della fessura segue lo scroll.
 
-        Ogni livello ha una velocità
-        e una direzione leggermente diversa.
+        Importante:
+        il movimento della fessura è diverso
+        dall'animazione autonoma del nastro rosso.
+
+        La fessura attraversa la scritta in verticale.
+        =====================================================
       */
 
-      if (
-        motionScanner &&
-        scannerField &&
-        scannerRows.length
-      ) {
+      const motionStart =
+        hero.offsetHeight;
 
-        const scannerRect =
-          motionScanner.getBoundingClientRect();
+      const motionHeight =
+        document.querySelector(".motion").offsetHeight;
 
-        const viewportCenter =
-          window.innerHeight * 0.5;
-
-        const scannerCenter =
-          scannerRect.top +
-          scannerRect.height * 0.5;
-
-        const scannerProgress =
-          (
-            scannerCenter -
-            viewportCenter
-          ) /
-          Math.max(
-            window.innerHeight,
-            1
-          );
-
-
-        /*
-          Movimento generale molto leggero.
-        */
-
-        const fieldX =
-          scannerProgress * -12;
-
-        const fieldY =
-          scannerProgress * 3;
-
-        scannerField.style.setProperty(
-          "--field-x",
-          `${fieldX}px`
-        );
-
-        scannerField.style.setProperty(
-          "--field-y",
-          `${fieldY}px`
+      const motionProgress =
+        Math.max(
+          0,
+          Math.min(
+            1,
+            (
+              scrollTop -
+              motionStart +
+              window.innerHeight * 0.15
+            ) /
+            (
+              motionHeight +
+              window.innerHeight * 0.3
+            )
+          )
         );
 
 
-        /*
-          Movimento individuale
-          delle diverse righe.
-        */
+      /*
+        La fessura parte più in alto
+        e scende progressivamente.
+      */
 
-        scannerRows.forEach(
-          (row, index) => {
+      const slitTravel =
+        -45 +
+        (motionProgress * 190);
 
-            const direction =
-              index % 2 === 0
-                ? 1
-                : -1;
 
-            const speed =
-              13 +
-              (index % 5) * 7;
+      motionSlit.style.transform =
+        `translate3d(
+          0,
+          calc(-50% + ${slitTravel}px),
+          0
+        )`;
 
-            const x =
-              scannerProgress *
-              speed *
-              direction;
 
-            const y =
-              scannerProgress *
-              (
-                (index % 3) - 1
-              ) *
-              2.2;
+      /*
+        La scritta segue lo scroll con un
+        movimento molto più lento e opposto.
 
-            row.style.setProperty(
-              "--row-x",
-              `${x}px`
-            );
+        Questo crea una differenza visiva:
+        la fessura attraversa MÆDNESS.
+      */
 
-            row.style.setProperty(
-              "--row-y",
-              `${y}px`
-            );
+      const wordTravel =
+        (motionProgress - 0.5) * -55;
 
-          }
-        );
 
-      }
+      motionWord.style.transform =
+        `translate3d(
+          -50%,
+          calc(-50% + ${wordTravel}px),
+          0
+        )`;
 
 
       ticking = false;
