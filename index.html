@@ -274,43 +274,70 @@
       font-weight: 800;
     }
 
-    /* SWIPE INDICATOR */
+    /* SCROLL INDICATOR */
     .scroll-label {
       position: absolute;
       z-index: 4;
       right: 16px;
       bottom: 31px;
+      width: 12px;
+      height: 58px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 7px;
-      font-size: 7px;
-      letter-spacing: .3em;
-      font-weight: 900;
-      writing-mode: vertical-rl;
+      justify-content: flex-start;
+      gap: 1px;
     }
 
-    .scroll-label::after {
-      content: "";
+    .scroll-label span {
       display: block;
-      width: 6px;
-      height: 6px;
-      border-right: 1px solid var(--white);
-      border-bottom: 1px solid var(--white);
+      width: 7px;
+      height: 7px;
+      border-right: 1.5px solid var(--white);
+      border-bottom: 1.5px solid var(--white);
       transform: rotate(45deg);
-      animation: swipeArrow 1.5s ease-in-out infinite;
+      opacity: 0;
+      animation: scrollArrow 1.5s ease-in-out infinite;
     }
 
-    @keyframes swipeArrow {
-      0%,
-      100% {
-        transform: translateY(0) rotate(45deg);
-        opacity: .45;
+    .scroll-label span:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .scroll-label span:nth-child(2) {
+      animation-delay: .22s;
+    }
+
+    .scroll-label span:nth-child(3) {
+      animation-delay: .44s;
+    }
+
+    .scroll-label span:nth-child(4) {
+      animation-delay: .66s;
+    }
+
+    @keyframes scrollArrow {
+      0% {
+        opacity: 0;
+        transform: translateY(-5px) rotate(45deg);
+      }
+
+      25% {
+        opacity: .85;
       }
 
       50% {
-        transform: translateY(5px) rotate(45deg);
         opacity: 1;
+        transform: translateY(3px) rotate(45deg);
+      }
+
+      75% {
+        opacity: .35;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(8px) rotate(45deg);
       }
     }
 
@@ -764,8 +791,11 @@
 
     </div>
 
-    <div class="scroll-label">
-      SWIPE
+    <div class="scroll-label" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
 
   </section>
