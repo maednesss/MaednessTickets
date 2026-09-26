@@ -51,11 +51,13 @@
     }
 
     /* DESKTOP WARNING */
+
     .desktop-warning {
       display: none;
     }
 
     @media (min-width: 700px) {
+
       body > *:not(.desktop-warning) {
         display: none !important;
       }
@@ -77,6 +79,7 @@
     }
 
     /* TOPBAR */
+
     .topbar {
       position: fixed;
       z-index: 100;
@@ -110,6 +113,7 @@
     }
 
     /* SCROLL PROGRESS */
+
     .scroll-progress {
       position: fixed;
       z-index: 110;
@@ -129,6 +133,7 @@
     }
 
     /* FIXED GRAPHICS */
+
     .graphics {
       position: fixed;
       inset: 0;
@@ -169,6 +174,7 @@
     }
 
     /* HERO */
+
     .hero {
       position: relative;
       height: 82svh;
@@ -188,6 +194,7 @@
     }
 
     /* SMOOTH DARK GRADIENT */
+
     .hero::before {
       content: "";
       position: absolute;
@@ -240,59 +247,16 @@
       margin-bottom: 7px;
     }
 
-    /* HERO LOGO — NUOVA ANIMAZIONE */
     .hero-logo {
       font-family: "Anton", sans-serif;
       font-size: clamp(70px, 23vw, 120px);
       line-height: .78;
       letter-spacing: -.035em;
       white-space: nowrap;
-
       text-shadow:
         4px 0 var(--red),
         -2px 0 rgba(255,255,255,.3);
-
-      transform:
-        translate3d(0, 0, 0)
-        scale(1);
-
-      transform-origin: left center;
-
-      opacity: 1;
-      filter: blur(0);
-
-      will-change: transform, opacity, filter;
-
-      animation:
-        heroLogoEntrance .95s cubic-bezier(.16,1,.3,1) both;
-    }
-
-    @keyframes heroLogoEntrance {
-
-      0% {
-        opacity: 0;
-        transform:
-          translate3d(0, 24px, 0)
-          scale(.88);
-        filter: blur(12px);
-      }
-
-      55% {
-        opacity: 1;
-        transform:
-          translate3d(0, -3px, 0)
-          scale(1.015);
-        filter: blur(0);
-      }
-
-      100% {
-        opacity: 1;
-        transform:
-          translate3d(0, 0, 0)
-          scale(1);
-        filter: blur(0);
-      }
-
+      transform: translateX(-3px);
     }
 
     .hero-event {
@@ -337,6 +301,7 @@
     }
 
     /* MOTION */
+
     .motion {
       position: relative;
       height: 32svh;
@@ -389,6 +354,7 @@
     }
 
     /* REGISTRATION */
+
     .registration {
       position: relative;
       z-index: 5;
@@ -413,17 +379,22 @@
     }
 
     /* GET IN + VIDEO */
+
     .register-heading {
       --register-title-size: clamp(60px, 19.5vw, 76px);
       --register-video-width: clamp(130px, 40vw, 155px);
       --register-heading-gap: clamp(2px, 1vw, 4px);
 
       display: grid;
+
       grid-template-columns:
         minmax(0, 1fr)
         var(--register-video-width);
+
       column-gap: var(--register-heading-gap);
+
       align-items: start;
+
       margin-bottom: 28px;
     }
 
@@ -437,6 +408,7 @@
     }
 
     /* VIDEO */
+
     .register-video-box {
       width: var(--register-video-width);
       margin: 0;
@@ -500,6 +472,7 @@
     }
 
     /* INSTAGRAM */
+
     .instagram-box {
       margin-top: 22px;
       margin-bottom: 18px;
@@ -625,6 +598,7 @@
     }
 
     /* SUBMIT */
+
     .submit-button {
       width: 100%;
       height: 58px;
@@ -660,12 +634,15 @@
     }
 
     /* BOTTOM */
+
     .registration-bottom {
       margin-top: 45px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+
+      width: 100%;
     }
 
     .registration-bottom-title {
@@ -680,10 +657,16 @@
     .registration-bottom-image {
       width: clamp(58px, 17vw, 78px);
       height: clamp(58px, 17vw, 78px);
+
       object-fit: contain;
       object-position: center;
+
       display: block;
       flex: 0 0 auto;
+
+      background: transparent;
+      border: 0;
+
       animation: rotateImage 7s linear infinite;
     }
 
@@ -716,6 +699,7 @@
   </div>
 
   <header class="topbar">
+
     <div class="top-logo">
       MÆDNESS<span class="registered">®</span>
     </div>
@@ -723,6 +707,7 @@
     <div class="top-event">
       ROTAROTT / 001
     </div>
+
   </header>
 
   <div class="scroll-progress">
@@ -730,11 +715,26 @@
   </div>
 
   <div class="graphics">
-    <div class="micro micro-1">41°27'N / 15°33'E</div>
-    <div class="micro micro-2">NO SIGNAL / 001</div>
-    <div class="micro micro-3">MÆDNESS / FOGGIA</div>
-    <div class="micro micro-4">ACCESS / 2026</div>
+
+    <div class="micro micro-1">
+      41°27'N / 15°33'E
+    </div>
+
+    <div class="micro micro-2">
+      NO SIGNAL / 001
+    </div>
+
+    <div class="micro micro-3">
+      MÆDNESS / FOGGIA
+    </div>
+
+    <div class="micro micro-4">
+      ACCESS / 2026
+    </div>
+
   </div>
+
+  <!-- HERO -->
 
   <section class="hero" id="hero">
 
@@ -769,6 +769,8 @@
 
   </section>
 
+  <!-- MOTION -->
+
   <section class="motion">
 
     <div class="motion-word" id="motionWord">
@@ -785,6 +787,8 @@
 
   </section>
 
+  <!-- REGISTRATION -->
+
   <section class="registration">
 
     <div class="registration-top">
@@ -798,6 +802,8 @@
       </span>
 
     </div>
+
+    <!-- GET IN + VIDEO -->
 
     <div class="register-heading">
 
@@ -887,6 +893,8 @@
 
       </div>
 
+      <!-- INSTAGRAM -->
+
       <div class="instagram-box">
 
         <button
@@ -949,6 +957,8 @@
 
       </div>
 
+      <!-- SUBMIT -->
+
       <button
         type="submit"
         class="submit-button"
@@ -964,11 +974,13 @@
 
     </form>
 
+    <!-- BOTTOM ROTAROTT + HERO2 -->
+
     <div class="registration-bottom">
 
-      <span class="registration-bottom-title">
+      <div class="registration-bottom-title">
         ROTAROTT
-      </span>
+      </div>
 
       <img
         src="./hero2.svg"
@@ -1225,31 +1237,16 @@
         `center calc(50% + ${heroOffset}px)`;
 
 
-      /* HERO LOGO — NUOVO MOVIMENTO */
+      /* Hero logo */
 
       const logoMove =
         Math.min(
-          scrollTop * 0.075,
-          42
-        );
-
-      const logoScale =
-        Math.max(
-          1 - scrollTop * 0.00035,
-          0.975
-        );
-
-      const logoOpacity =
-        Math.max(
-          1 - scrollTop * 0.0012,
-          0.78
+          scrollTop * 0.08,
+          45
         );
 
       heroLogo.style.transform =
-        `translate3d(0, ${logoMove}px, 0) scale(${logoScale})`;
-
-      heroLogo.style.opacity =
-        logoOpacity;
+        `translateX(${-3 + logoMove}px)`;
 
 
       /* Motion word */
@@ -1279,6 +1276,45 @@
           ticking = true;
 
         }
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    /* TOUCH PARALLAX */
+
+    let touchStartY = 0;
+
+
+    window.addEventListener(
+      "touchstart",
+      (event) => {
+
+        touchStartY =
+          event.touches[0].clientY;
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    window.addEventListener(
+      "touchmove",
+      (event) => {
+
+        const currentY =
+          event.touches[0].clientY;
+
+        const delta =
+          touchStartY - currentY;
+
+        heroLogo.style.transform =
+          `translateX(${-3 + delta * .025}px)`;
 
       },
       {
