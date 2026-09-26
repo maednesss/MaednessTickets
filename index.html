@@ -339,7 +339,11 @@
       }
     }
 
-    /* MOTION */
+
+    /* =========================================================
+       MOTION / TYPOGRAPHIC SCANNER
+       ========================================================= */
+
     .motion {
       position: relative;
       height: 32svh;
@@ -347,50 +351,290 @@
       overflow: hidden;
       display: flex;
       align-items: center;
-      background: var(--black);
+      background: var(--red);
     }
 
-    .motion-word {
+    /*
+      SOPRA:
+      nero -> rosso
+    */
+
+    .motion::before {
+      content: "";
       position: absolute;
-      left: -8%;
-      white-space: nowrap;
-      font-family: "Anton", sans-serif;
-      font-size: 29vw;
-      line-height: .8;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,.35);
-      transform: translateX(0);
+      inset: 0 0 auto 0;
+      height: 30%;
+      z-index: 5;
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(5,5,5,1) 0%,
+          rgba(5,5,5,.72) 25%,
+          rgba(5,5,5,.28) 62%,
+          rgba(5,5,5,0) 100%
+        );
+    }
+
+    /*
+      SOTTO:
+      rosso -> bianco
+      NESSUN NERO
+    */
+
+    .motion::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 23%;
+      z-index: 5;
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(255,255,255,0) 0%,
+          rgba(255,255,255,.35) 55%,
+          rgba(255,255,255,.82) 82%,
+          var(--white) 100%
+        );
+    }
+
+
+    /*
+      CAMPO TESTUALE
+    */
+
+    .scanner-field {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      gap: 4px;
+
+      overflow: hidden;
+
+      transform:
+        translate3d(
+          var(--field-x, 0px),
+          var(--field-y, 0px),
+          0
+        );
+
       will-change: transform;
     }
 
-    .marquee {
-      position: absolute;
-      left: -20%;
-      width: 145%;
-      padding: 13px 0;
-      background: var(--red);
-      color: var(--black);
-      transform: rotate(-7deg);
-      overflow: hidden;
-    }
 
-    .marquee-track {
+    /*
+      RIGHE
+    */
+
+    .scanner-row {
+      position: relative;
+
+      width: max-content;
+      min-width: 150%;
+
       white-space: nowrap;
+
       font-family: "Anton", sans-serif;
-      font-size: 25px;
-      letter-spacing: .03em;
-      animation: marquee 9s linear infinite;
+      font-size: clamp(9px, 2.45vw, 14px);
+      line-height: 1;
+
+      letter-spacing: .08em;
+
+      color: rgba(0,0,0,.88);
+
+      opacity: .9;
+
+      transform:
+        translate3d(
+          var(--row-x, 0px),
+          var(--row-y, 0px),
+          0
+        );
+
+      will-change: transform;
+
+      user-select: none;
     }
 
-    @keyframes marquee {
-      from {
-        transform: translateX(0);
+
+    /*
+      SFALSAMENTO INIZIALE
+    */
+
+    .scanner-row:nth-child(1) {
+      margin-left: -14%;
+    }
+
+    .scanner-row:nth-child(2) {
+      margin-left: 7%;
+    }
+
+    .scanner-row:nth-child(3) {
+      margin-left: -23%;
+    }
+
+    .scanner-row:nth-child(4) {
+      margin-left: 3%;
+    }
+
+    .scanner-row:nth-child(5) {
+      margin-left: -9%;
+    }
+
+    .scanner-row:nth-child(6) {
+      margin-left: 15%;
+    }
+
+    .scanner-row:nth-child(7) {
+      margin-left: -18%;
+    }
+
+    .scanner-row:nth-child(8) {
+      margin-left: 5%;
+    }
+
+    .scanner-row:nth-child(9) {
+      margin-left: -7%;
+    }
+
+    .scanner-row:nth-child(10) {
+      margin-left: 12%;
+    }
+
+    .scanner-row:nth-child(11) {
+      margin-left: -20%;
+    }
+
+    .scanner-row:nth-child(12) {
+      margin-left: 2%;
+    }
+
+
+    /*
+      PICCOLE VARIAZIONI DI DENSITÀ
+    */
+
+    .scanner-row:nth-child(3),
+    .scanner-row:nth-child(7),
+    .scanner-row:nth-child(11) {
+      opacity: .68;
+    }
+
+    .scanner-row:nth-child(5),
+    .scanner-row:nth-child(9) {
+      opacity: .78;
+    }
+
+
+    /*
+      SCANNER CENTRALE
+      UNA SOLA LINEA
+    */
+
+    .scanner-line {
+      position: absolute;
+
+      top: 8%;
+      bottom: 8%;
+      left: 50%;
+
+      width: 1px;
+
+      z-index: 7;
+
+      background: rgba(0,0,0,.95);
+
+      transform:
+        translateX(-50%)
+        scaleY(.92);
+
+      transform-origin: center;
+
+      pointer-events: none;
+
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.06);
+
+      animation:
+        scannerPulse 3.8s ease-in-out infinite;
+    }
+
+
+    /*
+      ZONA DI LETTURA DELLO SCANNER
+    */
+
+    .scanner-line::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      bottom: 0;
+
+      left: 50%;
+
+      width: 17px;
+
+      transform: translateX(-50%);
+
+      background: rgba(255,255,255,.045);
+
+      pointer-events: none;
+    }
+
+
+    /*
+      PICCOLO SEGNALE LUMINOSO
+    */
+
+    .scanner-line::after {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      bottom: 0;
+
+      left: 50%;
+
+      width: 3px;
+
+      transform: translateX(-50%);
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(255,255,255,0),
+          rgba(255,255,255,.22),
+          rgba(255,255,255,0)
+        );
+
+      pointer-events: none;
+    }
+
+
+    @keyframes scannerPulse {
+
+      0%,
+      100% {
+        opacity: .72;
       }
 
-      to {
-        transform: translateX(-35%);
+      50% {
+        opacity: 1;
       }
+
     }
+
 
     /* REGISTRATION */
     .registration {
@@ -470,7 +714,6 @@
       justify-self: end;
       align-self: start;
 
-      /* Necessario per posizionare le cornici sugli angoli */
       position: relative;
     }
 
@@ -490,13 +733,6 @@
 
     /*
       CORNICI ROSSE VIDEO
-
-      Solo lato sinistro:
-      - angolo superiore sinistro
-      - angolo inferiore sinistro
-
-      Linee sottili e corte, separate dal bordo
-      del video per mantenere l'effetto grafico.
     */
 
     .register-video-box::before,
@@ -862,22 +1098,69 @@
 
   </section>
 
-  <!-- MOTION -->
-  <section class="motion">
 
-    <div class="motion-word" id="motionWord">
-      MÆDNESS
-    </div>
+  <!-- MOTION / SCANNER -->
+  <section class="motion" id="motionScanner">
 
-    <div class="marquee">
+    <div class="scanner-field">
 
-      <div class="marquee-track">
-        ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
+      <div class="scanner-row">
+        MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT —
+      </div>
+
+      <div class="scanner-row">
+        18.10.2026 — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT —
+      </div>
+
+      <div class="scanner-row">
+        ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS —
+      </div>
+
+      <div class="scanner-row">
+        MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — ROTAROTT —
+      </div>
+
+      <div class="scanner-row">
+        ROTAROTT — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS —
+      </div>
+
+      <div class="scanner-row">
+        18.10.2026 — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS —
+      </div>
+
+      <div class="scanner-row">
+        MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT —
+      </div>
+
+      <div class="scanner-row">
+        ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT — MÆDNESS —
+      </div>
+
+      <div class="scanner-row">
+        MÆDNESS — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT —
+      </div>
+
+      <div class="scanner-row">
+        18.10.2026 — MÆDNESS — ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — ROTAROTT —
+      </div>
+
+      <div class="scanner-row">
+        ROTAROTT — MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS —
+      </div>
+
+      <div class="scanner-row">
+        MÆDNESS — 18.10.2026 — ROTAROTT — MÆDNESS — ROTAROTT — 18.10.2026 — MÆDNESS — ROTAROTT —
       </div>
 
     </div>
 
+    <div
+      class="scanner-line"
+      aria-hidden="true"
+    ></div>
+
   </section>
+
 
   <!-- REGISTRATION -->
   <section class="registration">
@@ -1091,6 +1374,7 @@
 
   </section>
 
+
   <script>
 
     /* ELEMENTS */
@@ -1104,8 +1388,14 @@
     const heroLogo =
       document.getElementById("heroLogo");
 
-    const motionWord =
-      document.getElementById("motionWord");
+    const motionScanner =
+      document.getElementById("motionScanner");
+
+    const scannerField =
+      document.querySelector(".scanner-field");
+
+    const scannerRows =
+      document.querySelectorAll(".scanner-row");
 
     const graphics =
       document.getElementById("graphics");
@@ -1410,11 +1700,6 @@
 
         Durante i primi 420px di scroll
         diventano gradualmente trasparenti.
-
-        In questo modo restano parte
-        dell'identità visiva dell'hero,
-        ma non si sovrappongono alle
-        sezioni successive.
       */
 
       const graphicsFade =
@@ -1468,17 +1753,108 @@
         );
 
 
-      /* Motion word */
+      /*
+        TYPOGRAPHIC SCANNER
 
-      const motionMove =
-        scrollTop * -0.18;
+        Lo scroll muove il campo e
+        soprattutto le singole righe.
 
-      motionWord.style.transform =
-        `translate3d(
-          ${motionMove}px,
-          0,
-          0
-        )`;
+        Ogni livello ha una velocità
+        e una direzione leggermente diversa.
+      */
+
+      if (
+        motionScanner &&
+        scannerField &&
+        scannerRows.length
+      ) {
+
+        const scannerRect =
+          motionScanner.getBoundingClientRect();
+
+        const viewportCenter =
+          window.innerHeight * 0.5;
+
+        const scannerCenter =
+          scannerRect.top +
+          scannerRect.height * 0.5;
+
+        const scannerProgress =
+          (
+            scannerCenter -
+            viewportCenter
+          ) /
+          Math.max(
+            window.innerHeight,
+            1
+          );
+
+
+        /*
+          Movimento generale molto leggero.
+        */
+
+        const fieldX =
+          scannerProgress * -12;
+
+        const fieldY =
+          scannerProgress * 3;
+
+        scannerField.style.setProperty(
+          "--field-x",
+          `${fieldX}px`
+        );
+
+        scannerField.style.setProperty(
+          "--field-y",
+          `${fieldY}px`
+        );
+
+
+        /*
+          Movimento individuale
+          delle diverse righe.
+        */
+
+        scannerRows.forEach(
+          (row, index) => {
+
+            const direction =
+              index % 2 === 0
+                ? 1
+                : -1;
+
+            const speed =
+              13 +
+              (index % 5) * 7;
+
+            const x =
+              scannerProgress *
+              speed *
+              direction;
+
+            const y =
+              scannerProgress *
+              (
+                (index % 3) - 1
+              ) *
+              2.2;
+
+            row.style.setProperty(
+              "--row-x",
+              `${x}px`
+            );
+
+            row.style.setProperty(
+              "--row-y",
+              `${y}px`
+            );
+
+          }
+        );
+
+      }
+
 
       ticking = false;
 
