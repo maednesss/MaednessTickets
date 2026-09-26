@@ -1,2160 +1,782 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  />
+<script>
 
-  <title>MÆDNESS® — ROTAROTT</title>
+/* =========================================================
+   MÆDNESS SOUND ENGINE
+   ========================================================= */
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+let audioContext = null;
+let audioMaster = null;
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;800;900&display=swap"
-    rel="stylesheet"
-  >
+let audioReady = false;
+let bootPlayed = false;
 
-  <style>
-    :root {
-      --red: #ff0000;
-      --black: #050505;
-      --white: #ffffff;
-      --green: #20d878;
-    }
+let lastScrollY = 0;
+let lastScrollSound = 0;
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+let motionSoundPlayed = false;
+let registrationSoundPlayed = false;
 
-    html {
-      scroll-behavior: smooth;
-      background: var(--black);
-    }
 
-    body {
-      background: var(--black);
-      color: var(--white);
-      font-family: "Inter", sans-serif;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+/* ---------------------------------------------------------
+   CREATE AUDIO CONTEXT
+   --------------------------------------------------------- */
 
-    button,
-    input {
-      font: inherit;
-    }
+function initAudio() {
 
-    /* DESKTOP WARNING */
+  if (audioContext) {
+    return audioContext;
+  }
 
-    .desktop-warning {
-      display: none;
-    }
+  const AudioContext =
+    window.AudioContext ||
+    window.webkitAudioContext;
 
-    @media (min-width: 700px) {
-      body > *:not(.desktop-warning) {
-        display: none !important;
-      }
+  if (!AudioContext) {
+    return null;
+  }
 
-      .desktop-warning {
-        position: fixed;
-        inset: 0;
-        background: #050505;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 40px;
-        font-family: "Anton", sans-serif;
-        font-size: 34px;
-        letter-spacing: .04em;
-      }
-    }
+  try {
 
-    /* TOPBAR */
+    audioContext =
+      new AudioContext();
 
-    .topbar {
-      position: fixed;
-      z-index: 100;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 52px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 16px;
-      mix-blend-mode: difference;
-      pointer-events: none;
-    }
-
-    .top-logo {
-      font-family: "Anton", sans-serif;
-      font-size: 21px;
-      letter-spacing: .04em;
-    }
-
-    .top-logo .registered {
-      position: relative;
-      top: -2px;
-    }
-
-    .top-event {
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: .15em;
-    }
-
-    /* SCROLL PROGRESS */
-
-    .scroll-progress {
-      position: fixed;
-      z-index: 110;
-      top: 52px;
-      right: 7px;
-      width: 2px;
-      height: calc(100vh - 70px);
-      background: rgba(255,255,255,.2);
-    }
-
-    .scroll-progress span {
-      display: block;
-      width: 100%;
-      height: 0%;
-      background: var(--red);
-      transform-origin: top;
-    }
-
-    /* FIXED GRAPHICS */
-
-    .graphics {
-      position: fixed;
-      inset: 0;
-      z-index: 20;
-      pointer-events: none;
-      overflow: hidden;
-      opacity: 1;
-      will-change: opacity;
-    }
-
-    .micro {
-      position: absolute;
-      font-size: 7px;
-      letter-spacing: .2em;
-      font-weight: 800;
-      white-space: nowrap;
-      opacity: .7;
-    }
-
-    .micro-1 {
-      top: 18%;
-      left: 15px;
-    }
-
-    .micro-2 {
-      top: 72%;
-      right: 14px;
-      transform: rotate(90deg);
-    }
-
-    .micro-3 {
-      bottom: 7%;
-      left: 15px;
-    }
-
-    .micro-4 {
-      top: 55%;
-      left: 14px;
-      transform: rotate(-90deg);
-    }
-
-    /* HERO */
-
-    .hero {
-      position: relative;
-      height: 82svh;
-      min-height: 580px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 16px 32px;
-      background: url("./hero.png");
-      background-size: cover;
-      background-position: center;
-      filter: contrast(1.15);
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-
-      background:
-        linear-gradient(
-          to bottom,
-          rgba(0,0,0,0) 0%,
-          rgba(0,0,0,.03) 18%,
-          rgba(0,0,0,.10) 34%,
-          rgba(0,0,0,.24) 50%,
-          rgba(0,0,0,.48) 65%,
-          rgba(0,0,0,.75) 78%,
-          rgba(0,0,0,.92) 90%,
-          rgba(5,5,5,1) 100%
-        );
-
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      opacity: .18;
-      pointer-events: none;
-
-      background-image:
-        repeating-linear-gradient(
-          to bottom,
-          transparent 0px,
-          transparent 3px,
-          rgba(255,255,255,.25) 4px
-        );
-
-      z-index: 2;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 3;
-    }
-
-    .hero-small {
-      font-size: 9px;
-      font-weight: 900;
-      letter-spacing: .25em;
-      margin-bottom: 7px;
-    }
-
-    .hero-logo {
-      font-family: "Anton", sans-serif;
-      font-size: clamp(70px, 23vw, 120px);
-      line-height: .78;
-      letter-spacing: -.035em;
-      white-space: nowrap;
-
-      text-shadow:
-        4px 0 var(--red),
-        -2px 0 rgba(255,255,255,.3);
-
-      transform: translate3d(-3px, 0, 0);
-      will-change: transform;
-    }
-
-    .hero-event {
-      margin-top: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .hero-event-name {
-      font-family: "Anton", sans-serif;
-      font-size: 38px;
-      line-height: .9;
-      letter-spacing: .01em;
-    }
-
-    .hero-event-meta {
-      font-size: 8px;
-      line-height: 1.5;
-      letter-spacing: .16em;
-      font-weight: 800;
-    }
-
-    /* SWIPE INDICATOR */
-
-    .scroll-label {
-      position: absolute;
-      z-index: 4;
-      right: 16px;
-      bottom: 31px;
-      width: 14px;
-      height: 54px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 2px;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .scroll-chevron {
-      width: 9px;
-      height: 9px;
-      border-right: 2px solid var(--white);
-      border-bottom: 2px solid var(--white);
-      transform: rotate(45deg);
-      flex: 0 0 auto;
-      opacity: 0;
-      animation: scrollChevron 1.35s ease-in-out infinite;
-    }
-
-    .scroll-chevron:nth-child(1) {
-      animation-delay: 0s;
-    }
-
-    .scroll-chevron:nth-child(2) {
-      animation-delay: .18s;
-    }
-
-    .scroll-chevron:nth-child(3) {
-      animation-delay: .36s;
-    }
-
-    .scroll-chevron:nth-child(4) {
-      animation-delay: .54s;
-    }
-
-    @keyframes scrollChevron {
-      0% {
-        opacity: 0;
-        transform: translateY(-9px) rotate(45deg);
-      }
-
-      20% {
-        opacity: 1;
-      }
-
-      55% {
-        opacity: .9;
-      }
-
-      100% {
-        opacity: 0;
-        transform: translateY(17px) rotate(45deg);
-      }
-    }
-
-    /* MOTION */
-
-    .motion {
-      position: relative;
-      height: 32svh;
-      min-height: 220px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      background: var(--black);
-    }
-
-    .motion-word {
-      position: absolute;
-      left: -8%;
-      white-space: nowrap;
-      font-family: "Anton", sans-serif;
-      font-size: 29vw;
-      line-height: .8;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,.35);
-      transform: translateX(0);
-      will-change: transform;
-    }
-
-    .marquee {
-      position: absolute;
-      left: -20%;
-      width: 145%;
-      padding: 13px 0;
-      background: var(--red);
-      color: var(--black);
-      transform: rotate(-7deg);
-      overflow: hidden;
-    }
-
-    .marquee-track {
-      white-space: nowrap;
-      font-family: "Anton", sans-serif;
-      font-size: 25px;
-      letter-spacing: .03em;
-      animation: marquee 9s linear infinite;
-    }
-
-    @keyframes marquee {
-      from {
-        transform: translateX(0);
-      }
-
-      to {
-        transform: translateX(-35%);
-      }
-    }
-
-    /* REGISTRATION */
-
-    .registration {
-      position: relative;
-      z-index: 5;
-      background: var(--white);
-      color: var(--black);
-      padding: 24px 16px 45px;
-      min-height: 680px;
-    }
-
-    .registration-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 22px;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: .2em;
-    }
-
-    .registration-top span:last-child {
-      color: var(--red);
-    }
-
-    /* GET IN + VIDEO */
-
-    .register-heading {
-      --register-title-size: clamp(60px, 19.5vw, 76px);
-      --register-video-width: clamp(130px, 40vw, 155px);
-      --register-heading-gap: clamp(2px, 1vw, 4px);
-
-      display: grid;
-
-      grid-template-columns:
-        minmax(0, 1fr)
-        var(--register-video-width);
-
-      column-gap: var(--register-heading-gap);
-      align-items: start;
-      margin-bottom: 28px;
-    }
-
-    .register-title {
-      font-family: "Anton", sans-serif;
-      font-size: var(--register-title-size);
-      line-height: .78;
-      letter-spacing: -.02em;
-      margin-bottom: 0;
-      min-width: 0;
-    }
-
-    /* VIDEO */
-
-    .register-video-box {
-      width: var(--register-video-width);
-      margin: 0;
-      justify-self: end;
-      align-self: start;
-    }
-
-    .register-video {
-      display: block;
-      width: 100%;
-      height: clamp(97.5px, 30vw, 116px);
-      object-fit: cover;
-      object-position: center;
-      background: #000;
-      border: 0;
-      outline: none;
-      border-radius: 0;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    .last-maed {
-      margin-top: 4px;
-      padding-right: 0;
-      font-size: 6px;
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: .18em;
-      text-align: right;
-      white-space: nowrap;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: .2em;
-    }
-
-    .form-group input {
-      width: 100%;
-      height: 52px;
-      border: 1px solid #000;
-      border-radius: 0;
-      padding: 0 13px;
-      background: #fff;
-      color: #000;
-      outline: none;
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .form-group input:focus {
-      border-color: var(--red);
-      box-shadow: inset 4px 0 0 var(--red);
-    }
-
-    /* INSTAGRAM */
-
-    .instagram-box {
-      margin-top: 22px;
-      margin-bottom: 18px;
-    }
-
-    .instagram-button {
-      position: relative;
-      width: 100%;
-      min-height: 58px;
-      border: 2px solid #000;
-      border-radius: 0;
-      background: #fff;
-      color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 11px;
-      cursor: pointer;
-      overflow: hidden;
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: .07em;
-
-      transition:
-        background .25s ease,
-        color .25s ease,
-        border-color .25s ease,
-        transform .12s ease;
-    }
-
-    .instagram-button::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--red);
-      transition: left .25s ease;
-      z-index: 0;
-    }
-
-    .instagram-button:active {
-      transform: scale(.97);
-    }
-
-    .instagram-button > * {
-      position: relative;
-      z-index: 2;
-    }
-
-    .instagram-icon {
-      width: 22px;
-      height: 22px;
-      flex: 0 0 22px;
-    }
-
-    .instagram-icon svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    .instagram-status {
-      min-height: 16px;
-      margin-top: 7px;
-      font-size: 7px;
-      font-weight: 900;
-      letter-spacing: .15em;
-      text-align: center;
-      opacity: .55;
-    }
-
-    .instagram-button.clicked {
-      background: var(--green);
-      border-color: var(--green);
-      color: #000;
-      animation: instaClick .42s ease;
-    }
-
-    .instagram-button.clicked::before {
-      display: none;
-    }
-
-    .instagram-button.clicked .instagram-icon {
-      animation: iconPop .45s ease;
-    }
-
-    @keyframes instaClick {
-      0% {
-        transform: scale(1);
-      }
-
-      35% {
-        transform: scale(.95);
-      }
-
-      65% {
-        transform: scale(1.025);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    @keyframes iconPop {
-      0% {
-        transform: rotate(0) scale(1);
-      }
-
-      45% {
-        transform: rotate(-12deg) scale(1.25);
-      }
-
-      100% {
-        transform: rotate(0) scale(1);
-      }
-    }
-
-    .instagram-status.active {
-      opacity: 1;
-      color: #15934c;
-    }
-
-    /* SUBMIT */
-
-    .submit-button {
-      width: 100%;
-      height: 58px;
-      margin-top: 7px;
-      border: 0;
-      border-radius: 0;
-      background: var(--black);
-      color: var(--white);
-      font-family: "Anton", sans-serif;
-      font-size: 21px;
-      letter-spacing: .04em;
-      cursor: pointer;
-
-      transition:
-        background .2s ease,
-        transform .12s ease;
-    }
-
-    .submit-button:active {
-      transform: scale(.98);
-    }
-
-    .submit-button:hover {
-      background: var(--red);
-    }
-
-    .form-status {
-      min-height: 20px;
-      margin-top: 10px;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: .14em;
-      text-align: center;
-    }
-
-    /* BOTTOM */
-
-    .registration-bottom {
-      margin-top: 45px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-    }
-
-    .registration-bottom-title {
-      font-family: "Anton", sans-serif;
-      font-size: 17vw;
-      line-height: .75;
-      color: transparent;
-      -webkit-text-stroke: 1px #000;
-      white-space: nowrap;
-    }
-
-    .registration-bottom-image {
-      width: clamp(58px, 17vw, 78px);
-      height: clamp(58px, 17vw, 78px);
-      object-fit: contain;
-      object-position: center;
-      display: block;
-      flex: 0 0 auto;
-      background: transparent;
-      border: 0;
-      animation: rotateImage 7s linear infinite;
-    }
-
-    @keyframes rotateImage {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .registration-footer {
-      margin-top: 28px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 7px;
-      font-weight: 900;
-      letter-spacing: .16em;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="desktop-warning">
-    MÆDNESS®<br>
-    MOBILE EXPERIENCE ONLY
-  </div>
-
-  <header class="topbar">
-
-    <div class="top-logo">
-      MÆDNESS<span class="registered">®</span>
-    </div>
-
-    <div class="top-event">
-      ROTAROTT / 001
-    </div>
-
-  </header>
-
-  <div class="scroll-progress">
-    <span id="progress"></span>
-  </div>
-
-  <div class="graphics">
-
-    <div class="micro micro-1">
-      41°27'N / 15°33'E
-    </div>
-
-    <div class="micro micro-2">
-      NO SIGNAL / 001
-    </div>
-
-    <div class="micro micro-3">
-      MÆDNESS / FOGGIA
-    </div>
-
-    <div class="micro micro-4">
-      ACCESS / 2026
-    </div>
-
-  </div>
-
-  <!-- HERO -->
-
-  <section class="hero" id="hero">
-
-    <div class="hero-content">
-
-      <div class="hero-small">
-        MÆDNESS PRESENTS
-      </div>
-
-      <div class="hero-logo" id="heroLogo">
-        MÆDNESS
-      </div>
-
-      <div class="hero-event">
-
-        <div class="hero-event-name">
-          ROTAROTT
-        </div>
-
-        <div class="hero-event-meta">
-          18.10.2026<br>
-          FOGGIA / ITALY
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="scroll-label" aria-hidden="true">
-      <span class="scroll-chevron"></span>
-      <span class="scroll-chevron"></span>
-      <span class="scroll-chevron"></span>
-      <span class="scroll-chevron"></span>
-    </div>
-
-  </section>
-
-  <!-- MOTION -->
-
-  <section class="motion">
-
-    <div class="motion-word" id="motionWord">
-      MÆDNESS
-    </div>
-
-    <div class="marquee">
-
-      <div class="marquee-track">
-        ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- REGISTRATION -->
-
-  <section class="registration">
-
-    <div class="registration-top">
-
-      <span>
-        002 / GET ACCESS
-      </span>
-
-      <span>
-        ROTAROTT
-      </span>
-
-    </div>
-
-    <!-- GET IN + VIDEO -->
-
-    <div class="register-heading">
-
-      <h2 class="register-title">
-        GET<br>
-        IN.
-      </h2>
-
-      <div class="register-video-box">
-
-        <video
-          class="register-video"
-          id="registerVideo"
-          autoplay
-          muted
-          loop
-          playsinline
-          webkit-playsinline
-          preload="auto"
-          disablepictureinpicture
-          controlslist="nodownload noplaybackrate nofullscreen"
-        >
-
-          <source
-            src="./hero3.mp4"
-            type="video/mp4"
-          >
-
-        </video>
-
-        <div class="last-maed">
-          LAST MÆD
-        </div>
-
-      </div>
-
-    </div>
-
-    <form id="registrationForm">
-
-      <div class="form-group">
-
-        <label for="name">
-          NOME
-        </label>
-
-        <input
-          id="name"
-          name="name"
-          type="text"
-          autocomplete="given-name"
-          required
-        />
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="surname">
-          COGNOME
-        </label>
-
-        <input
-          id="surname"
-          name="surname"
-          type="text"
-          autocomplete="family-name"
-          required
-        />
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="email">
-          EMAIL
-        </label>
-
-        <input
-          id="email"
-          name="email"
-          type="email"
-          autocomplete="email"
-          placeholder="dove arriverà il tuo QR"
-          required
-        />
-
-      </div>
-
-      <!-- INSTAGRAM -->
-
-      <div class="instagram-box">
-
-        <button
-          type="button"
-          class="instagram-button"
-          id="instagramButton"
-          aria-label="Apri il profilo Instagram di MÆDNESS"
-        >
-
-          <span class="instagram-icon">
-
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-
-              <rect
-                x="3"
-                y="3"
-                width="18"
-                height="18"
-                rx="5"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-
-              <circle
-                cx="12"
-                cy="12"
-                r="4"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-
-              <circle
-                cx="17.5"
-                cy="6.5"
-                r="1.2"
-                fill="currentColor"
-              />
-
-            </svg>
-
-          </span>
-
-          <span id="instagramText">
-            SEGUI @maednesss
-          </span>
-
-        </button>
-
-        <div
-          class="instagram-status"
-          id="instagramStatus"
-        >
-          INSTAGRAM / OPTIONAL
-        </div>
-
-      </div>
-
-      <!-- SUBMIT -->
-
-      <button
-        type="submit"
-        class="submit-button"
-        id="submitButton"
-      >
-        BLOCCA IL TUO POSTO
-      </button>
-
-      <div
-        class="form-status"
-        id="formStatus"
-      ></div>
-
-    </form>
-
-    <!-- BOTTOM ROTAROTT + HERO2 -->
-
-    <div class="registration-bottom">
-
-      <div class="registration-bottom-title">
-        ROTAROTT
-      </div>
-
-      <img
-        src="./hero2.svg"
-        alt=""
-        class="registration-bottom-image"
-      />
-
-    </div>
-
-    <div class="registration-footer">
-
-      <span>
-        MÆDNESS®
-      </span>
-
-      <span>
-        FOGGIA / 2026
-      </span>
-
-    </div>
-
-  </section>
-
-  <script>
-
-    /* ELEMENTS */
-
-    const progress =
-      document.getElementById("progress");
-
-    const hero =
-      document.getElementById("hero");
-
-    const heroLogo =
-      document.getElementById("heroLogo");
-
-    const motionWord =
-      document.getElementById("motionWord");
-
-    const graphics =
-      document.querySelector(".graphics");
-
-    const instagramButton =
-      document.getElementById("instagramButton");
-
-    const instagramText =
-      document.getElementById("instagramText");
-
-    const instagramStatus =
-      document.getElementById("instagramStatus");
-
-    const registrationForm =
-      document.getElementById("registrationForm");
-
-    const submitButton =
-      document.getElementById("submitButton");
-
-    const formStatus =
-      document.getElementById("formStatus");
-
-    const registerVideo =
-      document.getElementById("registerVideo");
-
-
-    /* =========================================================
-       SOUND DESIGN
-       =========================================================
-
-       Nessun pulsante audio.
-
-       Il browser può bloccare l'autoplay audio, quindi il sistema
-       prova ad avviare l'audio automaticamente e, al primo gesto
-       naturale dell'utente, sblocca definitivamente l'AudioContext.
-
-       I suoni vengono generati direttamente con Web Audio API:
-       non servono file MP3/WAV esterni.
-    */
-
-    let audioContext = null;
-    let audioUnlocked = false;
-    let soundIntroPlayed = false;
-    let lastSoundScroll = 0;
-    let lastScrollSoundTime = 0;
-
-    let audioMaster = null;
-
-
-    function createAudioContext() {
-
-      if (audioContext) {
-        return audioContext;
-      }
-
-      const AudioCtx =
-        window.AudioContext ||
-        window.webkitAudioContext;
-
-      if (!AudioCtx) {
-        return null;
-      }
-
-      try {
-
-        audioContext =
-          new AudioCtx();
-
-        audioMaster =
-          audioContext.createGain();
-
-        audioMaster.gain.value = 0.16;
-
-        audioMaster.connect(
-          audioContext.destination
-        );
-
-      } catch (error) {
-
-        audioContext = null;
-
-      }
-
-      return audioContext;
-
-    }
-
-
-    async function unlockAudio(playIntro = false) {
-
-      const ctx =
-        createAudioContext();
-
-      if (!ctx) {
-        return false;
-      }
-
-      try {
-
-        if (ctx.state === "suspended") {
-          await ctx.resume();
-        }
-
-        audioUnlocked =
-          ctx.state === "running";
-
-        if (
-          audioUnlocked &&
-          playIntro &&
-          !soundIntroPlayed
-        ) {
-
-          soundIntroPlayed = true;
-
-          setTimeout(
-            () => {
-              soundBoot();
-            },
-            70
-          );
-
-        }
-
-        return audioUnlocked;
-
-      } catch (error) {
-
-        return false;
-
-      }
-
-    }
-
+    audioMaster =
+      audioContext.createGain();
 
     /*
-      BOOT SOUND
-
-      CLICK
-      +
-      STATIC
-      +
-      LOW DIGITAL HIT
+      Volume generale.
+      Abbastanza presente da sentirsi,
+      ma non invasivo.
     */
 
-    function soundBoot() {
+    audioMaster.gain.value = 0.28;
 
-      if (!audioUnlocked) {
-        return;
-      }
+    audioMaster.connect(
+      audioContext.destination
+    );
 
-      const ctx =
-        audioContext;
+  } catch (error) {
 
-      const now =
-        ctx.currentTime;
+    audioContext = null;
 
+  }
 
-      /* CLICK */
+  return audioContext;
 
-      const click =
-        ctx.createOscillator();
-
-      const clickGain =
-        ctx.createGain();
-
-      click.type = "square";
-
-      click.frequency.setValueAtTime(
-        1450,
-        now
-      );
-
-      click.frequency.exponentialRampToValueAtTime(
-        500,
-        now + .045
-      );
-
-      clickGain.gain.setValueAtTime(
-        .0001,
-        now
-      );
-
-      clickGain.gain.exponentialRampToValueAtTime(
-        .16,
-        now + .004
-      );
-
-      clickGain.gain.exponentialRampToValueAtTime(
-        .0001,
-        now + .055
-      );
-
-      click.connect(clickGain);
-      clickGain.connect(audioMaster);
-
-      click.start(now);
-      click.stop(now + .06);
+}
 
 
-      /* STATIC */
+/* ---------------------------------------------------------
+   UNLOCK AUDIO
+   --------------------------------------------------------- */
 
-      const bufferSize =
-        Math.floor(
-          ctx.sampleRate * .16
-        );
+async function unlockAudio() {
 
-      const buffer =
-        ctx.createBuffer(
-          1,
-          bufferSize,
-          ctx.sampleRate
-        );
+  const ctx =
+    initAudio();
 
-      const data =
-        buffer.getChannelData(0);
+  if (!ctx) {
+    return false;
+  }
 
-      for (
-        let i = 0;
-        i < bufferSize;
-        i++
-      ) {
+  try {
 
-        data[i] =
-          (Math.random() * 2 - 1) *
-          (1 - i / bufferSize);
+    if (
+      ctx.state === "suspended"
+    ) {
 
-      }
-
-      const noise =
-        ctx.createBufferSource();
-
-      const noiseGain =
-        ctx.createGain();
-
-      noise.buffer =
-        buffer;
-
-      noiseGain.gain.setValueAtTime(
-        .0001,
-        now + .045
-      );
-
-      noiseGain.gain.exponentialRampToValueAtTime(
-        .035,
-        now + .065
-      );
-
-      noiseGain.gain.exponentialRampToValueAtTime(
-        .0001,
-        now + .19
-      );
-
-      noise.connect(noiseGain);
-      noiseGain.connect(audioMaster);
-
-      noise.start(now + .045);
-
-
-      /* LOW HIT */
-
-      const bass =
-        ctx.createOscillator();
-
-      const bassGain =
-        ctx.createGain();
-
-      bass.type =
-        "sine";
-
-      bass.frequency.setValueAtTime(
-        72,
-        now + .13
-      );
-
-      bass.frequency.exponentialRampToValueAtTime(
-        38,
-        now + .42
-      );
-
-      bassGain.gain.setValueAtTime(
-        .0001,
-        now + .13
-      );
-
-      bassGain.gain.exponentialRampToValueAtTime(
-        .24,
-        now + .16
-      );
-
-      bassGain.gain.exponentialRampToValueAtTime(
-        .0001,
-        now + .44
-      );
-
-      bass.connect(bassGain);
-      bassGain.connect(audioMaster);
-
-      bass.start(now + .13);
-      bass.stop(now + .46);
+      await ctx.resume();
 
     }
 
+    if (
+      ctx.state === "running"
+    ) {
 
-    /* MICRO CLICK */
+      audioReady = true;
 
-    function soundClick() {
+      if (!bootPlayed) {
 
-      if (!audioUnlocked) {
-        return;
-      }
+        bootPlayed = true;
 
-      const ctx =
-        audioContext;
-
-      const now =
-        ctx.currentTime;
-
-      const osc =
-        ctx.createOscillator();
-
-      const gain =
-        ctx.createGain();
-
-      osc.type =
-        "square";
-
-      osc.frequency.setValueAtTime(
-        850,
-        now
-      );
-
-      osc.frequency.exponentialRampToValueAtTime(
-        310,
-        now + .055
-      );
-
-      gain.gain.setValueAtTime(
-        .0001,
-        now
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        .11,
-        now + .004
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        .0001,
-        now + .065
-      );
-
-      osc.connect(gain);
-      gain.connect(audioMaster);
-
-      osc.start(now);
-      osc.stop(now + .07);
-
-    }
-
-
-    /* SCROLL GLITCH */
-
-    function soundScroll() {
-
-      if (!audioUnlocked) {
-        return;
-      }
-
-      const ctx =
-        audioContext;
-
-      const now =
-        ctx.currentTime;
-
-      if (
-        now - lastScrollSoundTime <
-        .22
-      ) {
-        return;
-      }
-
-      lastScrollSoundTime =
-        now;
-
-
-      const osc =
-        ctx.createOscillator();
-
-      const gain =
-        ctx.createGain();
-
-      osc.type =
-        "triangle";
-
-      osc.frequency.setValueAtTime(
-        110,
-        now
-      );
-
-      osc.frequency.exponentialRampToValueAtTime(
-        62,
-        now + .12
-      );
-
-      gain.gain.setValueAtTime(
-        .0001,
-        now
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        .035,
-        now + .012
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        .0001,
-        now + .13
-      );
-
-      osc.connect(gain);
-      gain.connect(audioMaster);
-
-      osc.start(now);
-      osc.stop(now + .14);
-
-    }
-
-
-    /* SECTION HIT */
-
-    function soundSection() {
-
-      if (!audioUnlocked) {
-        return;
-      }
-
-      const ctx =
-        audioContext;
-
-      const now =
-        ctx.currentTime;
-
-
-      const osc =
-        ctx.createOscillator();
-
-      const gain =
-        ctx.createGain();
-
-      osc.type =
-        "sine";
-
-      osc.frequency.setValueAtTime(
-        92,
-        now
-      );
-
-      osc.frequency.exponentialRampToValueAtTime(
-        42,
-        now + .45
-      );
-
-      gain.gain.setValueAtTime(
-        .0001,
-        now
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        .18,
-        now + .025
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        .0001,
-        now + .48
-      );
-
-      osc.connect(gain);
-      gain.connect(audioMaster);
-
-      osc.start(now);
-      osc.stop(now + .5);
-
-
-      setTimeout(
-        () => {
-
-          if (audioUnlocked) {
-            soundClick();
-          }
-
-        },
-        90
-      );
-
-    }
-
-
-    /* SUCCESS */
-
-    function soundSuccess() {
-
-      if (!audioUnlocked) {
-        return;
-      }
-
-      const ctx =
-        audioContext;
-
-      const now =
-        ctx.currentTime;
-
-
-      [0, .09, .19].forEach(
-        (offset, index) => {
-
-          const osc =
-            ctx.createOscillator();
-
-          const gain =
-            ctx.createGain();
-
-          osc.type =
-            "sine";
-
-          osc.frequency.value =
-            [220, 330, 440][index];
-
-          gain.gain.setValueAtTime(
-            .0001,
-            now + offset
-          );
-
-          gain.gain.exponentialRampToValueAtTime(
-            .12,
-            now + offset + .015
-          );
-
-          gain.gain.exponentialRampToValueAtTime(
-            .0001,
-            now + offset + .15
-          );
-
-          osc.connect(gain);
-          gain.connect(audioMaster);
-
-          osc.start(
-            now + offset
-          );
-
-          osc.stop(
-            now + offset + .17
-          );
-
-        }
-      );
-
-    }
-
-
-    /*
-      AUDIO UNLOCK
-
-      Il primo gesto naturale dell'utente
-      diventa l'interazione che abilita l'audio.
-    */
-
-    function userAudioGesture() {
-
-      unlockAudio(true);
-
-    }
-
-
-    window.addEventListener(
-      "touchstart",
-      userAudioGesture,
-      {
-        passive: true,
-        once: true
-      }
-    );
-
-    window.addEventListener(
-      "pointerdown",
-      userAudioGesture,
-      {
-        passive: true,
-        once: true
-      }
-    );
-
-    window.addEventListener(
-      "keydown",
-      userAudioGesture,
-      {
-        passive: true,
-        once: true
-      }
-    );
-
-    window.addEventListener(
-      "scroll",
-      userAudioGesture,
-      {
-        passive: true,
-        once: true
-      }
-    );
-
-
-    /*
-      Tentativo automatico.
-
-      Se il browser lo permette, l'audio può partire
-      immediatamente.
-
-      Se viene bloccato, nessun problema:
-      il primo gesto dell'utente lo sbloccherà.
-    */
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => {
-
-        unlockAudio(true);
-
-      }
-    );
-
-
-    window.addEventListener(
-      "load",
-      () => {
-
-        unlockAudio(true);
-
-      }
-    );
-
-
-    /* =========================================================
-       VIDEO AUTOPLAY
-       ========================================================= */
-
-    function startRegisterVideo() {
-
-      if (!registerVideo) return;
-
-      registerVideo.muted = true;
-      registerVideo.defaultMuted = true;
-
-      registerVideo.setAttribute(
-        "muted",
-        ""
-      );
-
-      registerVideo.setAttribute(
-        "playsinline",
-        ""
-      );
-
-      registerVideo.setAttribute(
-        "webkit-playsinline",
-        ""
-      );
-
-      const playPromise =
-        registerVideo.play();
-
-      if (
-        playPromise !== undefined
-      ) {
-
-        playPromise.catch(() => {});
-
-      }
-
-    }
-
-
-    if (registerVideo) {
-
-      registerVideo.addEventListener(
-        "loadeddata",
-        startRegisterVideo
-      );
-
-      registerVideo.addEventListener(
-        "canplay",
-        startRegisterVideo
-      );
-
-      registerVideo.addEventListener(
-        "loadedmetadata",
-        startRegisterVideo
-      );
-
-      registerVideo.addEventListener(
-        "error",
-        () => {
-
-          console.log(
-            "Errore video:",
-            registerVideo.error
-          );
-
-        }
-      );
-
-    }
-
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      startRegisterVideo
-    );
-
-    window.addEventListener(
-      "load",
-      startRegisterVideo
-    );
-
-    document.addEventListener(
-      "touchstart",
-      startRegisterVideo,
-      {
-        passive: true,
-        once: true
-      }
-    );
-
-
-    /* =========================================================
-       INSTAGRAM MEMORY
-       ========================================================= */
-
-    const INSTAGRAM_MEMORY_KEY =
-      "maedness_instagram_clicked";
-
-
-    function activateInstagramState() {
-
-      instagramButton.classList.add(
-        "clicked"
-      );
-
-      instagramText.textContent =
-        "MÆDNESS MODE: ON ✓";
-
-      instagramStatus.textContent =
-        "GRAZIE DEL SUPPORTO";
-
-      instagramStatus.classList.add(
-        "active"
-      );
-
-    }
-
-
-    function checkInstagramMemory() {
-
-      const alreadyClicked =
-        sessionStorage.getItem(
-          INSTAGRAM_MEMORY_KEY
-        );
-
-      if (
-        alreadyClicked === "true"
-      ) {
-
-        activateInstagramState();
-
-      }
-
-    }
-
-
-    /* =========================================================
-       INSTAGRAM CLICK
-       ========================================================= */
-
-    instagramButton.addEventListener(
-      "click",
-      () => {
-
-        unlockAudio(true);
-
-        soundClick();
-
-        sessionStorage.setItem(
-          INSTAGRAM_MEMORY_KEY,
-          "true"
-        );
-
-        window.open(
-          "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
-          "_blank",
-          "noopener,noreferrer"
-        );
-
-        activateInstagramState();
-
-      }
-    );
-
-
-    /* =========================================================
-       SCROLL ANIMATION
-       ========================================================= */
-
-    let ticking = false;
-
-    /*
-      HERO LOGO SMOOTH MOTION
-    */
-
-    let logoTargetX = -3;
-    let logoCurrentX = -3;
-
-    let logoTargetY = 0;
-    let logoCurrentY = 0;
-
-
-    function animateHeroLogo() {
-
-      const ease = 0.12;
-
-      logoCurrentX +=
-        (
-          logoTargetX -
-          logoCurrentX
-        ) * ease;
-
-      logoCurrentY +=
-        (
-          logoTargetY -
-          logoCurrentY
-        ) * ease;
-
-      heroLogo.style.transform =
-        `translate3d(
-          ${logoCurrentX}px,
-          ${logoCurrentY}px,
-          0
-        )`;
-
-      requestAnimationFrame(
-        animateHeroLogo
-      );
-
-    }
-
-
-    function updateScroll() {
-
-      const scrollTop =
-        window.scrollY;
-
-      const documentHeight =
-        document.documentElement.scrollHeight -
-        window.innerHeight;
-
-      const scrollPercent =
-        documentHeight > 0
-          ? scrollTop / documentHeight
-          : 0;
-
-
-      /* Progress */
-
-      progress.style.height =
-        `${scrollPercent * 100}%`;
-
-
-      /* =====================================================
-         MICRO GRAPHICS FADE
-         =====================================================
-
-         I microtesti rimangono completamente visibili
-         all'inizio e scompaiono gradualmente nei primi
-         480px di scroll.
-      */
-
-      const graphicsFade =
-        Math.max(
-          0,
-          1 - scrollTop / 480
-        );
-
-      graphics.style.opacity =
-        graphicsFade;
-
-
-      /* Hero parallax */
-
-      const heroOffset =
-        Math.min(
-          scrollTop * 0.22,
-          120
-        );
-
-      hero.style.backgroundPosition =
-        `center calc(50% + ${heroOffset}px)`;
-
-
-      /*
-        HERO LOGO
-
-        Movimento verso destra.
-      */
-
-      const logoMove =
-        Math.min(
-          scrollTop * 0.14,
-          55
-        );
-
-      logoTargetX =
-        -3 + logoMove;
-
-
-      /*
-        Leggerissimo movimento verticale.
-      */
-
-      logoTargetY =
-        Math.min(
-          scrollTop * 0.025,
-          10
-        );
-
-
-      /* Motion word */
-
-      const motionMove =
-        scrollTop * -0.18;
-
-      motionWord.style.transform =
-        `translate3d(
-          ${motionMove}px,
-          0,
-          0
-        )`;
-
-
-      /*
-        SOUND SCROLL
-
-        Piccoli impulsi solo quando l'utente
-        percorre una distanza sufficiente.
-      */
-
-      if (
-        audioUnlocked &&
-        Math.abs(
-          scrollTop - lastSoundScroll
-        ) > 110
-      ) {
-
-        soundScroll();
-
-        lastSoundScroll =
-          scrollTop;
-
-      }
-
-
-      /*
-        SECTION HIT
-
-        Quando entriamo nella zona GET IN.
-      */
-
-      const registration =
-        document.querySelector(
-          ".registration"
-        );
-
-      if (registration) {
-
-        const rect =
-          registration.getBoundingClientRect();
-
-        if (
-          rect.top < window.innerHeight * .72 &&
-          rect.top > window.innerHeight * .50
-        ) {
-
-          if (
-            !window.__maednessSectionSound
-          ) {
-
-            window.__maednessSectionSound =
-              true;
-
-            soundSection();
-
-          }
-
-        }
-
-      }
-
-
-      ticking = false;
-
-    }
-
-
-    window.addEventListener(
-      "scroll",
-      () => {
-
-        if (!ticking) {
-
-          window.requestAnimationFrame(
-            updateScroll
-          );
-
-          ticking = true;
-
-        }
-
-      },
-      {
-        passive: true
-      }
-    );
-
-
-    /* AVVIO ANIMAZIONE LOGO */
-
-    requestAnimationFrame(
-      animateHeroLogo
-    );
-
-
-    /* =========================================================
-       FORM
-       ========================================================= */
-
-    registrationForm.addEventListener(
-      "submit",
-      (event) => {
-
-        event.preventDefault();
-
-        unlockAudio(true);
-
-        soundClick();
-
-        submitButton.textContent =
-          "CREATING ACCESS...";
-
-        submitButton.style.background =
-          "#ff0000";
-
-        formStatus.textContent =
-          "GENERAZIONE ACCESSO IN CORSO";
-
+        /*
+          Piccolo ritardo per evitare che
+          il browser interpreti il suono
+          come parte dell'evento di sistema.
+        */
 
         setTimeout(
           () => {
-
-            submitButton.textContent =
-              "ACCESS REQUESTED ✓";
-
-            submitButton.style.background =
-              "#20d878";
-
-            formStatus.textContent =
-              "TICKET SYSTEM — COMING NEXT";
-
-            soundSuccess();
-
+            soundBoot();
           },
-          1300
+          30
         );
 
       }
-    );
+
+      return true;
+
+    }
+
+  } catch (error) {
+
+    audioReady = false;
+
+  }
+
+  return false;
+
+}
 
 
-    /* =========================================================
-       INITIALIZATION
-       ========================================================= */
+/* ---------------------------------------------------------
+   BOOT
+   --------------------------------------------------------- */
 
-    checkInstagramMemory();
+function soundBoot() {
 
-    updateScroll();
+  if (
+    !audioReady ||
+    !audioContext
+  ) {
+    return;
+  }
 
-    startRegisterVideo();
+  const ctx =
+    audioContext;
 
-  </script>
+  const now =
+    ctx.currentTime;
 
-</body>
-</html>
+
+  /* DIGITAL CLICK */
+
+  const click =
+    ctx.createOscillator();
+
+  const clickGain =
+    ctx.createGain();
+
+  click.type =
+    "square";
+
+  click.frequency.setValueAtTime(
+    1200,
+    now
+  );
+
+  click.frequency.exponentialRampToValueAtTime(
+    260,
+    now + .07
+  );
+
+  clickGain.gain.setValueAtTime(
+    0.0001,
+    now
+  );
+
+  clickGain.gain.exponentialRampToValueAtTime(
+    0.18,
+    now + .005
+  );
+
+  clickGain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    now + .08
+  );
+
+  click.connect(
+    clickGain
+  );
+
+  clickGain.connect(
+    audioMaster
+  );
+
+  click.start(now);
+  click.stop(now + .09);
+
+
+  /* LOW HIT */
+
+  const bass =
+    ctx.createOscillator();
+
+  const bassGain =
+    ctx.createGain();
+
+  bass.type =
+    "sine";
+
+  bass.frequency.setValueAtTime(
+    90,
+    now + .08
+  );
+
+  bass.frequency.exponentialRampToValueAtTime(
+    38,
+    now + .38
+  );
+
+  bassGain.gain.setValueAtTime(
+    0.0001,
+    now + .08
+  );
+
+  bassGain.gain.exponentialRampToValueAtTime(
+    0.32,
+    now + .11
+  );
+
+  bassGain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    now + .42
+  );
+
+  bass.connect(
+    bassGain
+  );
+
+  bassGain.connect(
+    audioMaster
+  );
+
+  bass.start(
+    now + .08
+  );
+
+  bass.stop(
+    now + .44
+  );
+
+}
+
+
+/* ---------------------------------------------------------
+   CLICK
+   --------------------------------------------------------- */
+
+function soundClick() {
+
+  if (
+    !audioReady ||
+    !audioContext
+  ) {
+    return;
+  }
+
+  const ctx =
+    audioContext;
+
+  const now =
+    ctx.currentTime;
+
+  const osc =
+    ctx.createOscillator();
+
+  const gain =
+    ctx.createGain();
+
+  osc.type =
+    "square";
+
+  osc.frequency.setValueAtTime(
+    780,
+    now
+  );
+
+  osc.frequency.exponentialRampToValueAtTime(
+    240,
+    now + .055
+  );
+
+  gain.gain.setValueAtTime(
+    0.0001,
+    now
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.16,
+    now + .004
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    now + .075
+  );
+
+  osc.connect(gain);
+  gain.connect(audioMaster);
+
+  osc.start(now);
+  osc.stop(now + .08);
+
+}
+
+
+/* ---------------------------------------------------------
+   SCROLL SOUND
+   --------------------------------------------------------- */
+
+function soundScroll() {
+
+  if (
+    !audioReady ||
+    !audioContext
+  ) {
+    return;
+  }
+
+  const now =
+    audioContext.currentTime;
+
+  /*
+    Evita una raffica continua di suoni.
+  */
+
+  if (
+    now - lastScrollSound <
+    0.20
+  ) {
+    return;
+  }
+
+  lastScrollSound =
+    now;
+
+
+  const osc =
+    audioContext.createOscillator();
+
+  const gain =
+    audioContext.createGain();
+
+  osc.type =
+    "triangle";
+
+  /*
+    Frequenza variabile:
+    dà una sensazione più organica.
+  */
+
+  const frequency =
+    75 +
+    Math.random() * 45;
+
+  osc.frequency.setValueAtTime(
+    frequency,
+    now
+  );
+
+  osc.frequency.exponentialRampToValueAtTime(
+    42,
+    now + .10
+  );
+
+  gain.gain.setValueAtTime(
+    0.0001,
+    now
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.055,
+    now + .008
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    now + .12
+  );
+
+  osc.connect(gain);
+  gain.connect(audioMaster);
+
+  osc.start(now);
+  osc.stop(now + .13);
+
+}
+
+
+/* ---------------------------------------------------------
+   SECTION HIT
+   --------------------------------------------------------- */
+
+function soundSection() {
+
+  if (
+    !audioReady ||
+    !audioContext
+  ) {
+    return;
+  }
+
+  const ctx =
+    audioContext;
+
+  const now =
+    ctx.currentTime;
+
+
+  const osc =
+    ctx.createOscillator();
+
+  const gain =
+    ctx.createGain();
+
+  osc.type =
+    "sine";
+
+  osc.frequency.setValueAtTime(
+    105,
+    now
+  );
+
+  osc.frequency.exponentialRampToValueAtTime(
+    40,
+    now + .55
+  );
+
+  gain.gain.setValueAtTime(
+    0.0001,
+    now
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.30,
+    now + .025
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    now + .58
+  );
+
+  osc.connect(gain);
+  gain.connect(audioMaster);
+
+  osc.start(now);
+  osc.stop(now + .6);
+
+
+  /*
+    Secondo impulso digitale.
+  */
+
+  setTimeout(
+    () => {
+
+      if (audioReady) {
+        soundClick();
+      }
+
+    },
+    100
+  );
+
+}
+
+
+/* ---------------------------------------------------------
+   SUCCESS
+   --------------------------------------------------------- */
+
+function soundSuccess() {
+
+  if (
+    !audioReady ||
+    !audioContext
+  ) {
+    return;
+  }
+
+  const ctx =
+    audioContext;
+
+  const now =
+    ctx.currentTime;
+
+
+  const frequencies = [
+    220,
+    330,
+    440
+  ];
+
+
+  frequencies.forEach(
+    (frequency, index) => {
+
+      const offset =
+        index * .10;
+
+      const osc =
+        ctx.createOscillator();
+
+      const gain =
+        ctx.createGain();
+
+      osc.type =
+        "sine";
+
+      osc.frequency.value =
+        frequency;
+
+      gain.gain.setValueAtTime(
+        0.0001,
+        now + offset
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.18,
+        now + offset + .015
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + offset + .20
+      );
+
+      osc.connect(gain);
+      gain.connect(audioMaster);
+
+      osc.start(
+        now + offset
+      );
+
+      osc.stop(
+        now + offset + .22
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   CRITICAL PART:
+   UNLOCK ON REAL USER GESTURE
+   ========================================================= */
+
+let audioGestureHandled = false;
+
+
+async function handleFirstGesture() {
+
+  if (audioGestureHandled) {
+    return;
+  }
+
+  audioGestureHandled = true;
+
+  /*
+    Questo viene eseguito direttamente
+    dentro il gesto dell'utente.
+  */
+
+  await unlockAudio();
+
+}
+
+
+/*
+  TOUCH
+*/
+
+window.addEventListener(
+  "touchstart",
+  handleFirstGesture,
+  {
+    passive: true,
+    once: true
+  }
+);
+
+
+/*
+  POINTER
+
+  Utile per dispositivi che espongono
+  pointer events.
+*/
+
+window.addEventListener(
+  "pointerdown",
+  handleFirstGesture,
+  {
+    passive: true,
+    once: true
+  }
+);
+
+
+/*
+  CLICK
+
+  Fallback.
+*/
+
+window.addEventListener(
+  "click",
+  handleFirstGesture,
+  {
+    passive: true,
+    once: true
+  }
+);
+
+
+/*
+  KEYBOARD
+*/
+
+window.addEventListener(
+  "keydown",
+  handleFirstGesture,
+  {
+    passive: true,
+    once: true
+  }
+);
+
+
+/* =========================================================
+   AUTOPLAY ATTEMPT
+   ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    /*
+      Proviamo comunque.
+      Se il browser permette l'autoplay,
+      partirà subito.
+      Se lo blocca, il primo gesto lo sbloccherà.
+    */
+
+    unlockAudio();
+
+  }
+);
+
+
+window.addEventListener(
+  "load",
+  () => {
+
+    unlockAudio();
+
+  }
+);
+
+
+/* =========================================================
+   SCROLL AUDIO
+   ========================================================= */
+
+window.addEventListener(
+  "scroll",
+  () => {
+
+    /*
+      Se l'audio non è ancora attivo,
+      non facciamo nulla.
+    */
+
+    if (!audioReady) {
+      return;
+    }
+
+    const scrollY =
+      window.scrollY;
+
+    const difference =
+      Math.abs(
+        scrollY - lastScrollY
+      );
+
+
+    /*
+      Ogni ~100px di movimento:
+      piccolo impulso sonoro.
+    */
+
+    if (
+      difference > 100
+    ) {
+
+      soundScroll();
+
+      lastScrollY =
+        scrollY;
+
+    }
+
+
+    /* -----------------------------------------------------
+       HERO → MOTION
+       ----------------------------------------------------- */
+
+    const motion =
+      document.querySelector(
+        ".motion"
+      );
+
+    if (motion) {
+
+      const motionRect =
+        motion.getBoundingClientRect();
+
+      if (
+        motionRect.top <
+        window.innerHeight * .60 &&
+        !motionSoundPlayed
+      ) {
+
+        motionSoundPlayed =
+          true;
+
+        soundSection();
+
+      }
+
+    }
+
+
+    /* -----------------------------------------------------
+       MOTION → REGISTRATION
+       ----------------------------------------------------- */
+
+    const registration =
+      document.querySelector(
+        ".registration"
+      );
+
+    if (registration) {
+
+      const registrationRect =
+        registration.getBoundingClientRect();
+
+      if (
+        registrationRect.top <
+        window.innerHeight * .65 &&
+        !registrationSoundPlayed
+      ) {
+
+        registrationSoundPlayed =
+          true;
+
+        soundSection();
+
+      }
+
+    }
+
+  },
+  {
+    passive: true
+  }
+);
+
+</script>
