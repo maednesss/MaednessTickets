@@ -339,8 +339,9 @@
       }
     }
 
+
     /* =========================================================
-       MOTION — NUOVO SCANNER
+       MOTION
        ========================================================= */
 
     .motion {
@@ -350,16 +351,10 @@
       overflow: hidden;
       display: flex;
       align-items: center;
+      justify-content: center;
 
-      /*
-        ROSSO PURO
-      */
       background: var(--red);
 
-      /*
-        Le variabili vengono toccate SOLO dallo scroll.
-        Lo scanner non dipende da queste.
-      */
       --scroll-x: 0px;
       --scroll-y: 0px;
       --scroll-rotate: 0deg;
@@ -369,27 +364,29 @@
     }
 
     /*
-      FADE NERO IN ENTRATA
-      ---------------------------------------------------------
-      La sezione parte dal nero dell'hero e "emerge" nel rosso.
-    */
+      SOLO FADE SUPERIORE.
 
+      Il nero arriva dall'hero e si dissolve
+      lentamente nel rosso.
+
+      NON esiste nessun fade nero inferiore.
+    */
     .motion::before {
       content: "";
       position: absolute;
-      z-index: 30;
+      z-index: 0;
       top: 0;
       left: 0;
       width: 100%;
-      height: 32%;
+      height: 28%;
 
       background:
         linear-gradient(
           to bottom,
           var(--black) 0%,
-          rgba(5,5,5,.92) 18%,
-          rgba(5,5,5,.62) 42%,
-          rgba(5,5,5,.25) 70%,
+          rgba(5,5,5,.92) 12%,
+          rgba(5,5,5,.55) 38%,
+          rgba(5,5,5,.16) 70%,
           rgba(5,5,5,0) 100%
         );
 
@@ -397,37 +394,31 @@
     }
 
     /*
-      FADE NERO IN USCITA
-      ---------------------------------------------------------
-      Fa entrare gradualmente nella sezione bianca successiva.
+      SOTTO:
+      il rosso arriva direttamente al bianco
+      della registration.
     */
-
     .motion::after {
       content: "";
       position: absolute;
-      z-index: 30;
-      bottom: 0;
+      z-index: 0;
       left: 0;
+      bottom: 0;
       width: 100%;
-      height: 27%;
+      height: 13%;
 
       background:
         linear-gradient(
-          to top,
-          var(--black) 0%,
-          rgba(5,5,5,.90) 20%,
-          rgba(5,5,5,.55) 45%,
-          rgba(5,5,5,.18) 72%,
-          rgba(5,5,5,0) 100%
+          to bottom,
+          rgba(255,0,0,0) 0%,
+          rgba(255,0,0,.35) 45%,
+          rgba(255,255,255,.92) 100%
         );
 
       pointer-events: none;
     }
 
-    /*
-      MICRO SCANLINES ROSSE / NERE
-    */
-
+    /* SCANLINES */
     .motion-scanlines {
       position: absolute;
       inset: 0;
@@ -437,21 +428,20 @@
         repeating-linear-gradient(
           to bottom,
           transparent 0px,
-          transparent 5px,
-          rgba(0,0,0,.075) 6px
+          transparent 6px,
+          rgba(0,0,0,.055) 7px
         );
 
-      opacity: .65;
+      opacity: .55;
       pointer-events: none;
     }
 
     /*
-      SISTEMA PAROLE
-      ---------------------------------------------------------
-      La copia base è ROSSA come lo sfondo.
-      Quindi è realmente invisibile.
-    */
+      SISTEMA TESTO
 
+      L'intero sistema si muove leggermente con lo scroll.
+      Lo scanner NON viene toccato da questo movimento.
+    */
     .motion-system {
       position: absolute;
       z-index: 5;
@@ -459,12 +449,17 @@
       left: 0;
       top: 50%;
 
-      width: max-content;
+      width: 100%;
+      height: 120px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       transform:
         translate3d(
-          calc(-13vw + var(--scroll-x)),
-          calc(-50% + var(--scroll-y)),
+          var(--scroll-x),
+          var(--scroll-y),
           0
         )
         rotate(var(--scroll-rotate))
@@ -473,61 +468,75 @@
       transform-origin: center center;
 
       will-change: transform;
-
-      transition: none;
-
-      white-space: nowrap;
     }
 
+    /*
+      TESTO BASE.
+
+      Rosso identico allo sfondo:
+      quindi completamente invisibile.
+    */
     .motion-word {
       position: relative;
 
-      font-family: "Anton", sans-serif;
-      font-size: 25vw;
-      line-height: .78;
-      letter-spacing: -.045em;
+      width: 100%;
 
-      /*
-        INVISIBILE:
-        stesso rosso dello sfondo.
-      */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-family: "Anton", sans-serif;
+      font-size: clamp(48px, 15vw, 72px);
+      line-height: .8;
+      letter-spacing: -.055em;
+
       color: var(--red);
 
       white-space: nowrap;
       user-select: none;
+
+      /*
+        Compressione orizzontale:
+        permette di avere tutte e tre le parole
+        leggibili dentro il frame mobile.
+      */
+      transform: scaleX(.48);
+      transform-origin: center center;
     }
 
     /*
-      COPIA BIANCA
-      ---------------------------------------------------------
-      Questa copia esiste ma viene resa visibile soltanto
-      dalla piccola finestra della mask.
-    */
+      COPIA BIANCA.
 
+      È la stessa identica scritta, ma completamente
+      nascosta tranne una lama verticale stretta.
+    */
     .motion-word-reveal {
       position: absolute;
       inset: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       color: var(--white);
 
       pointer-events: none;
 
-      /*
-        Finestra verticale stretta.
-        Il nero della mask = visibile.
-        Il trasparente = nascosto.
-      */
+      transform: scaleX(1);
+      transform-origin: center center;
 
+      /*
+        La finestra bianca è stretta.
+        Il resto della parola rimane invisibile.
+      */
       -webkit-mask-image:
         linear-gradient(
           to right,
           transparent 0,
-          transparent 35%,
-          rgba(0,0,0,0) 43%,
-          rgba(0,0,0,1) 48%,
-          rgba(0,0,0,1) 52%,
-          rgba(0,0,0,0) 57%,
-          transparent 65%,
+          transparent 47%,
+          #000 49%,
+          #000 51%,
+          transparent 53%,
           transparent 100%
         );
 
@@ -535,361 +544,128 @@
         linear-gradient(
           to right,
           transparent 0,
-          transparent 35%,
-          rgba(0,0,0,0) 43%,
-          rgba(0,0,0,1) 48%,
-          rgba(0,0,0,1) 52%,
-          rgba(0,0,0,0) 57%,
-          transparent 65%,
+          transparent 47%,
+          #000 49%,
+          #000 51%,
+          transparent 53%,
           transparent 100%
         );
 
       /*
-        La maschera è molto più piccola del testo.
-        Questo crea una vera "lama" che scorre.
+        La maschera viene fatta scorrere
+        lentamente da sinistra verso destra.
       */
-
-      -webkit-mask-size: 82px 100%;
-      mask-size: 82px 100%;
+      -webkit-mask-size: 46px 100%;
+      mask-size: 46px 100%;
 
       -webkit-mask-repeat: no-repeat;
       mask-repeat: no-repeat;
 
-      -webkit-mask-position: -82px 0;
-      mask-position: -82px 0;
+      -webkit-mask-position: -46px 0;
+      mask-position: -46px 0;
 
       animation:
         textScan
-        4.6s
-        cubic-bezier(.62,.02,.22,1)
+        8s
+        linear
         infinite;
     }
 
     /*
-      LOOP DEL TESTO BIANCO.
-      COMPLETAMENTE SEPARATO DALLO SCROLL.
-    */
+      SCANSIONE LENTA.
 
+      8 secondi:
+      il testo rimane abbastanza a lungo
+      sotto la lama da poter essere letto.
+    */
     @keyframes textScan {
 
       0% {
-        -webkit-mask-position: -82px 0;
-        mask-position: -82px 0;
+        -webkit-mask-position: -46px 0;
+        mask-position: -46px 0;
       }
 
-      7% {
-        -webkit-mask-position: -82px 0;
-        mask-position: -82px 0;
+      8% {
+        -webkit-mask-position: -46px 0;
+        mask-position: -46px 0;
       }
 
-      53% {
-        -webkit-mask-position: calc(100% + 82px) 0;
-        mask-position: calc(100% + 82px) 0;
+      92% {
+        -webkit-mask-position: calc(100% + 46px) 0;
+        mask-position: calc(100% + 46px) 0;
       }
 
       100% {
-        -webkit-mask-position: calc(100% + 82px) 0;
-        mask-position: calc(100% + 82px) 0;
+        -webkit-mask-position: calc(100% + 46px) 0;
+        mask-position: calc(100% + 46px) 0;
       }
     }
 
     /*
-      SCANNER
-      ---------------------------------------------------------
-      Tutto NERO.
-    */
+      SCANNER.
 
+      Una sola linea.
+      Niente glow.
+      Niente testa.
+      Niente seconda linea.
+      Niente scia.
+    */
     .motion-scanner {
       position: absolute;
       z-index: 15;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100%;
+      inset: 0;
 
       overflow: hidden;
       pointer-events: none;
     }
 
-    /*
-      ALONE / SCIA
-    */
-
-    .scanner-glow {
-      position: absolute;
-
-      top: -10%;
-      left: -35vw;
-
-      width: 32vw;
-      height: 120%;
-
-      background:
-        linear-gradient(
-          to right,
-          transparent 0%,
-          rgba(0,0,0,.02) 25%,
-          rgba(0,0,0,.08) 65%,
-          rgba(0,0,0,.18) 100%
-        );
-
-      filter: blur(5px);
-
-      transform: skewX(-7deg);
-
-      animation:
-        scannerSweep
-        4.6s
-        cubic-bezier(.62,.02,.22,1)
-        infinite;
-    }
-
-    /*
-      SCIA PIÙ VICINA ALLA LAMA
-    */
-
-    .scanner-trail {
-      position: absolute;
-
-      top: -5%;
-      left: -20vw;
-
-      width: 13vw;
-      height: 110%;
-
-      background:
-        linear-gradient(
-          to right,
-          transparent,
-          rgba(0,0,0,.18),
-          rgba(0,0,0,.04),
-          transparent
-        );
-
-      filter: blur(1px);
-
-      transform: skewX(-7deg);
-
-      animation:
-        scannerSweep
-        4.6s
-        cubic-bezier(.62,.02,.22,1)
-        infinite;
-    }
-
-    /*
-      LAMA PRINCIPALE
-    */
-
     .scanner-line {
       position: absolute;
 
-      top: -5%;
-      left: -3px;
+      top: 10%;
+      bottom: 10%;
+      left: -1px;
 
       width: 2px;
-      height: 110%;
 
       background: var(--black);
 
       box-shadow:
-        0 0 0 1px rgba(0,0,0,.12),
-        0 0 10px rgba(0,0,0,.55),
-        0 0 24px rgba(0,0,0,.3);
-
-      transform: translateX(-15vw);
+        0 0 8px rgba(0,0,0,.22);
 
       animation:
         scannerSweep
-        4.6s
-        cubic-bezier(.62,.02,.22,1)
+        8s
+        linear
         infinite;
     }
 
     /*
-      PICCOLA LAMA SECONDARIA
+      La linea resta ferma ai bordi per un istante,
+      poi attraversa lentamente tutto il testo.
     */
-
-    .scanner-edge {
-      position: absolute;
-
-      top: -5%;
-      left: -3px;
-
-      width: 1px;
-      height: 110%;
-
-      background: rgba(0,0,0,.35);
-
-      transform: translateX(-15vw);
-
-      animation:
-        scannerSweepEdge
-        4.6s
-        cubic-bezier(.62,.02,.22,1)
-        infinite;
-    }
-
-    /*
-      TESTA SCANNER
-    */
-
-    .scanner-head {
-      position: absolute;
-
-      top: 50%;
-      left: -15vw;
-
-      width: 34px;
-      height: 34px;
-
-      transform:
-        translate(-50%, -50%)
-        rotate(45deg);
-
-      border: 1px solid rgba(0,0,0,.65);
-
-      animation:
-        scannerHeadSweep
-        4.6s
-        cubic-bezier(.62,.02,.22,1)
-        infinite;
-    }
-
-    .scanner-head::before,
-    .scanner-head::after {
-      content: "";
-      position: absolute;
-      background: var(--black);
-    }
-
-    .scanner-head::before {
-      top: 50%;
-      left: -7px;
-
-      width: 46px;
-      height: 1px;
-
-      transform: translateY(-50%);
-    }
-
-    .scanner-head::after {
-      left: 50%;
-      top: -7px;
-
-      width: 1px;
-      height: 46px;
-
-      transform: translateX(-50%);
-    }
-
-    /*
-      TICKS LATERALI
-    */
-
-    .scanner-tick {
-      position: absolute;
-
-      top: 50%;
-
-      width: 25px;
-      height: 1px;
-
-      background: var(--black);
-
-      transform: translateY(-50%);
-    }
-
-    .scanner-tick-left {
-      left: -30px;
-    }
-
-    .scanner-tick-right {
-      right: -30px;
-    }
-
-    /*
-      LOOP SCANNER
-    */
-
     @keyframes scannerSweep {
 
       0% {
-        transform:
-          translateX(-25vw)
-          skewX(-7deg);
+        transform: translateX(-8px);
       }
 
-      5% {
-        transform:
-          translateX(-25vw)
-          skewX(-7deg);
+      8% {
+        transform: translateX(-8px);
       }
 
-      58% {
-        transform:
-          translateX(125vw)
-          skewX(-7deg);
+      92% {
+        transform: translateX(calc(100vw + 8px));
       }
 
       100% {
-        transform:
-          translateX(125vw)
-          skewX(-7deg);
-      }
-    }
-
-    @keyframes scannerSweepEdge {
-
-      0% {
-        transform:
-          translateX(calc(-25vw - 8px))
-          skewX(-7deg);
-      }
-
-      5% {
-        transform:
-          translateX(calc(-25vw - 8px))
-          skewX(-7deg);
-      }
-
-      58% {
-        transform:
-          translateX(calc(125vw - 8px))
-          skewX(-7deg);
-      }
-
-      100% {
-        transform:
-          translateX(calc(125vw - 8px))
-          skewX(-7deg);
-      }
-    }
-
-    @keyframes scannerHeadSweep {
-
-      0% {
-        left: -15vw;
-      }
-
-      5% {
-        left: -15vw;
-      }
-
-      58% {
-        left: 115vw;
-      }
-
-      100% {
-        left: 115vw;
+        transform: translateX(calc(100vw + 8px));
       }
     }
 
     /*
       ANGOLI NERI
     */
-
     .motion-corner {
       position: absolute;
       z-index: 20;
@@ -930,7 +706,6 @@
     /*
       LABELS
     */
-
     .motion-label {
       position: absolute;
       z-index: 21;
@@ -996,7 +771,6 @@
     /*
       PICCOLO CODICE
     */
-
     .motion-code {
       position: absolute;
       z-index: 21;
@@ -1012,6 +786,7 @@
 
       pointer-events: none;
     }
+
 
     /* REGISTRATION */
     .registration {
@@ -1062,7 +837,6 @@
       margin-bottom: 0;
       min-width: 0;
 
-      /* GET IN entrance animation */
       opacity: 0;
       transform: translate3d(0, 18px, 0);
       will-change: transform, opacity;
@@ -1090,8 +864,6 @@
       margin: 0;
       justify-self: end;
       align-self: start;
-
-      /* Necessario per posizionare le cornici sugli angoli */
       position: relative;
     }
 
@@ -1109,17 +881,6 @@
       appearance: none;
     }
 
-    /*
-      CORNICI ROSSE VIDEO
-
-      Solo lato sinistro:
-      - angolo superiore sinistro
-      - angolo inferiore sinistro
-
-      Linee sottili e corte, separate dal bordo
-      del video per mantenere l'effetto grafico.
-    */
-
     .register-video-box::before,
     .register-video-box::after {
       content: "";
@@ -1131,14 +892,12 @@
       z-index: 5;
     }
 
-    /* Angolo superiore sinistro */
     .register-video-box::before {
       top: -5px;
       border-left: 1px solid var(--red);
       border-top: 1px solid var(--red);
     }
 
-    /* Angolo inferiore sinistro */
     .register-video-box::after {
       top: calc(clamp(97.5px, 30vw, 116px) - 13px);
       bottom: auto;
@@ -1483,9 +1242,10 @@
 
   </section>
 
+
   <!-- =====================================================
-       MOTION — MODIFICATA SOLO QUESTA SEZIONE
-       ====================================================== -->
+       MOTION
+       ===================================================== -->
 
   <section class="motion" id="motion">
 
@@ -1499,12 +1259,6 @@
 
         ROTAROTT — MÆDNESS — TICKET
 
-        <!--
-          Copia bianca.
-          La mask la rende visibile solo quando
-          passa la lama dello scanner.
-        -->
-
         <div class="motion-word-reveal">
           ROTAROTT — MÆDNESS — TICKET
         </div>
@@ -1514,24 +1268,11 @@
     </div>
 
 
-    <!-- SCANNER -->
+    <!-- SINGLE SCANNER LINE -->
 
     <div class="motion-scanner">
 
-      <div class="scanner-glow"></div>
-
-      <div class="scanner-trail"></div>
-
-      <div class="scanner-edge"></div>
-
       <div class="scanner-line"></div>
-
-      <div class="scanner-head">
-
-        <div class="scanner-tick scanner-tick-left"></div>
-        <div class="scanner-tick scanner-tick-right"></div>
-
-      </div>
 
     </div>
 
@@ -1576,6 +1317,7 @@
     </div>
 
   </section>
+
 
   <!-- REGISTRATION -->
   <section class="registration">
@@ -1789,6 +1531,7 @@
 
   </section>
 
+
   <script>
 
     /* ELEMENTS */
@@ -1801,19 +1544,6 @@
 
     const heroLogo =
       document.getElementById("heroLogo");
-
-    /*
-      NUOVO ELEMENTO MOTION
-
-      Prima:
-      motionWord
-
-      Ora:
-      motionSystem
-
-      Lo scanner NON viene mai controllato
-      dal JavaScript.
-    */
 
     const motionSystem =
       document.getElementById("motionSystem");
@@ -2049,13 +1779,6 @@
 
     /*
       HERO LOGO SMOOTH MOTION
-
-      Il logo si sposta verso destra
-      durante lo scroll.
-
-      Il movimento massimo è stato ridotto
-      per evitare che la scritta superi
-      il bordo dello schermo.
     */
 
     let logoTargetX = -3;
@@ -2118,17 +1841,6 @@
 
       /*
         MICRO GRAPHICS FADE
-
-        Le scritte rimangono completamente
-        visibili all'inizio.
-
-        Durante i primi 420px di scroll
-        diventano gradualmente trasparenti.
-
-        In questo modo restano parte
-        dell'identità visiva dell'hero,
-        ma non si sovrappongono alle
-        sezioni successive.
       */
 
       const graphicsFade =
@@ -2155,10 +1867,6 @@
 
       /*
         HERO LOGO
-
-        Movimento verso destra.
-
-        Massimo +55px.
       */
 
       const logoMove =
@@ -2171,10 +1879,6 @@
         -3 + logoMove;
 
 
-      /*
-        Leggerissimo movimento verticale.
-      */
-
       logoTargetY =
         Math.min(
           scrollTop * 0.025,
@@ -2183,26 +1887,16 @@
 
 
       /*
-        ======================================================
-        NUOVO EFFETTO SCROLL DELLA TRANSIZIONE
-        ======================================================
+        MOTION SCROLL REACTION
 
-        IMPORTANTISSIMO:
+        Questo movimento è completamente separato
+        dallo scanner.
 
-        Questo NON controlla lo scanner.
+        Lo scanner continua sempre il proprio loop
+        CSS di 8 secondi.
 
-        Lo scanner continua autonomamente con
-        @keyframes scannerSweep.
-
-        Lo scroll agisce solamente sul sistema
-        delle parole:
-
-        - X
-        - Y
-        - rotazione
-        - scala
-
-        creando un secondo movimento indipendente.
+        Lo scroll muove solo leggermente
+        il blocco delle parole.
       */
 
       if (motion && motionSystem) {
@@ -2221,6 +1915,54 @@
           motionCenter -
           viewportCenter;
 
+
+        /*
+          Movimento laterale molto contenuto.
+        */
+
+        const motionX =
+          Math.max(
+            -22,
+            Math.min(
+              22,
+              -distance * 0.045
+            )
+          );
+
+
+        /*
+          Piccolissimo movimento verticale.
+        */
+
+        const motionY =
+          Math.max(
+            -4,
+            Math.min(
+              4,
+              distance * 0.012
+            )
+          );
+
+
+        /*
+          Inclinazione quasi impercettibile.
+        */
+
+        const motionRotation =
+          Math.max(
+            -0.7,
+            Math.min(
+              0.7,
+              distance * 0.0028
+            )
+          );
+
+
+        /*
+          Micro zoom quando il blocco è
+          vicino al centro dello schermo.
+        */
+
         const visibility =
           Math.max(
             0,
@@ -2232,59 +1974,9 @@
             )
           );
 
-
-        /*
-          Movimento orizzontale basato sullo scroll
-        */
-
-        const motionX =
-          Math.max(
-            -32,
-            Math.min(
-              32,
-              -distance * 0.08
-            )
-          );
-
-
-        /*
-          Movimento verticale leggerissimo
-        */
-
-        const motionY =
-          Math.max(
-            -7,
-            Math.min(
-              7,
-              distance * 0.025
-            )
-          );
-
-
-        /*
-          Rotazione quasi impercettibile.
-          Serve a dare vita al sistema senza
-          rubare attenzione allo scanner.
-        */
-
-        const motionRotation =
-          Math.max(
-            -1.4,
-            Math.min(
-              1.4,
-              distance * 0.006
-            )
-          );
-
-
-        /*
-          Piccolo zoom quando la sezione
-          è nel centro dello schermo.
-        */
-
         const motionScale =
           1 +
-          (visibility * 0.035);
+          (visibility * 0.018);
 
 
         motion.style.setProperty(
