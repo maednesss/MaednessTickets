@@ -247,16 +247,30 @@
       margin-bottom: 7px;
     }
 
+    /* HERO LOGO — NUOVO */
+
     .hero-logo {
       font-family: "Anton", sans-serif;
-      font-size: clamp(70px, 23vw, 120px);
-      line-height: .78;
-      letter-spacing: -.035em;
+      font-size: clamp(76px, 24vw, 124px);
+      line-height: .76;
+      letter-spacing: -.045em;
       white-space: nowrap;
-      text-shadow:
-        4px 0 var(--red),
-        -2px 0 rgba(255,255,255,.3);
-      transform: translateX(-3px);
+
+      color: var(--white);
+
+      text-shadow: none;
+
+      transform:
+        translate3d(-3px, 0, 0)
+        scaleX(1);
+
+      transform-origin: left center;
+
+      will-change: transform, letter-spacing, opacity;
+
+      transition:
+        letter-spacing .08s linear,
+        opacity .08s linear;
     }
 
     .hero-event {
@@ -1237,16 +1251,42 @@
         `center calc(50% + ${heroOffset}px)`;
 
 
-      /* Hero logo */
+      /*
+        HERO LOGO
 
-      const logoMove =
+        La scritta non scorre più semplicemente
+        verso destra.
+
+        Ora:
+        - si comprime leggermente in orizzontale
+        - aumenta leggermente il tracking
+        - perde pochissima opacità
+        - resta ancorata alla sua posizione
+      */
+
+      const logoProgress =
         Math.min(
-          scrollTop * 0.08,
-          45
+          scrollTop / 260,
+          1
         );
 
+      const logoScale =
+        1 - (logoProgress * 0.055);
+
+      const logoTracking =
+        -0.045 + (logoProgress * 0.012);
+
+      const logoOpacity =
+        1 - (logoProgress * 0.12);
+
       heroLogo.style.transform =
-        `translateX(${-3 + logoMove}px)`;
+        `translate3d(-3px, 0, 0) scaleX(${logoScale})`;
+
+      heroLogo.style.letterSpacing =
+        `${logoTracking}em`;
+
+      heroLogo.style.opacity =
+        logoOpacity;
 
 
       /* Motion word */
@@ -1313,8 +1353,24 @@
         const delta =
           touchStartY - currentY;
 
+        /*
+          Micro-reazione al gesto.
+          Non sposta più il logo a destra:
+          crea solo una leggerissima
+          compressione dinamica.
+        */
+
+        const touchScale =
+          Math.max(
+            0.965,
+            Math.min(
+              1.015,
+              1 - delta * 0.00008
+            )
+          );
+
         heroLogo.style.transform =
-          `translateX(${-3 + delta * .025}px)`;
+          `translate3d(-3px, 0, 0) scaleX(${touchScale})`;
 
       },
       {
