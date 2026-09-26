@@ -2,7 +2,6 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -51,13 +50,11 @@
     }
 
     /* DESKTOP WARNING */
-
     .desktop-warning {
       display: none;
     }
 
     @media (min-width: 700px) {
-
       body > *:not(.desktop-warning) {
         display: none !important;
       }
@@ -76,11 +73,9 @@
         font-size: 34px;
         letter-spacing: .04em;
       }
-
     }
 
     /* TOPBAR */
-
     .topbar {
       position: fixed;
       z-index: 100;
@@ -114,7 +109,6 @@
     }
 
     /* SCROLL PROGRESS */
-
     .scroll-progress {
       position: fixed;
       z-index: 110;
@@ -134,7 +128,6 @@
     }
 
     /* FIXED GRAPHICS */
-
     .graphics {
       position: fixed;
       inset: 0;
@@ -175,7 +168,6 @@
     }
 
     /* HERO */
-
     .hero {
       position: relative;
       height: 82svh;
@@ -185,17 +177,13 @@
       flex-direction: column;
       justify-content: flex-end;
       padding: 0 16px 32px;
-
       background: url("./hero.png");
-
       background-size: cover;
       background-position: center;
-
       filter: contrast(1.15);
     }
 
     /* SMOOTH DARK GRADIENT */
-
     .hero::before {
       content: "";
       position: absolute;
@@ -249,7 +237,6 @@
     }
 
     /* HERO LOGO */
-
     .hero-logo {
       font-family: "Anton", sans-serif;
       font-size: clamp(70px, 23vw, 120px);
@@ -264,26 +251,6 @@
       transform: translate3d(-3px, 0, 0);
 
       will-change: transform;
-
-      animation: heroLogoIntro .9s cubic-bezier(.16, 1, .3, 1) both;
-    }
-
-    @keyframes heroLogoIntro {
-
-      0% {
-        opacity: 0;
-        transform:
-          translate3d(-3px, 18px, 0)
-          scale(.94);
-      }
-
-      100% {
-        opacity: 1;
-        transform:
-          translate3d(-3px, 0, 0)
-          scale(1);
-      }
-
     }
 
     .hero-event {
@@ -328,7 +295,6 @@
     }
 
     /* MOTION */
-
     .motion {
       position: relative;
       height: 32svh;
@@ -372,7 +338,6 @@
     }
 
     @keyframes marquee {
-
       from {
         transform: translateX(0);
       }
@@ -380,11 +345,9 @@
       to {
         transform: translateX(-35%);
       }
-
     }
 
     /* REGISTRATION */
-
     .registration {
       position: relative;
       z-index: 5;
@@ -409,7 +372,6 @@
     }
 
     /* GET IN + VIDEO */
-
     .register-heading {
       --register-title-size: clamp(60px, 19.5vw, 76px);
       --register-video-width: clamp(130px, 40vw, 155px);
@@ -422,9 +384,7 @@
         var(--register-video-width);
 
       column-gap: var(--register-heading-gap);
-
       align-items: start;
-
       margin-bottom: 28px;
     }
 
@@ -438,7 +398,6 @@
     }
 
     /* VIDEO */
-
     .register-video-box {
       width: var(--register-video-width);
       margin: 0;
@@ -502,7 +461,6 @@
     }
 
     /* INSTAGRAM */
-
     .instagram-box {
       margin-top: 22px;
       margin-bottom: 18px;
@@ -525,6 +483,7 @@
       font-size: 13px;
       font-weight: 900;
       letter-spacing: .07em;
+
       transition:
         background .25s ease,
         color .25s ease,
@@ -591,7 +550,6 @@
     }
 
     @keyframes instaClick {
-
       0% {
         transform: scale(1);
       }
@@ -607,11 +565,9 @@
       100% {
         transform: scale(1);
       }
-
     }
 
     @keyframes iconPop {
-
       0% {
         transform: rotate(0) scale(1);
       }
@@ -623,7 +579,6 @@
       100% {
         transform: rotate(0) scale(1);
       }
-
     }
 
     .instagram-status.active {
@@ -632,7 +587,6 @@
     }
 
     /* SUBMIT */
-
     .submit-button {
       width: 100%;
       height: 58px;
@@ -645,6 +599,7 @@
       font-size: 21px;
       letter-spacing: .04em;
       cursor: pointer;
+
       transition:
         background .2s ease,
         transform .12s ease;
@@ -668,14 +623,11 @@
     }
 
     /* BOTTOM */
-
     .registration-bottom {
       margin-top: 45px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       width: 100%;
     }
 
@@ -691,21 +643,16 @@
     .registration-bottom-image {
       width: clamp(58px, 17vw, 78px);
       height: clamp(58px, 17vw, 78px);
-
       object-fit: contain;
       object-position: center;
-
       display: block;
       flex: 0 0 auto;
-
       background: transparent;
       border: 0;
-
       animation: rotateImage 7s linear infinite;
     }
 
     @keyframes rotateImage {
-
       from {
         transform: rotate(0deg);
       }
@@ -713,7 +660,6 @@
       to {
         transform: rotate(360deg);
       }
-
     }
 
     .registration-footer {
@@ -724,7 +670,6 @@
       font-weight: 900;
       letter-spacing: .16em;
     }
-
   </style>
 </head>
 
@@ -736,7 +681,6 @@
   </div>
 
   <header class="topbar">
-
     <div class="top-logo">
       MÆDNESS<span class="registered">®</span>
     </div>
@@ -744,7 +688,6 @@
     <div class="top-event">
       ROTAROTT / 001
     </div>
-
   </header>
 
   <div class="scroll-progress">
@@ -772,7 +715,6 @@
   </div>
 
   <!-- HERO -->
-
   <section class="hero" id="hero">
 
     <div class="hero-content">
@@ -807,7 +749,6 @@
   </section>
 
   <!-- MOTION -->
-
   <section class="motion">
 
     <div class="motion-word" id="motionWord">
@@ -825,7 +766,6 @@
   </section>
 
   <!-- REGISTRATION -->
-
   <section class="registration">
 
     <div class="registration-top">
@@ -841,7 +781,6 @@
     </div>
 
     <!-- GET IN + VIDEO -->
-
     <div class="register-heading">
 
       <h2 class="register-title">
@@ -931,7 +870,6 @@
       </div>
 
       <!-- INSTAGRAM -->
-
       <div class="instagram-box">
 
         <button
@@ -995,7 +933,6 @@
       </div>
 
       <!-- SUBMIT -->
-
       <button
         type="submit"
         class="submit-button"
@@ -1012,7 +949,6 @@
     </form>
 
     <!-- BOTTOM ROTAROTT + HERO2 -->
-
     <div class="registration-bottom">
 
       <div class="registration-bottom-title">
@@ -1086,7 +1022,6 @@
       if (!registerVideo) return;
 
       registerVideo.muted = true;
-
       registerVideo.defaultMuted = true;
 
       registerVideo.setAttribute(
@@ -1116,7 +1051,6 @@
       }
 
     }
-
 
     if (registerVideo) {
 
@@ -1149,7 +1083,6 @@
 
     }
 
-
     document.addEventListener(
       "DOMContentLoaded",
       startRegisterVideo
@@ -1175,7 +1108,6 @@
     const INSTAGRAM_MEMORY_KEY =
       "maedness_instagram_clicked";
 
-
     function activateInstagramState() {
 
       instagramButton.classList.add(
@@ -1193,7 +1125,6 @@
       );
 
     }
-
 
     function checkInstagramMemory() {
 
@@ -1240,17 +1171,19 @@
 
     let ticking = false;
 
+
     /*
-      HERO LOGO SMOOTH MOTION
+      HERO LOGO
 
-      Il valore "logoTargetX" viene aggiornato
-      dallo scroll.
+      Il logo segue lo scroll verso destra.
 
-      "logoCurrentX" invece segue lentamente
-      il target tramite requestAnimationFrame.
+      Il target viene aggiornato dallo scroll,
+      mentre il valore corrente viene avvicinato
+      continuamente al target con requestAnimationFrame.
 
-      Questo evita il tremolio durante gli
-      scroll molto lenti.
+      In questo modo anche uno scroll molto lento
+      rimane fluido e non ci sono conflitti
+      tra CSS e JavaScript.
     */
 
     let logoTargetX = -3;
@@ -1259,47 +1192,29 @@
     let logoTargetY = 0;
     let logoCurrentY = 0;
 
-    let logoAnimationRunning = false;
-
 
     function animateHeroLogo() {
 
-      const ease = 0.085;
+      const ease = 0.12;
 
       logoCurrentX +=
-        (logoTargetX - logoCurrentX) * ease;
+        (
+          logoTargetX -
+          logoCurrentX
+        ) * ease;
 
       logoCurrentY +=
-        (logoTargetY - logoCurrentY) * ease;
+        (
+          logoTargetY -
+          logoCurrentY
+        ) * ease;
 
       heroLogo.style.transform =
-        `translate3d(${logoCurrentX}px, ${logoCurrentY}px, 0)`;
-
-
-      const stillMoving =
-        Math.abs(logoTargetX - logoCurrentX) > 0.01 ||
-        Math.abs(logoTargetY - logoCurrentY) > 0.01;
-
-      if (stillMoving) {
-
-        requestAnimationFrame(
-          animateHeroLogo
-        );
-
-      } else {
-
-        logoAnimationRunning = false;
-
-      }
-
-    }
-
-
-    function requestHeroLogoAnimation() {
-
-      if (logoAnimationRunning) return;
-
-      logoAnimationRunning = true;
+        `translate3d(
+          ${logoCurrentX}px,
+          ${logoCurrentY}px,
+          0
+        )`;
 
       requestAnimationFrame(
         animateHeroLogo
@@ -1344,17 +1259,16 @@
       /*
         HERO LOGO
 
-        Movimento principale verso destra.
+        Movimento verso destra.
 
-        All'inizio:
+        0px scroll:
         -3px
 
         Durante lo scroll:
-        fino a +115px circa.
+        aumenta progressivamente
 
-        Il movimento viene rallentato
-        progressivamente e non cambia
-        direzione improvvisamente.
+        Massimo:
+        +115px circa
       */
 
       const logoMove =
@@ -1369,8 +1283,7 @@
 
       /*
         Leggerissimo movimento verticale
-        per dare profondità senza spostare
-        troppo la scritta.
+        per dare profondità.
       */
 
       logoTargetY =
@@ -1380,17 +1293,17 @@
         );
 
 
-      requestHeroLogoAnimation();
-
-
       /* Motion word */
 
       const motionMove =
         scrollTop * -0.18;
 
       motionWord.style.transform =
-        `translate3d(${motionMove}px, 0, 0)`;
-
+        `translate3d(
+          ${motionMove}px,
+          0,
+          0
+        )`;
 
       ticking = false;
 
@@ -1415,6 +1328,20 @@
       {
         passive: true
       }
+    );
+
+
+    /*
+      AVVIO DELL'ANIMAZIONE CONTINUA
+      DEL LOGO.
+
+      Questo è importante:
+      non aspettiamo lo scroll per iniziare
+      il requestAnimationFrame.
+    */
+
+    requestAnimationFrame(
+      animateHeroLogo
     );
 
 
