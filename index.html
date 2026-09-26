@@ -681,6 +681,7 @@
   </div>
 
   <header class="topbar">
+
     <div class="top-logo">
       MÆDNESS<span class="registered">®</span>
     </div>
@@ -688,6 +689,7 @@
     <div class="top-event">
       ROTAROTT / 001
     </div>
+
   </header>
 
   <div class="scroll-progress">
@@ -1173,17 +1175,14 @@
 
 
     /*
-      HERO LOGO
+      HERO LOGO SMOOTH MOTION
 
-      Il logo segue lo scroll verso destra.
+      Il logo si sposta verso destra
+      durante lo scroll.
 
-      Il target viene aggiornato dallo scroll,
-      mentre il valore corrente viene avvicinato
-      continuamente al target con requestAnimationFrame.
-
-      In questo modo anche uno scroll molto lento
-      rimane fluido e non ci sono conflitti
-      tra CSS e JavaScript.
+      Il movimento massimo è stato ridotto
+      per evitare che la scritta superi
+      il bordo dello schermo.
     */
 
     let logoTargetX = -3;
@@ -1261,20 +1260,20 @@
 
         Movimento verso destra.
 
-        0px scroll:
-        -3px
+        Prima:
+        massimo +118px
 
-        Durante lo scroll:
-        aumenta progressivamente
+        Ora:
+        massimo +55px
 
-        Massimo:
-        +115px circa
+        Così mantiene l'effetto
+        senza uscire dal bordo.
       */
 
       const logoMove =
         Math.min(
-          scrollTop * 0.30,
-          118
+          scrollTop * 0.14,
+          55
         );
 
       logoTargetX =
@@ -1282,8 +1281,7 @@
 
 
       /*
-        Leggerissimo movimento verticale
-        per dare profondità.
+        Leggerissimo movimento verticale.
       */
 
       logoTargetY =
@@ -1331,14 +1329,7 @@
     );
 
 
-    /*
-      AVVIO DELL'ANIMAZIONE CONTINUA
-      DEL LOGO.
-
-      Questo è importante:
-      non aspettiamo lo scroll per iniziare
-      il requestAnimationFrame.
-    */
+    /* AVVIO ANIMAZIONE LOGO */
 
     requestAnimationFrame(
       animateHeroLogo
