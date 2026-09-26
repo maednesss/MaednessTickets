@@ -378,30 +378,38 @@
     /* GET IN + IMAGE + VIDEO */
 
     .register-heading {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
+      --register-title-size: clamp(60px, 19.5vw, 76px);
+      --register-image-size: clamp(56px, 20vw, 78px);
+      --register-video-width: clamp(120px, 37.25vw, 145px);
+      --register-heading-gap: clamp(2px, 1vw, 4px);
+
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1fr)
+        var(--register-image-size)
+        var(--register-video-width);
+      column-gap: var(--register-heading-gap);
+      align-items: start;
       margin-bottom: 28px;
     }
 
     .register-title {
       font-family: "Anton", sans-serif;
-      font-size: 76px;
+      font-size: var(--register-title-size);
       line-height: .78;
       letter-spacing: -.02em;
       margin-bottom: 0;
-      flex: 1;
       min-width: 0;
     }
 
     .register-image {
-      width: 105px;
-      height: 105px;
+      width: var(--register-image-size);
+      height: var(--register-image-size);
       object-fit: contain;
       object-position: center;
       display: block;
-      flex: 0 0 105px;
+      justify-self: center;
+      align-self: center;
       border-radius: 50%;
       animation: rotateImage 7s linear infinite;
     }
@@ -419,17 +427,16 @@
     /* VIDEO */
 
     .register-video-box {
-      margin-left: auto;
-      margin-right: -16px;
-      width: 112px;
-      flex: 0 0 112px;
-      align-self: center;
+      width: var(--register-video-width);
+      margin: 0;
+      justify-self: end;
+      align-self: start;
     }
 
     .register-video {
       display: block;
-      width: 112px;
-      height: 84px;
+      width: 100%;
+      height: clamp(90px, 27.85vw, 109px);
       object-fit: cover;
       object-position: center;
       background: #000;
@@ -442,7 +449,7 @@
 
     .last-maed {
       margin-top: 4px;
-      padding-right: 16px;
+      padding-right: 0;
       font-size: 6px;
       line-height: 1;
       font-weight: 900;
