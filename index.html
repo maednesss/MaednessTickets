@@ -19,6 +19,7 @@
   >
 
   <style>
+
     :root {
       --red: #ff0000;
       --black: #050505;
@@ -50,13 +51,17 @@
       font: inherit;
     }
 
-    /* DESKTOP WARNING */
+
+    /* =========================================================
+       DESKTOP WARNING
+    ========================================================= */
 
     .desktop-warning {
       display: none;
     }
 
     @media (min-width: 700px) {
+
       body > *:not(.desktop-warning) {
         display: none !important;
       }
@@ -66,30 +71,41 @@
         inset: 0;
         background: #050505;
         color: #fff;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
         text-align: center;
         padding: 40px;
+
         font-family: "Anton", sans-serif;
         font-size: 34px;
         letter-spacing: .04em;
       }
     }
 
-    /* TOPBAR */
+
+    /* =========================================================
+       TOPBAR
+    ========================================================= */
 
     .topbar {
       position: fixed;
       z-index: 100;
+
       top: 0;
       left: 0;
+
       width: 100%;
       height: 52px;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       padding: 0 16px;
+
       mix-blend-mode: difference;
       pointer-events: none;
     }
@@ -111,41 +127,57 @@
       letter-spacing: .15em;
     }
 
-    /* SCROLL PROGRESS */
+
+    /* =========================================================
+       SCROLL PROGRESS
+    ========================================================= */
 
     .scroll-progress {
       position: fixed;
       z-index: 110;
+
       top: 52px;
       right: 7px;
+
       width: 2px;
       height: calc(100vh - 70px);
+
       background: rgba(255,255,255,.2);
     }
 
     .scroll-progress span {
       display: block;
+
       width: 100%;
       height: 0%;
+
       background: var(--red);
+
       transform-origin: top;
     }
 
-    /* FIXED GRAPHICS */
+
+    /* =========================================================
+       FIXED GRAPHICS
+    ========================================================= */
 
     .graphics {
       position: fixed;
       inset: 0;
+
       z-index: 20;
+
       pointer-events: none;
       overflow: hidden;
     }
 
     .micro {
       position: absolute;
+
       font-size: 7px;
       letter-spacing: .2em;
       font-weight: 800;
+
       white-space: nowrap;
       opacity: .7;
     }
@@ -158,6 +190,7 @@
     .micro-2 {
       top: 72%;
       right: 14px;
+
       transform: rotate(90deg);
     }
 
@@ -169,33 +202,39 @@
     .micro-4 {
       top: 55%;
       left: 14px;
+
       transform: rotate(-90deg);
     }
 
-    /* HERO */
+
+    /* =========================================================
+       HERO
+    ========================================================= */
 
     .hero {
       position: relative;
+
       height: 82svh;
       min-height: 580px;
+
       overflow: hidden;
+
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
+
       padding: 0 16px 32px;
 
       background: url("./hero.png");
-
       background-size: cover;
       background-position: center;
 
       filter: contrast(1.15);
     }
 
-    /* SMOOTH DARK GRADIENT */
-
     .hero::before {
       content: "";
+
       position: absolute;
       inset: 0;
 
@@ -218,9 +257,12 @@
 
     .hero::after {
       content: "";
+
       position: absolute;
       inset: 0;
+
       opacity: .18;
+
       pointer-events: none;
 
       background-image:
@@ -243,23 +285,30 @@
       font-size: 9px;
       font-weight: 900;
       letter-spacing: .25em;
+
       margin-bottom: 7px;
     }
 
     .hero-logo {
       font-family: "Anton", sans-serif;
+
       font-size: clamp(70px, 23vw, 120px);
       line-height: .78;
+
       letter-spacing: -.035em;
+
       white-space: nowrap;
+
       text-shadow:
         4px 0 var(--red),
         -2px 0 rgba(255,255,255,.3);
+
       transform: translateX(-3px);
     }
 
     .hero-event {
       margin-top: 18px;
+
       display: flex;
       align-items: center;
       gap: 10px;
@@ -267,14 +316,17 @@
 
     .hero-event-name {
       font-family: "Anton", sans-serif;
+
       font-size: 38px;
       line-height: .9;
+
       letter-spacing: .01em;
     }
 
     .hero-event-meta {
       font-size: 8px;
       line-height: 1.5;
+
       letter-spacing: .16em;
       font-weight: 800;
     }
@@ -282,67 +334,98 @@
     .scroll-label {
       position: absolute;
       z-index: 4;
+
       right: 16px;
       bottom: 31px;
+
       font-size: 7px;
       letter-spacing: .3em;
       font-weight: 900;
+
       writing-mode: vertical-rl;
     }
 
     .scroll-label::after {
       content: "";
+
       display: block;
+
       width: 1px;
       height: 35px;
+
       margin: 8px auto 0;
+
       background: var(--white);
     }
 
-    /* MOTION */
+
+    /* =========================================================
+       MOTION
+    ========================================================= */
 
     .motion {
       position: relative;
+
       height: 32svh;
       min-height: 220px;
+
       overflow: hidden;
+
       display: flex;
       align-items: center;
+
       background: var(--black);
     }
 
     .motion-word {
       position: absolute;
+
       left: -8%;
+
       white-space: nowrap;
+
       font-family: "Anton", sans-serif;
+
       font-size: 29vw;
       line-height: .8;
+
       color: transparent;
+
       -webkit-text-stroke: 1px rgba(255,255,255,.35);
+
       transform: translateX(0);
     }
 
     .marquee {
       position: absolute;
+
       left: -20%;
+
       width: 145%;
+
       padding: 13px 0;
+
       background: var(--red);
       color: var(--black);
+
       transform: rotate(-7deg);
+
       overflow: hidden;
     }
 
     .marquee-track {
       white-space: nowrap;
+
       font-family: "Anton", sans-serif;
+
       font-size: 25px;
       letter-spacing: .03em;
+
       animation: marquee 9s linear infinite;
     }
 
     @keyframes marquee {
+
       from {
         transform: translateX(0);
       }
@@ -350,121 +433,331 @@
       to {
         transform: translateX(-35%);
       }
+
     }
 
-    /* HERO2 TRANSITION */
+
+    /* =========================================================
+       ROTAROTT TRANSITION
+       BLACK → WHITE / TECHNICAL ROTATION
+    ========================================================= */
 
     .registration-transition {
+
       position: relative;
-      height: 82px;
+
+      height: 70px;
+
       margin-top: -1px;
+
       background:
         linear-gradient(
           to bottom,
           var(--black) 0%,
-          var(--black) 18%,
-          #171717 38%,
-          #7a7a7a 67%,
+          var(--black) 25%,
+          #111111 48%,
+          #777777 74%,
           var(--white) 100%
         );
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       overflow: hidden;
+
       z-index: 6;
     }
 
+
+    /* CENTRAL RED AXIS */
+
     .registration-transition::before {
+
       content: "";
+
       position: absolute;
-      left: 16px;
-      right: 16px;
+
+      left: -10%;
+      right: -10%;
+
       top: 50%;
+
       height: 1px;
-      background: var(--red);
-      opacity: .85;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(255,0,0,.15) 8%,
+          var(--red) 30%,
+          var(--red) 70%,
+          rgba(255,0,0,.15) 92%,
+          transparent 100%
+        );
+
       transform: translateY(-50%);
+
+      opacity: .9;
     }
 
+
+    /* SCANLINES */
+
     .registration-transition::after {
+
       content: "";
+
       position: absolute;
       inset: 0;
+
       background:
         repeating-linear-gradient(
           to bottom,
           transparent 0px,
-          transparent 5px,
-          rgba(0,0,0,.08) 6px
+          transparent 4px,
+          rgba(0,0,0,.09) 5px
         );
+
+      pointer-events: none;
+
+      opacity: .65;
+    }
+
+
+    /* OUTER ROTATING RING */
+
+    .transition-orbit {
+
+      position: absolute;
+
+      width: 76px;
+      height: 76px;
+
+      border-radius: 50%;
+
       pointer-events: none;
     }
 
+    .transition-orbit-outer {
+
+      border: 1px solid rgba(255,255,255,.17);
+
+      border-top-color: var(--red);
+      border-right-color: var(--red);
+
+      transform: rotate(-18deg);
+
+      animation:
+        orbitClockwise 1.9s linear infinite;
+    }
+
+
+    /* INNER ORBIT */
+
+    .transition-orbit-inner {
+
+      width: 55px;
+      height: 55px;
+
+      border: 1px solid transparent;
+
+      border-left-color: rgba(255,0,0,.7);
+      border-bottom-color: rgba(255,0,0,.22);
+
+      animation:
+        orbitCounterClockwise 1.35s linear infinite;
+    }
+
+
+    /* TECHNICAL TICKS */
+
+    .transition-ticks {
+
+      position: absolute;
+
+      width: 96px;
+      height: 96px;
+
+      animation:
+        orbitClockwise 5s linear infinite;
+    }
+
+    .transition-ticks span {
+
+      position: absolute;
+
+      top: 0;
+      left: 50%;
+
+      width: 1px;
+      height: 6px;
+
+      background: rgba(255,255,255,.75);
+
+      transform-origin:
+        50% 48px;
+    }
+
+    .transition-ticks span:nth-child(1) {
+      transform: translateX(-50%) rotate(0deg);
+    }
+
+    .transition-ticks span:nth-child(2) {
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    .transition-ticks span:nth-child(3) {
+      transform: translateX(-50%) rotate(90deg);
+    }
+
+    .transition-ticks span:nth-child(4) {
+      transform: translateX(-50%) rotate(135deg);
+    }
+
+    .transition-ticks span:nth-child(5) {
+      transform: translateX(-50%) rotate(180deg);
+    }
+
+    .transition-ticks span:nth-child(6) {
+      transform: translateX(-50%) rotate(225deg);
+    }
+
+    .transition-ticks span:nth-child(7) {
+      transform: translateX(-50%) rotate(270deg);
+    }
+
+    .transition-ticks span:nth-child(8) {
+      transform: translateX(-50%) rotate(315deg);
+    }
+
+
+    /* HERO2 SVG */
+
     .transition-image {
+
       position: relative;
-      z-index: 2;
-      width: 68px;
-      height: 68px;
+
+      z-index: 5;
+
+      width: 59px;
+      height: 59px;
+
       object-fit: contain;
       object-position: center;
+
       display: block;
-      background: var(--white);
+
+      /* NIENTE CERCHIO BIANCO */
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+
+      transform-origin: center;
+
+      animation:
+        transitionSpin 3.8s
+        cubic-bezier(.65,.05,.25,1)
+        infinite;
+    }
+
+
+    /* RED LIGHT SWEEP */
+
+    .transition-sweep {
+
+      position: absolute;
+
+      z-index: 3;
+
+      width: 180px;
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          var(--red),
+          transparent
+        );
+
+      transform: rotate(-18deg);
+
+      opacity: .8;
+
+      animation:
+        sweepAcross 2.2s
+        ease-in-out
+        infinite;
+    }
+
+
+    /* LITTLE RED DOT */
+
+    .registration-transition .transition-dot {
+
+      position: absolute;
+
+      width: 3px;
+      height: 3px;
+
       border-radius: 50%;
-      padding: 3px;
-      animation: rotateImage 7s linear infinite;
+
+      background: var(--red);
+
+      box-shadow:
+        0 0 8px rgba(255,0,0,.8);
+
+      animation:
+        dotPulse 1.3s ease-in-out infinite;
     }
 
-    /* REGISTRATION */
 
-    .registration {
-      position: relative;
-      z-index: 5;
-      background: var(--white);
-      color: var(--black);
-      padding: 24px 16px 45px;
-      min-height: 680px;
+    /* ROTATION */
+
+    @keyframes transitionSpin {
+
+      0% {
+
+        transform:
+          translateX(-24px)
+          rotate(0deg);
+
+        opacity: 0;
+      }
+
+      12% {
+        opacity: 1;
+      }
+
+      38% {
+
+        transform:
+          translateX(-7px)
+          rotate(135deg);
+      }
+
+      68% {
+
+        transform:
+          translateX(0)
+          rotate(270deg);
+      }
+
+      100% {
+
+        transform:
+          translateX(0)
+          rotate(360deg);
+
+        opacity: 1;
+      }
     }
 
-    .registration-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 22px;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: .2em;
-    }
 
-    .registration-top span:last-child {
-      color: var(--red);
-    }
+    @keyframes orbitClockwise {
 
-    /* GET IN + VIDEO */
-
-    .register-heading {
-      --register-title-size: clamp(60px, 19.5vw, 76px);
-      --register-video-width: clamp(130px, 40vw, 155px);
-      --register-heading-gap: clamp(2px, 1vw, 4px);
-
-      display: grid;
-      grid-template-columns:
-        minmax(0, 1fr)
-        var(--register-video-width);
-      column-gap: var(--register-heading-gap);
-      align-items: start;
-      margin-bottom: 28px;
-    }
-
-    .register-title {
-      font-family: "Anton", sans-serif;
-      font-size: var(--register-title-size);
-      line-height: .78;
-      letter-spacing: -.02em;
-      margin-bottom: 0;
-      min-width: 0;
-    }
-
-    @keyframes rotateImage {
       from {
         transform: rotate(0deg);
       }
@@ -474,94 +767,309 @@
       }
     }
 
-    /* VIDEO */
+
+    @keyframes orbitCounterClockwise {
+
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(-360deg);
+      }
+    }
+
+
+    @keyframes sweepAcross {
+
+      0% {
+
+        transform:
+          translateX(-95px)
+          rotate(-18deg);
+
+        opacity: 0;
+      }
+
+      30% {
+        opacity: .9;
+      }
+
+      58% {
+
+        transform:
+          translateX(95px)
+          rotate(-18deg);
+
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+
+    @keyframes dotPulse {
+
+      0%,
+      100% {
+        transform: scale(.6);
+        opacity: .35;
+      }
+
+      50% {
+        transform: scale(1.4);
+        opacity: 1;
+      }
+    }
+
+
+    /* REDUCED MOTION */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .transition-image,
+      .transition-orbit,
+      .transition-ticks,
+      .transition-sweep,
+      .transition-dot {
+        animation: none !important;
+      }
+
+      .marquee-track {
+        animation: none !important;
+      }
+    }
+
+
+    /* =========================================================
+       REGISTRATION
+    ========================================================= */
+
+    .registration {
+
+      position: relative;
+      z-index: 5;
+
+      background: var(--white);
+      color: var(--black);
+
+      padding: 24px 16px 45px;
+
+      min-height: 680px;
+    }
+
+    .registration-top {
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 22px;
+
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .2em;
+    }
+
+    .registration-top span:last-child {
+      color: var(--red);
+    }
+
+
+    /* =========================================================
+       GET IN + VIDEO
+    ========================================================= */
+
+    .register-heading {
+
+      --register-title-size:
+        clamp(60px, 19.5vw, 76px);
+
+      --register-video-width:
+        clamp(130px, 40vw, 155px);
+
+      --register-heading-gap:
+        clamp(2px, 1vw, 4px);
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        var(--register-video-width);
+
+      column-gap:
+        var(--register-heading-gap);
+
+      align-items: start;
+
+      margin-bottom: 28px;
+    }
+
+    .register-title {
+
+      font-family: "Anton", sans-serif;
+
+      font-size:
+        var(--register-title-size);
+
+      line-height: .78;
+
+      letter-spacing: -.02em;
+
+      margin-bottom: 0;
+
+      min-width: 0;
+    }
+
+
+    /* =========================================================
+       VIDEO
+    ========================================================= */
 
     .register-video-box {
-      width: var(--register-video-width);
+
+      width:
+        var(--register-video-width);
+
       margin: 0;
+
       justify-self: end;
       align-self: start;
     }
 
     .register-video {
+
       display: block;
+
       width: 100%;
-      height: clamp(97.5px, 30vw, 116px);
+
+      height:
+        clamp(97.5px, 30vw, 116px);
+
       object-fit: cover;
       object-position: center;
+
       background: #000;
+
       border: 0;
       outline: none;
+
       border-radius: 0;
+
       -webkit-appearance: none;
       appearance: none;
     }
 
     .last-maed {
+
       margin-top: 4px;
+
       padding-right: 0;
+
       font-size: 6px;
       line-height: 1;
+
       font-weight: 900;
+
       letter-spacing: .18em;
+
       text-align: right;
+
       white-space: nowrap;
     }
+
+
+    /* =========================================================
+       FORM
+    ========================================================= */
 
     .form-group {
       margin-bottom: 15px;
     }
 
     .form-group label {
+
       display: block;
+
       margin-bottom: 7px;
+
       font-size: 8px;
+
       font-weight: 900;
+
       letter-spacing: .2em;
     }
 
     .form-group input {
+
       width: 100%;
       height: 52px;
+
       border: 1px solid #000;
+
       border-radius: 0;
+
       padding: 0 13px;
+
       background: #fff;
       color: #000;
+
       outline: none;
+
       font-size: 15px;
       font-weight: 600;
     }
 
     .form-group input:focus {
+
       border-color: var(--red);
-      box-shadow: inset 4px 0 0 var(--red);
+
+      box-shadow:
+        inset 4px 0 0 var(--red);
     }
 
-    /* INSTAGRAM */
+
+    /* =========================================================
+       INSTAGRAM
+    ========================================================= */
 
     .instagram-box {
+
       margin-top: 22px;
       margin-bottom: 18px;
     }
 
     .instagram-button {
+
       position: relative;
+
       width: 100%;
+
       min-height: 58px;
+
       border: 2px solid #000;
       border-radius: 0;
+
       background: #fff;
       color: #000;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       gap: 11px;
+
       cursor: pointer;
+
       overflow: hidden;
+
       font-size: 13px;
       font-weight: 900;
+
       letter-spacing: .07em;
+
       transition:
         background .25s ease,
         color .25s ease,
@@ -570,14 +1078,22 @@
     }
 
     .instagram-button::before {
+
       content: "";
+
       position: absolute;
+
       top: 0;
       left: -100%;
+
       width: 100%;
       height: 100%;
+
       background: var(--red);
-      transition: left .25s ease;
+
+      transition:
+        left .25s ease;
+
       z-index: 0;
     }
 
@@ -591,32 +1107,48 @@
     }
 
     .instagram-icon {
+
       width: 22px;
       height: 22px;
+
       flex: 0 0 22px;
     }
 
     .instagram-icon svg {
+
       display: block;
+
       width: 100%;
       height: 100%;
     }
 
     .instagram-status {
+
       min-height: 16px;
+
       margin-top: 7px;
+
       font-size: 7px;
+
       font-weight: 900;
+
       letter-spacing: .15em;
+
       text-align: center;
+
       opacity: .55;
     }
 
     .instagram-button.clicked {
+
       background: var(--green);
+
       border-color: var(--green);
+
       color: #000;
-      animation: instaClick .42s ease;
+
+      animation:
+        instaClick .42s ease;
     }
 
     .instagram-button.clicked::before {
@@ -624,10 +1156,13 @@
     }
 
     .instagram-button.clicked .instagram-icon {
-      animation: iconPop .45s ease;
+
+      animation:
+        iconPop .45s ease;
     }
 
     @keyframes instaClick {
+
       0% {
         transform: scale(1);
       }
@@ -646,38 +1181,59 @@
     }
 
     @keyframes iconPop {
+
       0% {
-        transform: rotate(0) scale(1);
+        transform:
+          rotate(0)
+          scale(1);
       }
 
       45% {
-        transform: rotate(-12deg) scale(1.25);
+        transform:
+          rotate(-12deg)
+          scale(1.25);
       }
 
       100% {
-        transform: rotate(0) scale(1);
+        transform:
+          rotate(0)
+          scale(1);
       }
     }
 
     .instagram-status.active {
+
       opacity: 1;
+
       color: #15934c;
     }
 
-    /* SUBMIT */
+
+    /* =========================================================
+       SUBMIT
+    ========================================================= */
 
     .submit-button {
+
       width: 100%;
       height: 58px;
+
       margin-top: 7px;
+
       border: 0;
       border-radius: 0;
+
       background: var(--black);
       color: var(--white);
+
       font-family: "Anton", sans-serif;
+
       font-size: 21px;
+
       letter-spacing: .04em;
+
       cursor: pointer;
+
       transition:
         background .2s ease,
         transform .12s ease;
@@ -692,45 +1248,82 @@
     }
 
     .form-status {
+
       min-height: 20px;
+
       margin-top: 10px;
+
       font-size: 8px;
+
       font-weight: 900;
+
       letter-spacing: .14em;
+
       text-align: center;
     }
 
-    /* BOTTOM */
+
+    /* =========================================================
+       BOTTOM
+    ========================================================= */
 
     .registration-bottom {
+
       margin-top: 45px;
+
       font-family: "Anton", sans-serif;
+
       font-size: 17vw;
+
       line-height: .75;
+
       color: transparent;
+
       -webkit-text-stroke: 1px #000;
+
       white-space: nowrap;
     }
 
     .registration-footer {
+
       margin-top: 28px;
+
       display: flex;
+
       justify-content: space-between;
+
       font-size: 7px;
+
       font-weight: 900;
+
       letter-spacing: .16em;
     }
+
   </style>
 </head>
 
+
 <body>
 
+
+  <!-- =======================================================
+       DESKTOP WARNING
+  ======================================================== -->
+
   <div class="desktop-warning">
+
     MÆDNESS®<br>
     MOBILE EXPERIENCE ONLY
+
   </div>
 
+
+  <!-- =======================================================
+       TOPBAR
+  ======================================================== -->
+
   <header class="topbar">
+
     <div class="top-logo">
       MÆDNESS<span class="registered">®</span>
     </div>
@@ -738,11 +1331,24 @@
     <div class="top-event">
       ROTAROTT / 001
     </div>
+
   </header>
 
+
+  <!-- =======================================================
+       SCROLL PROGRESS
+  ======================================================== -->
+
   <div class="scroll-progress">
+
     <span id="progress"></span>
+
   </div>
+
+
+  <!-- =======================================================
+       FIXED GRAPHICS
+  ======================================================== -->
 
   <div class="graphics">
 
@@ -763,6 +1369,11 @@
     </div>
 
   </div>
+
+
+  <!-- =======================================================
+       HERO
+  ======================================================== -->
 
   <section class="hero" id="hero">
 
@@ -791,11 +1402,17 @@
 
     </div>
 
+
     <div class="scroll-label">
       SCROLL
     </div>
 
   </section>
+
+
+  <!-- =======================================================
+       MOTION
+  ======================================================== -->
 
   <section class="motion">
 
@@ -813,9 +1430,37 @@
 
   </section>
 
-  <!-- HERO2: TRANSIZIONE COMPATTA -->
+
+  <!-- =======================================================
+       ROTAROTT TRANSITION
+  ======================================================== -->
 
   <div class="registration-transition">
+
+    <div class="transition-orbit transition-orbit-outer"></div>
+
+    <div class="transition-orbit transition-orbit-inner"></div>
+
+
+    <div class="transition-ticks" aria-hidden="true">
+
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </div>
+
+
+    <div class="transition-sweep"></div>
+
+
+    <div class="transition-dot"></div>
+
 
     <img
       src="./hero2.svg"
@@ -825,46 +1470,84 @@
 
   </div>
 
+
+  <!-- =======================================================
+       REGISTRATION
+  ======================================================== -->
+
   <section class="registration">
 
+
     <div class="registration-top">
-      <span>002 / GET ACCESS</span>
-      <span>ROTAROTT</span>
+
+      <span>
+        002 / GET ACCESS
+      </span>
+
+      <span>
+        ROTAROTT
+      </span>
+
     </div>
+
+
+    <!-- GET IN + VIDEO -->
 
     <div class="register-heading">
 
+
       <h2 class="register-title">
+
         GET<br>
         IN.
+
       </h2>
 
+
       <div class="register-video-box">
+
 
         <video
           class="register-video"
           id="registerVideo"
+
           autoplay
           muted
           loop
           playsinline
           webkit-playsinline
+
           preload="auto"
+
           disablepictureinpicture
+
           controlslist="nodownload noplaybackrate nofullscreen"
         >
-          <source src="./hero3.mp4" type="video/mp4">
+
+          <source
+            src="./hero3.mp4"
+            type="video/mp4"
+          >
+
         </video>
+
 
         <div class="last-maed">
           LAST MÆD
         </div>
 
+
       </div>
 
     </div>
 
+
+    <!-- FORM -->
+
     <form id="registrationForm">
+
+
+      <!-- NAME -->
 
       <div class="form-group">
 
@@ -882,6 +1565,9 @@
 
       </div>
 
+
+      <!-- SURNAME -->
+
       <div class="form-group">
 
         <label for="surname">
@@ -897,6 +1583,9 @@
         />
 
       </div>
+
+
+      <!-- EMAIL -->
 
       <div class="form-group">
 
@@ -915,14 +1604,20 @@
 
       </div>
 
+
+      <!-- INSTAGRAM -->
+
       <div class="instagram-box">
+
 
         <button
           type="button"
           class="instagram-button"
           id="instagramButton"
+
           aria-label="Apri il profilo Instagram di MÆDNESS"
         >
+
 
           <span class="instagram-icon">
 
@@ -939,6 +1634,7 @@
                 width="18"
                 height="18"
                 rx="5"
+
                 stroke="currentColor"
                 stroke-width="2"
               />
@@ -947,6 +1643,7 @@
                 cx="12"
                 cy="12"
                 r="4"
+
                 stroke="currentColor"
                 stroke-width="2"
               />
@@ -955,6 +1652,7 @@
                 cx="17.5"
                 cy="6.5"
                 r="1.2"
+
                 fill="currentColor"
               />
 
@@ -962,11 +1660,14 @@
 
           </span>
 
+
           <span id="instagramText">
             SEGUI @maednesss
           </span>
 
+
         </button>
+
 
         <div
           class="instagram-status"
@@ -975,7 +1676,11 @@
           INSTAGRAM / OPTIONAL
         </div>
 
+
       </div>
+
+
+      <!-- SUBMIT -->
 
       <button
         type="submit"
@@ -985,27 +1690,49 @@
         BLOCCA IL TUO POSTO
       </button>
 
+
       <div
         class="form-status"
         id="formStatus"
       ></div>
 
+
     </form>
+
+
+    <!-- BOTTOM -->
 
     <div class="registration-bottom">
       ROTAROTT
     </div>
 
+
     <div class="registration-footer">
-      <span>MÆDNESS®</span>
-      <span>FOGGIA / 2026</span>
+
+      <span>
+        MÆDNESS®
+      </span>
+
+      <span>
+        FOGGIA / 2026
+      </span>
+
     </div>
+
 
   </section>
 
+
+  <!-- =======================================================
+       JAVASCRIPT
+  ======================================================== -->
+
   <script>
 
-    /* ELEMENTS */
+
+    /* =======================================================
+       ELEMENTS
+    ======================================================== */
 
     const progress =
       document.getElementById("progress");
@@ -1041,11 +1768,15 @@
       document.getElementById("registerVideo");
 
 
-    /* VIDEO AUTOPLAY */
+    /* =======================================================
+       VIDEO AUTOPLAY
+    ======================================================== */
 
     function startRegisterVideo() {
 
-      if (!registerVideo) return;
+      if (!registerVideo) {
+        return;
+      }
 
       registerVideo.muted = true;
 
@@ -1066,8 +1797,10 @@
         ""
       );
 
+
       const playPromise =
         registerVideo.play();
+
 
       if (
         playPromise !== undefined
@@ -1100,10 +1833,12 @@
       registerVideo.addEventListener(
         "error",
         () => {
+
           console.log(
             "Errore video:",
             registerVideo.error
           );
+
         }
       );
 
@@ -1115,10 +1850,12 @@
       startRegisterVideo
     );
 
+
     window.addEventListener(
       "load",
       startRegisterVideo
     );
+
 
     document.addEventListener(
       "touchstart",
@@ -1130,7 +1867,9 @@
     );
 
 
-    /* INSTAGRAM MEMORY */
+    /* =======================================================
+       INSTAGRAM MEMORY
+    ======================================================== */
 
     const INSTAGRAM_MEMORY_KEY =
       "maedness_instagram_clicked";
@@ -1173,7 +1912,9 @@
     }
 
 
-    /* INSTAGRAM CLICK */
+    /* =======================================================
+       INSTAGRAM CLICK
+    ======================================================== */
 
     instagramButton.addEventListener(
       "click",
@@ -1184,11 +1925,13 @@
           "true"
         );
 
+
         window.open(
           "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
           "_blank",
           "noopener,noreferrer"
         );
+
 
         activateInstagramState();
 
@@ -1196,7 +1939,9 @@
     );
 
 
-    /* SCROLL ANIMATION */
+    /* =======================================================
+       SCROLL ANIMATION
+    ======================================================== */
 
     let ticking = false;
 
@@ -1206,9 +1951,11 @@
       const scrollTop =
         window.scrollY;
 
+
       const documentHeight =
         document.documentElement.scrollHeight -
         window.innerHeight;
+
 
       const scrollPercent =
         documentHeight > 0
@@ -1216,13 +1963,11 @@
           : 0;
 
 
-      /* Progress */
-
       progress.style.height =
         `${scrollPercent * 100}%`;
 
 
-      /* Hero parallax */
+      /* HERO PARALLAX */
 
       const heroOffset =
         Math.min(
@@ -1230,11 +1975,12 @@
           120
         );
 
+
       hero.style.backgroundPosition =
         `center calc(50% + ${heroOffset}px)`;
 
 
-      /* Hero logo */
+      /* LOGO */
 
       const logoMove =
         Math.min(
@@ -1242,14 +1988,16 @@
           45
         );
 
+
       heroLogo.style.transform =
         `translateX(${-3 + logoMove}px)`;
 
 
-      /* Motion word */
+      /* MOTION WORD */
 
       const motionMove =
         scrollTop * -0.18;
+
 
       motionWord.style.transform =
         `translateX(${motionMove}px)`;
@@ -1281,7 +2029,9 @@
     );
 
 
-    /* TOUCH PARALLAX */
+    /* =======================================================
+       TOUCH PARALLAX
+    ======================================================== */
 
     let touchStartY = 0;
 
@@ -1307,8 +2057,10 @@
         const currentY =
           event.touches[0].clientY;
 
+
         const delta =
           touchStartY - currentY;
+
 
         heroLogo.style.transform =
           `translateX(${-3 + delta * .025}px)`;
@@ -1320,7 +2072,9 @@
     );
 
 
-    /* FORM */
+    /* =======================================================
+       FORM
+    ======================================================== */
 
     registrationForm.addEventListener(
       "submit",
@@ -1328,14 +2082,18 @@
 
         event.preventDefault();
 
+
         submitButton.textContent =
           "CREATING ACCESS...";
+
 
         submitButton.style.background =
           "#ff0000";
 
+
         formStatus.textContent =
           "GENERAZIONE ACCESSO IN CORSO";
+
 
         setTimeout(
           () => {
@@ -1343,8 +2101,10 @@
             submitButton.textContent =
               "ACCESS REQUESTED ✓";
 
+
             submitButton.style.background =
               "#20d878";
+
 
             formStatus.textContent =
               "TICKET SYSTEM — COMING NEXT";
@@ -1357,7 +2117,9 @@
     );
 
 
-    /* INITIALIZATION */
+    /* =======================================================
+       INITIALIZATION
+    ======================================================== */
 
     checkInstagramMemory();
 
