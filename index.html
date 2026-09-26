@@ -57,6 +57,7 @@
     }
 
     @media (min-width: 700px) {
+
       body > *:not(.desktop-warning) {
         display: none !important;
       }
@@ -377,21 +378,23 @@
       color: var(--red);
     }
 
-    /* GET IN + IMAGE + VIDEO */
+    /* GET IN + VIDEO */
 
     .register-heading {
       --register-title-size: clamp(60px, 19.5vw, 76px);
-      --register-image-size: clamp(56px, 20vw, 78px);
       --register-video-width: clamp(130px, 40vw, 155px);
       --register-heading-gap: clamp(2px, 1vw, 4px);
 
       display: grid;
+
       grid-template-columns:
         minmax(0, 1fr)
-        var(--register-image-size)
         var(--register-video-width);
+
       column-gap: var(--register-heading-gap);
+
       align-items: start;
+
       margin-bottom: 28px;
     }
 
@@ -402,28 +405,6 @@
       letter-spacing: -.02em;
       margin-bottom: 0;
       min-width: 0;
-    }
-
-    .register-image {
-      width: var(--register-image-size);
-      height: var(--register-image-size);
-      object-fit: contain;
-      object-position: center;
-      display: block;
-      justify-self: center;
-      align-self: center;
-      border-radius: 50%;
-      animation: rotateImage 7s linear infinite;
-    }
-
-    @keyframes rotateImage {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
     }
 
     /* VIDEO */
@@ -656,12 +637,47 @@
 
     .registration-bottom {
       margin-top: 45px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      width: 100%;
+    }
+
+    .registration-bottom-title {
       font-family: "Anton", sans-serif;
       font-size: 17vw;
       line-height: .75;
       color: transparent;
       -webkit-text-stroke: 1px #000;
       white-space: nowrap;
+    }
+
+    .registration-bottom-image {
+      width: clamp(58px, 17vw, 78px);
+      height: clamp(58px, 17vw, 78px);
+
+      object-fit: contain;
+      object-position: center;
+
+      display: block;
+      flex: 0 0 auto;
+
+      background: transparent;
+      border: 0;
+
+      animation: rotateImage 7s linear infinite;
+    }
+
+    @keyframes rotateImage {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .registration-footer {
@@ -683,8 +699,15 @@
   </div>
 
   <header class="topbar">
-    <div class="top-logo">MÆDNESS<span class="registered">®</span></div>
-    <div class="top-event">ROTAROTT / 001</div>
+
+    <div class="top-logo">
+      MÆDNESS<span class="registered">®</span>
+    </div>
+
+    <div class="top-event">
+      ROTAROTT / 001
+    </div>
+
   </header>
 
   <div class="scroll-progress">
@@ -710,6 +733,8 @@
     </div>
 
   </div>
+
+  <!-- HERO -->
 
   <section class="hero" id="hero">
 
@@ -744,6 +769,8 @@
 
   </section>
 
+  <!-- MOTION -->
+
   <section class="motion">
 
     <div class="motion-word" id="motionWord">
@@ -760,12 +787,23 @@
 
   </section>
 
+  <!-- REGISTRATION -->
+
   <section class="registration">
 
     <div class="registration-top">
-      <span>002 / GET ACCESS</span>
-      <span>ROTAROTT</span>
+
+      <span>
+        002 / GET ACCESS
+      </span>
+
+      <span>
+        ROTAROTT
+      </span>
+
     </div>
+
+    <!-- GET IN + VIDEO -->
 
     <div class="register-heading">
 
@@ -773,12 +811,6 @@
         GET<br>
         IN.
       </h2>
-
-      <img
-        src="./hero2.svg"
-        alt=""
-        class="register-image"
-      />
 
       <div class="register-video-box">
 
@@ -794,7 +826,12 @@
           disablepictureinpicture
           controlslist="nodownload noplaybackrate nofullscreen"
         >
-          <source src="./hero3.mp4" type="video/mp4">
+
+          <source
+            src="./hero3.mp4"
+            type="video/mp4"
+          >
+
         </video>
 
         <div class="last-maed">
@@ -855,6 +892,8 @@
         />
 
       </div>
+
+      <!-- INSTAGRAM -->
 
       <div class="instagram-box">
 
@@ -918,6 +957,8 @@
 
       </div>
 
+      <!-- SUBMIT -->
+
       <button
         type="submit"
         class="submit-button"
@@ -933,13 +974,32 @@
 
     </form>
 
+    <!-- BOTTOM ROTAROTT + HERO2 -->
+
     <div class="registration-bottom">
-      ROTAROTT
+
+      <div class="registration-bottom-title">
+        ROTAROTT
+      </div>
+
+      <img
+        src="./hero2.svg"
+        alt=""
+        class="registration-bottom-image"
+      />
+
     </div>
 
     <div class="registration-footer">
-      <span>MÆDNESS®</span>
-      <span>FOGGIA / 2026</span>
+
+      <span>
+        MÆDNESS®
+      </span>
+
+      <span>
+        FOGGIA / 2026
+      </span>
+
     </div>
 
   </section>
@@ -1041,10 +1101,12 @@
       registerVideo.addEventListener(
         "error",
         () => {
+
           console.log(
             "Errore video:",
             registerVideo.error
           );
+
         }
       );
 
