@@ -377,18 +377,16 @@
       color: var(--red);
     }
 
-    /* GET IN + IMAGE + VIDEO */
+    /* GET IN + VIDEO */
 
     .register-heading {
       --register-title-size: clamp(60px, 19.5vw, 76px);
-      --register-image-size: clamp(56px, 20vw, 78px);
       --register-video-width: clamp(130px, 40vw, 155px);
       --register-heading-gap: clamp(2px, 1vw, 4px);
 
       display: grid;
       grid-template-columns:
         minmax(0, 1fr)
-        var(--register-image-size)
         var(--register-video-width);
       column-gap: var(--register-heading-gap);
       align-items: start;
@@ -402,28 +400,6 @@
       letter-spacing: -.02em;
       margin-bottom: 0;
       min-width: 0;
-    }
-
-    .register-image {
-      width: var(--register-image-size);
-      height: var(--register-image-size);
-      object-fit: contain;
-      object-position: center;
-      display: block;
-      justify-self: center;
-      align-self: center;
-      border-radius: 50%;
-      animation: rotateImage 7s linear infinite;
-    }
-
-    @keyframes rotateImage {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
     }
 
     /* VIDEO */
@@ -652,6 +628,59 @@
       text-align: center;
     }
 
+    /* ROTAROTT + HERO2 */
+
+    .rotarott-bottom {
+      width: 100%;
+      margin-top: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .rotarott-bottom-title {
+      flex: 1;
+      min-width: 0;
+
+      font-family: "Anton", sans-serif;
+      font-size: clamp(48px, 17vw, 72px);
+      line-height: .75;
+      letter-spacing: -.02em;
+
+      color: transparent;
+      -webkit-text-stroke: 1px #000;
+
+      white-space: nowrap;
+    }
+
+    .rotarott-bottom-image {
+      width: clamp(58px, 19vw, 76px);
+      height: clamp(58px, 19vw, 76px);
+
+      flex: 0 0 auto;
+
+      display: block;
+      object-fit: contain;
+
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+
+      animation: rotateImageBottom 7s linear infinite;
+    }
+
+    @keyframes rotateImageBottom {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     /* BOTTOM */
 
     .registration-bottom {
@@ -711,6 +740,8 @@
 
   </div>
 
+  <!-- HERO -->
+
   <section class="hero" id="hero">
 
     <div class="hero-content">
@@ -744,6 +775,8 @@
 
   </section>
 
+  <!-- MOTION -->
+
   <section class="motion">
 
     <div class="motion-word" id="motionWord">
@@ -760,12 +793,23 @@
 
   </section>
 
+  <!-- REGISTRATION -->
+
   <section class="registration">
 
     <div class="registration-top">
-      <span>002 / GET ACCESS</span>
-      <span>ROTAROTT</span>
+
+      <span>
+        002 / GET ACCESS
+      </span>
+
+      <span>
+        ROTAROTT
+      </span>
+
     </div>
+
+    <!-- GET IN + VIDEO -->
 
     <div class="register-heading">
 
@@ -773,12 +817,6 @@
         GET<br>
         IN.
       </h2>
-
-      <img
-        src="./hero2.svg"
-        alt=""
-        class="register-image"
-      />
 
       <div class="register-video-box">
 
@@ -856,6 +894,8 @@
 
       </div>
 
+      <!-- INSTAGRAM -->
+
       <div class="instagram-box">
 
         <button
@@ -918,6 +958,8 @@
 
       </div>
 
+      <!-- SUBMIT -->
+
       <button
         type="submit"
         class="submit-button"
@@ -925,6 +967,22 @@
       >
         BLOCCA IL TUO POSTO
       </button>
+
+      <!-- ROTAROTT + HERO2 -->
+
+      <div class="rotarott-bottom">
+
+        <div class="rotarott-bottom-title">
+          ROTAROTT
+        </div>
+
+        <img
+          src="./hero2.svg"
+          alt=""
+          class="rotarott-bottom-image"
+        />
+
+      </div>
 
       <div
         class="form-status"
