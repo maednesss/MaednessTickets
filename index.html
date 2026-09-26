@@ -342,12 +342,18 @@
     /* MOTION */
     .motion {
       position: relative;
-      height: 34svh;
-      min-height: 240px;
+      height: 42svh;
+      min-height: 300px;
       overflow: hidden;
       display: flex;
       align-items: center;
-      background: var(--black);
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(255,0,0,.12) 0%,
+          rgba(5,5,5,0) 58%
+        ),
+        var(--black);
       isolation: isolate;
     }
 
@@ -374,62 +380,111 @@
       user-select: none;
     }
 
-    .marquee {
+    .ribbon-stage {
       position: absolute;
       z-index: 2;
-      top: 50%;
-      left: -19%;
-      width: 138%;
-      padding: 11px 0 10px;
-      background: var(--red);
-      color: var(--black);
-      border-top: 1px solid rgba(5,5,5,.8);
-      border-bottom: 1px solid rgba(5,5,5,.8);
-      box-shadow: 0 7px 20px rgba(0,0,0,.32);
-      transform: translateY(-50%) rotate(-5deg);
-      overflow: hidden;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      perspective: 1000px;
+      pointer-events: none;
     }
 
-    .marquee-track {
-      display: flex;
-      width: max-content;
-      align-items: center;
-      font-family: "Anton", sans-serif;
-      font-size: clamp(22px, 7.2vw, 29px);
-      line-height: 1;
-      letter-spacing: .025em;
-      white-space: nowrap;
+    .ribbon-loop {
+      display: block;
+      width: min(154vw, 760px);
+      min-width: 460px;
+      height: auto;
+      overflow: visible;
+      transform-origin: center;
+      transform-style: preserve-3d;
+      animation: ribbonRock 9s ease-in-out infinite;
       will-change: transform;
-      animation: marqueeLoop 10s linear infinite;
     }
 
-    .marquee-group {
-      display: flex;
-      flex: 0 0 auto;
-      align-items: center;
-      gap: .55em;
-      padding-right: .55em;
+    .ribbon-shadow {
+      fill: none;
+      stroke: #160000;
+      stroke-width: 94;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .8;
+      transform: translateY(12px);
+      filter: url(#ribbonShadow);
     }
 
-    .marquee-separator {
-      font-family: "Inter", sans-serif;
-      font-size: .8em;
-      font-weight: 900;
+    .ribbon-underlay {
+      fill: none;
+      stroke: #760000;
+      stroke-width: 78;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
-    @keyframes marqueeLoop {
-      from {
-        transform: translate3d(0, 0, 0);
+    .ribbon-surface {
+      fill: none;
+      stroke: url(#ribbonRed);
+      stroke-width: 64;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ribbon-gloss {
+      fill: none;
+      stroke: url(#ribbonGloss);
+      stroke-width: 13;
+      stroke-linecap: round;
+      stroke-dasharray: 76 1490;
+      stroke-dashoffset: 0;
+      opacity: .78;
+      animation: ribbonFlow 7s linear infinite;
+    }
+
+    .ribbon-print {
+      fill: #180000;
+      font-family: "Anton", sans-serif;
+      font-size: 22px;
+      letter-spacing: 1.8px;
+      paint-order: stroke;
+    }
+
+    .ribbon-print textPath {
+      dominant-baseline: middle;
+    }
+
+    @keyframes ribbonRock {
+      0%,
+      100% {
+        transform:
+          rotateX(54deg)
+          rotateY(-7deg)
+          rotateZ(-8deg)
+          scale(1);
       }
 
+      50% {
+        transform:
+          rotateX(62deg)
+          rotateY(8deg)
+          rotateZ(2deg)
+          scale(1.04);
+      }
+    }
+
+    @keyframes ribbonFlow {
       to {
-        transform: translate3d(-50%, 0, 0);
+        stroke-dashoffset: -1566px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .marquee-track {
+      .ribbon-loop,
+      .ribbon-gloss {
         animation: none;
+      }
+
+      .ribbon-flow {
+        display: none;
       }
     }
 
@@ -910,22 +965,63 @@
       MÆDNESS
     </div>
 
-    <div class="marquee" aria-hidden="true">
+    <div class="ribbon-stage" aria-hidden="true">
+      <svg
+        class="ribbon-loop"
+        viewBox="0 0 600 330"
+        xmlns="http://www.w3.org/2000/svg"
+        role="presentation"
+      >
+        <defs>
+          <linearGradient id="ribbonRed" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ff6a6a" />
+            <stop offset=".16" stop-color="#ff2929" />
+            <stop offset=".52" stop-color="#d90000" />
+            <stop offset=".84" stop-color="#ff1616" />
+            <stop offset="1" stop-color="#930000" />
+          </linearGradient>
 
-      <div class="marquee-track">
-        <div class="marquee-group">
-          <span>ROTAROTT</span>
-          <span class="marquee-separator">—</span>
-          <span>MÆDNESS®</span>
-        </div>
+          <linearGradient id="ribbonGloss" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffffff" stop-opacity="0" />
+            <stop offset=".5" stop-color="#ffffff" stop-opacity=".72" />
+            <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+          </linearGradient>
 
-        <div class="marquee-group">
-          <span>ROTAROTT</span>
-          <span class="marquee-separator">—</span>
-          <span>MÆDNESS®</span>
-        </div>
-      </div>
+          <filter
+            id="ribbonShadow"
+            x="-20%"
+            y="-30%"
+            width="140%"
+            height="170%"
+          >
+            <feGaussianBlur stdDeviation="7" />
+          </filter>
 
+          <path
+            id="ribbonPath"
+            d="M 34 165 C 34 38 200 38 300 165 C 400 292 566 292 566 165 C 566 38 400 38 300 165 C 200 292 34 292 34 165"
+          />
+        </defs>
+
+        <use href="#ribbonPath" class="ribbon-shadow" />
+        <use href="#ribbonPath" class="ribbon-underlay" />
+        <use href="#ribbonPath" class="ribbon-surface" />
+        <use href="#ribbonPath" class="ribbon-gloss" />
+
+        <text class="ribbon-print">
+          <textPath href="#ribbonPath" startOffset="0%">
+            ROTAROTT — MÆDNESS® — ROTAROTT — MÆDNESS® — ROTAROTT — MÆDNESS® — ROTAROTT — MÆDNESS® — ROTAROTT — MÆDNESS® — ROTAROTT — MÆDNESS® — ROTAROTT — MÆDNESS® — ROTAROTT — MÆDNESS® — ROTAROTT — MÆDNESS® —
+            <animate
+              class="ribbon-flow"
+              attributeName="startOffset"
+              from="0%"
+              to="100%"
+              dur="9s"
+              repeatCount="indefinite"
+            />
+          </textPath>
+        </text>
+      </svg>
     </div>
 
   </section>
