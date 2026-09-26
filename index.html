@@ -50,6 +50,7 @@
     }
 
     /* DESKTOP WARNING */
+
     .desktop-warning {
       display: none;
     }
@@ -76,6 +77,7 @@
     }
 
     /* TOPBAR */
+
     .topbar {
       position: fixed;
       z-index: 100;
@@ -109,6 +111,7 @@
     }
 
     /* SCROLL PROGRESS */
+
     .scroll-progress {
       position: fixed;
       z-index: 110;
@@ -128,13 +131,15 @@
     }
 
     /* FIXED GRAPHICS */
+
     .graphics {
       position: fixed;
       inset: 0;
       z-index: 20;
       pointer-events: none;
       overflow: hidden;
-      transition: opacity .08s linear;
+      opacity: 1;
+      will-change: opacity;
     }
 
     .micro {
@@ -169,6 +174,7 @@
     }
 
     /* HERO */
+
     .hero {
       position: relative;
       height: 82svh;
@@ -184,7 +190,6 @@
       filter: contrast(1.15);
     }
 
-    /* SMOOTH DARK GRADIENT */
     .hero::before {
       content: "";
       position: absolute;
@@ -237,7 +242,6 @@
       margin-bottom: 7px;
     }
 
-    /* HERO LOGO */
     .hero-logo {
       font-family: "Anton", sans-serif;
       font-size: clamp(70px, 23vw, 120px);
@@ -250,7 +254,6 @@
         -2px 0 rgba(255,255,255,.3);
 
       transform: translate3d(-3px, 0, 0);
-
       will-change: transform;
     }
 
@@ -276,6 +279,7 @@
     }
 
     /* SWIPE INDICATOR */
+
     .scroll-label {
       position: absolute;
       z-index: 4;
@@ -340,6 +344,7 @@
     }
 
     /* MOTION */
+
     .motion {
       position: relative;
       height: 32svh;
@@ -393,6 +398,7 @@
     }
 
     /* REGISTRATION */
+
     .registration {
       position: relative;
       z-index: 5;
@@ -417,6 +423,7 @@
     }
 
     /* GET IN + VIDEO */
+
     .register-heading {
       --register-title-size: clamp(60px, 19.5vw, 76px);
       --register-video-width: clamp(130px, 40vw, 155px);
@@ -443,6 +450,7 @@
     }
 
     /* VIDEO */
+
     .register-video-box {
       width: var(--register-video-width);
       margin: 0;
@@ -506,6 +514,7 @@
     }
 
     /* INSTAGRAM */
+
     .instagram-box {
       margin-top: 22px;
       margin-bottom: 18px;
@@ -632,6 +641,7 @@
     }
 
     /* SUBMIT */
+
     .submit-button {
       width: 100%;
       height: 58px;
@@ -668,6 +678,7 @@
     }
 
     /* BOTTOM */
+
     .registration-bottom {
       margin-top: 45px;
       display: flex;
@@ -741,8 +752,7 @@
     <span id="progress"></span>
   </div>
 
-  <!-- FIXED MICRO GRAPHICS -->
-  <div class="graphics" id="graphics">
+  <div class="graphics">
 
     <div class="micro micro-1">
       41°27'N / 15°33'E
@@ -763,6 +773,7 @@
   </div>
 
   <!-- HERO -->
+
   <section class="hero" id="hero">
 
     <div class="hero-content">
@@ -791,17 +802,16 @@
     </div>
 
     <div class="scroll-label" aria-hidden="true">
-
       <span class="scroll-chevron"></span>
       <span class="scroll-chevron"></span>
       <span class="scroll-chevron"></span>
       <span class="scroll-chevron"></span>
-
     </div>
 
   </section>
 
   <!-- MOTION -->
+
   <section class="motion">
 
     <div class="motion-word" id="motionWord">
@@ -819,6 +829,7 @@
   </section>
 
   <!-- REGISTRATION -->
+
   <section class="registration">
 
     <div class="registration-top">
@@ -834,6 +845,7 @@
     </div>
 
     <!-- GET IN + VIDEO -->
+
     <div class="register-heading">
 
       <h2 class="register-title">
@@ -923,6 +935,7 @@
       </div>
 
       <!-- INSTAGRAM -->
+
       <div class="instagram-box">
 
         <button
@@ -986,6 +999,7 @@
       </div>
 
       <!-- SUBMIT -->
+
       <button
         type="submit"
         class="submit-button"
@@ -1002,6 +1016,7 @@
     </form>
 
     <!-- BOTTOM ROTAROTT + HERO2 -->
+
     <div class="registration-bottom">
 
       <div class="registration-bottom-title">
@@ -1047,7 +1062,7 @@
       document.getElementById("motionWord");
 
     const graphics =
-      document.getElementById("graphics");
+      document.querySelector(".graphics");
 
     const instagramButton =
       document.getElementById("instagramButton");
@@ -1071,7 +1086,624 @@
       document.getElementById("registerVideo");
 
 
-    /* VIDEO AUTOPLAY */
+    /* =========================================================
+       SOUND DESIGN
+       =========================================================
+
+       Nessun pulsante audio.
+
+       Il browser può bloccare l'autoplay audio, quindi il sistema
+       prova ad avviare l'audio automaticamente e, al primo gesto
+       naturale dell'utente, sblocca definitivamente l'AudioContext.
+
+       I suoni vengono generati direttamente con Web Audio API:
+       non servono file MP3/WAV esterni.
+    */
+
+    let audioContext = null;
+    let audioUnlocked = false;
+    let soundIntroPlayed = false;
+    let lastSoundScroll = 0;
+    let lastScrollSoundTime = 0;
+
+    let audioMaster = null;
+
+
+    function createAudioContext() {
+
+      if (audioContext) {
+        return audioContext;
+      }
+
+      const AudioCtx =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+      if (!AudioCtx) {
+        return null;
+      }
+
+      try {
+
+        audioContext =
+          new AudioCtx();
+
+        audioMaster =
+          audioContext.createGain();
+
+        audioMaster.gain.value = 0.16;
+
+        audioMaster.connect(
+          audioContext.destination
+        );
+
+      } catch (error) {
+
+        audioContext = null;
+
+      }
+
+      return audioContext;
+
+    }
+
+
+    async function unlockAudio(playIntro = false) {
+
+      const ctx =
+        createAudioContext();
+
+      if (!ctx) {
+        return false;
+      }
+
+      try {
+
+        if (ctx.state === "suspended") {
+          await ctx.resume();
+        }
+
+        audioUnlocked =
+          ctx.state === "running";
+
+        if (
+          audioUnlocked &&
+          playIntro &&
+          !soundIntroPlayed
+        ) {
+
+          soundIntroPlayed = true;
+
+          setTimeout(
+            () => {
+              soundBoot();
+            },
+            70
+          );
+
+        }
+
+        return audioUnlocked;
+
+      } catch (error) {
+
+        return false;
+
+      }
+
+    }
+
+
+    /*
+      BOOT SOUND
+
+      CLICK
+      +
+      STATIC
+      +
+      LOW DIGITAL HIT
+    */
+
+    function soundBoot() {
+
+      if (!audioUnlocked) {
+        return;
+      }
+
+      const ctx =
+        audioContext;
+
+      const now =
+        ctx.currentTime;
+
+
+      /* CLICK */
+
+      const click =
+        ctx.createOscillator();
+
+      const clickGain =
+        ctx.createGain();
+
+      click.type = "square";
+
+      click.frequency.setValueAtTime(
+        1450,
+        now
+      );
+
+      click.frequency.exponentialRampToValueAtTime(
+        500,
+        now + .045
+      );
+
+      clickGain.gain.setValueAtTime(
+        .0001,
+        now
+      );
+
+      clickGain.gain.exponentialRampToValueAtTime(
+        .16,
+        now + .004
+      );
+
+      clickGain.gain.exponentialRampToValueAtTime(
+        .0001,
+        now + .055
+      );
+
+      click.connect(clickGain);
+      clickGain.connect(audioMaster);
+
+      click.start(now);
+      click.stop(now + .06);
+
+
+      /* STATIC */
+
+      const bufferSize =
+        Math.floor(
+          ctx.sampleRate * .16
+        );
+
+      const buffer =
+        ctx.createBuffer(
+          1,
+          bufferSize,
+          ctx.sampleRate
+        );
+
+      const data =
+        buffer.getChannelData(0);
+
+      for (
+        let i = 0;
+        i < bufferSize;
+        i++
+      ) {
+
+        data[i] =
+          (Math.random() * 2 - 1) *
+          (1 - i / bufferSize);
+
+      }
+
+      const noise =
+        ctx.createBufferSource();
+
+      const noiseGain =
+        ctx.createGain();
+
+      noise.buffer =
+        buffer;
+
+      noiseGain.gain.setValueAtTime(
+        .0001,
+        now + .045
+      );
+
+      noiseGain.gain.exponentialRampToValueAtTime(
+        .035,
+        now + .065
+      );
+
+      noiseGain.gain.exponentialRampToValueAtTime(
+        .0001,
+        now + .19
+      );
+
+      noise.connect(noiseGain);
+      noiseGain.connect(audioMaster);
+
+      noise.start(now + .045);
+
+
+      /* LOW HIT */
+
+      const bass =
+        ctx.createOscillator();
+
+      const bassGain =
+        ctx.createGain();
+
+      bass.type =
+        "sine";
+
+      bass.frequency.setValueAtTime(
+        72,
+        now + .13
+      );
+
+      bass.frequency.exponentialRampToValueAtTime(
+        38,
+        now + .42
+      );
+
+      bassGain.gain.setValueAtTime(
+        .0001,
+        now + .13
+      );
+
+      bassGain.gain.exponentialRampToValueAtTime(
+        .24,
+        now + .16
+      );
+
+      bassGain.gain.exponentialRampToValueAtTime(
+        .0001,
+        now + .44
+      );
+
+      bass.connect(bassGain);
+      bassGain.connect(audioMaster);
+
+      bass.start(now + .13);
+      bass.stop(now + .46);
+
+    }
+
+
+    /* MICRO CLICK */
+
+    function soundClick() {
+
+      if (!audioUnlocked) {
+        return;
+      }
+
+      const ctx =
+        audioContext;
+
+      const now =
+        ctx.currentTime;
+
+      const osc =
+        ctx.createOscillator();
+
+      const gain =
+        ctx.createGain();
+
+      osc.type =
+        "square";
+
+      osc.frequency.setValueAtTime(
+        850,
+        now
+      );
+
+      osc.frequency.exponentialRampToValueAtTime(
+        310,
+        now + .055
+      );
+
+      gain.gain.setValueAtTime(
+        .0001,
+        now
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .11,
+        now + .004
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        now + .065
+      );
+
+      osc.connect(gain);
+      gain.connect(audioMaster);
+
+      osc.start(now);
+      osc.stop(now + .07);
+
+    }
+
+
+    /* SCROLL GLITCH */
+
+    function soundScroll() {
+
+      if (!audioUnlocked) {
+        return;
+      }
+
+      const ctx =
+        audioContext;
+
+      const now =
+        ctx.currentTime;
+
+      if (
+        now - lastScrollSoundTime <
+        .22
+      ) {
+        return;
+      }
+
+      lastScrollSoundTime =
+        now;
+
+
+      const osc =
+        ctx.createOscillator();
+
+      const gain =
+        ctx.createGain();
+
+      osc.type =
+        "triangle";
+
+      osc.frequency.setValueAtTime(
+        110,
+        now
+      );
+
+      osc.frequency.exponentialRampToValueAtTime(
+        62,
+        now + .12
+      );
+
+      gain.gain.setValueAtTime(
+        .0001,
+        now
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .035,
+        now + .012
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        now + .13
+      );
+
+      osc.connect(gain);
+      gain.connect(audioMaster);
+
+      osc.start(now);
+      osc.stop(now + .14);
+
+    }
+
+
+    /* SECTION HIT */
+
+    function soundSection() {
+
+      if (!audioUnlocked) {
+        return;
+      }
+
+      const ctx =
+        audioContext;
+
+      const now =
+        ctx.currentTime;
+
+
+      const osc =
+        ctx.createOscillator();
+
+      const gain =
+        ctx.createGain();
+
+      osc.type =
+        "sine";
+
+      osc.frequency.setValueAtTime(
+        92,
+        now
+      );
+
+      osc.frequency.exponentialRampToValueAtTime(
+        42,
+        now + .45
+      );
+
+      gain.gain.setValueAtTime(
+        .0001,
+        now
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .18,
+        now + .025
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        now + .48
+      );
+
+      osc.connect(gain);
+      gain.connect(audioMaster);
+
+      osc.start(now);
+      osc.stop(now + .5);
+
+
+      setTimeout(
+        () => {
+
+          if (audioUnlocked) {
+            soundClick();
+          }
+
+        },
+        90
+      );
+
+    }
+
+
+    /* SUCCESS */
+
+    function soundSuccess() {
+
+      if (!audioUnlocked) {
+        return;
+      }
+
+      const ctx =
+        audioContext;
+
+      const now =
+        ctx.currentTime;
+
+
+      [0, .09, .19].forEach(
+        (offset, index) => {
+
+          const osc =
+            ctx.createOscillator();
+
+          const gain =
+            ctx.createGain();
+
+          osc.type =
+            "sine";
+
+          osc.frequency.value =
+            [220, 330, 440][index];
+
+          gain.gain.setValueAtTime(
+            .0001,
+            now + offset
+          );
+
+          gain.gain.exponentialRampToValueAtTime(
+            .12,
+            now + offset + .015
+          );
+
+          gain.gain.exponentialRampToValueAtTime(
+            .0001,
+            now + offset + .15
+          );
+
+          osc.connect(gain);
+          gain.connect(audioMaster);
+
+          osc.start(
+            now + offset
+          );
+
+          osc.stop(
+            now + offset + .17
+          );
+
+        }
+      );
+
+    }
+
+
+    /*
+      AUDIO UNLOCK
+
+      Il primo gesto naturale dell'utente
+      diventa l'interazione che abilita l'audio.
+    */
+
+    function userAudioGesture() {
+
+      unlockAudio(true);
+
+    }
+
+
+    window.addEventListener(
+      "touchstart",
+      userAudioGesture,
+      {
+        passive: true,
+        once: true
+      }
+    );
+
+    window.addEventListener(
+      "pointerdown",
+      userAudioGesture,
+      {
+        passive: true,
+        once: true
+      }
+    );
+
+    window.addEventListener(
+      "keydown",
+      userAudioGesture,
+      {
+        passive: true,
+        once: true
+      }
+    );
+
+    window.addEventListener(
+      "scroll",
+      userAudioGesture,
+      {
+        passive: true,
+        once: true
+      }
+    );
+
+
+    /*
+      Tentativo automatico.
+
+      Se il browser lo permette, l'audio può partire
+      immediatamente.
+
+      Se viene bloccato, nessun problema:
+      il primo gesto dell'utente lo sbloccherà.
+    */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+
+        unlockAudio(true);
+
+      }
+    );
+
+
+    window.addEventListener(
+      "load",
+      () => {
+
+        unlockAudio(true);
+
+      }
+    );
+
+
+    /* =========================================================
+       VIDEO AUTOPLAY
+       ========================================================= */
 
     function startRegisterVideo() {
 
@@ -1161,7 +1793,9 @@
     );
 
 
-    /* INSTAGRAM MEMORY */
+    /* =========================================================
+       INSTAGRAM MEMORY
+       ========================================================= */
 
     const INSTAGRAM_MEMORY_KEY =
       "maedness_instagram_clicked";
@@ -1204,11 +1838,17 @@
     }
 
 
-    /* INSTAGRAM CLICK */
+    /* =========================================================
+       INSTAGRAM CLICK
+       ========================================================= */
 
     instagramButton.addEventListener(
       "click",
       () => {
+
+        unlockAudio(true);
+
+        soundClick();
 
         sessionStorage.setItem(
           INSTAGRAM_MEMORY_KEY,
@@ -1227,20 +1867,14 @@
     );
 
 
-    /* SCROLL ANIMATION */
+    /* =========================================================
+       SCROLL ANIMATION
+       ========================================================= */
 
     let ticking = false;
 
-
     /*
       HERO LOGO SMOOTH MOTION
-
-      Il logo si sposta verso destra
-      durante lo scroll.
-
-      Il movimento massimo è stato ridotto
-      per evitare che la scritta superi
-      il bordo dello schermo.
     */
 
     let logoTargetX = -3;
@@ -1301,25 +1935,19 @@
         `${scrollPercent * 100}%`;
 
 
-      /*
-        MICRO GRAPHICS FADE
+      /* =====================================================
+         MICRO GRAPHICS FADE
+         =====================================================
 
-        Le scritte rimangono completamente
-        visibili all'inizio.
-
-        Durante i primi 420px di scroll
-        diventano gradualmente trasparenti.
-
-        In questo modo restano parte
-        dell'identità visiva dell'hero,
-        ma non si sovrappongono alle
-        sezioni successive.
+         I microtesti rimangono completamente visibili
+         all'inizio e scompaiono gradualmente nei primi
+         480px di scroll.
       */
 
       const graphicsFade =
         Math.max(
           0,
-          1 - (scrollTop / 420)
+          1 - scrollTop / 480
         );
 
       graphics.style.opacity =
@@ -1342,8 +1970,6 @@
         HERO LOGO
 
         Movimento verso destra.
-
-        Massimo +55px.
       */
 
       const logoMove =
@@ -1379,6 +2005,66 @@
           0
         )`;
 
+
+      /*
+        SOUND SCROLL
+
+        Piccoli impulsi solo quando l'utente
+        percorre una distanza sufficiente.
+      */
+
+      if (
+        audioUnlocked &&
+        Math.abs(
+          scrollTop - lastSoundScroll
+        ) > 110
+      ) {
+
+        soundScroll();
+
+        lastSoundScroll =
+          scrollTop;
+
+      }
+
+
+      /*
+        SECTION HIT
+
+        Quando entriamo nella zona GET IN.
+      */
+
+      const registration =
+        document.querySelector(
+          ".registration"
+        );
+
+      if (registration) {
+
+        const rect =
+          registration.getBoundingClientRect();
+
+        if (
+          rect.top < window.innerHeight * .72 &&
+          rect.top > window.innerHeight * .50
+        ) {
+
+          if (
+            !window.__maednessSectionSound
+          ) {
+
+            window.__maednessSectionSound =
+              true;
+
+            soundSection();
+
+          }
+
+        }
+
+      }
+
+
       ticking = false;
 
     }
@@ -1412,13 +2098,19 @@
     );
 
 
-    /* FORM */
+    /* =========================================================
+       FORM
+       ========================================================= */
 
     registrationForm.addEventListener(
       "submit",
       (event) => {
 
         event.preventDefault();
+
+        unlockAudio(true);
+
+        soundClick();
 
         submitButton.textContent =
           "CREATING ACCESS...";
@@ -1428,6 +2120,7 @@
 
         formStatus.textContent =
           "GENERAZIONE ACCESSO IN CORSO";
+
 
         setTimeout(
           () => {
@@ -1441,6 +2134,8 @@
             formStatus.textContent =
               "TICKET SYSTEM — COMING NEXT";
 
+            soundSuccess();
+
           },
           1300
         );
@@ -1449,7 +2144,9 @@
     );
 
 
-    /* INITIALIZATION */
+    /* =========================================================
+       INITIALIZATION
+       ========================================================= */
 
     checkInstagramMemory();
 
