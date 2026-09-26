@@ -50,15 +50,14 @@
       font: inherit;
     }
 
-    /* =====================================================
-       DESKTOP WARNING
-       ===================================================== */
+    /* DESKTOP WARNING */
 
     .desktop-warning {
       display: none;
     }
 
     @media (min-width: 700px) {
+
       body > *:not(.desktop-warning) {
         display: none !important;
       }
@@ -77,11 +76,10 @@
         font-size: 34px;
         letter-spacing: .04em;
       }
+
     }
 
-    /* =====================================================
-       TOPBAR
-       ===================================================== */
+    /* TOPBAR */
 
     .topbar {
       position: fixed;
@@ -115,9 +113,7 @@
       letter-spacing: .15em;
     }
 
-    /* =====================================================
-       SCROLL PROGRESS
-       ===================================================== */
+    /* SCROLL PROGRESS */
 
     .scroll-progress {
       position: fixed;
@@ -137,9 +133,7 @@
       transform-origin: top;
     }
 
-    /* =====================================================
-       FIXED GRAPHICS
-       ===================================================== */
+    /* FIXED GRAPHICS */
 
     .graphics {
       position: fixed;
@@ -180,9 +174,7 @@
       transform: rotate(-90deg);
     }
 
-    /* =====================================================
-       HERO
-       ===================================================== */
+    /* HERO */
 
     .hero {
       position: relative;
@@ -306,9 +298,7 @@
       background: var(--white);
     }
 
-    /* =====================================================
-       MOTION
-       ===================================================== */
+    /* MOTION */
 
     .motion {
       position: relative;
@@ -361,587 +351,7 @@
       }
     }
 
-    /* =====================================================
-       KINETIC TRANSITION
-       ===================================================== */
-
-    .kinetic-transition {
-      position: relative;
-      height: 76px;
-      margin-top: -1px;
-      overflow: hidden;
-
-      background:
-        linear-gradient(
-          to bottom,
-          #050505 0%,
-          #050505 54%,
-          #111 67%,
-          #2d2d2d 78%,
-          #ffffff 100%
-        );
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      z-index: 8;
-      isolation: isolate;
-    }
-
-    /* FINE GRID */
-
-    .kinetic-grid {
-      position: absolute;
-      inset: 0;
-      opacity: .14;
-
-      background-image:
-        linear-gradient(
-          90deg,
-          transparent 0,
-          transparent 24px,
-          rgba(255,255,255,.18) 25px,
-          transparent 26px
-        ),
-        linear-gradient(
-          0deg,
-          transparent 0,
-          transparent 12px,
-          rgba(255,255,255,.14) 13px,
-          transparent 14px
-        );
-
-      background-size: 25px 13px;
-      pointer-events: none;
-    }
-
-    /* ORBITS */
-
-    .kinetic-orbit {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 86px;
-      height: 86px;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .orbit-one {
-      border:
-        1px dashed rgba(255,255,255,.45);
-
-      transform:
-        translate(-50%, -50%)
-        rotate(-12deg)
-        scaleX(1.8);
-
-      animation:
-        orbitClockwise 5.5s linear infinite;
-    }
-
-    .orbit-two {
-      width: 106px;
-      height: 106px;
-
-      border:
-        1px solid rgba(255,0,0,.65);
-
-      border-left-color: transparent;
-      border-right-color: transparent;
-
-      transform:
-        translate(-50%, -50%)
-        rotate(25deg)
-        scaleX(1.55);
-
-      animation:
-        orbitCounter 8s linear infinite;
-    }
-
-    /* CROSSHAIR */
-
-    .kinetic-cross {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      background: rgba(255,255,255,.28);
-      pointer-events: none;
-    }
-
-    .kinetic-cross-x {
-      width: 118px;
-      height: 1px;
-      transform: translate(-50%, -50%);
-    }
-
-    .kinetic-cross-y {
-      width: 1px;
-      height: 70px;
-      transform: translate(-50%, -50%);
-      opacity: .35;
-    }
-
-    /* ROTATING TICKS */
-
-    .kinetic-ticks {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 108px;
-      height: 108px;
-
-      transform:
-        translate(-50%, -50%)
-        rotate(0deg);
-
-      animation:
-        ticksRotate 12s linear infinite;
-
-      pointer-events: none;
-    }
-
-    .kinetic-ticks span {
-      position: absolute;
-      left: 50%;
-      top: 0;
-      width: 1px;
-      height: 6px;
-      background: var(--white);
-      transform-origin: 0 54px;
-    }
-
-    .kinetic-ticks span:nth-child(1) {
-      transform: rotate(0deg);
-    }
-
-    .kinetic-ticks span:nth-child(2) {
-      transform: rotate(45deg);
-    }
-
-    .kinetic-ticks span:nth-child(3) {
-      transform: rotate(90deg);
-    }
-
-    .kinetic-ticks span:nth-child(4) {
-      transform: rotate(135deg);
-    }
-
-    .kinetic-ticks span:nth-child(5) {
-      transform: rotate(180deg);
-    }
-
-    .kinetic-ticks span:nth-child(6) {
-      transform: rotate(225deg);
-    }
-
-    .kinetic-ticks span:nth-child(7) {
-      transform: rotate(270deg);
-    }
-
-    .kinetic-ticks span:nth-child(8) {
-      transform: rotate(315deg);
-    }
-
-    /* CENTRAL CORE */
-
-    .kinetic-core {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 76px;
-      height: 76px;
-
-      transform: translate(-50%, -50%);
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      z-index: 5;
-    }
-
-    /* HERO2 */
-
-    .kinetic-image-wrap {
-      position: relative;
-      width: 48px;
-      height: 48px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      z-index: 8;
-    }
-
-    .transition-image {
-      width: 48px;
-      height: 48px;
-
-      display: block;
-
-      object-fit: contain;
-      object-position: center;
-
-      background: transparent;
-      border-radius: 0;
-      padding: 0;
-
-      animation:
-        hero2Clockwise 5.2s linear infinite;
-    }
-
-    /* RINGS */
-
-    .kinetic-ring {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .ring-back {
-      width: 62px;
-      height: 62px;
-
-      border:
-        1px solid rgba(255,255,255,.55);
-
-      border-top-color: transparent;
-      border-bottom-color: transparent;
-
-      transform:
-        translate(-50%, -50%)
-        rotate(0deg)
-        scaleX(1.25);
-
-      animation:
-        ringClockwise 4.2s linear infinite;
-    }
-
-    .ring-front {
-      width: 70px;
-      height: 70px;
-
-      border:
-        1px solid rgba(255,0,0,.8);
-
-      border-left-color: transparent;
-      border-bottom-color: transparent;
-
-      transform:
-        translate(-50%, -50%)
-        rotate(0deg)
-        scaleX(1.15);
-
-      animation:
-        ringCounter 3.2s linear infinite;
-    }
-
-    /* RED PULSES */
-
-    .kinetic-pulse {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 4px;
-      height: 4px;
-
-      background: var(--red);
-      border-radius: 50%;
-
-      box-shadow:
-        0 0 8px rgba(255,0,0,.85);
-
-      pointer-events: none;
-    }
-
-    .pulse-one {
-      animation:
-        pulseOrbitOne 3.8s linear infinite;
-    }
-
-    .pulse-two {
-      animation:
-        pulseOrbitTwo 5.2s linear infinite;
-
-      animation-delay: -1.8s;
-    }
-
-    .pulse-three {
-      animation:
-        pulseOrbitThree 6.5s linear infinite;
-
-      animation-delay: -3.4s;
-    }
-
-    /* SCAN */
-
-    .kinetic-scan {
-      position: absolute;
-      left: -20%;
-      top: 0;
-      width: 20%;
-      height: 100%;
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          rgba(255,255,255,.15),
-          transparent
-        );
-
-      transform: skewX(-18deg);
-
-      animation:
-        scanMove 3.4s ease-in-out infinite;
-
-      pointer-events: none;
-      z-index: 3;
-    }
-
-    /* MICRO TEXT */
-
-    .kinetic-meta {
-      position: absolute;
-      z-index: 7;
-
-      font-family: "Inter", sans-serif;
-      font-size: 5px;
-      line-height: 1.45;
-      font-weight: 900;
-      letter-spacing: .18em;
-
-      color: rgba(255,255,255,.72);
-
-      pointer-events: none;
-    }
-
-    .kinetic-meta-left {
-      left: 13px;
-      top: 25px;
-      text-align: left;
-    }
-
-    .kinetic-meta-right {
-      right: 13px;
-      bottom: 24px;
-      text-align: right;
-    }
-
-    /* EDGE MARKER */
-
-    .kinetic-transition::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 100%;
-      height: 1px;
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent 0%,
-          rgba(255,255,255,.25) 8%,
-          var(--red) 38%,
-          var(--red) 62%,
-          rgba(255,255,255,.25) 92%,
-          transparent 100%
-        );
-
-      transform: translateY(-50%);
-      z-index: 6;
-      pointer-events: none;
-    }
-
-    .kinetic-transition::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: 0;
-      width: 1px;
-      height: 15px;
-
-      background:
-        linear-gradient(
-          to bottom,
-          var(--red),
-          transparent
-        );
-
-      transform: translateX(-50%);
-      opacity: .8;
-      z-index: 7;
-    }
-
-    /* =====================================================
-       KINETIC ANIMATIONS
-       ===================================================== */
-
-    @keyframes hero2Clockwise {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes orbitClockwise {
-      from {
-        transform:
-          translate(-50%, -50%)
-          rotate(0deg)
-          scaleX(1.8);
-      }
-
-      to {
-        transform:
-          translate(-50%, -50%)
-          rotate(360deg)
-          scaleX(1.8);
-      }
-    }
-
-    @keyframes orbitCounter {
-      from {
-        transform:
-          translate(-50%, -50%)
-          rotate(360deg)
-          scaleX(1.55);
-      }
-
-      to {
-        transform:
-          translate(-50%, -50%)
-          rotate(0deg)
-          scaleX(1.55);
-      }
-    }
-
-    @keyframes ticksRotate {
-      from {
-        transform:
-          translate(-50%, -50%)
-          rotate(0deg);
-      }
-
-      to {
-        transform:
-          translate(-50%, -50%)
-          rotate(360deg);
-      }
-    }
-
-    @keyframes ringClockwise {
-      from {
-        transform:
-          translate(-50%, -50%)
-          rotate(0deg)
-          scaleX(1.25);
-      }
-
-      to {
-        transform:
-          translate(-50%, -50%)
-          rotate(360deg)
-          scaleX(1.25);
-      }
-    }
-
-    @keyframes ringCounter {
-      from {
-        transform:
-          translate(-50%, -50%)
-          rotate(360deg)
-          scaleX(1.15);
-      }
-
-      to {
-        transform:
-          translate(-50%, -50%)
-          rotate(0deg)
-          scaleX(1.15);
-      }
-    }
-
-    @keyframes pulseOrbitOne {
-      from {
-        transform:
-          translate(-50%, -50%)
-          rotate(0deg)
-          translateX(34px);
-      }
-
-      to {
-        transform:
-          translate(-50%, -50%)
-          rotate(360deg)
-          translateX(34px);
-      }
-    }
-
-    @keyframes pulseOrbitTwo {
-      from {
-        transform:
-          translate(-50%, -50%)
-          rotate(360deg)
-          translateX(43px);
-      }
-
-      to {
-        transform:
-          translate(-50%, -50%)
-          rotate(0deg)
-          translateX(43px);
-      }
-    }
-
-    @keyframes pulseOrbitThree {
-      from {
-        transform:
-          translate(-50%, -50%)
-          rotate(0deg)
-          translateX(52px);
-      }
-
-      to {
-        transform:
-          translate(-50%, -50%)
-          rotate(360deg)
-          translateX(52px);
-      }
-    }
-
-    @keyframes scanMove {
-      0% {
-        left: -25%;
-        opacity: 0;
-      }
-
-      20% {
-        opacity: 1;
-      }
-
-      70% {
-        opacity: 1;
-      }
-
-      100% {
-        left: 110%;
-        opacity: 0;
-      }
-    }
-
-    /* =====================================================
-       REGISTRATION
-       ===================================================== */
+    /* REGISTRATION */
 
     .registration {
       position: relative;
@@ -957,7 +367,6 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 22px;
-
       font-size: 8px;
       font-weight: 900;
       letter-spacing: .2em;
@@ -967,9 +376,7 @@
       color: var(--red);
     }
 
-    /* =====================================================
-       GET IN + VIDEO
-       ===================================================== */
+    /* GET IN + VIDEO */
 
     .register-heading {
       --register-title-size: clamp(60px, 19.5vw, 76px);
@@ -977,13 +384,11 @@
       --register-heading-gap: clamp(2px, 1vw, 4px);
 
       display: grid;
-
       grid-template-columns:
         minmax(0, 1fr)
         var(--register-video-width);
 
       column-gap: var(--register-heading-gap);
-
       align-items: start;
       margin-bottom: 28px;
     }
@@ -997,9 +402,7 @@
       min-width: 0;
     }
 
-    /* =====================================================
-       VIDEO
-       ===================================================== */
+    /* VIDEO */
 
     .register-video-box {
       width: var(--register-video-width);
@@ -1012,15 +415,12 @@
       display: block;
       width: 100%;
       height: clamp(97.5px, 30vw, 116px);
-
       object-fit: cover;
       object-position: center;
-
       background: #000;
       border: 0;
       outline: none;
       border-radius: 0;
-
       -webkit-appearance: none;
       appearance: none;
     }
@@ -1028,19 +428,15 @@
     .last-maed {
       margin-top: 4px;
       padding-right: 0;
-
       font-size: 6px;
       line-height: 1;
       font-weight: 900;
       letter-spacing: .18em;
-
       text-align: right;
       white-space: nowrap;
     }
 
-    /* =====================================================
-       FORM
-       ===================================================== */
+    /* FORM */
 
     .form-group {
       margin-bottom: 15px;
@@ -1049,7 +445,6 @@
     .form-group label {
       display: block;
       margin-bottom: 7px;
-
       font-size: 8px;
       font-weight: 900;
       letter-spacing: .2em;
@@ -1058,29 +453,22 @@
     .form-group input {
       width: 100%;
       height: 52px;
-
       border: 1px solid #000;
       border-radius: 0;
-
       padding: 0 13px;
-
       background: #fff;
       color: #000;
       outline: none;
-
       font-size: 15px;
       font-weight: 600;
     }
 
     .form-group input:focus {
       border-color: var(--red);
-      box-shadow:
-        inset 4px 0 0 var(--red);
+      box-shadow: inset 4px 0 0 var(--red);
     }
 
-    /* =====================================================
-       INSTAGRAM
-       ===================================================== */
+    /* INSTAGRAM */
 
     .instagram-box {
       margin-top: 22px;
@@ -1089,29 +477,21 @@
 
     .instagram-button {
       position: relative;
-
       width: 100%;
       min-height: 58px;
-
       border: 2px solid #000;
       border-radius: 0;
-
       background: #fff;
       color: #000;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       gap: 11px;
-
       cursor: pointer;
       overflow: hidden;
-
       font-size: 13px;
       font-weight: 900;
       letter-spacing: .07em;
-
       transition:
         background .25s ease,
         color .25s ease,
@@ -1121,19 +501,13 @@
 
     .instagram-button::before {
       content: "";
-
       position: absolute;
       top: 0;
       left: -100%;
-
       width: 100%;
       height: 100%;
-
       background: var(--red);
-
-      transition:
-        left .25s ease;
-
+      transition: left .25s ease;
       z-index: 0;
     }
 
@@ -1161,11 +535,9 @@
     .instagram-status {
       min-height: 16px;
       margin-top: 7px;
-
       font-size: 7px;
       font-weight: 900;
       letter-spacing: .15em;
-
       text-align: center;
       opacity: .55;
     }
@@ -1174,9 +546,7 @@
       background: var(--green);
       border-color: var(--green);
       color: #000;
-
-      animation:
-        instaClick .42s ease;
+      animation: instaClick .42s ease;
     }
 
     .instagram-button.clicked::before {
@@ -1184,8 +554,7 @@
     }
 
     .instagram-button.clicked .instagram-icon {
-      animation:
-        iconPop .45s ease;
+      animation: iconPop .45s ease;
     }
 
     @keyframes instaClick {
@@ -1208,21 +577,15 @@
 
     @keyframes iconPop {
       0% {
-        transform:
-          rotate(0)
-          scale(1);
+        transform: rotate(0) scale(1);
       }
 
       45% {
-        transform:
-          rotate(-12deg)
-          scale(1.25);
+        transform: rotate(-12deg) scale(1.25);
       }
 
       100% {
-        transform:
-          rotate(0)
-          scale(1);
+        transform: rotate(0) scale(1);
       }
     }
 
@@ -1231,27 +594,20 @@
       color: #15934c;
     }
 
-    /* =====================================================
-       SUBMIT
-       ===================================================== */
+    /* SUBMIT */
 
     .submit-button {
       width: 100%;
       height: 58px;
       margin-top: 7px;
-
       border: 0;
       border-radius: 0;
-
       background: var(--black);
       color: var(--white);
-
       font-family: "Anton", sans-serif;
       font-size: 21px;
       letter-spacing: .04em;
-
       cursor: pointer;
-
       transition:
         background .2s ease,
         transform .12s ease;
@@ -1268,62 +624,77 @@
     .form-status {
       min-height: 20px;
       margin-top: 10px;
-
       font-size: 8px;
       font-weight: 900;
       letter-spacing: .14em;
-
       text-align: center;
     }
 
-    /* =====================================================
-       BOTTOM
-       ===================================================== */
+    /* BOTTOM */
 
     .registration-bottom {
       margin-top: 45px;
-
       font-family: "Anton", sans-serif;
       font-size: 17vw;
       line-height: .75;
-
       color: transparent;
       -webkit-text-stroke: 1px #000;
-
       white-space: nowrap;
     }
 
+    /* FOOTER */
+
     .registration-footer {
       margin-top: 28px;
-
       display: flex;
       justify-content: space-between;
-
+      align-items: center;
       font-size: 7px;
       font-weight: 900;
       letter-spacing: .16em;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-hero2 {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+
+      /* Nessun background, nessun cerchio */
+      background: transparent;
+      border: 0;
+
+      animation: footerHeroSpin 7s linear infinite;
+      transform-origin: center center;
+    }
+
+    @keyframes footerHeroSpin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- =====================================================
-       DESKTOP WARNING
-       ===================================================== -->
-
   <div class="desktop-warning">
     MÆDNESS®<br>
     MOBILE EXPERIENCE ONLY
   </div>
 
-
-  <!-- =====================================================
-       TOPBAR
-       ===================================================== -->
-
   <header class="topbar">
-
     <div class="top-logo">
       MÆDNESS<span class="registered">®</span>
     </div>
@@ -1331,22 +702,11 @@
     <div class="top-event">
       ROTAROTT / 001
     </div>
-
   </header>
-
-
-  <!-- =====================================================
-       SCROLL PROGRESS
-       ===================================================== -->
 
   <div class="scroll-progress">
     <span id="progress"></span>
   </div>
-
-
-  <!-- =====================================================
-       FIXED GRAPHICS
-       ===================================================== -->
 
   <div class="graphics">
 
@@ -1368,10 +728,7 @@
 
   </div>
 
-
-  <!-- =====================================================
-       HERO
-       ===================================================== -->
+  <!-- HERO -->
 
   <section class="hero" id="hero">
 
@@ -1406,10 +763,7 @@
 
   </section>
 
-
-  <!-- =====================================================
-       MOTION
-       ===================================================== -->
+  <!-- MOTION -->
 
   <section class="motion">
 
@@ -1427,87 +781,7 @@
 
   </section>
 
-
-  <!-- =====================================================
-       KINETIC TRANSITION
-       ===================================================== -->
-
-  <div class="kinetic-transition">
-
-    <div class="kinetic-grid"></div>
-
-
-    <div class="kinetic-orbit orbit-one"></div>
-
-    <div class="kinetic-orbit orbit-two"></div>
-
-
-    <div class="kinetic-cross kinetic-cross-x"></div>
-
-    <div class="kinetic-cross kinetic-cross-y"></div>
-
-
-    <div class="kinetic-ticks">
-
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-
-    </div>
-
-
-    <div class="kinetic-scan"></div>
-
-
-    <div class="kinetic-meta kinetic-meta-left">
-      ROTAROTT<br>
-      002 / ACCESS
-    </div>
-
-
-    <div class="kinetic-meta kinetic-meta-right">
-      CLOCKWISE<br>
-      MÆD / 2026
-    </div>
-
-
-    <div class="kinetic-core">
-
-      <div class="kinetic-ring ring-back"></div>
-
-      <div class="kinetic-ring ring-front"></div>
-
-
-      <div class="kinetic-image-wrap">
-
-        <img
-          src="./hero2.svg"
-          alt=""
-          class="transition-image"
-        />
-
-      </div>
-
-    </div>
-
-
-    <div class="kinetic-pulse pulse-one"></div>
-
-    <div class="kinetic-pulse pulse-two"></div>
-
-    <div class="kinetic-pulse pulse-three"></div>
-
-  </div>
-
-
-  <!-- =====================================================
-       REGISTRATION
-       ===================================================== -->
+  <!-- REGISTRATION -->
 
   <section class="registration">
 
@@ -1523,7 +797,6 @@
 
     </div>
 
-
     <!-- GET IN + VIDEO -->
 
     <div class="register-heading">
@@ -1532,7 +805,6 @@
         GET<br>
         IN.
       </h2>
-
 
       <div class="register-video-box">
 
@@ -1548,14 +820,11 @@
           disablepictureinpicture
           controlslist="nodownload noplaybackrate nofullscreen"
         >
-
           <source
             src="./hero3.mp4"
             type="video/mp4"
           >
-
         </video>
-
 
         <div class="last-maed">
           LAST MÆD
@@ -1565,13 +834,9 @@
 
     </div>
 
-
-    <!-- ===================================================
-         FORM
-         =================================================== -->
+    <!-- FORM -->
 
     <form id="registrationForm">
-
 
       <div class="form-group">
 
@@ -1589,7 +854,6 @@
 
       </div>
 
-
       <div class="form-group">
 
         <label for="surname">
@@ -1605,7 +869,6 @@
         />
 
       </div>
-
 
       <div class="form-group">
 
@@ -1624,10 +887,7 @@
 
       </div>
 
-
-      <!-- =================================================
-           INSTAGRAM
-           ================================================= -->
+      <!-- INSTAGRAM -->
 
       <div class="instagram-box">
 
@@ -1676,13 +936,11 @@
 
           </span>
 
-
           <span id="instagramText">
             SEGUI @maednesss
           </span>
 
         </button>
-
 
         <div
           class="instagram-status"
@@ -1693,10 +951,7 @@
 
       </div>
 
-
-      <!-- =================================================
-           SUBMIT
-           ================================================= -->
+      <!-- SUBMIT -->
 
       <button
         type="submit"
@@ -1706,24 +961,20 @@
         BLOCCA IL TUO POSTO
       </button>
 
-
       <div
         class="form-status"
         id="formStatus"
       ></div>
 
-
     </form>
 
-
-    <!-- ===================================================
-         BOTTOM
-         =================================================== -->
+    <!-- BOTTOM TITLE -->
 
     <div class="registration-bottom">
       ROTAROTT
     </div>
 
+    <!-- FOOTER -->
 
     <div class="registration-footer">
 
@@ -1731,24 +982,27 @@
         MÆDNESS®
       </span>
 
-      <span>
-        FOGGIA / 2026
-      </span>
+      <div class="footer-right">
+
+        <span>
+          ROTAROTT
+        </span>
+
+        <img
+          src="./hero2.svg"
+          alt=""
+          class="footer-hero2"
+        />
+
+      </div>
 
     </div>
 
   </section>
 
-
-  <!-- =====================================================
-       JAVASCRIPT
-       ===================================================== -->
-
   <script>
 
-    /* =====================================================
-       ELEMENTS
-       ===================================================== */
+    /* ELEMENTS */
 
     const progress =
       document.getElementById("progress");
@@ -1784,9 +1038,7 @@
       document.getElementById("registerVideo");
 
 
-    /* =====================================================
-       VIDEO AUTOPLAY
-       ===================================================== */
+    /* VIDEO AUTOPLAY */
 
     function startRegisterVideo() {
 
@@ -1811,10 +1063,8 @@
         ""
       );
 
-
       const playPromise =
         registerVideo.play();
-
 
       if (
         playPromise !== undefined
@@ -1864,12 +1114,10 @@
       startRegisterVideo
     );
 
-
     window.addEventListener(
       "load",
       startRegisterVideo
     );
-
 
     document.addEventListener(
       "touchstart",
@@ -1881,9 +1129,7 @@
     );
 
 
-    /* =====================================================
-       INSTAGRAM MEMORY
-       ===================================================== */
+    /* INSTAGRAM MEMORY */
 
     const INSTAGRAM_MEMORY_KEY =
       "maedness_instagram_clicked";
@@ -1915,7 +1161,6 @@
           INSTAGRAM_MEMORY_KEY
         );
 
-
       if (
         alreadyClicked === "true"
       ) {
@@ -1927,9 +1172,7 @@
     }
 
 
-    /* =====================================================
-       INSTAGRAM CLICK
-       ===================================================== */
+    /* INSTAGRAM CLICK */
 
     instagramButton.addEventListener(
       "click",
@@ -1940,13 +1183,11 @@
           "true"
         );
 
-
         window.open(
           "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
           "_blank",
           "noopener,noreferrer"
         );
-
 
         activateInstagramState();
 
@@ -1954,9 +1195,7 @@
     );
 
 
-    /* =====================================================
-       SCROLL ANIMATION
-       ===================================================== */
+    /* SCROLL ANIMATION */
 
     let ticking = false;
 
@@ -1966,11 +1205,9 @@
       const scrollTop =
         window.scrollY;
 
-
       const documentHeight =
         document.documentElement.scrollHeight -
         window.innerHeight;
-
 
       const scrollPercent =
         documentHeight > 0
@@ -1992,7 +1229,6 @@
           120
         );
 
-
       hero.style.backgroundPosition =
         `center calc(50% + ${heroOffset}px)`;
 
@@ -2005,7 +1241,6 @@
           45
         );
 
-
       heroLogo.style.transform =
         `translateX(${-3 + logoMove}px)`;
 
@@ -2014,7 +1249,6 @@
 
       const motionMove =
         scrollTop * -0.18;
-
 
       motionWord.style.transform =
         `translateX(${motionMove}px)`;
@@ -2046,9 +1280,7 @@
     );
 
 
-    /* =====================================================
-       TOUCH PARALLAX
-       ===================================================== */
+    /* TOUCH PARALLAX */
 
     let touchStartY = 0;
 
@@ -2074,10 +1306,8 @@
         const currentY =
           event.touches[0].clientY;
 
-
         const delta =
           touchStartY - currentY;
-
 
         heroLogo.style.transform =
           `translateX(${-3 + delta * .025}px)`;
@@ -2089,9 +1319,7 @@
     );
 
 
-    /* =====================================================
-       FORM
-       ===================================================== */
+    /* FORM */
 
     registrationForm.addEventListener(
       "submit",
@@ -2099,18 +1327,14 @@
 
         event.preventDefault();
 
-
         submitButton.textContent =
           "CREATING ACCESS...";
-
 
         submitButton.style.background =
           "#ff0000";
 
-
         formStatus.textContent =
           "GENERAZIONE ACCESSO IN CORSO";
-
 
         setTimeout(
           () => {
@@ -2118,10 +1342,8 @@
             submitButton.textContent =
               "ACCESS REQUESTED ✓";
 
-
             submitButton.style.background =
               "#20d878";
-
 
             formStatus.textContent =
               "TICKET SYSTEM — COMING NEXT";
@@ -2134,9 +1356,7 @@
     );
 
 
-    /* =====================================================
-       INITIALIZATION
-       ===================================================== */
+    /* INITIALIZATION */
 
     checkInstagramMemory();
 
