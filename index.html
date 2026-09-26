@@ -352,6 +352,68 @@
       }
     }
 
+    /* HERO2 TRANSITION */
+
+    .registration-transition {
+      position: relative;
+      height: 82px;
+      margin-top: -1px;
+      background:
+        linear-gradient(
+          to bottom,
+          var(--black) 0%,
+          var(--black) 18%,
+          #171717 38%,
+          #7a7a7a 67%,
+          var(--white) 100%
+        );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 6;
+    }
+
+    .registration-transition::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 50%;
+      height: 1px;
+      background: var(--red);
+      opacity: .85;
+      transform: translateY(-50%);
+    }
+
+    .registration-transition::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0px,
+          transparent 5px,
+          rgba(0,0,0,.08) 6px
+        );
+      pointer-events: none;
+    }
+
+    .transition-image {
+      position: relative;
+      z-index: 2;
+      width: 68px;
+      height: 68px;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      background: var(--white);
+      border-radius: 50%;
+      padding: 3px;
+      animation: rotateImage 7s linear infinite;
+    }
+
     /* REGISTRATION */
 
     .registration {
@@ -377,18 +439,16 @@
       color: var(--red);
     }
 
-    /* GET IN + IMAGE + VIDEO */
+    /* GET IN + VIDEO */
 
     .register-heading {
       --register-title-size: clamp(60px, 19.5vw, 76px);
-      --register-image-size: clamp(56px, 20vw, 78px);
       --register-video-width: clamp(130px, 40vw, 155px);
       --register-heading-gap: clamp(2px, 1vw, 4px);
 
       display: grid;
       grid-template-columns:
         minmax(0, 1fr)
-        var(--register-image-size)
         var(--register-video-width);
       column-gap: var(--register-heading-gap);
       align-items: start;
@@ -402,18 +462,6 @@
       letter-spacing: -.02em;
       margin-bottom: 0;
       min-width: 0;
-    }
-
-    .register-image {
-      width: var(--register-image-size);
-      height: var(--register-image-size);
-      object-fit: contain;
-      object-position: center;
-      display: block;
-      justify-self: center;
-      align-self: center;
-      border-radius: 50%;
-      animation: rotateImage 7s linear infinite;
     }
 
     @keyframes rotateImage {
@@ -683,8 +731,13 @@
   </div>
 
   <header class="topbar">
-    <div class="top-logo">MÆDNESS<span class="registered">®</span></div>
-    <div class="top-event">ROTAROTT / 001</div>
+    <div class="top-logo">
+      MÆDNESS<span class="registered">®</span>
+    </div>
+
+    <div class="top-event">
+      ROTAROTT / 001
+    </div>
   </header>
 
   <div class="scroll-progress">
@@ -760,6 +813,18 @@
 
   </section>
 
+  <!-- HERO2: TRANSIZIONE COMPATTA -->
+
+  <div class="registration-transition">
+
+    <img
+      src="./hero2.svg"
+      alt=""
+      class="transition-image"
+    />
+
+  </div>
+
   <section class="registration">
 
     <div class="registration-top">
@@ -773,12 +838,6 @@
         GET<br>
         IN.
       </h2>
-
-      <img
-        src="./hero2.svg"
-        alt=""
-        class="register-image"
-      />
 
       <div class="register-video-box">
 
