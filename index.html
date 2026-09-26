@@ -274,70 +274,67 @@
       font-weight: 800;
     }
 
-    /* SCROLL INDICATOR */
+    /* SWIPE INDICATOR */
     .scroll-label {
       position: absolute;
       z-index: 4;
       right: 16px;
       bottom: 31px;
-      width: 12px;
-      height: 58px;
+      width: 14px;
+      height: 54px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      gap: 1px;
+      gap: 2px;
+      overflow: hidden;
+      pointer-events: none;
     }
 
-    .scroll-label span {
-      display: block;
-      width: 7px;
-      height: 7px;
-      border-right: 1.5px solid var(--white);
-      border-bottom: 1.5px solid var(--white);
+    .scroll-chevron {
+      width: 9px;
+      height: 9px;
+      border-right: 2px solid var(--white);
+      border-bottom: 2px solid var(--white);
       transform: rotate(45deg);
+      flex: 0 0 auto;
       opacity: 0;
-      animation: scrollArrow 1.5s ease-in-out infinite;
+      animation: scrollChevron 1.35s ease-in-out infinite;
     }
 
-    .scroll-label span:nth-child(1) {
+    .scroll-chevron:nth-child(1) {
       animation-delay: 0s;
     }
 
-    .scroll-label span:nth-child(2) {
-      animation-delay: .22s;
+    .scroll-chevron:nth-child(2) {
+      animation-delay: .18s;
     }
 
-    .scroll-label span:nth-child(3) {
-      animation-delay: .44s;
+    .scroll-chevron:nth-child(3) {
+      animation-delay: .36s;
     }
 
-    .scroll-label span:nth-child(4) {
-      animation-delay: .66s;
+    .scroll-chevron:nth-child(4) {
+      animation-delay: .54s;
     }
 
-    @keyframes scrollArrow {
+    @keyframes scrollChevron {
       0% {
         opacity: 0;
-        transform: translateY(-5px) rotate(45deg);
+        transform: translateY(-9px) rotate(45deg);
       }
 
-      25% {
-        opacity: .85;
-      }
-
-      50% {
+      20% {
         opacity: 1;
-        transform: translateY(3px) rotate(45deg);
       }
 
-      75% {
-        opacity: .35;
+      55% {
+        opacity: .9;
       }
 
       100% {
         opacity: 0;
-        transform: translateY(8px) rotate(45deg);
+        transform: translateY(17px) rotate(45deg);
       }
     }
 
@@ -792,10 +789,10 @@
     </div>
 
     <div class="scroll-label" aria-hidden="true">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+      <span class="scroll-chevron"></span>
+      <span class="scroll-chevron"></span>
+      <span class="scroll-chevron"></span>
+      <span class="scroll-chevron"></span>
     </div>
 
   </section>
