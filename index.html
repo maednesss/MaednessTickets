@@ -496,11 +496,12 @@
       border-top: 1px solid var(--red);
     }
 
-    /* Angolo inferiore sinistro */
-    .register-video-box::after {
-      bottom: -5px;
-      border-left: 1px solid var(--red);
-      border-bottom: 1px solid var(--red);
+   /* Angolo inferiore sinistro */
+.register-video-box::after {
+  top: calc(clamp(97.5px, 30vw, 116px) - 13px);
+  bottom: auto;
+  border-left: 1px solid var(--red);
+  border-bottom: 1px solid var(--red);
     }
 
     .last-maed {
