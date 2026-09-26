@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   />
 
   <title>MÆDNESS® — ROTAROTT</title>
@@ -13,16 +13,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;800;900&display=swap"
     rel="stylesheet"
-  />
+  >
 
   <style>
     :root {
+      --red: #ff0000;
       --black: #050505;
       --white: #ffffff;
-      --red: #ff1515;
-      --green: #20d26f;
+      --green: #20d878;
     }
 
     * {
@@ -41,1406 +41,769 @@
       color: var(--white);
       font-family: "Inter", sans-serif;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    body::-webkit-scrollbar {
-      width: 0;
+    button,
+    input {
+      font: inherit;
     }
 
-    /* =========================================================
-       DESKTOP BLOCK
-    ========================================================= */
-
-    .desktop-block {
+    /* DESKTOP WARNING */
+    .desktop-warning {
       display: none;
     }
 
-    @media (min-width: 768px) {
-      body {
-        overflow: hidden;
+    @media (min-width: 700px) {
+      body > *:not(.desktop-warning) {
+        display: none !important;
       }
 
-      .mobile-site {
-        display: none;
-      }
-
-      .desktop-block {
-        min-height: 100svh;
+      .desktop-warning {
+        position: fixed;
+        inset: 0;
+        background: #050505;
+        color: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--black);
-        color: var(--white);
         text-align: center;
-        padding: 30px;
-      }
-
-      .desktop-block-inner {
-        width: 100%;
-      }
-
-      .desktop-logo {
+        padding: 40px;
         font-family: "Anton", sans-serif;
-        font-size: clamp(70px, 12vw, 180px);
-        line-height: .82;
-        letter-spacing: -0.05em;
-      }
-
-      .desktop-sub {
-        margin-top: 24px;
-        font-size: 11px;
-        letter-spacing: .25em;
-        font-weight: 800;
+        font-size: 34px;
+        letter-spacing: .04em;
       }
     }
 
-    /* =========================================================
-       MOBILE SITE
-    ========================================================= */
-
-    .mobile-site {
-      position: relative;
-      width: 100%;
-      background: var(--black);
-    }
-
-    /* =========================================================
-       TOP BAR
-    ========================================================= */
-
+    /* TOPBAR */
     .topbar {
       position: fixed;
+      z-index: 100;
       top: 0;
       left: 0;
       width: 100%;
       height: 52px;
-      z-index: 1000;
-
       display: flex;
-      align-items: center;
       justify-content: space-between;
-
-      padding: 0 15px;
-
-      color: var(--white);
-      mix-blend-mode: normal;
-
+      align-items: center;
+      padding: 0 16px;
+      mix-blend-mode: difference;
       pointer-events: none;
     }
 
-    .topbar-left,
-    .topbar-right {
-      font-size: 9px;
-      line-height: 1;
-      font-weight: 800;
-      letter-spacing: .16em;
-    }
-
-    .topbar-left {
+    .top-logo {
       font-family: "Anton", sans-serif;
-      font-size: 15px;
+      font-size: 21px;
       letter-spacing: .04em;
     }
 
-    /* =========================================================
-       SCROLL PROGRESS
-    ========================================================= */
-
-    .scroll-progress {
-      position: fixed;
-      z-index: 1001;
-      top: 0;
-      right: 0;
-      width: 3px;
-      height: 100svh;
-      pointer-events: none;
+    .top-logo .registered {
+      position: relative;
+      top: -2px;
     }
 
-    .scroll-progress-bar {
-      position: absolute;
-      top: 0;
-      left: 0;
+    .top-event {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .15em;
+    }
+
+    /* SCROLL PROGRESS */
+    .scroll-progress {
+      position: fixed;
+      z-index: 110;
+      top: 52px;
+      right: 7px;
+      width: 2px;
+      height: calc(100vh - 70px);
+      background: rgba(255,255,255,.2);
+    }
+
+    .scroll-progress span {
+      display: block;
       width: 100%;
       height: 0%;
       background: var(--red);
+      transform-origin: top;
     }
 
-    /* =========================================================
-       MICRO GRAPHICS
-    ========================================================= */
+    /* FIXED GRAPHICS */
+    .graphics {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      overflow: hidden;
+      transition: opacity .08s linear;
+    }
 
     .micro {
-      position: fixed;
-      z-index: 900;
-      pointer-events: none;
-
+      position: absolute;
       font-size: 7px;
-      line-height: 1;
+      letter-spacing: .2em;
       font-weight: 800;
-      letter-spacing: .18em;
-
-      color: var(--white);
-      transition:
-        opacity .35s ease,
-        transform .5s cubic-bezier(.22, 1, .36, 1);
+      white-space: nowrap;
+      opacity: .7;
     }
 
     .micro-1 {
+      top: 18%;
       left: 15px;
-      top: 50%;
-      transform: rotate(-90deg) translateX(-50%);
-      transform-origin: left top;
     }
 
     .micro-2 {
-      right: 15px;
-      top: 36%;
-      transform: rotate(90deg) translateX(50%);
-      transform-origin: right top;
+      top: 72%;
+      right: 14px;
+      transform: rotate(90deg);
     }
 
     .micro-3 {
+      bottom: 7%;
       left: 15px;
-      bottom: 15px;
     }
 
     .micro-4 {
-      right: 15px;
-      bottom: 15px;
+      top: 55%;
+      left: 14px;
+      transform: rotate(-90deg);
     }
 
-    /* =========================================================
-       HERO
-    ========================================================= */
-
+    /* HERO */
     .hero {
       position: relative;
-      min-height: 100svh;
-      height: 100svh;
+      height: 82svh;
+      min-height: 580px;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 16px 32px;
+      background: url("./hero.png");
+      background-size: cover;
+      background-position: center;
+      filter: contrast(1.15);
+    }
+
+    /* SMOOTH DARK GRADIENT */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
 
       background:
         linear-gradient(
           to bottom,
-          rgba(0,0,0,.25) 0%,
-          rgba(0,0,0,.1) 35%,
-          rgba(0,0,0,.55) 100%
-        ),
-        url("./hero.png") center center / cover no-repeat;
+          rgba(0,0,0,0) 0%,
+          rgba(0,0,0,.03) 18%,
+          rgba(0,0,0,.10) 34%,
+          rgba(0,0,0,.24) 50%,
+          rgba(0,0,0,.48) 65%,
+          rgba(0,0,0,.75) 78%,
+          rgba(0,0,0,.92) 90%,
+          rgba(5,5,5,1) 100%
+        );
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      pointer-events: none;
+      z-index: 2;
     }
 
     .hero::after {
       content: "";
       position: absolute;
       inset: 0;
+      opacity: .18;
       pointer-events: none;
 
-      background:
+      background-image:
         repeating-linear-gradient(
           to bottom,
-          rgba(255,255,255,.025) 0px,
-          rgba(255,255,255,.025) 1px,
-          transparent 1px,
-          transparent 4px
+          transparent 0px,
+          transparent 3px,
+          rgba(255,255,255,.25) 4px
         );
 
-      mix-blend-mode: screen;
-      opacity: .45;
+      z-index: 2;
     }
 
     .hero-content {
       position: relative;
       z-index: 3;
-      width: 100%;
-      padding: 0 15px;
-      text-align: center;
     }
 
-    .hero-kicker {
-      margin-bottom: 12px;
-
-      font-size: 8px;
-      font-weight: 800;
-      letter-spacing: .28em;
+    .hero-small {
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .25em;
+      margin-bottom: 7px;
     }
 
+    /* HERO LOGO */
     .hero-logo {
-      position: relative;
-
       font-family: "Anton", sans-serif;
-      font-size: 25vw;
+      font-size: clamp(70px, 23vw, 120px);
       line-height: .78;
-      letter-spacing: -.055em;
+      letter-spacing: -.035em;
+      white-space: nowrap;
 
-      color: var(--white);
+      text-shadow:
+        4px 0 var(--red),
+        -2px 0 rgba(255,255,255,.3);
 
-      transform: translate3d(0,0,0);
+      transform: translate3d(-3px, 0, 0);
+
       will-change: transform;
-    }
-
-    .hero-logo::after {
-      content: "MÆDNESS";
-      position: absolute;
-      inset: 0;
-
-      color: var(--red);
-
-      transform: translate(5px, 4px);
-      z-index: -1;
     }
 
     .hero-event {
-      margin-top: 24px;
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .hero-title {
+    .hero-event-name {
       font-family: "Anton", sans-serif;
-      font-size: 18vw;
-      line-height: .85;
-      letter-spacing: -.04em;
+      font-size: 38px;
+      line-height: .9;
+      letter-spacing: .01em;
     }
 
-    .hero-date {
-      margin-top: 12px;
-
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .2em;
-    }
-
-    .hero-location {
-      margin-top: 5px;
-
+    .hero-event-meta {
       font-size: 8px;
-      font-weight: 700;
-      letter-spacing: .25em;
+      line-height: 1.5;
+      letter-spacing: .16em;
+      font-weight: 800;
     }
 
-    .hero-scroll {
+    /* SWIPE INDICATOR */
+    .scroll-label {
       position: absolute;
       z-index: 4;
-      bottom: 25px;
-      left: 50%;
-
-      transform: translateX(-50%);
-
+      right: 16px;
+      bottom: 31px;
+      width: 14px;
+      height: 54px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      justify-content: flex-start;
+      gap: 2px;
+      overflow: hidden;
+      pointer-events: none;
     }
 
-    .hero-scroll span {
-      width: 8px;
-      height: 8px;
-
-      border-right: 1px solid var(--white);
-      border-bottom: 1px solid var(--white);
-
+    .scroll-chevron {
+      width: 9px;
+      height: 9px;
+      border-right: 2px solid var(--white);
+      border-bottom: 2px solid var(--white);
       transform: rotate(45deg);
-
-      animation: arrowDown 1.5s ease-in-out infinite;
+      flex: 0 0 auto;
+      opacity: 0;
+      animation: scrollChevron 1.35s ease-in-out infinite;
     }
 
-    .hero-scroll span:nth-child(2) {
-      animation-delay: .15s;
+    .scroll-chevron:nth-child(1) {
+      animation-delay: 0s;
     }
 
-    .hero-scroll span:nth-child(3) {
-      animation-delay: .3s;
+    .scroll-chevron:nth-child(2) {
+      animation-delay: .18s;
     }
 
-    @keyframes arrowDown {
-      0%,
-      100% {
-        opacity: .15;
-        transform: rotate(45deg) translate(-2px, -2px);
+    .scroll-chevron:nth-child(3) {
+      animation-delay: .36s;
+    }
+
+    .scroll-chevron:nth-child(4) {
+      animation-delay: .54s;
+    }
+
+    @keyframes scrollChevron {
+      0% {
+        opacity: 0;
+        transform: translateY(-9px) rotate(45deg);
       }
 
-      50% {
+      20% {
         opacity: 1;
-        transform: rotate(45deg) translate(2px, 2px);
+      }
+
+      55% {
+        opacity: .9;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(17px) rotate(45deg);
       }
     }
 
-    /* =========================================================
-       ROTAROTT SCANNER TRANSITION
-    ========================================================= */
-
+    /* MOTION */
     .motion {
       position: relative;
-      min-height: 38svh;
-      height: 38svh;
-
+      height: 32svh;
+      min-height: 220px;
       overflow: hidden;
-
-      background: var(--red);
-
-      isolation: isolate;
-
       display: flex;
       align-items: center;
-      justify-content: center;
-    }
-
-    /*
-      BLACK FADE FROM HERO
-      ---------------------------------------------------------
-      Il rosso non parte bruscamente: viene mangiato dal nero
-      nella parte superiore.
-    */
-
-    .motion::before {
-      content: "";
-      position: absolute;
-      z-index: 20;
-
-      top: -1px;
-      left: 0;
-
-      width: 100%;
-      height: 34%;
-
-      pointer-events: none;
-
-      background:
-        linear-gradient(
-          to bottom,
-          var(--black) 0%,
-          rgba(5,5,5,.96) 15%,
-          rgba(5,5,5,.72) 42%,
-          rgba(5,5,5,.25) 72%,
-          rgba(5,5,5,0) 100%
-        );
-    }
-
-    /*
-      BLACK FADE TOWARD GET IN
-    */
-
-    .motion::after {
-      content: "";
-      position: absolute;
-      z-index: 20;
-
-      bottom: -1px;
-      left: 0;
-
-      width: 100%;
-      height: 30%;
-
-      pointer-events: none;
-
-      background:
-        linear-gradient(
-          to top,
-          var(--black) 0%,
-          rgba(5,5,5,.95) 13%,
-          rgba(5,5,5,.68) 40%,
-          rgba(5,5,5,.2) 73%,
-          rgba(5,5,5,0) 100%
-        );
-    }
-
-    /*
-      RED FIELD
-    */
-
-    .motion-field {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-
-      background:
-        repeating-linear-gradient(
-          to bottom,
-          rgba(0,0,0,.07) 0px,
-          rgba(0,0,0,.07) 1px,
-          transparent 1px,
-          transparent 6px
-        );
-
-      opacity: .55;
-      pointer-events: none;
-    }
-
-    /*
-      EXTRA GRID
-    */
-
-    .motion-grid {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-
-      pointer-events: none;
-
-      background:
-        linear-gradient(
-          to right,
-          transparent 0%,
-          rgba(0,0,0,.07) 49.9%,
-          rgba(0,0,0,.07) 50.1%,
-          transparent 50.2%
-        );
-    }
-
-    /*
-      WORD SYSTEM
-    */
-
-    .motion-words {
-      position: absolute;
-      z-index: 5;
-
-      top: 50%;
-      left: 0;
-
-      width: max-content;
-
-      transform:
-        translate3d(
-          calc(-7vw + var(--motion-scroll-x, 0px)),
-          -50%,
-          0
-        );
-
-      white-space: nowrap;
-
-      will-change: transform;
-
-      /*
-        piccola oscillazione autonoma.
-        Lo scanner resta indipendente dallo scroll.
-      */
-
-      animation: wordDrift 8s ease-in-out infinite alternate;
-    }
-
-    @keyframes wordDrift {
-      0% {
-        transform:
-          translate3d(
-            calc(-7vw + var(--motion-scroll-x, 0px)),
-            -50%,
-            0
-          );
-      }
-
-      100% {
-        transform:
-          translate3d(
-            calc(-4vw + var(--motion-scroll-x, 0px)),
-            -50%,
-            0
-          );
-      }
+      background: var(--black);
     }
 
     .motion-word {
-      position: relative;
-
+      position: absolute;
+      left: -8%;
+      white-space: nowrap;
       font-family: "Anton", sans-serif;
-
-      font-size: 24vw;
-      line-height: .78;
-
-      letter-spacing: -.045em;
-
-      /*
-        BASE:
-        le parole esistono ma sono nere.
-      */
-
-      color: #050505;
-
-      user-select: none;
+      font-size: 29vw;
+      line-height: .8;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,.35);
+      transform: translateX(0);
+      will-change: transform;
     }
 
-    /*
-      WHITE SCANNED COPY
-      ---------------------------------------------------------
-      Questa è la copia bianca.
-      È completamente mascherata.
-      Solo la sottile finestra dello scanner la rende visibile.
-    */
-
-    .motion-word-white {
+    .marquee {
       position: absolute;
-      left: 0;
-      top: 0;
-
-      width: 100%;
-      height: 100%;
-
-      color: #fff;
-
-      pointer-events: none;
-
-      /*
-        Maschera stretta:
-        quasi tutto trasparente,
-        piccola finestra centrale visibile.
-      */
-
-      -webkit-mask-image:
-        linear-gradient(
-          to right,
-          transparent 0%,
-          transparent 28%,
-          rgba(0,0,0,0) 37%,
-          rgba(0,0,0,1) 47%,
-          rgba(0,0,0,1) 53%,
-          rgba(0,0,0,0) 63%,
-          transparent 72%,
-          transparent 100%
-        );
-
-      mask-image:
-        linear-gradient(
-          to right,
-          transparent 0%,
-          transparent 28%,
-          rgba(0,0,0,0) 37%,
-          rgba(0,0,0,1) 47%,
-          rgba(0,0,0,1) 53%,
-          rgba(0,0,0,0) 63%,
-          transparent 72%,
-          transparent 100%
-        );
-
-      -webkit-mask-size: 100px 100%;
-      mask-size: 100px 100%;
-
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
-
-      -webkit-mask-position: -100px 0;
-      mask-position: -100px 0;
-
-      animation:
-        textScanner 4.8s
-        cubic-bezier(.65,0,.2,1)
-        infinite;
-    }
-
-    @keyframes textScanner {
-      0% {
-        -webkit-mask-position: -100px 0;
-        mask-position: -100px 0;
-      }
-
-      48% {
-        -webkit-mask-position: calc(100% + 100px) 0;
-        mask-position: calc(100% + 100px) 0;
-      }
-
-      100% {
-        -webkit-mask-position: calc(100% + 100px) 0;
-        mask-position: calc(100% + 100px) 0;
-      }
-    }
-
-    /*
-      SCANNER
-      ---------------------------------------------------------
-      La linea vera e propria è nera.
-    */
-
-    .scanner {
-      position: absolute;
-      z-index: 10;
-
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100%;
-
-      pointer-events: none;
-
+      left: -20%;
+      width: 145%;
+      padding: 13px 0;
+      background: var(--red);
+      color: var(--black);
+      transform: rotate(-7deg);
       overflow: hidden;
     }
 
-    /*
-      ALONE / SCIA
-    */
-
-    .scanner-trail {
-      position: absolute;
-
-      top: 0;
-      left: -40vw;
-
-      width: 40vw;
-      height: 100%;
-
-      background:
-        linear-gradient(
-          to right,
-          transparent 0%,
-          rgba(0,0,0,.02) 35%,
-          rgba(0,0,0,.08) 72%,
-          rgba(0,0,0,.18) 100%
-        );
-
-      filter: blur(2px);
-
-      transform: skewX(-7deg);
-
-      animation:
-        scannerMove
-        4.8s
-        cubic-bezier(.65,0,.2,1)
-        infinite;
+    .marquee-track {
+      white-space: nowrap;
+      font-family: "Anton", sans-serif;
+      font-size: 25px;
+      letter-spacing: .03em;
+      animation: marquee 9s linear infinite;
     }
 
-    /*
-      LINEA PRINCIPALE
-    */
-
-    .scanner-line {
-      position: absolute;
-
-      top: 0;
-      left: -3px;
-
-      width: 2px;
-      height: 100%;
-
-      background: #050505;
-
-      box-shadow:
-        0 0 0 1px rgba(0,0,0,.08),
-        0 0 12px rgba(0,0,0,.55),
-        0 0 28px rgba(0,0,0,.25);
-
-      transform: translateX(-10vw);
-
-      animation:
-        scannerMove
-        4.8s
-        cubic-bezier(.65,0,.2,1)
-        infinite;
-    }
-
-    /*
-      SCANNER HEAD
-    */
-
-    .scanner-head {
-      position: absolute;
-
-      top: 50%;
-
-      left: -10vw;
-
-      width: 30px;
-      height: 30px;
-
-      transform:
-        translate(-50%, -50%)
-        rotate(45deg);
-
-      border: 1px solid rgba(0,0,0,.65);
-
-      animation:
-        scannerHeadMove
-        4.8s
-        cubic-bezier(.65,0,.2,1)
-        infinite;
-    }
-
-    .scanner-head::before,
-    .scanner-head::after {
-      content: "";
-
-      position: absolute;
-
-      background: #050505;
-    }
-
-    .scanner-head::before {
-      left: 50%;
-      top: -7px;
-
-      width: 1px;
-      height: 44px;
-
-      transform: translateX(-50%);
-    }
-
-    .scanner-head::after {
-      top: 50%;
-      left: -7px;
-
-      width: 44px;
-      height: 1px;
-
-      transform: translateY(-50%);
-    }
-
-    /*
-      LITTLE SIGNAL TICKS
-    */
-
-    .scanner-tick {
-      position: absolute;
-
-      top: 50%;
-
-      width: 18px;
-      height: 1px;
-
-      background: #050505;
-
-      transform: translateY(-50%);
-
-      opacity: .8;
-    }
-
-    .scanner-tick.left {
-      left: -22px;
-      animation: tickLeft 4.8s cubic-bezier(.65,0,.2,1) infinite;
-    }
-
-    .scanner-tick.right {
-      right: -22px;
-      animation: tickRight 4.8s cubic-bezier(.65,0,.2,1) infinite;
-    }
-
-    @keyframes scannerMove {
-      0% {
-        transform: translateX(-35vw) skewX(-7deg);
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
       }
 
-      48% {
-        transform: translateX(135vw) skewX(-7deg);
-      }
-
-      100% {
-        transform: translateX(135vw) skewX(-7deg);
+      to {
+        transform: translateX(-35%);
       }
     }
 
-    @keyframes scannerHeadMove {
-      0% {
-        left: -10vw;
-      }
-
-      48% {
-        left: 110vw;
-      }
-
-      100% {
-        left: 110vw;
-      }
-    }
-
-    @keyframes tickLeft {
-      0% {
-        left: -30px;
-        opacity: 0;
-      }
-
-      48% {
-        left: 45%;
-        opacity: .8;
-      }
-
-      100% {
-        left: 110%;
-        opacity: 0;
-      }
-    }
-
-    @keyframes tickRight {
-      0% {
-        right: 110%;
-        opacity: 0;
-      }
-
-      48% {
-        right: 45%;
-        opacity: .8;
-      }
-
-      100% {
-        right: -30px;
-        opacity: 0;
-      }
-    }
-
-    /*
-      CORNER MARKERS
-    */
-
-    .motion-corner {
-      position: absolute;
-      z-index: 15;
-
-      width: 27px;
-      height: 27px;
-
-      border-color: #050505;
-      border-style: solid;
-
-      opacity: .85;
-
-      transition:
-        transform .4s ease,
-        opacity .4s ease;
-    }
-
-    .motion-corner.tl {
-      top: 18%;
-      left: 15px;
-
-      border-width: 1px 0 0 1px;
-    }
-
-    .motion-corner.tr {
-      top: 18%;
-      right: 15px;
-
-      border-width: 1px 1px 0 0;
-    }
-
-    .motion-corner.bl {
-      bottom: 18%;
-      left: 15px;
-
-      border-width: 0 0 1px 1px;
-    }
-
-    .motion-corner.br {
-      bottom: 18%;
-      right: 15px;
-
-      border-width: 0 1px 1px 0;
-    }
-
-    /*
-      TOP / BOTTOM SIGNAL LABELS
-    */
-
-    .motion-meta {
-      position: absolute;
-      z-index: 16;
-
-      left: 15px;
-      right: 15px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      color: #050505;
-
-      font-size: 7px;
-      font-weight: 900;
-      letter-spacing: .19em;
-
-      text-transform: uppercase;
-    }
-
-    .motion-meta.top {
-      top: 22%;
-    }
-
-    .motion-meta.bottom {
-      bottom: 22%;
-    }
-
-    .motion-status {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .motion-status-dot {
-      width: 5px;
-      height: 5px;
-
-      background: #050505;
-
-      border-radius: 50%;
-
-      animation:
-        statusPulse
-        1s
-        ease-in-out
-        infinite;
-    }
-
-    @keyframes statusPulse {
-      0%,
-      100% {
-        opacity: .25;
-        transform: scale(.7);
-      }
-
-      50% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    /*
-      SCANNER NUMBERS
-    */
-
-    .motion-code {
-      position: absolute;
-      z-index: 16;
-
-      bottom: 13%;
-      right: 15px;
-
-      font-size: 6px;
-      font-weight: 900;
-      letter-spacing: .18em;
-
-      color: #050505;
-    }
-
-    /* =========================================================
-       GET IN SECTION
-    ========================================================= */
-
-    .register {
+    /* REGISTRATION */
+    .registration {
       position: relative;
-
+      z-index: 5;
       background: var(--white);
       color: var(--black);
-
-      padding: 30px 15px 55px;
-
-      overflow: hidden;
+      padding: 24px 16px 45px;
+      min-height: 680px;
     }
 
-    .register::before {
-      content: "";
-
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 70px;
-
-      background:
-        linear-gradient(
-          to bottom,
-          var(--black) 0%,
-          rgba(5,5,5,.8) 12%,
-          rgba(5,5,5,.35) 45%,
-          rgba(5,5,5,0) 100%
-        );
-
-      pointer-events: none;
-    }
-
-    .register-header {
-      position: relative;
-      z-index: 2;
-
+    .registration-top {
       display: flex;
-      align-items: flex-start;
       justify-content: space-between;
-
-      font-size: 7px;
+      align-items: baseline;
+      margin-bottom: 22px;
+      font-size: 8px;
       font-weight: 900;
-      letter-spacing: .18em;
+      letter-spacing: .2em;
     }
 
-    .register-title-wrap {
-      margin-top: 50px;
+    .registration-top span:last-child {
+      color: var(--red);
+    }
 
-      position: relative;
-      z-index: 2;
+    /* GET IN + VIDEO */
+    .register-heading {
+      --register-title-size: clamp(60px, 19.5vw, 76px);
+      --register-video-width: clamp(130px, 40vw, 155px);
+      --register-heading-gap: clamp(2px, 1vw, 4px);
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        var(--register-video-width);
+
+      column-gap: var(--register-heading-gap);
+      align-items: start;
+      margin-bottom: 28px;
     }
 
     .register-title {
       font-family: "Anton", sans-serif;
-      font-size: 24vw;
-      line-height: .8;
-      letter-spacing: -.045em;
+      font-size: var(--register-title-size);
+      line-height: .78;
+      letter-spacing: -.02em;
+      margin-bottom: 0;
+      min-width: 0;
 
-      transform: translateY(35px);
+      /* GET IN entrance animation */
       opacity: 0;
-
-      transition:
-        transform .9s cubic-bezier(.22,1,.36,1),
-        opacity .7s ease;
+      transform: translate3d(0, 18px, 0);
+      will-change: transform, opacity;
     }
 
-    .register-title.visible {
-      transform: translateY(0);
-      opacity: 1;
+    .register-title.get-in-visible {
+      animation: getInReveal .42s cubic-bezier(.22,.75,.25,1) forwards;
     }
 
-    .register-subtitle {
-      margin-top: 15px;
+    @keyframes getInReveal {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 18px, 0);
+      }
 
-      max-width: 290px;
-
-      font-size: 8px;
-      line-height: 1.6;
-      font-weight: 700;
-      letter-spacing: .06em;
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
     }
 
-    /* =========================================================
-       VIDEO
-    ========================================================= */
+    /* VIDEO */
+    .register-video-box {
+      width: var(--register-video-width);
+      margin: 0;
+      justify-self: end;
+      align-self: start;
 
-    .video-wrap {
+      /* Necessario per posizionare le cornici sugli angoli */
       position: relative;
-
-      margin-top: 28px;
-
-      width: 100%;
-      aspect-ratio: 16 / 10;
-
-      background: #111;
-
-      overflow: hidden;
     }
 
-    .video-wrap video {
-      width: 100%;
-      height: 100%;
-
+    .register-video {
       display: block;
-
+      width: 100%;
+      height: clamp(97.5px, 30vw, 116px);
       object-fit: cover;
+      object-position: center;
+      background: #000;
+      border: 0;
+      outline: none;
+      border-radius: 0;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
-    .video-corner {
+    /*
+      CORNICI ROSSE VIDEO
+
+      Solo lato sinistro:
+      - angolo superiore sinistro
+      - angolo inferiore sinistro
+
+      Linee sottili e corte, separate dal bordo
+      del video per mantenere l'effetto grafico.
+    */
+
+    .register-video-box::before,
+    .register-video-box::after {
+      content: "";
       position: absolute;
-      z-index: 3;
-
-      width: 26px;
-      height: 26px;
-
-      border-color: var(--red);
-      border-style: solid;
+      left: -5px;
+      width: 18px;
+      height: 18px;
+      pointer-events: none;
+      z-index: 5;
     }
 
-    .video-corner.tl {
-      top: 0;
-      left: 0;
-      border-width: 2px 0 0 2px;
+    /* Angolo superiore sinistro */
+    .register-video-box::before {
+      top: -5px;
+      border-left: 1px solid var(--red);
+      border-top: 1px solid var(--red);
     }
 
-    .video-corner.tr {
-      top: 0;
-      right: 0;
-      border-width: 2px 2px 0 0;
+    /* Angolo inferiore sinistro */
+    .register-video-box::after {
+      top: calc(clamp(97.5px, 30vw, 116px) - 13px);
+      bottom: auto;
+      border-left: 1px solid var(--red);
+      border-bottom: 1px solid var(--red);
     }
-
-    .video-corner.bl {
-      bottom: 0;
-      left: 0;
-      border-width: 0 0 2px 2px;
-    }
-
-    .video-corner.br {
-      bottom: 0;
-      right: 0;
-      border-width: 0 2px 2px 0;
-    }
-
-    /* =========================================================
-       FORM
-    ========================================================= */
 
     .last-maed {
-      margin-top: 25px;
+      margin-top: 4px;
+      padding-right: 0;
+      font-size: 6px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-align: right;
+      white-space: nowrap;
+    }
 
-      font-size: 7px;
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 8px;
       font-weight: 900;
       letter-spacing: .2em;
     }
 
-    .form {
-      margin-top: 15px;
-    }
-
-    .field {
-      position: relative;
-
-      margin-bottom: 13px;
-    }
-
-    .field label {
-      display: block;
-
-      margin-bottom: 5px;
-
-      font-size: 7px;
-      font-weight: 900;
-      letter-spacing: .16em;
-    }
-
-    .field input {
+    .form-group input {
       width: 100%;
-
-      height: 44px;
-
-      border: 0;
-      border-bottom: 1px solid rgba(0,0,0,.3);
-
+      height: 52px;
+      border: 1px solid #000;
       border-radius: 0;
-
-      background: transparent;
-
-      color: var(--black);
-
-      font-family: "Inter", sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-
+      padding: 0 13px;
+      background: #fff;
+      color: #000;
       outline: none;
+      font-size: 15px;
+      font-weight: 600;
     }
 
-    .field input:focus {
-      border-bottom-color: var(--black);
+    .form-group input:focus {
+      border-color: var(--red);
+      box-shadow: inset 4px 0 0 var(--red);
+    }
+
+    /* INSTAGRAM */
+    .instagram-box {
+      margin-top: 22px;
+      margin-bottom: 18px;
     }
 
     .instagram-button {
       position: relative;
-
       width: 100%;
-      min-height: 46px;
-
-      margin-top: 8px;
-
-      border: 1px solid var(--black);
-
-      background: var(--black);
-      color: var(--white);
-
-      font-family: "Inter", sans-serif;
-      font-size: 8px;
-      font-weight: 900;
-
-      letter-spacing: .14em;
-
+      min-height: 58px;
+      border: 2px solid #000;
+      border-radius: 0;
+      background: #fff;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
       cursor: pointer;
+      overflow: hidden;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .07em;
 
       transition:
         background .25s ease,
         color .25s ease,
-        border-color .25s ease;
+        border-color .25s ease,
+        transform .12s ease;
     }
 
-    .instagram-button.active {
+    .instagram-button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--red);
+      transition: left .25s ease;
+      z-index: 0;
+    }
+
+    .instagram-button:active {
+      transform: scale(.97);
+    }
+
+    .instagram-button > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .instagram-icon {
+      width: 22px;
+      height: 22px;
+      flex: 0 0 22px;
+    }
+
+    .instagram-icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .instagram-status {
+      min-height: 16px;
+      margin-top: 7px;
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: .15em;
+      text-align: center;
+      opacity: .55;
+    }
+
+    .instagram-button.clicked {
       background: var(--green);
       border-color: var(--green);
-      color: var(--black);
+      color: #000;
+      animation: instaClick .42s ease;
     }
 
-    .instagram-button small {
-      display: block;
-
-      margin-top: 4px;
-
-      font-size: 6px;
-      letter-spacing: .12em;
+    .instagram-button.clicked::before {
+      display: none;
     }
 
+    .instagram-button.clicked .instagram-icon {
+      animation: iconPop .45s ease;
+    }
+
+    @keyframes instaClick {
+      0% {
+        transform: scale(1);
+      }
+
+      35% {
+        transform: scale(.95);
+      }
+
+      65% {
+        transform: scale(1.025);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes iconPop {
+      0% {
+        transform: rotate(0) scale(1);
+      }
+
+      45% {
+        transform: rotate(-12deg) scale(1.25);
+      }
+
+      100% {
+        transform: rotate(0) scale(1);
+      }
+    }
+
+    .instagram-status.active {
+      opacity: 1;
+      color: #15934c;
+    }
+
+    /* SUBMIT */
     .submit-button {
       width: 100%;
-
-      min-height: 56px;
-
-      margin-top: 10px;
-
+      height: 58px;
+      margin-top: 7px;
       border: 0;
-
-      background: var(--red);
+      border-radius: 0;
+      background: var(--black);
       color: var(--white);
-
       font-family: "Anton", sans-serif;
-
-      font-size: 20px;
-      letter-spacing: .03em;
-
+      font-size: 21px;
+      letter-spacing: .04em;
       cursor: pointer;
 
       transition:
-        transform .2s ease,
-        background .2s ease;
+        background .2s ease,
+        transform .12s ease;
     }
 
     .submit-button:active {
       transform: scale(.98);
     }
 
+    .submit-button:hover {
+      background: var(--red);
+    }
+
     .form-status {
+      min-height: 20px;
       margin-top: 10px;
-
-      min-height: 12px;
-
-      font-size: 7px;
+      font-size: 8px;
       font-weight: 900;
-
-      letter-spacing: .16em;
+      letter-spacing: .14em;
+      text-align: center;
     }
 
-    /* =========================================================
-       BOTTOM BRAND
-    ========================================================= */
-
-    .register-bottom {
-      position: relative;
-
-      margin-top: 70px;
-
-      min-height: 160px;
-
+    /* BOTTOM */
+    .registration-bottom {
+      margin-top: 45px;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
+      width: 100%;
     }
 
-    .bottom-outline {
+    .registration-bottom-title {
       font-family: "Anton", sans-serif;
-
-      font-size: 24vw;
-      line-height: .8;
-
+      font-size: 17vw;
+      line-height: .75;
       color: transparent;
-
-      -webkit-text-stroke: 1px var(--black);
-
-      letter-spacing: -.045em;
+      -webkit-text-stroke: 1px #000;
+      white-space: nowrap;
     }
 
-    .bottom-disc {
-      position: absolute;
-
-      right: 0;
-      bottom: 0;
-
-      width: 85px;
-      height: 85px;
-
-      animation: spin 12s linear infinite;
+    .registration-bottom-image {
+      width: clamp(58px, 17vw, 78px);
+      height: clamp(58px, 17vw, 78px);
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      flex: 0 0 auto;
+      background: transparent;
+      border: 0;
+      animation: rotateImage 7s linear infinite;
     }
 
-    @keyframes spin {
+    @keyframes rotateImage {
+      from {
+        transform: rotate(0deg);
+      }
+
       to {
         transform: rotate(360deg);
       }
     }
 
-    /* =========================================================
-       FOOTER
-    ========================================================= */
-
-    .footer {
-      position: relative;
-
+    .registration-footer {
+      margin-top: 28px;
       display: flex;
       justify-content: space-between;
-
-      padding-top: 25px;
-
       font-size: 7px;
       font-weight: 900;
-      letter-spacing: .18em;
-    }
-
-    /* =========================================================
-       RESPONSIVE
-    ========================================================= */
-
-    @media (max-width: 360px) {
-      .motion-word {
-        font-size: 23vw;
-      }
-
-      .motion {
-        min-height: 36svh;
-        height: 36svh;
-      }
-    }
-
-    @media (min-width: 430px) {
-      .hero-logo {
-        font-size: 23vw;
-      }
-
-      .hero-title {
-        font-size: 16vw;
-      }
-
-      .motion-word {
-        font-size: 22vw;
-      }
-
-      .register-title {
-        font-size: 21vw;
-      }
-    }
-
-    /* =========================================================
-       REDUCED MOTION
-    ========================================================= */
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: .001ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
-        transition-duration: .001ms !important;
-      }
+      letter-spacing: .16em;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- =======================================================
-       DESKTOP
-  ======================================================== -->
-
-  <div class="desktop-block">
-    <div class="desktop-block-inner">
-      <div class="desktop-logo">MÆDNESS®</div>
-      <div class="desktop-sub">MOBILE EXPERIENCE ONLY</div>
-    </div>
+  <div class="desktop-warning">
+    MÆDNESS®<br>
+    MOBILE EXPERIENCE ONLY
   </div>
 
-  <!-- =======================================================
-       MOBILE
-  ======================================================== -->
+  <header class="topbar">
 
-  <main class="mobile-site">
-
-    <!-- TOPBAR -->
-
-    <div class="topbar">
-      <div class="topbar-left">MÆDNESS®</div>
-      <div class="topbar-right">ROTAROTT / 001</div>
+    <div class="top-logo">
+      MÆDNESS<span class="registered">®</span>
     </div>
 
-    <!-- SCROLL PROGRESS -->
-
-    <div class="scroll-progress">
-      <div class="scroll-progress-bar"></div>
+    <div class="top-event">
+      ROTAROTT / 001
     </div>
 
-    <!-- MICRO GRAPHICS -->
+  </header>
+
+  <div class="scroll-progress">
+    <span id="progress"></span>
+  </div>
+
+  <!-- FIXED MICRO GRAPHICS -->
+  <div class="graphics" id="graphics">
 
     <div class="micro micro-1">
       41°27'N / 15°33'E
@@ -1458,543 +821,664 @@
       ACCESS / 2026
     </div>
 
+  </div>
 
-    <!-- =====================================================
-         HERO
-    ====================================================== -->
+  <!-- HERO -->
+  <section class="hero" id="hero">
 
-    <section class="hero" id="hero">
+    <div class="hero-content">
 
-      <div class="hero-content">
-
-        <div class="hero-kicker">
-          MÆDNESS PRESENTS
-        </div>
-
-        <div class="hero-logo" id="heroLogo">
-          MÆDNESS
-        </div>
-
-        <div class="hero-event">
-
-          <div class="hero-title">
-            ROTAROTT
-          </div>
-
-          <div class="hero-date">
-            18.10.2026
-          </div>
-
-          <div class="hero-location">
-            FOGGIA / ITALY
-          </div>
-
-        </div>
-
+      <div class="hero-small">
+        MÆDNESS PRESENTS
       </div>
 
-      <div class="hero-scroll">
-        <span></span>
-        <span></span>
-        <span></span>
+      <div class="hero-logo" id="heroLogo">
+        MÆDNESS
       </div>
 
-    </section>
+      <div class="hero-event">
 
-
-    <!-- =====================================================
-         NEW SCANNER TRANSITION
-    ====================================================== -->
-
-    <section class="motion" id="motion">
-
-      <div class="motion-field"></div>
-
-      <div class="motion-grid"></div>
-
-
-      <!-- META -->
-
-      <div class="motion-meta top">
-
-        <span>
-          SIGNAL / 001
-        </span>
-
-        <span class="motion-status">
-          <span class="motion-status-dot"></span>
-          SCANNING
-        </span>
-
-      </div>
-
-
-      <!-- WORD SYSTEM -->
-
-      <div class="motion-words" id="motionWords">
-
-        <div class="motion-word">
-
-          ROTAROTT — MÆDNESS — TICKET
-
-          <div class="motion-word-white">
-            ROTAROTT — MÆDNESS — TICKET
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- SCANNER -->
-
-      <div class="scanner">
-
-        <div class="scanner-trail"></div>
-
-        <div class="scanner-line"></div>
-
-        <div class="scanner-head">
-          <div class="scanner-tick left"></div>
-          <div class="scanner-tick right"></div>
-        </div>
-
-      </div>
-
-
-      <!-- CORNERS -->
-
-      <div class="motion-corner tl"></div>
-      <div class="motion-corner tr"></div>
-      <div class="motion-corner bl"></div>
-      <div class="motion-corner br"></div>
-
-
-      <!-- BOTTOM META -->
-
-      <div class="motion-meta bottom">
-
-        <span>
+        <div class="hero-event-name">
           ROTAROTT
-        </span>
+        </div>
 
-        <span>
-          MÆDNESS SYSTEM
-        </span>
-
-      </div>
-
-      <div class="motion-code">
-        001 / ACTIVE
-      </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         GET IN
-    ====================================================== -->
-
-    <section class="register" id="register">
-
-      <div class="register-header">
-
-        <span>
-          002 / GET ACCESS
-        </span>
-
-        <span>
-          ROTAROTT
-        </span>
+        <div class="hero-event-meta">
+          18.10.2026<br>
+          FOGGIA / ITALY
+        </div>
 
       </div>
 
+    </div>
 
-      <div class="register-title-wrap">
+    <div class="scroll-label" aria-hidden="true">
 
-        <h2 class="register-title" id="registerTitle">
-          GET IN.
-        </h2>
+      <span class="scroll-chevron"></span>
+      <span class="scroll-chevron"></span>
+      <span class="scroll-chevron"></span>
+      <span class="scroll-chevron"></span>
 
-        <p class="register-subtitle">
-          ACCESS IS LIMITED. COMPLETE THE FORM TO ENTER
-          THE MÆDNESS SYSTEM.
-        </p>
+    </div>
 
+  </section>
+
+  <!-- MOTION -->
+  <section class="motion">
+
+    <div class="motion-word" id="motionWord">
+      MÆDNESS
+    </div>
+
+    <div class="marquee">
+
+      <div class="marquee-track">
+        ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS — ROTAROTT — MÆDNESS —
       </div>
 
+    </div>
 
-      <!-- VIDEO -->
+  </section>
 
-      <div class="video-wrap">
+  <!-- REGISTRATION -->
+  <section class="registration">
+
+    <div class="registration-top">
+
+      <span>
+        002 / GET ACCESS
+      </span>
+
+      <span>
+        ROTAROTT
+      </span>
+
+    </div>
+
+    <!-- GET IN + VIDEO -->
+    <div class="register-heading">
+
+      <h2 class="register-title">
+        GET<br>
+        IN.
+      </h2>
+
+      <div class="register-video-box">
 
         <video
-          src="./hero3.mp4"
+          class="register-video"
+          id="registerVideo"
           autoplay
           muted
           loop
           playsinline
+          webkit-playsinline
           preload="auto"
-        ></video>
+          disablepictureinpicture
+          controlslist="nodownload noplaybackrate nofullscreen"
+        >
 
-        <div class="video-corner tl"></div>
-        <div class="video-corner tr"></div>
-        <div class="video-corner bl"></div>
-        <div class="video-corner br"></div>
+          <source
+            src="./hero3.mp4"
+            type="video/mp4"
+          >
+
+        </video>
+
+        <div class="last-maed">
+          LAST MÆD
+        </div>
 
       </div>
 
+    </div>
 
-      <!-- FORM -->
+    <form id="registrationForm">
 
-      <div class="last-maed">
-        LAST MÆD
+      <div class="form-group">
+
+        <label for="name">
+          NOME
+        </label>
+
+        <input
+          id="name"
+          name="name"
+          type="text"
+          autocomplete="given-name"
+          required
+        />
+
       </div>
 
-      <form class="form" id="accessForm">
+      <div class="form-group">
 
-        <div class="field">
-          <label for="nome">
-            NOME
-          </label>
+        <label for="surname">
+          COGNOME
+        </label>
 
-          <input
-            id="nome"
-            name="nome"
-            type="text"
-            autocomplete="given-name"
-            required
-          />
-        </div>
+        <input
+          id="surname"
+          name="surname"
+          type="text"
+          autocomplete="family-name"
+          required
+        />
 
+      </div>
 
-        <div class="field">
-          <label for="cognome">
-            COGNOME
-          </label>
+      <div class="form-group">
 
-          <input
-            id="cognome"
-            name="cognome"
-            type="text"
-            autocomplete="family-name"
-            required
-          />
-        </div>
+        <label for="email">
+          EMAIL
+        </label>
 
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          placeholder="dove arriverà il tuo QR"
+          required
+        />
 
-        <div class="field">
-          <label for="email">
-            EMAIL
-          </label>
+      </div>
 
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autocomplete="email"
-            required
-          />
-        </div>
-
-
-        <!-- INSTAGRAM -->
+      <!-- INSTAGRAM -->
+      <div class="instagram-box">
 
         <button
           type="button"
           class="instagram-button"
           id="instagramButton"
+          aria-label="Apri il profilo Instagram di MÆDNESS"
         >
-          SEGUI @maednesss
 
-          <small>
-            SUPPORT THE SIGNAL
-          </small>
-        </button>
+          <span class="instagram-icon">
 
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
 
-        <!-- SUBMIT -->
+              <rect
+                x="3"
+                y="3"
+                width="18"
+                height="18"
+                rx="5"
+                stroke="currentColor"
+                stroke-width="2"
+              />
 
-        <button
-          type="submit"
-          class="submit-button"
-          id="submitButton"
-        >
-          REQUEST ACCESS
+              <circle
+                cx="12"
+                cy="12"
+                r="4"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+
+              <circle
+                cx="17.5"
+                cy="6.5"
+                r="1.2"
+                fill="currentColor"
+              />
+
+            </svg>
+
+          </span>
+
+          <span id="instagramText">
+            SEGUI @maednesss
+          </span>
+
         </button>
 
         <div
-          class="form-status"
-          id="formStatus"
-        ></div>
-
-      </form>
-
-
-      <!-- BOTTOM -->
-
-      <div class="register-bottom">
-
-        <div class="bottom-outline">
-          ROTAROTT
+          class="instagram-status"
+          id="instagramStatus"
+        >
+          INSTAGRAM / OPTIONAL
         </div>
-
-        <img
-          class="bottom-disc"
-          src="./hero2.svg"
-          alt=""
-        />
 
       </div>
 
+      <!-- SUBMIT -->
+      <button
+        type="submit"
+        class="submit-button"
+        id="submitButton"
+      >
+        BLOCCA IL TUO POSTO
+      </button>
 
-      <!-- FOOTER -->
+      <div
+        class="form-status"
+        id="formStatus"
+      ></div>
 
-      <footer class="footer">
+    </form>
 
-        <span>
-          MÆDNESS®
-        </span>
+    <!-- BOTTOM ROTAROTT + HERO2 -->
+    <div class="registration-bottom">
 
-        <span>
-          FOGGIA / 2026
-        </span>
+      <div class="registration-bottom-title">
+        ROTAROTT
+      </div>
 
-      </footer>
+      <img
+        src="./hero2.svg"
+        alt=""
+        class="registration-bottom-image"
+      />
 
-    </section>
+    </div>
 
-  </main>
+    <div class="registration-footer">
 
+      <span>
+        MÆDNESS®
+      </span>
+
+      <span>
+        FOGGIA / 2026
+      </span>
+
+    </div>
+
+  </section>
 
   <script>
 
-    /* =========================================================
-       ELEMENTS
-    ========================================================= */
+    /* ELEMENTS */
 
-    const scrollBar =
-      document.querySelector(".scroll-progress-bar");
+    const progress =
+      document.getElementById("progress");
 
     const hero =
-      document.querySelector(".hero");
+      document.getElementById("hero");
 
     const heroLogo =
-      document.querySelector("#heroLogo");
+      document.getElementById("heroLogo");
 
-    const motion =
-      document.querySelector("#motion");
+    const motionWord =
+      document.getElementById("motionWord");
 
-    const motionWords =
-      document.querySelector("#motionWords");
-
-    const microElements =
-      document.querySelectorAll(".micro");
-
-    const registerTitle =
-      document.querySelector("#registerTitle");
+    const graphics =
+      document.getElementById("graphics");
 
     const instagramButton =
-      document.querySelector("#instagramButton");
+      document.getElementById("instagramButton");
 
-    const accessForm =
-      document.querySelector("#accessForm");
+    const instagramText =
+      document.getElementById("instagramText");
+
+    const instagramStatus =
+      document.getElementById("instagramStatus");
+
+    const registrationForm =
+      document.getElementById("registrationForm");
 
     const submitButton =
-      document.querySelector("#submitButton");
+      document.getElementById("submitButton");
 
     const formStatus =
-      document.querySelector("#formStatus");
+      document.getElementById("formStatus");
+
+    const registerVideo =
+      document.getElementById("registerVideo");
+
+    const registerTitle =
+      document.querySelector(".register-title");
 
 
-    /* =========================================================
-       INSTAGRAM STATE
-    ========================================================= */
+    /* GET IN ENTRANCE ANIMATION */
 
-    const instagramState =
-      sessionStorage.getItem("maednessInstagram");
+    if (registerTitle) {
 
-    if (instagramState === "true") {
+      const getInObserver =
+        new IntersectionObserver(
+          (entries, observer) => {
 
-      instagramButton.classList.add("active");
+            entries.forEach((entry) => {
 
-      instagramButton.innerHTML = `
-        MÆDNESS MODE: ON ✓
-        <small>GRAZIE DEL SUPPORTO</small>
-      `;
+              if (entry.isIntersecting) {
+
+                registerTitle.classList.add(
+                  "get-in-visible"
+                );
+
+                observer.unobserve(
+                  registerTitle
+                );
+
+              }
+
+            });
+
+          },
+          {
+            threshold: 0.35
+          }
+        );
+
+      getInObserver.observe(
+        registerTitle
+      );
 
     }
 
 
-    instagramButton.addEventListener("click", () => {
+    /* VIDEO AUTOPLAY */
 
-      sessionStorage.setItem(
-        "maednessInstagram",
-        "true"
+    function startRegisterVideo() {
+
+      if (!registerVideo) return;
+
+      registerVideo.muted = true;
+      registerVideo.defaultMuted = true;
+
+      registerVideo.setAttribute(
+        "muted",
+        ""
       );
 
-      instagramButton.classList.add("active");
-
-      instagramButton.innerHTML = `
-        MÆDNESS MODE: ON ✓
-        <small>GRAZIE DEL SUPPORTO</small>
-      `;
-
-      window.open(
-        "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
-        "_blank",
-        "noopener,noreferrer"
+      registerVideo.setAttribute(
+        "playsinline",
+        ""
       );
 
-    });
+      registerVideo.setAttribute(
+        "webkit-playsinline",
+        ""
+      );
+
+      const playPromise =
+        registerVideo.play();
+
+      if (
+        playPromise !== undefined
+      ) {
+
+        playPromise.catch(() => {});
+
+      }
+
+    }
 
 
-    /* =========================================================
-       SCROLL ENGINE
-       ---------------------------------------------------------
-       Qui NON controlliamo lo scanner.
-       Lo scanner è completamente autonomo in CSS.
+    if (registerVideo) {
 
-       Lo scroll influenza solamente:
-       - progress bar
-       - hero parallax
-       - micro graphics
-       - movimento laterale del sistema parole
-       - intensità della sezione scanner
-    ========================================================= */
+      registerVideo.addEventListener(
+        "loadeddata",
+        startRegisterVideo
+      );
+
+      registerVideo.addEventListener(
+        "canplay",
+        startRegisterVideo
+      );
+
+      registerVideo.addEventListener(
+        "loadedmetadata",
+        startRegisterVideo
+      );
+
+      registerVideo.addEventListener(
+        "error",
+        () => {
+
+          console.log(
+            "Errore video:",
+            registerVideo.error
+          );
+
+        }
+      );
+
+    }
+
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      startRegisterVideo
+    );
+
+    window.addEventListener(
+      "load",
+      startRegisterVideo
+    );
+
+    document.addEventListener(
+      "touchstart",
+      startRegisterVideo,
+      {
+        passive: true,
+        once: true
+      }
+    );
+
+
+    /* INSTAGRAM MEMORY */
+
+    const INSTAGRAM_MEMORY_KEY =
+      "maedness_instagram_clicked";
+
+
+    function activateInstagramState() {
+
+      instagramButton.classList.add(
+        "clicked"
+      );
+
+      instagramText.textContent =
+        "MÆDNESS MODE: ON ✓";
+
+      instagramStatus.textContent =
+        "GRAZIE DEL SUPPORTO";
+
+      instagramStatus.classList.add(
+        "active"
+      );
+
+    }
+
+
+    function checkInstagramMemory() {
+
+      const alreadyClicked =
+        sessionStorage.getItem(
+          INSTAGRAM_MEMORY_KEY
+        );
+
+      if (
+        alreadyClicked === "true"
+      ) {
+
+        activateInstagramState();
+
+      }
+
+    }
+
+
+    /* INSTAGRAM CLICK */
+
+    instagramButton.addEventListener(
+      "click",
+      () => {
+
+        sessionStorage.setItem(
+          INSTAGRAM_MEMORY_KEY,
+          "true"
+        );
+
+        window.open(
+          "https://www.instagram.com/maednesss?stkn=cGpjbWRwbHhhcG80",
+          "_blank",
+          "noopener,noreferrer"
+        );
+
+        activateInstagramState();
+
+      }
+    );
+
+
+    /* SCROLL ANIMATION */
 
     let ticking = false;
+
+
+    /*
+      HERO LOGO SMOOTH MOTION
+
+      Il logo si sposta verso destra
+      durante lo scroll.
+
+      Il movimento massimo è stato ridotto
+      per evitare che la scritta superi
+      il bordo dello schermo.
+    */
+
+    let logoTargetX = -3;
+    let logoCurrentX = -3;
+
+    let logoTargetY = 0;
+    let logoCurrentY = 0;
+
+
+    function animateHeroLogo() {
+
+      const ease = 0.12;
+
+      logoCurrentX +=
+        (
+          logoTargetX -
+          logoCurrentX
+        ) * ease;
+
+      logoCurrentY +=
+        (
+          logoTargetY -
+          logoCurrentY
+        ) * ease;
+
+      heroLogo.style.transform =
+        `translate3d(
+          ${logoCurrentX}px,
+          ${logoCurrentY}px,
+          0
+        )`;
+
+      requestAnimationFrame(
+        animateHeroLogo
+      );
+
+    }
+
 
     function updateScroll() {
 
       const scrollTop =
-        window.scrollY || window.pageYOffset;
+        window.scrollY;
 
       const documentHeight =
         document.documentElement.scrollHeight -
         window.innerHeight;
 
-      const progress =
+      const scrollPercent =
         documentHeight > 0
           ? scrollTop / documentHeight
           : 0;
 
-      /* progress */
 
-      scrollBar.style.height =
-        `${progress * 100}%`;
+      /* Progress */
 
-
-      /* hero parallax */
-
-      if (hero) {
-
-        const heroRect =
-          hero.getBoundingClientRect();
-
-        const heroProgress =
-          Math.max(
-            0,
-            Math.min(
-              1,
-              -heroRect.top / hero.offsetHeight
-            )
-          );
-
-        hero.style.backgroundPosition =
-          `center ${50 + heroProgress * 12}%`;
-
-        if (heroLogo) {
-
-          heroLogo.style.transform =
-            `translate3d(
-              ${heroProgress * 18}px,
-              ${heroProgress * 35}px,
-              0
-            )`;
-
-        }
-
-      }
-
-
-      /* micro graphics */
-
-      microElements.forEach((el, index) => {
-
-        const multiplier =
-          index % 2 === 0
-            ? 1
-            : -1;
-
-        const opacity =
-          Math.max(
-            .08,
-            1 - progress * 1.8
-          );
-
-        el.style.opacity = opacity;
-
-        el.style.transform =
-          `translate3d(
-            ${multiplier * progress * 8}px,
-            0,
-            0
-          )`;
-
-      });
+      progress.style.height =
+        `${scrollPercent * 100}%`;
 
 
       /*
-        MOTION SECTION
+        MICRO GRAPHICS FADE
 
-        Lo scroll non muove lo scanner.
+        Le scritte rimangono completamente
+        visibili all'inizio.
 
-        Muove invece leggermente il claim,
-        creando una seconda dimensione di movimento.
+        Durante i primi 420px di scroll
+        diventano gradualmente trasparenti.
+
+        In questo modo restano parte
+        dell'identità visiva dell'hero,
+        ma non si sovrappongono alle
+        sezioni successive.
       */
 
-      if (motion && motionWords) {
-
-        const rect =
-          motion.getBoundingClientRect();
-
-        const viewport =
-          window.innerHeight;
-
-        const visible =
-          Math.max(
-            0,
-            Math.min(
-              1,
-              1 - Math.abs(
-                rect.top + rect.height / 2 - viewport / 2
-              ) / viewport
-            )
-          );
-
-        const scrollX =
-          (progress * -38) +
-          (visible * 18);
-
-        motionWords.style.setProperty(
-          "--motion-scroll-x",
-          `${scrollX}px`
+      const graphicsFade =
+        Math.max(
+          0,
+          1 - (scrollTop / 420)
         );
 
-        /*
-          piccolo feedback sulla sezione.
-          Non tocca l'animazione CSS dello scanner.
-        */
+      graphics.style.opacity =
+        graphicsFade;
 
-        const pressure =
-          1 + visible * .025;
 
-        motionWords.style.scale =
-          pressure;
+      /* Hero parallax */
 
-      }
+      const heroOffset =
+        Math.min(
+          scrollTop * 0.22,
+          120
+        );
 
+      hero.style.backgroundPosition =
+        `center calc(50% + ${heroOffset}px)`;
+
+
+      /*
+        HERO LOGO
+
+        Movimento verso destra.
+
+        Massimo +55px.
+      */
+
+      const logoMove =
+        Math.min(
+          scrollTop * 0.14,
+          55
+        );
+
+      logoTargetX =
+        -3 + logoMove;
+
+
+      /*
+        Leggerissimo movimento verticale.
+      */
+
+      logoTargetY =
+        Math.min(
+          scrollTop * 0.025,
+          10
+        );
+
+
+      /* Motion word */
+
+      const motionMove =
+        scrollTop * -0.18;
+
+      motionWord.style.transform =
+        `translate3d(
+          ${motionMove}px,
+          0,
+          0
+        )`;
 
       ticking = false;
 
@@ -2016,109 +1500,63 @@
         }
 
       },
-      { passive: true }
+      {
+        passive: true
+      }
     );
 
 
-    updateScroll();
+    /* AVVIO ANIMAZIONE LOGO */
+
+    requestAnimationFrame(
+      animateHeroLogo
+    );
 
 
-    /* =========================================================
-       GET IN INTERSECTION
-    ========================================================= */
+    /* FORM */
 
-    const observer =
-      new IntersectionObserver(
-        (entries) => {
-
-          entries.forEach((entry) => {
-
-            if (entry.isIntersecting) {
-
-              registerTitle.classList.add(
-                "visible"
-              );
-
-            }
-
-          });
-
-        },
-        {
-          threshold: .2
-        }
-      );
-
-    observer.observe(registerTitle);
-
-
-    /* =========================================================
-       FORM
-    ========================================================= */
-
-    accessForm.addEventListener(
+    registrationForm.addEventListener(
       "submit",
       (event) => {
 
         event.preventDefault();
 
-        submitButton.disabled = true;
-
         submitButton.textContent =
           "CREATING ACCESS...";
+
+        submitButton.style.background =
+          "#ff0000";
 
         formStatus.textContent =
           "GENERAZIONE ACCESSO IN CORSO";
 
-        setTimeout(() => {
+        setTimeout(
+          () => {
 
-          submitButton.textContent =
-            "ACCESS REQUESTED ✓";
+            submitButton.textContent =
+              "ACCESS REQUESTED ✓";
 
-          formStatus.textContent =
-            "TICKET SYSTEM — COMING NEXT";
+            submitButton.style.background =
+              "#20d878";
 
-        }, 1500);
+            formStatus.textContent =
+              "TICKET SYSTEM — COMING NEXT";
+
+          },
+          1300
+        );
 
       }
     );
 
 
-    /* =========================================================
-       VIDEO AUTOPLAY FALLBACK
-    ========================================================= */
+    /* INITIALIZATION */
 
-    const video =
-      document.querySelector(".video-wrap video");
+    checkInstagramMemory();
 
-    if (video) {
+    updateScroll();
 
-      const playVideo = () => {
-
-        const promise =
-          video.play();
-
-        if (
-          promise !== undefined &&
-          promise.catch
-        ) {
-          promise.catch(() => {});
-        }
-
-      };
-
-      playVideo();
-
-      document.addEventListener(
-        "touchstart",
-        playVideo,
-        {
-          once: true,
-          passive: true
-        }
-      );
-
-    }
+    startRegisterVideo();
 
   </script>
 
