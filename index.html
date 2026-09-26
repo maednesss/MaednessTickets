@@ -448,6 +448,9 @@
       margin: 0;
       justify-self: end;
       align-self: start;
+
+      /* Necessario per posizionare le cornici sugli angoli */
+      position: relative;
     }
 
     .register-video {
@@ -462,6 +465,42 @@
       border-radius: 0;
       -webkit-appearance: none;
       appearance: none;
+    }
+
+    /*
+      CORNICI ROSSE VIDEO
+
+      Solo lato sinistro:
+      - angolo superiore sinistro
+      - angolo inferiore sinistro
+
+      Linee sottili e corte, separate dal bordo
+      del video per mantenere l'effetto grafico.
+    */
+
+    .register-video-box::before,
+    .register-video-box::after {
+      content: "";
+      position: absolute;
+      left: -5px;
+      width: 18px;
+      height: 18px;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* Angolo superiore sinistro */
+    .register-video-box::before {
+      top: -5px;
+      border-left: 1px solid var(--red);
+      border-top: 1px solid var(--red);
+    }
+
+    /* Angolo inferiore sinistro */
+    .register-video-box::after {
+      bottom: -5px;
+      border-left: 1px solid var(--red);
+      border-bottom: 1px solid var(--red);
     }
 
     .last-maed {
