@@ -56,7 +56,6 @@
     }
 
     @media (min-width: 700px) {
-
       body > *:not(.desktop-warning) {
         display: none !important;
       }
@@ -329,7 +328,6 @@
     }
 
     @keyframes scrollChevron {
-
       0% {
         opacity: 0;
         transform: translateY(-9px) rotate(45deg);
@@ -349,9 +347,8 @@
       }
     }
 
-
     /* =========================================================
-       SIGNAL LOST
+       MOTION — SIGNAL LOST / NORMATHERS
        ========================================================= */
 
     .motion {
@@ -360,31 +357,29 @@
       min-height: 220px;
       overflow: hidden;
       display: block;
-      background: var(--black);
+      background: #050505;
       isolation: isolate;
     }
 
-
     /*
-      Fondo scanline molto leggero.
-      È autonomo.
+      Noise molto più leggero.
+      Serve solo a dare una minima texture
+      digitale allo sfondo senza schiarirlo.
     */
 
     .signal-noise {
       position: absolute;
       inset: 0;
       z-index: 1;
-
       pointer-events: none;
-
-      opacity: .09;
+      opacity: .025;
 
       background:
         repeating-linear-gradient(
           to bottom,
           transparent 0px,
-          transparent 3px,
-          rgba(255,255,255,.16) 4px
+          transparent 4px,
+          rgba(255,255,255,.08) 5px
         );
 
       animation:
@@ -392,13 +387,12 @@
     }
 
     @keyframes signalNoise {
-
       0% {
         transform: translateY(0);
       }
 
       25% {
-        transform: translateY(-2px);
+        transform: translateY(-1px);
       }
 
       50% {
@@ -410,230 +404,240 @@
       }
 
       100% {
-        transform: translateY(2px);
+        transform: translateY(-1px);
       }
     }
 
-
     /*
-      Asse orizzontale.
-      Fisso: NON viene modificato dallo scroll.
+      ASSE ORIZZONTALE FISSO
     */
 
     .signal-axis {
       position: absolute;
       z-index: 2;
-
-      left: 16px;
-      right: 16px;
+      left: 0;
+      right: 0;
       top: 50%;
-
       height: 1px;
-
-      background:
-        rgba(255,255,255,.14);
-
-      transform:
-        translateY(-50%);
+      background: rgba(255,255,255,.12);
+      transform: translateY(-50%);
+      pointer-events: none;
     }
 
+    .signal-axis::before,
+    .signal-axis::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 5px;
+      height: 5px;
+      border: 1px solid rgba(255,255,255,.4);
+      transform: translateY(-50%);
+    }
+
+    .signal-axis::before {
+      left: 16px;
+    }
+
+    .signal-axis::after {
+      right: 16px;
+    }
 
     /*
-      NORMATHERS.
-      Questo è l'unico elemento della sezione
-      che reagisce allo scroll.
+      NORMATHERS
+
+      Lo scroll interviene solo qui.
     */
 
     .signal-word {
-      position: absolute;
-      z-index: 5;
+      --signal-x: 0px;
+      --signal-y: 0px;
 
+      position: absolute;
+      z-index: 4;
       left: 50%;
       top: 50%;
 
-      width: max-content;
+      white-space: nowrap;
+
+      font-family: "Anton", sans-serif;
+      font-size: clamp(72px, 22vw, 112px);
+      line-height: .78;
+      letter-spacing: -.025em;
+
+      color: #fff;
 
       transform:
         translate3d(
-          calc(-50% + var(--signal-x, 0px)),
-          calc(-50% + var(--signal-y, 0px)),
+          calc(-50% + var(--signal-x)),
+          calc(-50% + var(--signal-y)),
           0
         );
 
-      font-family: "Anton", sans-serif;
-
-      font-size:
-        clamp(43px, 13.5vw, 62px);
-
-      line-height: .82;
-
-      letter-spacing: -.025em;
-
-      color: var(--white);
-
-      white-space: nowrap;
-
       will-change: transform;
+
+      /*
+        Glitch autonomo.
+      */
+
+      animation:
+        signalWordGlitch 2.8s steps(1) infinite;
     }
 
-
     /*
-      GHOST ROSSO.
-      Loop autonomo.
-      NON dipende dallo scroll.
+      Glitch rosso.
     */
 
     .signal-word::before {
-      content: attr(data-text);
+      content: "NORMATHERS";
 
       position: absolute;
       inset: 0;
 
       color: var(--red);
 
-      transform:
-        translate3d(-2px, 0, 0);
+      transform: translate3d(
+        2px,
+        0,
+        0
+      );
 
-      clip-path:
-        inset(0 0 58% 0);
+      clip-path: inset(0 0 58% 0);
 
-      opacity: 0;
+      opacity: .75;
 
       animation:
-        glitchRed 3.1s steps(1) infinite;
+        signalGlitchRed 1.9s steps(1) infinite;
     }
 
-
     /*
-      GHOST BIANCO.
-      Loop autonomo.
+      Glitch bianco.
     */
 
     .signal-word::after {
-      content: attr(data-text);
+      content: "NORMATHERS";
 
       position: absolute;
       inset: 0;
 
-      color: var(--white);
+      color: #fff;
 
-      transform:
-        translate3d(2px, 0, 0);
+      transform: translate3d(
+        -2px,
+        0,
+        0
+      );
 
-      clip-path:
-        inset(62% 0 0 0);
+      clip-path: inset(62% 0 0 0);
 
-      opacity: 0;
+      opacity: .7;
 
       animation:
-        glitchWhite 3.1s steps(1) infinite;
+        signalGlitchWhite 2.35s steps(1) infinite;
     }
 
-
-    @keyframes glitchRed {
-
-      0%,
-      71%,
-      100% {
-        opacity: 0;
-        transform:
-          translate3d(-2px,0,0);
-      }
-
-      72% {
-        opacity: .95;
-        transform:
-          translate3d(-7px,-1px,0);
-      }
-
-      73% {
-        opacity: .25;
-        transform:
-          translate3d(5px,1px,0);
-      }
-
-      74% {
-        opacity: .9;
-        transform:
-          translate3d(-3px,0,0);
-      }
-
-      75% {
-        opacity: 0;
-      }
-
-      88% {
-        opacity: 0;
-      }
-
-      89% {
-        opacity: .7;
-        transform:
-          translate3d(-4px,0,0);
-      }
-
-      90% {
-        opacity: 0;
-      }
-    }
-
-
-    @keyframes glitchWhite {
-
+    @keyframes signalWordGlitch {
       0%,
       72%,
       100% {
-        opacity: 0;
-        transform:
-          translate3d(2px,0,0);
+        filter: none;
       }
 
       73% {
-        opacity: .9;
-        transform:
-          translate3d(6px,1px,0);
+        filter: translateX(0);
       }
 
       74% {
-        opacity: .2;
         transform:
-          translate3d(-5px,0,0);
+          translate3d(
+            calc(-50% + var(--signal-x) + 3px),
+            calc(-50% + var(--signal-y)),
+            0
+          );
       }
 
       75% {
-        opacity: .8;
         transform:
-          translate3d(3px,-1px,0);
+          translate3d(
+            calc(-50% + var(--signal-x) - 2px),
+            calc(-50% + var(--signal-y)),
+            0
+          );
       }
 
       76% {
-        opacity: 0;
-      }
-
-      89% {
-        opacity: 0;
-      }
-
-      90% {
-        opacity: .6;
         transform:
-          translate3d(4px,0,0);
-      }
-
-      91% {
-        opacity: 0;
+          translate3d(
+            calc(-50% + var(--signal-x)),
+            calc(-50% + var(--signal-y)),
+            0
+          );
       }
     }
 
+    @keyframes signalGlitchRed {
+      0%,
+      64%,
+      100% {
+        opacity: 0;
+        clip-path: inset(0 100% 100% 0);
+      }
+
+      65% {
+        opacity: .85;
+        clip-path: inset(5% 0 67% 0);
+      }
+
+      67% {
+        opacity: .45;
+        clip-path: inset(40% 0 30% 0);
+      }
+
+      69% {
+        opacity: .8;
+        clip-path: inset(12% 0 72% 0);
+      }
+
+      71% {
+        opacity: 0;
+        clip-path: inset(0 100% 100% 0);
+      }
+    }
+
+    @keyframes signalGlitchWhite {
+      0%,
+      47%,
+      100% {
+        opacity: 0;
+        clip-path: inset(100% 0 0 0);
+      }
+
+      48% {
+        opacity: .7;
+        clip-path: inset(70% 0 5% 0);
+      }
+
+      50% {
+        opacity: .35;
+        clip-path: inset(42% 0 40% 0);
+      }
+
+      52% {
+        opacity: .75;
+        clip-path: inset(76% 0 8% 0);
+      }
+
+      54% {
+        opacity: 0;
+        clip-path: inset(100% 0 0 0);
+      }
+    }
 
     /*
-      SCANNER VERTICALE.
+      SCANNER VERTICALE
 
-      Questo è completamente indipendente
-      dallo scroll.
-
-      Si muove sempre da sinistra
-      verso destra in loop.
+      Completamente autonomo.
+      Lo scroll NON interviene.
     */
 
     .signal-scan {
@@ -642,7 +646,6 @@
 
       top: 0;
       bottom: 0;
-
       left: -32px;
 
       width: 64px;
@@ -668,12 +671,6 @@
         signalScanVertical 4.2s linear infinite;
     }
 
-
-    /*
-      Il cuore dello scanner:
-      una linea rossa sottilissima.
-    */
-
     .signal-scan::after {
       content: "";
 
@@ -681,13 +678,11 @@
 
       top: 0;
       bottom: 0;
-
       left: 50%;
 
       width: 1px;
 
-      transform:
-        translateX(-50%);
+      transform: translateX(-50%);
 
       background: var(--red);
 
@@ -695,9 +690,7 @@
         0 0 9px rgba(255,0,0,.8);
     }
 
-
     @keyframes signalScanVertical {
-
       0% {
         transform: translateX(-35px);
         opacity: 0;
@@ -712,142 +705,120 @@
       }
 
       100% {
-        transform:
-          translateX(calc(100vw + 35px));
-
+        transform: translateX(calc(100vw + 35px));
         opacity: 0;
       }
     }
 
-
     /*
-      Piccolo flash verticale.
-      Anche questo è autonomo.
+      FLASH SCANNER SECONDARIO
+      Anch'esso completamente autonomo.
     */
 
     .signal-scan-flash {
       position: absolute;
-      z-index: 4;
+      z-index: 5;
 
       top: 0;
       bottom: 0;
+      left: -1px;
 
-      left: 0;
-
-      width: 1px;
+      width: 2px;
 
       background: var(--red);
 
       opacity: 0;
 
-      animation:
-        scannerFlash 4.2s linear infinite;
-
       pointer-events: none;
+
+      box-shadow:
+        0 0 12px rgba(255,0,0,.7);
+
+      animation:
+        signalFlash 3.6s linear infinite;
     }
 
-    @keyframes scannerFlash {
-
-      0% {
-        left: -1px;
+    @keyframes signalFlash {
+      0%,
+      30% {
+        transform: translateX(-10px);
         opacity: 0;
       }
 
-      7% {
-        opacity: .5;
+      38% {
+        opacity: .85;
       }
 
-      15% {
+      40% {
+        opacity: 0;
+      }
+
+      72% {
+        transform: translateX(100vw);
         opacity: 0;
       }
 
       100% {
-        left: 100%;
+        transform: translateX(100vw);
         opacity: 0;
       }
     }
 
-
     /*
-      Testi minimi.
+      MICRO STATUS
     */
 
     .signal-status {
       position: absolute;
-      z-index: 8;
+      z-index: 7;
 
+      top: 18px;
       left: 16px;
-      top: 15px;
 
-      font-size: 6px;
+      font-size: 7px;
       font-weight: 900;
+      letter-spacing: .2em;
 
-      letter-spacing: .24em;
+      color: rgba(255,255,255,.65);
 
-      color:
-        rgba(255,255,255,.5);
+      pointer-events: none;
     }
-
-    .signal-status span {
-      color: var(--red);
-    }
-
-
-    .signal-index {
-      position: absolute;
-      z-index: 8;
-
-      right: 16px;
-      bottom: 15px;
-
-      font-family: "Anton", sans-serif;
-
-      font-size: 12px;
-
-      line-height: 1;
-
-      color:
-        rgba(255,255,255,.35);
-    }
-
-
-    /*
-      Meta sotto NORMATHERS.
-      Anche questo si muove leggermente
-      con lo scroll insieme alla parola.
-    */
 
     .signal-meta {
       position: absolute;
-      z-index: 8;
+      z-index: 7;
 
-      left: 50%;
-      top: calc(50% + 34px);
+      right: 16px;
+      bottom: 17px;
 
-      transform:
-        translate3d(
-          calc(-50% + var(--meta-x, 0px)),
-          0,
-          0
-        );
-
-      font-size: 5px;
+      font-size: 7px;
       font-weight: 900;
+      letter-spacing: .18em;
 
-      letter-spacing: .24em;
+      color: rgba(255,255,255,.55);
 
-      color:
-        rgba(255,255,255,.38);
-
-      white-space: nowrap;
+      pointer-events: none;
 
       will-change: transform;
     }
 
+    .signal-index {
+      position: absolute;
+      z-index: 7;
 
-    /* =========================================================
-       REGISTRATION
-       ========================================================= */
+      left: 16px;
+      bottom: 17px;
+
+      font-family: "Anton", sans-serif;
+      font-size: 18px;
+      line-height: 1;
+
+      color: rgba(255,255,255,.5);
+
+      pointer-events: none;
+    }
+
+    /* REGISTRATION */
 
     .registration {
       position: relative;
@@ -904,11 +875,11 @@
     }
 
     .register-title.get-in-visible {
-      animation: getInReveal .42s cubic-bezier(.22,.75,.25,1) forwards;
+      animation:
+        getInReveal .42s cubic-bezier(.22,.75,.25,1) forwards;
     }
 
     @keyframes getInReveal {
-
       0% {
         opacity: 0;
         transform: translate3d(0, 18px, 0);
@@ -927,7 +898,6 @@
       margin: 0;
       justify-self: end;
       align-self: start;
-
       position: relative;
     }
 
@@ -1101,7 +1071,6 @@
     }
 
     @keyframes instaClick {
-
       0% {
         transform: scale(1);
       }
@@ -1120,7 +1089,6 @@
     }
 
     @keyframes iconPop {
-
       0% {
         transform: rotate(0) scale(1);
       }
@@ -1208,7 +1176,6 @@
     }
 
     @keyframes rotateImage {
-
       from {
         transform: rotate(0deg);
       }
@@ -1231,15 +1198,10 @@
 
 <body>
 
-  <!-- DESKTOP WARNING -->
-
   <div class="desktop-warning">
     MÆDNESS®<br>
     MOBILE EXPERIENCE ONLY
   </div>
-
-
-  <!-- TOPBAR -->
 
   <header class="topbar">
 
@@ -1253,13 +1215,9 @@
 
   </header>
 
-
-  <!-- SCROLL PROGRESS -->
-
   <div class="scroll-progress">
     <span id="progress"></span>
   </div>
-
 
   <!-- FIXED MICRO GRAPHICS -->
 
@@ -1282,7 +1240,6 @@
     </div>
 
   </div>
-
 
   <!-- HERO -->
 
@@ -1313,7 +1270,6 @@
 
     </div>
 
-
     <div class="scroll-label" aria-hidden="true">
 
       <span class="scroll-chevron"></span>
@@ -1325,76 +1281,35 @@
 
   </section>
 
+  <!-- MOTION -->
 
-  <!-- =========================================================
-       SIGNAL LOST
-       ========================================================= -->
+  <section class="motion">
 
-  <section class="motion" id="djTransition">
+    <div class="signal-noise"></div>
 
-    <!-- subtle autonomous scan noise -->
+    <div class="signal-axis"></div>
 
-    <div
-      class="signal-noise"
-      aria-hidden="true"
-    ></div>
-
-
-    <!-- fixed axis -->
-
-    <div
-      class="signal-axis"
-      aria-hidden="true"
-    ></div>
-
-
-    <!-- autonomous vertical scanner -->
-
-    <div
-      class="signal-scan"
-      aria-hidden="true"
-    ></div>
-
-    <div
-      class="signal-scan-flash"
-      aria-hidden="true"
-    ></div>
-
-
-    <!-- small label -->
-
-    <div class="signal-status">
-      SIGNAL <span>/ DJ 001</span>
-    </div>
-
-
-    <!-- DJ -->
-
-    <div
-      class="signal-word"
-      id="signalWord"
-      data-text="NORMATHERS"
-    >
+    <div class="signal-word" id="signalWord">
       NORMATHERS
     </div>
 
+    <div class="signal-scan"></div>
 
-    <!-- small information -->
+    <div class="signal-scan-flash"></div>
 
-    <div
-      class="signal-meta"
-      id="signalMeta"
-    >
-      ROTAROTT / FOGGIA / 18.10.2026
+    <div class="signal-status">
+      SIGNAL / DJ 001
     </div>
-
 
     <div class="signal-index">
       01
     </div>
 
-  </section>
+    <div class="signal-meta" id="signalMeta">
+      ROTAROTT / FOGGIA / 18.10.2026
+    </div>
 
+  </section>
 
   <!-- REGISTRATION -->
 
@@ -1412,7 +1327,6 @@
 
     </div>
 
-
     <!-- GET IN + VIDEO -->
 
     <div class="register-heading">
@@ -1421,7 +1335,6 @@
         GET<br>
         IN.
       </h2>
-
 
       <div class="register-video-box">
 
@@ -1445,7 +1358,6 @@
 
         </video>
 
-
         <div class="last-maed">
           LAST MÆD
         </div>
@@ -1454,9 +1366,7 @@
 
     </div>
 
-
     <form id="registrationForm">
-
 
       <div class="form-group">
 
@@ -1474,7 +1384,6 @@
 
       </div>
 
-
       <div class="form-group">
 
         <label for="surname">
@@ -1490,7 +1399,6 @@
         />
 
       </div>
-
 
       <div class="form-group">
 
@@ -1508,7 +1416,6 @@
         />
 
       </div>
-
 
       <!-- INSTAGRAM -->
 
@@ -1565,7 +1472,6 @@
 
         </button>
 
-
         <div
           class="instagram-status"
           id="instagramStatus"
@@ -1574,7 +1480,6 @@
         </div>
 
       </div>
-
 
       <!-- SUBMIT -->
 
@@ -1586,15 +1491,12 @@
         BLOCCA IL TUO POSTO
       </button>
 
-
       <div
         class="form-status"
         id="formStatus"
       ></div>
 
-
     </form>
-
 
     <!-- BOTTOM ROTAROTT + HERO2 -->
 
@@ -1612,7 +1514,6 @@
 
     </div>
 
-
     <div class="registration-footer">
 
       <span>
@@ -1625,16 +1526,11 @@
 
     </div>
 
-
   </section>
-
 
   <script>
 
-
-    /* =========================================================
-       ELEMENTS
-       ========================================================= */
+    /* ELEMENTS */
 
     const progress =
       document.getElementById("progress");
@@ -1645,17 +1541,14 @@
     const heroLogo =
       document.getElementById("heroLogo");
 
-    const graphics =
-      document.getElementById("graphics");
-
-    const djTransition =
-      document.getElementById("djTransition");
-
     const signalWord =
       document.getElementById("signalWord");
 
     const signalMeta =
       document.getElementById("signalMeta");
+
+    const graphics =
+      document.getElementById("graphics");
 
     const instagramButton =
       document.getElementById("instagramButton");
@@ -1682,9 +1575,7 @@
       document.querySelector(".register-title");
 
 
-    /* =========================================================
-       GET IN ENTRANCE ANIMATION
-       ========================================================= */
+    /* GET IN ENTRANCE ANIMATION */
 
     if (registerTitle) {
 
@@ -1721,9 +1612,7 @@
     }
 
 
-    /* =========================================================
-       VIDEO AUTOPLAY
-       ========================================================= */
+    /* VIDEO AUTOPLAY */
 
     function startRegisterVideo() {
 
@@ -1813,9 +1702,7 @@
     );
 
 
-    /* =========================================================
-       INSTAGRAM MEMORY
-       ========================================================= */
+    /* INSTAGRAM MEMORY */
 
     const INSTAGRAM_MEMORY_KEY =
       "maedness_instagram_clicked";
@@ -1858,9 +1745,7 @@
     }
 
 
-    /* =========================================================
-       INSTAGRAM CLICK
-       ========================================================= */
+    /* INSTAGRAM CLICK */
 
     instagramButton.addEventListener(
       "click",
@@ -1883,15 +1768,16 @@
     );
 
 
-    /* =========================================================
-       SCROLL ANIMATION
-       ========================================================= */
+    /* SCROLL ANIMATION */
 
     let ticking = false;
 
 
     /*
-      HERO
+      HERO LOGO SMOOTH MOTION
+
+      Il logo si sposta verso destra
+      durante lo scroll.
     */
 
     let logoTargetX = -3;
@@ -1902,14 +1788,17 @@
 
 
     /*
-      SIGNAL / NORMATHERS
+      SIGNAL LOST
 
-      IMPORTANT:
-      Questi valori controllano SOLO
-      NORMATHERS e il piccolo meta.
+      Lo scroll interviene SOLO
+      su NORMATHERS e sulla meta.
 
-      Lo scanner NON viene mai toccato
-      dal codice di scroll.
+      NON esiste nessun riferimento a:
+      .signal-scan
+      .signal-scan-flash
+
+      Lo scanner continua quindi
+      esclusivamente con CSS animation.
     */
 
     let signalTargetX = 0;
@@ -1922,24 +1811,21 @@
     let metaCurrentX = 0;
 
 
-    function animateScene() {
+    function animateHeroLogo() {
 
-      /* =====================================================
-         HERO
-         ===================================================== */
+      const ease = 0.12;
 
       logoCurrentX +=
         (
           logoTargetX -
           logoCurrentX
-        ) * .12;
+        ) * ease;
 
       logoCurrentY +=
         (
           logoTargetY -
           logoCurrentY
-        ) * .12;
-
+        ) * ease;
 
       heroLogo.style.transform =
         `translate3d(
@@ -1948,10 +1834,14 @@
           0
         )`;
 
+      requestAnimationFrame(
+        animateHeroLogo
+      );
 
-      /* =====================================================
-         NORMATHERS
-         ===================================================== */
+    }
+
+
+    function animateSignal() {
 
       signalCurrentX +=
         (
@@ -1965,37 +1855,42 @@
           signalCurrentY
         ) * .075;
 
-
-      signalWord.style.setProperty(
-        "--signal-x",
-        `${signalCurrentX}px`
-      );
-
-      signalWord.style.setProperty(
-        "--signal-y",
-        `${signalCurrentY}px`
-      );
-
-
-      /* =====================================================
-         META
-         ===================================================== */
-
       metaCurrentX +=
         (
           metaTargetX -
           metaCurrentX
-        ) * .08;
+        ) * .075;
 
 
-      signalMeta.style.setProperty(
-        "--meta-x",
-        `${metaCurrentX}px`
-      );
+      if (signalWord) {
+
+        signalWord.style.setProperty(
+          "--signal-x",
+          `${signalCurrentX}px`
+        );
+
+        signalWord.style.setProperty(
+          "--signal-y",
+          `${signalCurrentY}px`
+        );
+
+      }
+
+
+      if (signalMeta) {
+
+        signalMeta.style.transform =
+          `translate3d(
+            ${metaCurrentX}px,
+            0,
+            0
+          )`;
+
+      }
 
 
       requestAnimationFrame(
-        animateScene
+        animateSignal
       );
 
     }
@@ -2006,11 +1901,9 @@
       const scrollTop =
         window.scrollY;
 
-
       const documentHeight =
         document.documentElement.scrollHeight -
         window.innerHeight;
-
 
       const scrollPercent =
         documentHeight > 0
@@ -2018,17 +1911,15 @@
           : 0;
 
 
-      /* =====================================================
-         PROGRESS
-         ===================================================== */
+      /* Progress */
 
       progress.style.height =
         `${scrollPercent * 100}%`;
 
 
-      /* =====================================================
-         FIXED GRAPHICS
-         ===================================================== */
+      /*
+        MICRO GRAPHICS FADE
+      */
 
       const graphicsFade =
         Math.max(
@@ -2040,13 +1931,11 @@
         graphicsFade;
 
 
-      /* =====================================================
-         HERO
-         ===================================================== */
+      /* Hero parallax */
 
       const heroOffset =
         Math.min(
-          scrollTop * .22,
+          scrollTop * 0.22,
           120
         );
 
@@ -2054,9 +1943,17 @@
         `center calc(50% + ${heroOffset}px)`;
 
 
+      /*
+        HERO LOGO
+
+        Movimento verso destra.
+
+        Massimo +55px.
+      */
+
       const logoMove =
         Math.min(
-          scrollTop * .14,
+          scrollTop * 0.14,
           55
         );
 
@@ -2064,88 +1961,58 @@
         -3 + logoMove;
 
 
+      /*
+        Leggerissimo movimento verticale.
+      */
+
       logoTargetY =
         Math.min(
-          scrollTop * .025,
+          scrollTop * 0.025,
           10
         );
 
 
-      /* =====================================================
-         SIGNAL LOST — SOLO NORMATHERS
-         ===================================================== */
+      /*
+        SIGNAL LOST
 
-      if (djTransition) {
+        La progressione viene calcolata
+        rispetto alla sezione transition.
 
-        const sectionTop =
-          djTransition.offsetTop;
+        NORMATHERS reagisce allo scroll.
+        Lo scanner NON viene toccato.
+      */
 
-        const sectionHeight =
-          djTransition.offsetHeight;
+      const motion =
+        document.querySelector(".motion");
 
+      if (motion) {
 
-        const raw =
-          (
-            scrollTop -
-            sectionTop +
-            window.innerHeight * .38
-          ) /
-          (
-            sectionHeight +
-            window.innerHeight * .45
-          );
+        const rect =
+          motion.getBoundingClientRect();
 
+        const viewportHeight =
+          window.innerHeight;
 
-        const p =
+        const motionProgress =
           Math.max(
             0,
             Math.min(
               1,
-              raw
+              (viewportHeight - rect.top) /
+              (viewportHeight + rect.height)
             )
           );
 
-
-        /*
-          NORMATHERS scivola leggermente
-          durante lo scroll.
-        */
-
         signalTargetX =
-          (p - .5) * 42;
-
-
-        /*
-          Movimento verticale molto piccolo.
-        */
+          (motionProgress - .5) * 42;
 
         signalTargetY =
-          (p - .5) * -8;
-
-
-        /*
-          Il meta si muove in direzione opposta.
-        */
+          (motionProgress - .5) * -8;
 
         metaTargetX =
-          (.5 - p) * 24;
+          (.5 - motionProgress) * 24;
 
       }
-
-
-      /*
-        NOTA:
-
-        NON esiste nessun riferimento a:
-
-        .signal-scan
-        .signal-scan-flash
-
-        qui dentro.
-
-        Lo scanner continua quindi
-        esclusivamente con CSS animation.
-      */
 
 
       ticking = false;
@@ -2174,18 +2041,21 @@
     );
 
 
-    /* =========================================================
-       START
-       ========================================================= */
+    /* AVVIO ANIMAZIONE LOGO */
 
     requestAnimationFrame(
-      animateScene
+      animateHeroLogo
     );
 
 
-    /* =========================================================
-       FORM
-       ========================================================= */
+    /* AVVIO SIGNAL LOST */
+
+    requestAnimationFrame(
+      animateSignal
+    );
+
+
+    /* FORM */
 
     registrationForm.addEventListener(
       "submit",
@@ -2201,7 +2071,6 @@
 
         formStatus.textContent =
           "GENERAZIONE ACCESSO IN CORSO";
-
 
         setTimeout(
           () => {
@@ -2223,9 +2092,7 @@
     );
 
 
-    /* =========================================================
-       INITIALIZATION
-       ========================================================= */
+    /* INITIALIZATION */
 
     checkInstagramMemory();
 
