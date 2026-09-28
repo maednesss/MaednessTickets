@@ -368,7 +368,7 @@
 
 
     /* =========================================================
-       RED SLICE TRANSITION
+       SIGNAL LOST TRANSITION
        ========================================================= */
 
     .motion {
@@ -377,70 +377,369 @@
       min-height: 220px;
       overflow: hidden;
       background: var(--black);
-      display: block;
       isolation: isolate;
     }
 
 
     /*
-      Grande NORMATHERS fantasma.
-      Non deve essere letto come titolo:
-      serve solo a dare profondità alla scena.
+      Fondo quasi completamente nero.
+      Il segnale deve sembrare "contenuto" nello spazio.
     */
 
-    .motion-ghost {
+    .signal-noise {
       position: absolute;
+      inset: 0;
       z-index: 1;
 
-      left: -7%;
+      pointer-events: none;
+
+      opacity: .11;
+
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0px,
+          transparent 2px,
+          rgba(255,255,255,.18) 3px,
+          transparent 4px
+        );
+
+      animation:
+        noiseShift .32s steps(2) infinite;
+    }
+
+    @keyframes noiseShift {
+
+      0% {
+        transform: translateY(0);
+      }
+
+      25% {
+        transform: translateY(-2px);
+      }
+
+      50% {
+        transform: translateY(1px);
+      }
+
+      75% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(2px);
+      }
+
+    }
+
+
+    /*
+      Una linea centrale.
+      Funziona come asse del segnale.
+    */
+
+    .signal-axis {
+      position: absolute;
+      z-index: 2;
+
+      left: 16px;
+      right: 16px;
       top: 50%;
 
+      height: 1px;
+
+      background:
+        rgba(255,255,255,.13);
+
       transform:
-        translateY(-50%)
-        rotate(-7deg);
+        translateY(-50%);
+    }
+
+
+    /*
+      NORMATHERS.
+      Non enorme.
+      Il glitch è costruito direttamente sulla parola.
+    */
+
+    .signal-word {
+      position: absolute;
+      z-index: 5;
+
+      left: 50%;
+      top: 50%;
+
+      width: max-content;
+
+      transform:
+        translate3d(
+          calc(-50% + var(--signal-x, 0px)),
+          calc(-50% + var(--signal-y, 0px)),
+          0
+        );
 
       font-family: "Anton", sans-serif;
-      font-size: 34vw;
-      line-height: .72;
-      letter-spacing: -.035em;
+
+      font-size:
+        clamp(43px, 13.5vw, 62px);
+
+      line-height: .82;
+
+      letter-spacing: -.025em;
+
+      color: var(--white);
 
       white-space: nowrap;
-
-      color: transparent;
-
-      -webkit-text-stroke:
-        1px rgba(255,255,255,.11);
-
-      opacity: .7;
 
       will-change: transform;
     }
 
 
     /*
-      Piccola informazione editoriale.
+      Copia ROSSA.
+      Compare solo a scatti.
     */
 
-    .motion-label {
+    .signal-word::before {
+      content: attr(data-text);
+
+      position: absolute;
+      inset: 0;
+
+      color: var(--red);
+
+      transform:
+        translate3d(
+          -2px,
+          0,
+          0
+        );
+
+      clip-path:
+        inset(
+          0 0 58% 0
+        );
+
+      opacity: 0;
+
+      animation:
+        glitchRed 3.1s steps(1) infinite;
+    }
+
+
+    /*
+      Copia BIANCA spostata.
+      Taglia la parte bassa.
+    */
+
+    .signal-word::after {
+      content: attr(data-text);
+
+      position: absolute;
+      inset: 0;
+
+      color: var(--white);
+
+      transform:
+        translate3d(
+          2px,
+          0,
+          0
+        );
+
+      clip-path:
+        inset(
+          62% 0 0 0
+        );
+
+      opacity: 0;
+
+      animation:
+        glitchWhite 3.1s steps(1) infinite;
+    }
+
+
+    @keyframes glitchRed {
+
+      0%,
+      71%,
+      100% {
+        opacity: 0;
+        transform:
+          translate3d(-2px,0,0);
+      }
+
+      72% {
+        opacity: .95;
+        transform:
+          translate3d(-7px,-1px,0);
+      }
+
+      73% {
+        opacity: .25;
+        transform:
+          translate3d(5px,1px,0);
+      }
+
+      74% {
+        opacity: .9;
+        transform:
+          translate3d(-3px,0,0);
+      }
+
+      75% {
+        opacity: 0;
+      }
+
+      88% {
+        opacity: 0;
+      }
+
+      89% {
+        opacity: .7;
+        transform:
+          translate3d(-4px,0,0);
+      }
+
+      90% {
+        opacity: 0;
+      }
+
+    }
+
+
+    @keyframes glitchWhite {
+
+      0%,
+      72%,
+      100% {
+        opacity: 0;
+        transform:
+          translate3d(2px,0,0);
+      }
+
+      73% {
+        opacity: .9;
+        transform:
+          translate3d(6px,1px,0);
+      }
+
+      74% {
+        opacity: .2;
+        transform:
+          translate3d(-5px,0,0);
+      }
+
+      75% {
+        opacity: .8;
+        transform:
+          translate3d(3px,-1px,0);
+      }
+
+      76% {
+        opacity: 0;
+      }
+
+      89% {
+        opacity: 0;
+      }
+
+      90% {
+        opacity: .6;
+        transform:
+          translate3d(4px,0,0);
+      }
+
+      91% {
+        opacity: 0;
+      }
+
+    }
+
+
+    /*
+      SCAN.
+      Una fascia rossa passa sul segnale.
+    */
+
+    .signal-scan {
+      position: absolute;
+      z-index: 6;
+
+      left: 0;
+      width: 100%;
+      height: 18px;
+
+      top: -30px;
+
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          to bottom,
+          transparent 0%,
+          rgba(255,0,0,.05) 20%,
+          rgba(255,0,0,.95) 48%,
+          rgba(255,0,0,.22) 58%,
+          transparent 100%
+        );
+
+      mix-blend-mode: screen;
+
+      animation:
+        signalScan 3.8s linear infinite;
+    }
+
+    @keyframes signalScan {
+
+      0% {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+
+      8% {
+        opacity: 1;
+      }
+
+      82% {
+        opacity: .9;
+      }
+
+      100% {
+        transform: translateY(270px);
+        opacity: 0;
+      }
+
+    }
+
+
+    /*
+      Piccolo testo.
+      Non compete con NORMATHERS.
+    */
+
+    .signal-status {
       position: absolute;
       z-index: 8;
 
-      top: 15px;
       left: 16px;
+      top: 15px;
 
       font-size: 6px;
       font-weight: 900;
+
       letter-spacing: .24em;
 
-      color: rgba(255,255,255,.55);
+      color:
+        rgba(255,255,255,.5);
     }
 
-    .motion-label span {
+    .signal-status span {
       color: var(--red);
     }
 
 
-    .motion-number {
+    .signal-index {
       position: absolute;
       z-index: 8;
 
@@ -448,211 +747,41 @@
       bottom: 15px;
 
       font-family: "Anton", sans-serif;
+
       font-size: 12px;
+
       line-height: 1;
 
-      color: rgba(255,255,255,.35);
+      color:
+        rgba(255,255,255,.35);
     }
 
 
     /*
-      La LAMA.
-      È il vero elemento protagonista.
+      Piccola scritta sotto il DJ.
     */
 
-    .red-slice {
-      position: absolute;
-      z-index: 5;
-
-      left: -24%;
-      top: 50%;
-
-      width: 148%;
-      height: 48px;
-
-      transform:
-        translate3d(0,-50%,0)
-        rotate(-8deg);
-
-      background: var(--red);
-
-      box-shadow:
-        0 0 28px rgba(255,0,0,.12);
-
-      overflow: hidden;
-
-      will-change: transform;
-    }
-
-
-    /*
-      Bordo nero interno.
-      Rende la lama più grafica.
-    */
-
-    .red-slice::before {
-      content: "";
-
-      position: absolute;
-
-      left: 0;
-      right: 0;
-      top: 4px;
-
-      height: 1px;
-
-      background: rgba(0,0,0,.75);
-    }
-
-    .red-slice::after {
-      content: "";
-
-      position: absolute;
-
-      left: 0;
-      right: 0;
-      bottom: 4px;
-
-      height: 1px;
-
-      background: rgba(0,0,0,.75);
-    }
-
-
-    /*
-      Il testo dentro la lama.
-    */
-
-    .slice-track {
-      position: absolute;
-
-      top: 50%;
-      left: 0;
-
-      transform:
-        translateY(-50%);
-
-      display: flex;
-      align-items: center;
-
-      white-space: nowrap;
-
-      font-family: "Anton", sans-serif;
-      font-size: 19px;
-      line-height: 1;
-
-      letter-spacing: .025em;
-
-      color: var(--black);
-
-      animation:
-        sliceMove 8s linear infinite;
-    }
-
-    .slice-track span {
-      display: inline-block;
-      padding-right: 34px;
-    }
-
-    @keyframes sliceMove {
-
-      from {
-        transform:
-          translate3d(0,-50%,0);
-      }
-
-      to {
-        transform:
-          translate3d(-33.333%,-50%,0);
-      }
-
-    }
-
-
-    /*
-      NORMATHERS vero.
-      Più piccolo, leggermente fuori asse.
-    */
-
-    .dj-name {
-      position: absolute;
-      z-index: 7;
-
-      left: 16px;
-      top: 50%;
-
-      transform:
-        translate3d(0,-50%,0);
-
-      font-family: "Anton", sans-serif;
-
-      font-size:
-        clamp(40px, 12.5vw, 58px);
-
-      line-height: .8;
-
-      letter-spacing: -.025em;
-
-      white-space: nowrap;
-
-      color: var(--white);
-
-      /*
-        Piccolo offset rosso:
-        non è un glow, è stampa disallineata.
-      */
-
-      text-shadow:
-        2px 0 var(--red);
-
-      will-change: transform;
-    }
-
-
-    /*
-      Una linea bianca molto sottile.
-      È l'unico altro gesto grafico.
-    */
-
-    .motion-line {
-      position: absolute;
-      z-index: 4;
-
-      left: 16px;
-      right: 16px;
-
-      top: 50%;
-
-      height: 1px;
-
-      background:
-        rgba(255,255,255,.18);
-
-      transform:
-        translateY(-50%);
-
-      transform-origin: center;
-
-      will-change: transform;
-    }
-
-
-    /*
-      Piccolo testo sotto NORMATHERS.
-    */
-
-    .dj-meta {
+    .signal-meta {
       position: absolute;
       z-index: 8;
 
-      left: 17px;
-      top: calc(50% + 32px);
+      left: 50%;
+      top: calc(50% + 34px);
+
+      transform:
+        translate3d(
+          calc(-50% + var(--meta-x, 0px)),
+          0,
+          0
+        );
 
       font-size: 5px;
       font-weight: 900;
-      letter-spacing: .23em;
 
-      color: rgba(255,255,255,.42);
+      letter-spacing: .24em;
+
+      color:
+        rgba(255,255,255,.38);
 
       white-space: nowrap;
 
@@ -661,42 +790,66 @@
 
 
     /*
-      Punto luminoso che corre sulla linea.
+      Un flash rosso brevissimo che
+      appare durante i glitch.
     */
 
-    .motion-line::after {
-      content: "";
-
+    .signal-flash {
       position: absolute;
+      z-index: 3;
 
       left: 0;
+      right: 0;
+
       top: 50%;
 
-      width: 3px;
-      height: 3px;
-
-      border-radius: 50%;
+      height: 1px;
 
       background: var(--red);
 
-      box-shadow:
-        0 0 8px rgba(255,0,0,.9);
-
       transform:
-        translateY(-50%);
+        scaleX(0);
+
+      transform-origin: left center;
 
       animation:
-        lineDot 3.4s linear infinite;
+        signalFlash 3.1s steps(1) infinite;
+
+      opacity: .7;
     }
 
-    @keyframes lineDot {
+    @keyframes signalFlash {
 
-      0% {
-        left: 0%;
+      0%,
+      69%,
+      100% {
+        transform:
+          scaleX(0);
       }
 
-      100% {
-        left: 100%;
+      72% {
+        transform:
+          scaleX(1);
+      }
+
+      74% {
+        transform:
+          scaleX(.35);
+      }
+
+      76% {
+        transform:
+          scaleX(0);
+      }
+
+      89% {
+        transform:
+          scaleX(.8);
+      }
+
+      91% {
+        transform:
+          scaleX(0);
       }
 
     }
@@ -1221,89 +1374,65 @@
 
 
   <!-- =========================================================
-       RED SLICE TRANSITION
+       SIGNAL LOST TRANSITION
        ========================================================= -->
 
-  <section class="motion" id="djTransition">
-
-
-    <!-- Giant ghost typography -->
-
-    <div class="motion-ghost" id="motionGhost">
-      NORMATHERS
-    </div>
-
-
-    <!-- Tiny editorial label -->
-
-    <div class="motion-label">
-      001 <span>/ DJ PROGRAM</span>
-    </div>
-
-
-    <!-- Thin horizontal axis -->
+  <section
+    class="motion signal-motion"
+    id="djTransition"
+  >
 
     <div
-      class="motion-line"
-      id="motionLine"
+      class="signal-noise"
+      aria-hidden="true"
     ></div>
 
 
-    <!-- DJ -->
+    <div
+      class="signal-axis"
+      id="signalAxis"
+      aria-hidden="true"
+    ></div>
+
 
     <div
-      class="dj-name"
-      id="djName"
+      class="signal-flash"
+      aria-hidden="true"
+    ></div>
+
+
+    <div class="signal-status">
+      SIGNAL <span>/ DJ 001</span>
+    </div>
+
+
+    <div
+      class="signal-word"
+      id="signalWord"
+      data-text="NORMATHERS"
     >
       NORMATHERS
     </div>
 
 
     <div
-      class="dj-meta"
-      id="djMeta"
-    >
-      DJ / ROTAROTT / FOGGIA
-    </div>
-
-
-    <!-- Red moving slice -->
-
-    <div
-      class="red-slice"
-      id="redSlice"
-    >
-
-      <div class="slice-track">
-
-        <span>
-          NORMATHERS — ROTAROTT —
-        </span>
-
-        <span>
-          NORMATHERS — ROTAROTT —
-        </span>
-
-        <span>
-          NORMATHERS — ROTAROTT —
-        </span>
-
-        <span>
-          NORMATHERS — ROTAROTT —
-        </span>
-
-      </div>
-
-    </div>
+      class="signal-scan"
+      id="signalScan"
+      aria-hidden="true"
+    ></div>
 
 
     <div
-      class="motion-number"
-      id="motionNumber"
+      class="signal-meta"
+      id="signalMeta"
     >
+      ROTAROTT / FOGGIA / 18.10.2026
+    </div>
+
+
+    <div class="signal-index">
       01
     </div>
-
 
   </section>
 
@@ -1566,23 +1695,11 @@
     const djTransition =
       document.getElementById("djTransition");
 
-    const motionGhost =
-      document.getElementById("motionGhost");
+    const signalWord =
+      document.getElementById("signalWord");
 
-    const redSlice =
-      document.getElementById("redSlice");
-
-    const djName =
-      document.getElementById("djName");
-
-    const djMeta =
-      document.getElementById("djMeta");
-
-    const motionLine =
-      document.getElementById("motionLine");
-
-    const motionNumber =
-      document.getElementById("motionNumber");
+    const signalMeta =
+      document.getElementById("signalMeta");
 
     const instagramButton =
       document.getElementById("instagramButton");
@@ -1817,10 +1934,6 @@
     let ticking = false;
 
 
-    /*
-      HERO
-    */
-
     let logoTargetX = -3;
     let logoCurrentX = -3;
 
@@ -1829,47 +1942,36 @@
 
 
     /*
-      RED SLICE
+      SIGNAL
     */
 
-    let ghostTargetX = 0;
-    let ghostCurrentX = 0;
+    let signalTargetX = 0;
+    let signalCurrentX = 0;
 
-    let sliceTargetX = 0;
-    let sliceCurrentX = 0;
-
-    let djTargetX = 0;
-    let djCurrentX = 0;
-
-    let djTargetY = 0;
-    let djCurrentY = 0;
+    let signalTargetY = 0;
+    let signalCurrentY = 0;
 
     let metaTargetX = 0;
     let metaCurrentX = 0;
 
-    let lineTargetX = 0;
-    let lineCurrentX = 0;
-
 
     function animateScene() {
 
-      const heroEase = .12;
-
-      /*
-        HERO
-      */
+      /* =====================================================
+         HERO
+         ===================================================== */
 
       logoCurrentX +=
         (
           logoTargetX -
           logoCurrentX
-        ) * heroEase;
+        ) * .12;
 
       logoCurrentY +=
         (
           logoTargetY -
           logoCurrentY
-        ) * heroEase;
+        ) * .12;
 
 
       heroLogo.style.transform =
@@ -1880,105 +1982,49 @@
         )`;
 
 
-      /*
-        GHOST
-      */
+      /* =====================================================
+         SIGNAL WORD
+         ===================================================== */
 
-      ghostCurrentX +=
+      signalCurrentX +=
         (
-          ghostTargetX -
-          ghostCurrentX
-        ) * .055;
+          signalTargetX -
+          signalCurrentX
+        ) * .075;
 
-
-      motionGhost.style.transform =
-        `translate3d(
-          ${ghostCurrentX}px,
-          -50%,
-          0
-        ) rotate(-7deg)`;
-
-
-      /*
-        RED SLICE
-      */
-
-      sliceCurrentX +=
+      signalCurrentY +=
         (
-          sliceTargetX -
-          sliceCurrentX
-        ) * .07;
+          signalTargetY -
+          signalCurrentY
+        ) * .075;
 
 
-      redSlice.style.transform =
-        `translate3d(
-          ${sliceCurrentX}px,
-          -50%,
-          0
-        ) rotate(-8deg)`;
+      signalWord.style.setProperty(
+        "--signal-x",
+        `${signalCurrentX}px`
+      );
+
+      signalWord.style.setProperty(
+        "--signal-y",
+        `${signalCurrentY}px`
+      );
 
 
-      /*
-        DJ NAME
-      */
-
-      djCurrentX +=
-        (
-          djTargetX -
-          djCurrentX
-        ) * .09;
-
-      djCurrentY +=
-        (
-          djTargetY -
-          djCurrentY
-        ) * .09;
-
-
-      djName.style.transform =
-        `translate3d(
-          ${djCurrentX}px,
-          calc(-50% + ${djCurrentY}px),
-          0
-        )`;
-
-
-      /*
-        META
-      */
+      /* =====================================================
+         SIGNAL META
+         ===================================================== */
 
       metaCurrentX +=
         (
           metaTargetX -
           metaCurrentX
-        ) * .09;
-
-
-      djMeta.style.transform =
-        `translate3d(
-          ${metaCurrentX}px,
-          0,
-          0
-        )`;
-
-
-      /*
-        LINE
-      */
-
-      lineCurrentX +=
-        (
-          lineTargetX -
-          lineCurrentX
         ) * .08;
 
 
-      motionLine.style.transform =
-        `translate3d(
-          ${lineCurrentX}px,
-          -50%,
-          0
-        )`;
+      signalMeta.style.setProperty(
+        "--meta-x",
+        `${metaCurrentX}px`
+      );
 
 
       requestAnimationFrame(
@@ -2059,7 +2105,7 @@
 
 
       /* =====================================================
-         RED SLICE SCROLL
+         SIGNAL LOST
          ===================================================== */
 
       if (djTransition) {
@@ -2094,43 +2140,38 @@
 
 
         /*
-          Ghost typography moves opposite
-          to the real DJ name.
+          Il segnale scivola lateralmente
+          mentre entri nella sezione.
         */
 
-        ghostTargetX =
-          -p * 65;
+        signalTargetX =
+          (
+            p -
+            .5
+          ) * 38;
 
 
         /*
-          Red slice reacts more strongly.
+          Movimento verticale minimo.
         */
 
-        sliceTargetX =
-          p * 34;
+        signalTargetY =
+          (
+            p -
+            .5
+          ) * -7;
 
 
         /*
-          NORMATHERS moves only a little.
+          Il micro testo si muove
+          in direzione opposta.
         */
-
-        djTargetX =
-          p * 22;
-
-        djTargetY =
-          p * -5;
-
 
         metaTargetX =
-          p * 18;
-
-
-        /*
-          Line drifts in the opposite direction.
-        */
-
-        lineTargetX =
-          -p * 22;
+          (
+            .5 -
+            p
+          ) * 22;
 
       }
 
