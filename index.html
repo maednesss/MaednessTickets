@@ -229,6 +229,22 @@
           rgba(255,255,255,.25) 4px
         );
 
+      -webkit-mask-image:
+        linear-gradient(
+          to bottom,
+          #000 0%,
+          #000 94%,
+          transparent 100%
+        );
+
+      mask-image:
+        linear-gradient(
+          to bottom,
+          #000 0%,
+          #000 94%,
+          transparent 100%
+        );
+
       z-index: 2;
     }
 
@@ -367,8 +383,7 @@
 
     /*
       Fondo scanline molto leggero.
-      Disattivato per mantenere
-      lo stesso nero della Hero.
+      È autonomo.
     */
 
     .signal-noise {
@@ -378,7 +393,7 @@
 
       pointer-events: none;
 
-      opacity: 0;
+      opacity: .09;
 
       background:
         repeating-linear-gradient(
