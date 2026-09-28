@@ -18,7 +18,6 @@
   >
 
   <style>
-
     :root {
       --red: #ff0000;
       --black: #050505;
@@ -50,10 +49,7 @@
       font: inherit;
     }
 
-
-    /* =========================================================
-       DESKTOP WARNING
-       ========================================================= */
+    /* DESKTOP WARNING */
 
     .desktop-warning {
       display: none;
@@ -79,13 +75,9 @@
         font-size: 34px;
         letter-spacing: .04em;
       }
-
     }
 
-
-    /* =========================================================
-       TOPBAR
-       ========================================================= */
+    /* TOPBAR */
 
     .topbar {
       position: fixed;
@@ -119,10 +111,7 @@
       letter-spacing: .15em;
     }
 
-
-    /* =========================================================
-       SCROLL PROGRESS
-       ========================================================= */
+    /* SCROLL PROGRESS */
 
     .scroll-progress {
       position: fixed;
@@ -142,10 +131,7 @@
       transform-origin: top;
     }
 
-
-    /* =========================================================
-       FIXED GRAPHICS
-       ========================================================= */
+    /* FIXED GRAPHICS */
 
     .graphics {
       position: fixed;
@@ -187,10 +173,7 @@
       transform: rotate(-90deg);
     }
 
-
-    /* =========================================================
-       HERO
-       ========================================================= */
+    /* HERO */
 
     .hero {
       position: relative;
@@ -206,6 +189,8 @@
       background-position: center;
       filter: contrast(1.15);
     }
+
+    /* SMOOTH DARK GRADIENT */
 
     .hero::before {
       content: "";
@@ -259,6 +244,8 @@
       margin-bottom: 7px;
     }
 
+    /* HERO LOGO */
+
     .hero-logo {
       font-family: "Anton", sans-serif;
       font-size: clamp(70px, 23vw, 120px);
@@ -296,10 +283,7 @@
       font-weight: 800;
     }
 
-
-    /* =========================================================
-       SWIPE INDICATOR
-       ========================================================= */
+    /* SWIPE INDICATOR */
 
     .scroll-label {
       position: absolute;
@@ -363,12 +347,11 @@
         opacity: 0;
         transform: translateY(17px) rotate(45deg);
       }
-
     }
 
 
     /* =========================================================
-       SIGNAL LOST TRANSITION
+       SIGNAL LOST
        ========================================================= */
 
     .motion {
@@ -376,14 +359,15 @@
       height: 32svh;
       min-height: 220px;
       overflow: hidden;
+      display: block;
       background: var(--black);
       isolation: isolate;
     }
 
 
     /*
-      Fondo quasi completamente nero.
-      Il segnale deve sembrare "contenuto" nello spazio.
+      Fondo scanline molto leggero.
+      È autonomo.
     */
 
     .signal-noise {
@@ -393,22 +377,21 @@
 
       pointer-events: none;
 
-      opacity: .11;
+      opacity: .09;
 
       background:
         repeating-linear-gradient(
           to bottom,
           transparent 0px,
-          transparent 2px,
-          rgba(255,255,255,.18) 3px,
-          transparent 4px
+          transparent 3px,
+          rgba(255,255,255,.16) 4px
         );
 
       animation:
-        noiseShift .32s steps(2) infinite;
+        signalNoise 0.55s steps(2) infinite;
     }
 
-    @keyframes noiseShift {
+    @keyframes signalNoise {
 
       0% {
         transform: translateY(0);
@@ -429,13 +412,12 @@
       100% {
         transform: translateY(2px);
       }
-
     }
 
 
     /*
-      Una linea centrale.
-      Funziona come asse del segnale.
+      Asse orizzontale.
+      Fisso: NON viene modificato dallo scroll.
     */
 
     .signal-axis {
@@ -449,7 +431,7 @@
       height: 1px;
 
       background:
-        rgba(255,255,255,.13);
+        rgba(255,255,255,.14);
 
       transform:
         translateY(-50%);
@@ -458,8 +440,8 @@
 
     /*
       NORMATHERS.
-      Non enorme.
-      Il glitch è costruito direttamente sulla parola.
+      Questo è l'unico elemento della sezione
+      che reagisce allo scroll.
     */
 
     .signal-word {
@@ -496,8 +478,9 @@
 
 
     /*
-      Copia ROSSA.
-      Compare solo a scatti.
+      GHOST ROSSO.
+      Loop autonomo.
+      NON dipende dallo scroll.
     */
 
     .signal-word::before {
@@ -509,16 +492,10 @@
       color: var(--red);
 
       transform:
-        translate3d(
-          -2px,
-          0,
-          0
-        );
+        translate3d(-2px, 0, 0);
 
       clip-path:
-        inset(
-          0 0 58% 0
-        );
+        inset(0 0 58% 0);
 
       opacity: 0;
 
@@ -528,8 +505,8 @@
 
 
     /*
-      Copia BIANCA spostata.
-      Taglia la parte bassa.
+      GHOST BIANCO.
+      Loop autonomo.
     */
 
     .signal-word::after {
@@ -541,16 +518,10 @@
       color: var(--white);
 
       transform:
-        translate3d(
-          2px,
-          0,
-          0
-        );
+        translate3d(2px, 0, 0);
 
       clip-path:
-        inset(
-          62% 0 0 0
-        );
+        inset(62% 0 0 0);
 
       opacity: 0;
 
@@ -604,7 +575,6 @@
       90% {
         opacity: 0;
       }
-
     }
 
 
@@ -653,69 +623,153 @@
       91% {
         opacity: 0;
       }
-
     }
 
 
     /*
-      SCAN.
-      Una fascia rossa passa sul segnale.
+      SCANNER VERTICALE.
+
+      Questo è completamente indipendente
+      dallo scroll.
+
+      Si muove sempre da sinistra
+      verso destra in loop.
     */
 
     .signal-scan {
       position: absolute;
       z-index: 6;
 
-      left: 0;
-      width: 100%;
-      height: 18px;
+      top: 0;
+      bottom: 0;
 
-      top: -30px;
+      left: -32px;
+
+      width: 64px;
+      height: 100%;
 
       pointer-events: none;
 
       background:
         linear-gradient(
-          to bottom,
+          to right,
           transparent 0%,
-          rgba(255,0,0,.05) 20%,
-          rgba(255,0,0,.95) 48%,
-          rgba(255,0,0,.22) 58%,
+          rgba(255,0,0,.02) 20%,
+          rgba(255,0,0,.16) 39%,
+          rgba(255,0,0,.95) 49%,
+          rgba(255,0,0,.25) 56%,
+          rgba(255,0,0,.04) 72%,
           transparent 100%
         );
 
       mix-blend-mode: screen;
 
       animation:
-        signalScan 3.8s linear infinite;
-    }
-
-    @keyframes signalScan {
-
-      0% {
-        transform: translateY(-20px);
-        opacity: 0;
-      }
-
-      8% {
-        opacity: 1;
-      }
-
-      82% {
-        opacity: .9;
-      }
-
-      100% {
-        transform: translateY(270px);
-        opacity: 0;
-      }
-
+        signalScanVertical 4.2s linear infinite;
     }
 
 
     /*
-      Piccolo testo.
-      Non compete con NORMATHERS.
+      Il cuore dello scanner:
+      una linea rossa sottilissima.
+    */
+
+    .signal-scan::after {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      bottom: 0;
+
+      left: 50%;
+
+      width: 1px;
+
+      transform:
+        translateX(-50%);
+
+      background: var(--red);
+
+      box-shadow:
+        0 0 9px rgba(255,0,0,.8);
+    }
+
+
+    @keyframes signalScanVertical {
+
+      0% {
+        transform: translateX(-35px);
+        opacity: 0;
+      }
+
+      7% {
+        opacity: 1;
+      }
+
+      88% {
+        opacity: .9;
+      }
+
+      100% {
+        transform:
+          translateX(calc(100vw + 35px));
+
+        opacity: 0;
+      }
+    }
+
+
+    /*
+      Piccolo flash verticale.
+      Anche questo è autonomo.
+    */
+
+    .signal-scan-flash {
+      position: absolute;
+      z-index: 4;
+
+      top: 0;
+      bottom: 0;
+
+      left: 0;
+
+      width: 1px;
+
+      background: var(--red);
+
+      opacity: 0;
+
+      animation:
+        scannerFlash 4.2s linear infinite;
+
+      pointer-events: none;
+    }
+
+    @keyframes scannerFlash {
+
+      0% {
+        left: -1px;
+        opacity: 0;
+      }
+
+      7% {
+        opacity: .5;
+      }
+
+      15% {
+        opacity: 0;
+      }
+
+      100% {
+        left: 100%;
+        opacity: 0;
+      }
+    }
+
+
+    /*
+      Testi minimi.
     */
 
     .signal-status {
@@ -758,7 +812,9 @@
 
 
     /*
-      Piccola scritta sotto il DJ.
+      Meta sotto NORMATHERS.
+      Anche questo si muove leggermente
+      con lo scroll insieme alla parola.
     */
 
     .signal-meta {
@@ -789,72 +845,6 @@
     }
 
 
-    /*
-      Un flash rosso brevissimo che
-      appare durante i glitch.
-    */
-
-    .signal-flash {
-      position: absolute;
-      z-index: 3;
-
-      left: 0;
-      right: 0;
-
-      top: 50%;
-
-      height: 1px;
-
-      background: var(--red);
-
-      transform:
-        scaleX(0);
-
-      transform-origin: left center;
-
-      animation:
-        signalFlash 3.1s steps(1) infinite;
-
-      opacity: .7;
-    }
-
-    @keyframes signalFlash {
-
-      0%,
-      69%,
-      100% {
-        transform:
-          scaleX(0);
-      }
-
-      72% {
-        transform:
-          scaleX(1);
-      }
-
-      74% {
-        transform:
-          scaleX(.35);
-      }
-
-      76% {
-        transform:
-          scaleX(0);
-      }
-
-      89% {
-        transform:
-          scaleX(.8);
-      }
-
-      91% {
-        transform:
-          scaleX(0);
-      }
-
-    }
-
-
     /* =========================================================
        REGISTRATION
        ========================================================= */
@@ -882,10 +872,7 @@
       color: var(--red);
     }
 
-
-    /* =========================================================
-       GET IN + VIDEO
-       ========================================================= */
+    /* GET IN + VIDEO */
 
     .register-heading {
       --register-title-size: clamp(60px, 19.5vw, 76px);
@@ -931,13 +918,9 @@
         opacity: 1;
         transform: translate3d(0, 0, 0);
       }
-
     }
 
-
-    /* =========================================================
-       VIDEO
-       ========================================================= */
+    /* VIDEO */
 
     .register-video-box {
       width: var(--register-video-width);
@@ -997,11 +980,6 @@
       white-space: nowrap;
     }
 
-
-    /* =========================================================
-       FORM
-       ========================================================= */
-
     .form-group {
       margin-bottom: 15px;
     }
@@ -1032,10 +1010,7 @@
       box-shadow: inset 4px 0 0 var(--red);
     }
 
-
-    /* =========================================================
-       INSTAGRAM
-       ========================================================= */
+    /* INSTAGRAM */
 
     .instagram-box {
       margin-top: 22px;
@@ -1142,7 +1117,6 @@
       100% {
         transform: scale(1);
       }
-
     }
 
     @keyframes iconPop {
@@ -1158,7 +1132,6 @@
       100% {
         transform: rotate(0) scale(1);
       }
-
     }
 
     .instagram-status.active {
@@ -1166,10 +1139,7 @@
       color: #15934c;
     }
 
-
-    /* =========================================================
-       SUBMIT
-       ========================================================= */
+    /* SUBMIT */
 
     .submit-button {
       width: 100%;
@@ -1206,10 +1176,7 @@
       text-align: center;
     }
 
-
-    /* =========================================================
-       BOTTOM
-       ========================================================= */
+    /* BOTTOM */
 
     .registration-bottom {
       margin-top: 45px;
@@ -1249,7 +1216,6 @@
       to {
         transform: rotate(360deg);
       }
-
     }
 
     .registration-footer {
@@ -1260,17 +1226,12 @@
       font-weight: 900;
       letter-spacing: .16em;
     }
-
   </style>
 </head>
 
-
 <body>
 
-
-  <!-- =========================================================
-       DESKTOP WARNING
-       ========================================================= -->
+  <!-- DESKTOP WARNING -->
 
   <div class="desktop-warning">
     MÆDNESS®<br>
@@ -1278,9 +1239,7 @@
   </div>
 
 
-  <!-- =========================================================
-       TOPBAR
-       ========================================================= -->
+  <!-- TOPBAR -->
 
   <header class="topbar">
 
@@ -1295,18 +1254,14 @@
   </header>
 
 
-  <!-- =========================================================
-       SCROLL PROGRESS
-       ========================================================= -->
+  <!-- SCROLL PROGRESS -->
 
   <div class="scroll-progress">
     <span id="progress"></span>
   </div>
 
 
-  <!-- =========================================================
-       FIXED MICRO GRAPHICS
-       ========================================================= -->
+  <!-- FIXED MICRO GRAPHICS -->
 
   <div class="graphics" id="graphics">
 
@@ -1329,9 +1284,7 @@
   </div>
 
 
-  <!-- =========================================================
-       HERO
-       ========================================================= -->
+  <!-- HERO -->
 
   <section class="hero" id="hero">
 
@@ -1374,13 +1327,12 @@
 
 
   <!-- =========================================================
-       SIGNAL LOST TRANSITION
+       SIGNAL LOST
        ========================================================= -->
 
-  <section
-    class="motion signal-motion"
-    id="djTransition"
-  >
+  <section class="motion" id="djTransition">
+
+    <!-- subtle autonomous scan noise -->
 
     <div
       class="signal-noise"
@@ -1388,23 +1340,35 @@
     ></div>
 
 
+    <!-- fixed axis -->
+
     <div
       class="signal-axis"
-      id="signalAxis"
       aria-hidden="true"
     ></div>
 
+
+    <!-- autonomous vertical scanner -->
 
     <div
-      class="signal-flash"
+      class="signal-scan"
       aria-hidden="true"
     ></div>
 
+    <div
+      class="signal-scan-flash"
+      aria-hidden="true"
+    ></div>
+
+
+    <!-- small label -->
 
     <div class="signal-status">
       SIGNAL <span>/ DJ 001</span>
     </div>
 
+
+    <!-- DJ -->
 
     <div
       class="signal-word"
@@ -1415,12 +1379,7 @@
     </div>
 
 
-    <div
-      class="signal-scan"
-      id="signalScan"
-      aria-hidden="true"
-    ></div>
-
+    <!-- small information -->
 
     <div
       class="signal-meta"
@@ -1437,12 +1396,9 @@
   </section>
 
 
-  <!-- =========================================================
-       REGISTRATION
-       ========================================================= -->
+  <!-- REGISTRATION -->
 
   <section class="registration">
-
 
     <div class="registration-top">
 
@@ -1727,7 +1683,7 @@
 
 
     /* =========================================================
-       GET IN ENTRANCE
+       GET IN ENTRANCE ANIMATION
        ========================================================= */
 
     if (registerTitle) {
@@ -1934,6 +1890,10 @@
     let ticking = false;
 
 
+    /*
+      HERO
+    */
+
     let logoTargetX = -3;
     let logoCurrentX = -3;
 
@@ -1942,7 +1902,14 @@
 
 
     /*
-      SIGNAL
+      SIGNAL / NORMATHERS
+
+      IMPORTANT:
+      Questi valori controllano SOLO
+      NORMATHERS e il piccolo meta.
+
+      Lo scanner NON viene mai toccato
+      dal codice di scroll.
     */
 
     let signalTargetX = 0;
@@ -1983,7 +1950,7 @@
 
 
       /* =====================================================
-         SIGNAL WORD
+         NORMATHERS
          ===================================================== */
 
       signalCurrentX +=
@@ -2011,7 +1978,7 @@
 
 
       /* =====================================================
-         SIGNAL META
+         META
          ===================================================== */
 
       metaCurrentX +=
@@ -2105,7 +2072,7 @@
 
 
       /* =====================================================
-         SIGNAL LOST
+         SIGNAL LOST — SOLO NORMATHERS
          ===================================================== */
 
       if (djTransition) {
@@ -2140,40 +2107,45 @@
 
 
         /*
-          Il segnale scivola lateralmente
-          mentre entri nella sezione.
+          NORMATHERS scivola leggermente
+          durante lo scroll.
         */
 
         signalTargetX =
-          (
-            p -
-            .5
-          ) * 38;
+          (p - .5) * 42;
 
 
         /*
-          Movimento verticale minimo.
+          Movimento verticale molto piccolo.
         */
 
         signalTargetY =
-          (
-            p -
-            .5
-          ) * -7;
+          (p - .5) * -8;
 
 
         /*
-          Il micro testo si muove
-          in direzione opposta.
+          Il meta si muove in direzione opposta.
         */
 
         metaTargetX =
-          (
-            .5 -
-            p
-          ) * 22;
+          (.5 - p) * 24;
 
       }
+
+
+      /*
+        NOTA:
+
+        NON esiste nessun riferimento a:
+
+        .signal-scan
+        .signal-scan-flash
+
+        qui dentro.
+
+        Lo scanner continua quindi
+        esclusivamente con CSS animation.
+      */
 
 
       ticking = false;
@@ -2262,7 +2234,6 @@
     startRegisterVideo();
 
   </script>
-
 
 </body>
 </html>
