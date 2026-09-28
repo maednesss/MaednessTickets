@@ -52,7 +52,9 @@
     }
 
 
-    /* DESKTOP WARNING */
+    /* =========================================================
+       DESKTOP WARNING
+       ========================================================= */
 
     .desktop-warning {
       display: none;
@@ -82,7 +84,9 @@
     }
 
 
-    /* TOPBAR */
+    /* =========================================================
+       TOPBAR
+       ========================================================= */
 
     .topbar {
       position: fixed;
@@ -117,7 +121,9 @@
     }
 
 
-    /* SCROLL PROGRESS */
+    /* =========================================================
+       SCROLL PROGRESS
+       ========================================================= */
 
     .scroll-progress {
       position: fixed;
@@ -138,7 +144,9 @@
     }
 
 
-    /* FIXED GRAPHICS */
+    /* =========================================================
+       FIXED GRAPHICS
+       ========================================================= */
 
     .graphics {
       position: fixed;
@@ -181,7 +189,9 @@
     }
 
 
-    /* HERO */
+    /* =========================================================
+       HERO
+       ========================================================= */
 
     .hero {
       position: relative;
@@ -288,7 +298,9 @@
     }
 
 
-    /* SWIPE INDICATOR */
+    /* =========================================================
+       SWIPE INDICATOR
+       ========================================================= */
 
     .scroll-label {
       position: absolute;
@@ -365,260 +377,198 @@
       height: 32svh;
       min-height: 220px;
       overflow: hidden;
-      background: #050505;
-      display: block;
+      background: var(--black);
       isolation: isolate;
     }
 
 
     /*
-      SOFT RED ATMOSPHERE
+      Very subtle vertical structure.
+      Keeps the section connected to the technical
+      language of the rest of the website.
     */
 
     .motion::before {
       content: "";
       position: absolute;
-      z-index: 0;
-
-      width: 260px;
-      height: 260px;
-
-      left: 50%;
-      top: 50%;
-
-      transform: translate(-50%, -50%);
-
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle,
-          rgba(255,0,0,.18) 0%,
-          rgba(255,0,0,.07) 28%,
-          rgba(255,0,0,.015) 50%,
-          transparent 72%
-        );
-
-      filter: blur(12px);
-
-      animation: redBreath 4s ease-in-out infinite;
-    }
-
-    @keyframes redBreath {
-
-      0%,
-      100% {
-        opacity: .45;
-        transform:
-          translate(-50%, -50%)
-          scale(.86);
-      }
-
-      50% {
-        opacity: .85;
-        transform:
-          translate(-50%, -50%)
-          scale(1.08);
-      }
-
-    }
-
-
-    /*
-      ORGANIC SHAPE
-      Un unico elemento visivo.
-    */
-
-    .motion-organic {
-      position: absolute;
-      z-index: 1;
-
-      width: 145px;
-      height: 185px;
-
-      left: 57%;
-      top: 50%;
-
-      transform:
-        translate(-50%, -50%)
-        rotate(17deg)
-        scale(1);
-
-      opacity: .92;
-
-      will-change: transform;
-
-      filter:
-        drop-shadow(0 0 12px rgba(255,0,0,.25))
-        drop-shadow(0 0 30px rgba(255,0,0,.12));
-
-      animation: organicFloat 5.5s ease-in-out infinite;
-    }
-
-    /*
-      Main body
-    */
-
-    .motion-organic::before {
-      content: "";
-
-      position: absolute;
-      inset: 12px 15px 8px 14px;
-
-      border-radius:
-        48% 43% 51% 45% /
-        42% 48% 55% 51%;
-
-      background:
-        radial-gradient(
-          ellipse at 34% 30%,
-          #ff3131 0%,
-          #d50000 20%,
-          #850000 48%,
-          #350000 72%,
-          #120000 100%
-        );
-
-      transform:
-        rotate(-7deg)
-        skewY(-3deg);
-
-      box-shadow:
-        inset -18px -18px 25px rgba(0,0,0,.62),
-        inset 13px 9px 18px rgba(255,70,70,.22),
-        0 0 18px rgba(255,0,0,.18);
-    }
-
-
-    /*
-      Organic cut / highlight
-    */
-
-    .motion-organic::after {
-      content: "";
-
-      position: absolute;
-
-      width: 70px;
-      height: 145px;
-
-      left: 46px;
-      top: 25px;
-
-      border-left: 1px solid rgba(255,120,120,.38);
-
-      border-radius: 50%;
-
-      transform:
-        rotate(17deg)
-        skewY(-12deg);
-
-      opacity: .75;
-    }
-
-
-    /*
-      Small arterial forms
-    */
-
-    .organic-vessel {
-      position: absolute;
-      z-index: 3;
+      inset: 0;
+      pointer-events: none;
 
       background:
         linear-gradient(
           90deg,
-          #5d0000,
-          #e00000,
-          #6c0000
+          transparent 0%,
+          transparent 49.8%,
+          rgba(255,255,255,.07) 50%,
+          transparent 50.2%,
+          transparent 100%
         );
 
+      opacity: .35;
+    }
+
+
+    /*
+      Small top information.
+    */
+
+    .motion-label {
+      position: absolute;
+      z-index: 10;
+
+      top: 14px;
+      left: 16px;
+      right: 16px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      font-size: 6px;
+      font-weight: 900;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+
+      color: rgba(255,255,255,.58);
+    }
+
+    .motion-label span:last-child {
+      color: var(--red);
+    }
+
+
+    /*
+      THE ORBIT
+      One single visual object behind the DJ name.
+    */
+
+    .motion-orbit {
+      position: absolute;
+      z-index: 1;
+
+      left: 50%;
+      top: 50%;
+
+      width: 205px;
+      height: 74px;
+
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 50%;
+
+      transform:
+        translate3d(-50%, -50%, 0)
+        rotate(-12deg);
+
+      will-change: transform;
+
+      animation: orbitFloat 5.5s ease-in-out infinite;
+    }
+
+    .motion-orbit::before {
+      content: "";
+
+      position: absolute;
+      inset: 10px 20px;
+
+      border: 1px solid rgba(255,0,0,.42);
+      border-radius: 50%;
+
+      transform: rotate(18deg);
+
+      animation:
+        orbitInner 7s linear infinite;
+    }
+
+    .motion-orbit::after {
+      content: "";
+
+      position: absolute;
+
+      width: 4px;
+      height: 4px;
+
+      right: 18px;
+      top: 7px;
+
+      border-radius: 50%;
+
+      background: var(--red);
+
       box-shadow:
-        0 0 9px rgba(255,0,0,.15);
+        0 0 12px rgba(255,0,0,.9);
 
-      border-radius: 100px;
+      animation:
+        orbitDot 3.8s linear infinite;
     }
 
-    .organic-vessel-a {
-      width: 48px;
-      height: 13px;
-
-      top: 18px;
-      left: 48px;
-
-      transform:
-        rotate(-26deg);
-    }
-
-    .organic-vessel-b {
-      width: 38px;
-      height: 10px;
-
-      top: 35px;
-      left: 82px;
-
-      transform:
-        rotate(31deg);
-    }
-
-    .organic-vessel-c {
-      width: 29px;
-      height: 8px;
-
-      top: 54px;
-      left: 104px;
-
-      transform:
-        rotate(58deg);
-    }
-
-    .organic-vessel-d {
-      width: 25px;
-      height: 7px;
-
-      bottom: 38px;
-      left: 25px;
-
-      transform:
-        rotate(48deg);
-    }
-
-
-    @keyframes organicFloat {
+    @keyframes orbitFloat {
 
       0%,
       100% {
-        margin-top: 0;
-        filter:
-          drop-shadow(0 0 12px rgba(255,0,0,.25))
-          drop-shadow(0 0 30px rgba(255,0,0,.12));
+        transform:
+          translate3d(-50%, -50%, 0)
+          rotate(-12deg)
+          scale(1);
       }
 
       50% {
-        margin-top: -6px;
-        filter:
-          drop-shadow(0 0 17px rgba(255,0,0,.34))
-          drop-shadow(0 0 38px rgba(255,0,0,.15));
+        transform:
+          translate3d(-50%, -50%, 0)
+          rotate(-8deg)
+          scale(1.035);
+      }
+
+    }
+
+    @keyframes orbitInner {
+
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+
+    }
+
+    @keyframes orbitDot {
+
+      from {
+        transform: rotate(0deg)
+          translateX(-82px)
+          rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg)
+          translateX(-82px)
+          rotate(-360deg);
       }
 
     }
 
 
     /*
-      DJ NAME
+      NORMATHERS
+      This is the protagonist.
     */
 
     .dj-name {
       position: absolute;
       z-index: 5;
 
-      left: 14px;
-      bottom: 47px;
+      left: 50%;
+      top: 50%;
+
+      width: max-content;
+
+      transform:
+        translate3d(-50%, -50%, 0);
 
       font-family: "Anton", sans-serif;
 
-      font-size:
-        clamp(60px, 20vw, 94px);
+      font-size: clamp(66px, 23vw, 112px);
 
       line-height: .76;
 
@@ -626,190 +576,221 @@
 
       white-space: nowrap;
 
-      color: #fff;
+      color: var(--white);
 
       text-shadow:
-        4px 0 #ff0000;
+        3px 0 0 var(--red);
 
       will-change: transform;
     }
 
 
     /*
-      Small DJ metadata
+      A very thin red slice crossing the name.
+      It replaces the old heavy marquee.
     */
 
-    .dj-meta {
+    .motion-pulse {
       position: absolute;
-      z-index: 5;
-
-      left: 17px;
-      bottom: 24px;
-
-      font-size: 6px;
-      font-weight: 900;
-      letter-spacing: .22em;
-
-      color: rgba(255,255,255,.62);
-
-      will-change: transform;
-    }
-
-
-    /*
-      SMALL RED INDEX
-    */
-
-    .dj-index {
-      position: absolute;
-      z-index: 5;
-
-      right: 16px;
-      top: 17px;
-
-      font-family: "Anton", sans-serif;
-      font-size: 19px;
-
-      line-height: 1;
-
-      color: var(--red);
-
-      opacity: .9;
-    }
-
-
-    /*
-      MICRO LINE
-    */
-
-    .dj-line {
-      position: absolute;
-      z-index: 5;
-
-      left: 17px;
-      bottom: 38px;
-
-      width: 43px;
-      height: 1px;
-
-      background: var(--red);
-
-      transform-origin: left center;
-
-      animation:
-        djLine 2.2s ease-in-out infinite;
-    }
-
-    @keyframes djLine {
-
-      0%,
-      100% {
-        transform: scaleX(.45);
-        opacity: .55;
-      }
-
-      50% {
-        transform: scaleX(1);
-        opacity: 1;
-      }
-
-    }
-
-
-    /*
-      THIN SCAN
-    */
-
-    .motion-scan {
-      position: absolute;
-      z-index: 4;
+      z-index: 7;
 
       left: -20%;
-      top: 43%;
+      top: 50%;
 
       width: 140%;
       height: 1px;
+
+      background: rgba(255,255,255,.16);
+
+      transform: translateY(-1px);
+
+      overflow: hidden;
+
+      pointer-events: none;
+    }
+
+    .motion-pulse::after {
+      content: "";
+
+      position: absolute;
+
+      left: -25%;
+      top: -1px;
+
+      width: 18%;
+      height: 3px;
 
       background:
         linear-gradient(
           90deg,
           transparent,
-          rgba(255,0,0,.08),
-          rgba(255,0,0,.75),
-          rgba(255,0,0,.08),
+          var(--red),
           transparent
         );
 
-      opacity: .6;
+      box-shadow:
+        0 0 13px rgba(255,0,0,.9);
 
       animation:
-        scanMove 3.8s linear infinite;
+        pulseTravel 3.6s linear infinite;
     }
 
-    @keyframes scanMove {
+    @keyframes pulseTravel {
 
       from {
-        transform: translateX(-35%);
+        transform: translateX(0);
       }
 
       to {
-        transform: translateX(35%);
+        transform: translateX(820%);
       }
 
     }
 
 
     /*
-      RIGHT INFO
+      DJ metadata directly under the name.
     */
 
-    .dj-info {
+    .dj-meta {
       position: absolute;
-      z-index: 5;
+      z-index: 8;
 
-      right: 16px;
-      bottom: 25px;
+      left: 50%;
+      top: calc(50% + 45px);
+
+      transform:
+        translate3d(-50%, 0, 0);
 
       font-size: 6px;
       font-weight: 900;
-      line-height: 1.65;
+      letter-spacing: .25em;
 
-      letter-spacing: .18em;
+      white-space: nowrap;
 
-      text-align: right;
-
-      color: rgba(255,255,255,.58);
+      color: rgba(255,255,255,.56);
 
       will-change: transform;
     }
 
-    .dj-info strong {
+    .dj-meta::before {
+      content: "";
+
+      display: inline-block;
+
+      width: 18px;
+      height: 1px;
+
+      margin-right: 7px;
+
+      vertical-align: middle;
+
+      background: var(--red);
+    }
+
+
+    /*
+      Bottom information.
+    */
+
+    .motion-bottom-left {
+      position: absolute;
+      z-index: 8;
+
+      left: 16px;
+      bottom: 14px;
+
+      font-size: 6px;
+      line-height: 1.6;
+
+      font-weight: 900;
+      letter-spacing: .17em;
+
+      color: rgba(255,255,255,.4);
+
+      will-change: transform;
+    }
+
+    .motion-bottom-left strong {
+      color: var(--white);
+    }
+
+
+    .motion-bottom-right {
+      position: absolute;
+      z-index: 8;
+
+      right: 16px;
+      bottom: 14px;
+
+      font-size: 6px;
+      font-weight: 900;
+      letter-spacing: .17em;
+
+      color: rgba(255,255,255,.4);
+
+      text-align: right;
+
+      will-change: transform;
+    }
+
+    .motion-bottom-right strong {
       color: var(--red);
     }
 
 
     /*
-      SMALL TOP LABEL
+      Tiny moving tick.
     */
 
-    .dj-top-label {
+    .motion-tick {
       position: absolute;
-      z-index: 5;
+      z-index: 8;
 
-      top: 17px;
-      left: 16px;
+      right: 16px;
+      top: 42px;
 
-      font-size: 6px;
-      font-weight: 900;
-      letter-spacing: .22em;
+      width: 26px;
+      height: 1px;
 
-      color: rgba(255,255,255,.55);
+      background: rgba(255,255,255,.3);
+
+      overflow: hidden;
+    }
+
+    .motion-tick::after {
+      content: "";
+
+      position: absolute;
+
+      left: -100%;
+      top: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: var(--red);
+
+      animation:
+        tickMove 1.8s linear infinite;
+    }
+
+    @keyframes tickMove {
+
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(200%);
+      }
+
     }
 
 
-    /*
-      REGISTRATION
-    */
+    /* =========================================================
+       REGISTRATION
+       ========================================================= */
 
     .registration {
       position: relative;
@@ -835,7 +816,9 @@
     }
 
 
-    /* GET IN + VIDEO */
+    /* =========================================================
+       GET IN + VIDEO
+       ========================================================= */
 
     .register-heading {
       --register-title-size: clamp(60px, 19.5vw, 76px);
@@ -885,7 +868,9 @@
     }
 
 
-    /* VIDEO */
+    /* =========================================================
+       VIDEO
+       ========================================================= */
 
     .register-video-box {
       width: var(--register-video-width);
@@ -946,7 +931,9 @@
     }
 
 
-    /* FORM */
+    /* =========================================================
+       FORM
+       ========================================================= */
 
     .form-group {
       margin-bottom: 15px;
@@ -979,7 +966,9 @@
     }
 
 
-    /* INSTAGRAM */
+    /* =========================================================
+       INSTAGRAM
+       ========================================================= */
 
     .instagram-box {
       margin-top: 22px;
@@ -1111,7 +1100,9 @@
     }
 
 
-    /* SUBMIT */
+    /* =========================================================
+       SUBMIT
+       ========================================================= */
 
     .submit-button {
       width: 100%;
@@ -1149,7 +1140,9 @@
     }
 
 
-    /* BOTTOM */
+    /* =========================================================
+       BOTTOM
+       ========================================================= */
 
     .registration-bottom {
       margin-top: 45px;
@@ -1214,6 +1207,10 @@
   </div>
 
 
+  <!-- =========================================================
+       TOPBAR
+       ========================================================= -->
+
   <header class="topbar">
 
     <div class="top-logo">
@@ -1227,12 +1224,18 @@
   </header>
 
 
+  <!-- =========================================================
+       SCROLL PROGRESS
+       ========================================================= -->
+
   <div class="scroll-progress">
     <span id="progress"></span>
   </div>
 
 
-  <!-- FIXED MICRO GRAPHICS -->
+  <!-- =========================================================
+       FIXED MICRO GRAPHICS
+       ========================================================= -->
 
   <div class="graphics" id="graphics">
 
@@ -1255,7 +1258,9 @@
   </div>
 
 
-  <!-- HERO -->
+  <!-- =========================================================
+       HERO
+       ========================================================= -->
 
   <section class="hero" id="hero">
 
@@ -1303,58 +1308,64 @@
 
   <section class="motion" id="djTransition">
 
-    <div class="dj-top-label">
-      MÆDNESS / DJ PROGRAM
-    </div>
 
-    <div class="dj-index">
-      001
-    </div>
+    <div class="motion-label">
 
+      <span>
+        001 / DJ PROGRAM
+      </span>
 
-    <!-- ORGANIC VISUAL -->
-
-    <div class="motion-organic" id="motionOrganic">
-
-      <span class="organic-vessel organic-vessel-a"></span>
-      <span class="organic-vessel organic-vessel-b"></span>
-      <span class="organic-vessel organic-vessel-c"></span>
-      <span class="organic-vessel organic-vessel-d"></span>
+      <span>
+        ROTAROTT
+      </span>
 
     </div>
 
 
-    <!-- MOVING RED LINE -->
-
-    <div class="motion-scan"></div>
+    <div class="motion-orbit" id="motionOrbit"></div>
 
 
-    <!-- DJ NAME -->
+    <div class="motion-pulse"></div>
+
 
     <div class="dj-name" id="djName">
       NORMATHERS
     </div>
 
-    <div class="dj-line"></div>
 
     <div class="dj-meta" id="djMeta">
-      DJ / ROTAROTT
+      DJ / ROTAROTT / 18.10.2026
     </div>
 
 
-    <!-- INFO -->
+    <div class="motion-bottom-left" id="motionBottomLeft">
 
-    <div class="dj-info" id="djInfo">
-      <strong>18.10.2026</strong><br>
-      FOGGIA / ITALY
+      <strong>FOGGIA / ITALY</strong><br>
+      41°27'N / 15°33'E
+
     </div>
+
+
+    <div class="motion-bottom-right" id="motionBottomRight">
+
+      <strong>LIVE</strong><br>
+      ACCESS / 001
+
+    </div>
+
+
+    <div class="motion-tick"></div>
+
 
   </section>
 
 
-  <!-- REGISTRATION -->
+  <!-- =========================================================
+       REGISTRATION
+       ========================================================= -->
 
   <section class="registration">
+
 
     <div class="registration-top">
 
@@ -1521,6 +1532,7 @@
 
         </button>
 
+
         <div
           class="instagram-status"
           id="instagramStatus"
@@ -1540,6 +1552,7 @@
       >
         BLOCCA IL TUO POSTO
       </button>
+
 
       <div
         class="form-status"
@@ -1579,13 +1592,16 @@
 
     </div>
 
+
   </section>
 
 
   <script>
 
 
-    /* ELEMENTS */
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
 
     const progress =
       document.getElementById("progress");
@@ -1624,7 +1640,9 @@
       document.querySelector(".register-title");
 
 
-    /* NEW TRANSITION */
+    /* =========================================================
+       DJ TRANSITION ELEMENTS
+       ========================================================= */
 
     const djTransition =
       document.getElementById("djTransition");
@@ -1635,14 +1653,19 @@
     const djMeta =
       document.getElementById("djMeta");
 
-    const djInfo =
-      document.getElementById("djInfo");
+    const motionOrbit =
+      document.getElementById("motionOrbit");
 
-    const motionOrganic =
-      document.getElementById("motionOrganic");
+    const motionBottomLeft =
+      document.getElementById("motionBottomLeft");
+
+    const motionBottomRight =
+      document.getElementById("motionBottomRight");
 
 
-    /* GET IN ENTRANCE ANIMATION */
+    /* =========================================================
+       GET IN ENTRANCE ANIMATION
+       ========================================================= */
 
     if (registerTitle) {
 
@@ -1679,7 +1702,9 @@
     }
 
 
-    /* VIDEO AUTOPLAY */
+    /* =========================================================
+       VIDEO AUTOPLAY
+       ========================================================= */
 
     function startRegisterVideo() {
 
@@ -1769,7 +1794,9 @@
     );
 
 
-    /* INSTAGRAM MEMORY */
+    /* =========================================================
+       INSTAGRAM MEMORY
+       ========================================================= */
 
     const INSTAGRAM_MEMORY_KEY =
       "maedness_instagram_clicked";
@@ -1812,7 +1839,9 @@
     }
 
 
-    /* INSTAGRAM CLICK */
+    /* =========================================================
+       INSTAGRAM CLICK
+       ========================================================= */
 
     instagramButton.addEventListener(
       "click",
@@ -1835,10 +1864,16 @@
     );
 
 
-    /* SCROLL ANIMATION */
+    /* =========================================================
+       SCROLL ANIMATION
+       ========================================================= */
 
     let ticking = false;
 
+
+    /*
+      HERO LOGO
+    */
 
     let logoTargetX = -3;
     let logoCurrentX = -3;
@@ -1848,7 +1883,7 @@
 
 
     /*
-      NEW TRANSITION VALUES
+      DJ TRANSITION
     */
 
     let djTargetX = 0;
@@ -1857,31 +1892,34 @@
     let djTargetY = 0;
     let djCurrentY = 0;
 
-    let organicTargetX = 0;
-    let organicCurrentX = 0;
+    let metaTargetY = 0;
+    let metaCurrentY = 0;
 
-    let organicTargetY = 0;
-    let organicCurrentY = 0;
+    let orbitTargetX = 0;
+    let orbitCurrentX = 0;
+
+    let bottomLeftTargetX = 0;
+    let bottomLeftCurrentX = 0;
+
+    let bottomRightTargetX = 0;
+    let bottomRightCurrentX = 0;
 
 
     function animateHeroLogo() {
 
-      const ease = 0.12;
-
-
-      /* HERO */
+      const heroEase = 0.12;
 
       logoCurrentX +=
         (
           logoTargetX -
           logoCurrentX
-        ) * ease;
+        ) * heroEase;
 
       logoCurrentY +=
         (
           logoTargetY -
           logoCurrentY
-        ) * ease;
+        ) * heroEase;
 
 
       heroLogo.style.transform =
@@ -1892,68 +1930,105 @@
         )`;
 
 
-      /* DJ */
+      /*
+        NORMATHERS
+      */
 
       djCurrentX +=
         (
           djTargetX -
           djCurrentX
-        ) * 0.085;
+        ) * 0.10;
 
       djCurrentY +=
         (
           djTargetY -
           djCurrentY
-        ) * 0.085;
+        ) * 0.10;
 
 
       djName.style.transform =
         `translate3d(
-          ${djCurrentX}px,
-          ${djCurrentY}px,
+          calc(-50% + ${djCurrentX}px),
+          calc(-50% + ${djCurrentY}px),
           0
         )`;
+
+
+      /*
+        DJ META
+      */
+
+      metaCurrentY +=
+        (
+          metaTargetY -
+          metaCurrentY
+        ) * 0.10;
 
 
       djMeta.style.transform =
         `translate3d(
-          ${djCurrentX * .65}px,
-          ${djCurrentY * .35}px,
+          -50%,
+          ${metaCurrentY}px,
           0
         )`;
 
 
-      djInfo.style.transform =
+      /*
+        ORBIT
+      */
+
+      orbitCurrentX +=
+        (
+          orbitTargetX -
+          orbitCurrentX
+        ) * 0.08;
+
+
+      motionOrbit.style.transform =
         `translate3d(
-          ${djCurrentX * -.35}px,
-          ${djCurrentY * -.2}px,
+          calc(-50% + ${orbitCurrentX}px),
+          -50%,
+          0
+        ) rotate(-12deg)`;
+
+
+      /*
+        BOTTOM LEFT
+      */
+
+      bottomLeftCurrentX +=
+        (
+          bottomLeftTargetX -
+          bottomLeftCurrentX
+        ) * 0.08;
+
+
+      motionBottomLeft.style.transform =
+        `translate3d(
+          ${bottomLeftCurrentX}px,
+          0,
           0
         )`;
 
 
-      /* ORGANIC FORM */
+      /*
+        BOTTOM RIGHT
+      */
 
-      organicCurrentX +=
+      bottomRightCurrentX +=
         (
-          organicTargetX -
-          organicCurrentX
-        ) * 0.07;
-
-      organicCurrentY +=
-        (
-          organicTargetY -
-          organicCurrentY
-        ) * 0.07;
+          bottomRightTargetX -
+          bottomRightCurrentX
+        ) * 0.08;
 
 
-      motionOrganic.style.transform =
+      motionBottomRight.style.transform =
         `translate3d(
-          ${organicCurrentX}px,
-          ${organicCurrentY}px,
+          ${bottomRightCurrentX}px,
+          0,
           0
-        )
-        translate(-50%, -50%)
-        rotate(17deg)`;
+        )`;
 
 
       requestAnimationFrame(
@@ -1980,13 +2055,17 @@
           : 0;
 
 
-      /* Progress */
+      /* =====================================================
+         PROGRESS
+         ===================================================== */
 
       progress.style.height =
         `${scrollPercent * 100}%`;
 
 
-      /* Graphics fade */
+      /* =====================================================
+         MICRO GRAPHICS FADE
+         ===================================================== */
 
       const graphicsFade =
         Math.max(
@@ -1998,7 +2077,9 @@
         graphicsFade;
 
 
-      /* Hero parallax */
+      /* =====================================================
+         HERO PARALLAX
+         ===================================================== */
 
       const heroOffset =
         Math.min(
@@ -2010,7 +2091,9 @@
         `center calc(50% + ${heroOffset}px)`;
 
 
-      /* Hero logo */
+      /* =====================================================
+         HERO LOGO
+         ===================================================== */
 
       const logoMove =
         Math.min(
@@ -2029,40 +2112,36 @@
         );
 
 
-      /*
-        ==============================================
-        DJ TRANSITION
-        ==============================================
-      */
+      /* =====================================================
+         DJ TRANSITION SCROLL
+         ===================================================== */
 
       if (djTransition) {
 
-        const sectionTop =
+        const motionTop =
           djTransition.offsetTop;
 
-        const sectionHeight =
+        const motionHeight =
           djTransition.offsetHeight;
 
 
-        const progressStart =
-          sectionTop - window.innerHeight;
+        /*
+          Progress specifically for this section.
+        */
 
-        const progressEnd =
-          sectionTop + sectionHeight;
-
-
-        const p =
+        const motionProgress =
           Math.max(
             0,
             Math.min(
               1,
               (
                 scrollTop -
-                progressStart
+                motionTop +
+                window.innerHeight * 0.28
               ) /
               (
-                progressEnd -
-                progressStart
+                motionHeight +
+                window.innerHeight * 0.32
               )
             )
           );
@@ -2070,65 +2149,75 @@
 
         /*
           NORMATHERS:
-          si sposta lentamente verso destra
-          durante il passaggio.
+          very slow horizontal displacement.
+          The name stays the visual protagonist.
         */
 
         djTargetX =
-          Math.sin(
-            p * Math.PI
-          ) * 38;
+          (
+            motionProgress -
+            .5
+          ) * 34;
 
+
+        /*
+          Slight vertical compression while scrolling.
+        */
 
         djTargetY =
-          -Math.sin(
-            p * Math.PI
-          ) * 8;
+          -motionProgress * 10;
 
 
         /*
-          Forma organica:
-          si muove in direzione opposta
-          e ruota attraverso il parallax.
+          META moves in the opposite direction.
         */
 
-        organicTargetX =
-          -Math.sin(
-            p * Math.PI
-          ) * 32;
-
-
-        organicTargetY =
-          Math.sin(
-            p * Math.PI
-          ) * 13;
+        metaTargetY =
+          motionProgress * 8;
 
 
         /*
-          Opacità leggermente ridotta
-          quando la sezione sta uscendo.
+          Orbit slides behind the name.
         */
 
-        const fade =
-          p > .72
-            ? 1 - (
-                (p - .72) / .28
-              )
-            : 1;
+        orbitTargetX =
+          motionProgress * -42;
 
 
-        djName.style.opacity =
-          Math.max(
-            .35,
-            fade
+        /*
+          Bottom information separates subtly.
+        */
+
+        bottomLeftTargetX =
+          motionProgress * -12;
+
+        bottomRightTargetX =
+          motionProgress * 12;
+
+
+        /*
+          Pulse line gets a little more visible
+          while passing through the transition.
+        */
+
+        const pulse =
+          document.querySelector(
+            ".motion-pulse"
           );
 
+        if (pulse) {
 
-        motionOrganic.style.opacity =
-          Math.max(
-            .35,
-            fade
-          );
+          const pulseOpacity =
+            .12 +
+            (
+              motionProgress *
+              .20
+            );
+
+          pulse.style.opacity =
+            pulseOpacity;
+
+        }
 
       }
 
@@ -2159,14 +2248,18 @@
     );
 
 
-    /* START */
+    /* =========================================================
+       START ANIMATION
+       ========================================================= */
 
     requestAnimationFrame(
       animateHeroLogo
     );
 
 
-    /* FORM */
+    /* =========================================================
+       FORM
+       ========================================================= */
 
     registrationForm.addEventListener(
       "submit",
@@ -2204,7 +2297,9 @@
     );
 
 
-    /* INITIALIZATION */
+    /* =========================================================
+       INITIALIZATION
+       ========================================================= */
 
     checkInstagramMemory();
 
@@ -2212,8 +2307,8 @@
 
     startRegisterVideo();
 
-
   </script>
+
 
 </body>
 </html>
