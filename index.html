@@ -2,7 +2,6 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -369,7 +368,7 @@
 
 
     /* =========================================================
-       NEW TRANSITION
+       RED SLICE TRANSITION
        ========================================================= */
 
     .motion {
@@ -377,349 +376,231 @@
       height: 32svh;
       min-height: 220px;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      background: #050505;
+      background: var(--black);
+      display: block;
       isolation: isolate;
     }
 
 
     /*
-      Soft red atmospheric glow.
-      Very subtle: it should be felt, not seen as a shape.
+      Grande NORMATHERS fantasma.
+      Non deve essere letto come titolo:
+      serve solo a dare profondità alla scena.
     */
 
-    .motion::before {
-      content: "";
+    .motion-ghost {
       position: absolute;
-      width: 220px;
-      height: 120px;
+      z-index: 1;
 
-      left: 50%;
+      left: -7%;
       top: 50%;
 
       transform:
-        translate(-50%, -50%);
+        translateY(-50%)
+        rotate(-7deg);
 
-      background:
-        radial-gradient(
-          ellipse,
-          rgba(255,0,0,.13) 0%,
-          rgba(255,0,0,.055) 32%,
-          rgba(255,0,0,0) 72%
-        );
+      font-family: "Anton", sans-serif;
+      font-size: 34vw;
+      line-height: .72;
+      letter-spacing: -.035em;
 
-      filter: blur(18px);
+      white-space: nowrap;
 
-      animation:
-        atmosphere 4.8s ease-in-out infinite;
+      color: transparent;
 
-      pointer-events: none;
-    }
+      -webkit-text-stroke:
+        1px rgba(255,255,255,.11);
 
-    @keyframes atmosphere {
-
-      0%,
-      100% {
-        transform:
-          translate(-50%, -50%)
-          scale(.88);
-        opacity: .55;
-      }
-
-      50% {
-        transform:
-          translate(-50%, -50%)
-          scale(1.12);
-        opacity: 1;
-      }
-
-    }
-
-
-    /*
-      Minimal top information.
-    */
-
-    .motion-index {
-      position: absolute;
-      z-index: 10;
-
-      top: 13px;
-      left: 16px;
-
-      font-size: 6px;
-      font-weight: 900;
-      letter-spacing: .22em;
-
-      color: rgba(255,255,255,.55);
-    }
-
-    .motion-index span {
-      color: var(--red);
-    }
-
-
-    .motion-date {
-      position: absolute;
-      z-index: 10;
-
-      top: 13px;
-      right: 16px;
-
-      font-size: 6px;
-      font-weight: 900;
-      letter-spacing: .2em;
-
-      color: rgba(255,255,255,.42);
-    }
-
-
-    /*
-      Organic / anatomical-inspired shape.
-      Not a literal heart.
-      It behaves like a living object behind the DJ name.
-    */
-
-    .organic-form {
-      position: absolute;
-      z-index: 2;
-
-      left: 50%;
-      top: 50%;
-
-      width: 118px;
-      height: 145px;
-
-      transform:
-        translate(-50%, -50%)
-        rotate(20deg);
-
-      opacity: .75;
-
-      filter:
-        blur(.15px)
-        drop-shadow(
-          0 0 14px rgba(255,0,0,.16)
-        );
+      opacity: .7;
 
       will-change: transform;
     }
 
 
-    .organic-form::before {
-      content: "";
+    /*
+      Piccola informazione editoriale.
+    */
 
+    .motion-label {
       position: absolute;
-      inset: 12px 19px;
+      z-index: 8;
 
-      border-radius:
-        48% 52% 43% 57%
-        /
-        40% 47% 53% 60%;
+      top: 15px;
+      left: 16px;
 
-      border:
-        1px solid rgba(255,255,255,.24);
+      font-size: 6px;
+      font-weight: 900;
+      letter-spacing: .24em;
 
-      transform:
-        rotate(-15deg)
-        skewY(-4deg);
+      color: rgba(255,255,255,.55);
+    }
 
-      animation:
-        organicMorph 4.2s ease-in-out infinite;
+    .motion-label span {
+      color: var(--red);
     }
 
 
-    .organic-form::after {
-      content: "";
-
+    .motion-number {
       position: absolute;
+      z-index: 8;
 
-      width: 2px;
-      height: 82px;
+      right: 16px;
+      bottom: 15px;
 
-      left: 57px;
-      top: 28px;
+      font-family: "Anton", sans-serif;
+      font-size: 12px;
+      line-height: 1;
 
-      background:
-        linear-gradient(
-          to bottom,
-          transparent,
-          rgba(255,0,0,.75),
-          rgba(255,0,0,.05),
-          transparent
-        );
-
-      transform:
-        rotate(31deg);
-
-      animation:
-        veinPulse 1.7s ease-in-out infinite;
-    }
-
-
-    @keyframes organicMorph {
-
-      0%,
-      100% {
-        border-radius:
-          48% 52% 43% 57%
-          /
-          40% 47% 53% 60%;
-
-        transform:
-          rotate(-15deg)
-          skewY(-4deg)
-          scale(1);
-      }
-
-      50% {
-        border-radius:
-          56% 44% 55% 45%
-          /
-          48% 58% 42% 52%;
-
-        transform:
-          rotate(-8deg)
-          skewY(3deg)
-          scale(1.06);
-      }
-
-    }
-
-
-    @keyframes veinPulse {
-
-      0%,
-      100% {
-        opacity: .3;
-        height: 72px;
-      }
-
-      50% {
-        opacity: .9;
-        height: 92px;
-      }
-
+      color: rgba(255,255,255,.35);
     }
 
 
     /*
-      Fine orbit around organic form.
+      La LAMA.
+      È il vero elemento protagonista.
     */
 
-    .orbit-ring {
+    .red-slice {
       position: absolute;
-      z-index: 1;
+      z-index: 5;
 
-      left: 50%;
+      left: -24%;
       top: 50%;
 
-      width: 188px;
-      height: 66px;
-
-      border:
-        1px solid rgba(255,255,255,.16);
-
-      border-radius: 50%;
+      width: 148%;
+      height: 48px;
 
       transform:
-        translate(-50%, -50%)
-        rotate(-17deg);
+        translate3d(0,-50%,0)
+        rotate(-8deg);
 
-      animation:
-        ringFloat 6s ease-in-out infinite;
+      background: var(--red);
+
+      box-shadow:
+        0 0 28px rgba(255,0,0,.12);
+
+      overflow: hidden;
+
+      will-change: transform;
     }
 
-    .orbit-ring::after {
+
+    /*
+      Bordo nero interno.
+      Rende la lama più grafica.
+    */
+
+    .red-slice::before {
       content: "";
 
       position: absolute;
 
-      width: 4px;
-      height: 4px;
+      left: 0;
+      right: 0;
+      top: 4px;
 
-      top: -2px;
-      left: 50%;
+      height: 1px;
 
-      margin-left: -2px;
+      background: rgba(0,0,0,.75);
+    }
 
-      background: var(--red);
+    .red-slice::after {
+      content: "";
 
-      border-radius: 50%;
+      position: absolute;
 
-      box-shadow:
-        0 0 10px rgba(255,0,0,.9);
+      left: 0;
+      right: 0;
+      bottom: 4px;
+
+      height: 1px;
+
+      background: rgba(0,0,0,.75);
+    }
+
+
+    /*
+      Il testo dentro la lama.
+    */
+
+    .slice-track {
+      position: absolute;
+
+      top: 50%;
+      left: 0;
+
+      transform:
+        translateY(-50%);
+
+      display: flex;
+      align-items: center;
+
+      white-space: nowrap;
+
+      font-family: "Anton", sans-serif;
+      font-size: 19px;
+      line-height: 1;
+
+      letter-spacing: .025em;
+
+      color: var(--black);
 
       animation:
-        ringDot 5.5s linear infinite;
+        sliceMove 8s linear infinite;
     }
 
-    @keyframes ringFloat {
-
-      0%,
-      100% {
-        transform:
-          translate(-50%, -50%)
-          rotate(-17deg)
-          scale(1);
-      }
-
-      50% {
-        transform:
-          translate(-50%, -50%)
-          rotate(-11deg)
-          scale(1.04);
-      }
-
+    .slice-track span {
+      display: inline-block;
+      padding-right: 34px;
     }
 
-    @keyframes ringDot {
+    @keyframes sliceMove {
 
       from {
         transform:
-          rotate(0deg)
-          translateX(94px)
-          rotate(0deg);
+          translate3d(0,-50%,0);
       }
 
       to {
         transform:
-          rotate(360deg)
-          translateX(94px)
-          rotate(-360deg);
+          translate3d(-33.333%,-50%,0);
       }
 
     }
 
 
     /*
-      NORMATHERS
-      Smaller and integrated into the composition.
+      NORMATHERS vero.
+      Più piccolo, leggermente fuori asse.
     */
 
     .dj-name {
       position: absolute;
-      z-index: 6;
+      z-index: 7;
 
-      left: 50%;
+      left: 16px;
       top: 50%;
 
       transform:
-        translate3d(-50%, -50%, 0);
+        translate3d(0,-50%,0);
 
       font-family: "Anton", sans-serif;
 
       font-size:
-        clamp(38px, 12.5vw, 58px);
+        clamp(40px, 12.5vw, 58px);
 
-      line-height: .82;
+      line-height: .8;
 
-      letter-spacing: -.02em;
+      letter-spacing: -.025em;
 
       white-space: nowrap;
 
       color: var(--white);
+
+      /*
+        Piccolo offset rosso:
+        non è un glow, è stampa disallineata.
+      */
 
       text-shadow:
         2px 0 var(--red);
@@ -729,115 +610,26 @@
 
 
     /*
-      Small DJ designation.
-    */
-
-    .dj-subtitle {
-      position: absolute;
-      z-index: 7;
-
-      left: 50%;
-      top: calc(50% + 29px);
-
-      transform:
-        translate3d(-50%, 0, 0);
-
-      font-size: 5px;
-      font-weight: 900;
-      letter-spacing: .28em;
-
-      color: rgba(255,255,255,.48);
-
-      white-space: nowrap;
-
-      will-change: transform;
-    }
-
-
-    /*
-      THE RED MARQUEE
-      Much thinner than the old one.
-      It cuts through the composition rather than becoming
-      the whole composition.
-    */
-
-    .marquee {
-      position: absolute;
-      z-index: 8;
-
-      left: -12%;
-      top: 51%;
-
-      width: 124%;
-
-      padding: 8px 0;
-
-      background: var(--red);
-      color: var(--black);
-
-      transform:
-        translateY(-50%)
-        rotate(-6deg);
-
-      overflow: hidden;
-
-      box-shadow:
-        0 0 24px rgba(255,0,0,.12);
-
-      will-change: transform;
-    }
-
-
-    .marquee-track {
-      white-space: nowrap;
-
-      font-family: "Anton", sans-serif;
-
-      font-size: 17px;
-
-      line-height: 1;
-
-      letter-spacing: .035em;
-
-      animation:
-        marquee 9s linear infinite;
-    }
-
-
-    @keyframes marquee {
-
-      from {
-        transform: translateX(0);
-      }
-
-      to {
-        transform: translateX(-35%);
-      }
-
-    }
-
-
-    /*
-      Tiny technical line above marquee.
+      Una linea bianca molto sottile.
+      È l'unico altro gesto grafico.
     */
 
     .motion-line {
       position: absolute;
-      z-index: 9;
+      z-index: 4;
 
       left: 16px;
       right: 16px;
-      top: 37px;
+
+      top: 50%;
 
       height: 1px;
 
       background:
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,.08),
-          rgba(255,255,255,.22),
-          rgba(255,255,255,.08)
-        );
+        rgba(255,255,255,.18);
+
+      transform:
+        translateY(-50%);
 
       transform-origin: center;
 
@@ -846,50 +638,67 @@
 
 
     /*
-      Tiny corner labels.
+      Piccolo testo sotto NORMATHERS.
     */
 
-    .motion-left-data {
+    .dj-meta {
       position: absolute;
-      z-index: 10;
+      z-index: 8;
 
-      left: 16px;
-      bottom: 14px;
+      left: 17px;
+      top: calc(50% + 32px);
 
       font-size: 5px;
       font-weight: 900;
-      letter-spacing: .19em;
+      letter-spacing: .23em;
 
-      color: rgba(255,255,255,.4);
+      color: rgba(255,255,255,.42);
+
+      white-space: nowrap;
 
       will-change: transform;
     }
 
-    .motion-left-data strong {
-      color: var(--white);
-    }
 
+    /*
+      Punto luminoso che corre sulla linea.
+    */
 
-    .motion-right-data {
+    .motion-line::after {
+      content: "";
+
       position: absolute;
-      z-index: 10;
 
-      right: 16px;
-      bottom: 14px;
+      left: 0;
+      top: 50%;
 
-      text-align: right;
+      width: 3px;
+      height: 3px;
 
-      font-size: 5px;
-      font-weight: 900;
-      letter-spacing: .19em;
+      border-radius: 50%;
 
-      color: rgba(255,255,255,.4);
+      background: var(--red);
 
-      will-change: transform;
+      box-shadow:
+        0 0 8px rgba(255,0,0,.9);
+
+      transform:
+        translateY(-50%);
+
+      animation:
+        lineDot 3.4s linear infinite;
     }
 
-    .motion-right-data strong {
-      color: var(--red);
+    @keyframes lineDot {
+
+      0% {
+        left: 0%;
+      }
+
+      100% {
+        left: 100%;
+      }
+
     }
 
 
@@ -1412,55 +1221,27 @@
 
 
   <!-- =========================================================
-       DJ TRANSITION
+       RED SLICE TRANSITION
        ========================================================= -->
 
   <section class="motion" id="djTransition">
 
 
-    <div class="motion-index">
+    <!-- Giant ghost typography -->
+
+    <div class="motion-ghost" id="motionGhost">
+      NORMATHERS
+    </div>
+
+
+    <!-- Tiny editorial label -->
+
+    <div class="motion-label">
       001 <span>/ DJ PROGRAM</span>
     </div>
 
 
-    <div class="motion-date">
-      18.10.2026 / FOGGIA
-    </div>
-
-
-    <!-- Organic abstract form -->
-
-    <div
-      class="organic-form"
-      id="organicForm"
-    ></div>
-
-
-    <!-- Orbit -->
-
-    <div
-      class="orbit-ring"
-      id="orbitRing"
-    ></div>
-
-
-    <!-- Red marquee -->
-
-    <div
-      class="marquee"
-      id="djMarquee"
-    >
-
-      <div class="marquee-track">
-
-        NORMATHERS — ROTAROTT — NORMATHERS — ROTAROTT — NORMATHERS — ROTAROTT —
-
-      </div>
-
-    </div>
-
-
-    <!-- Fine horizontal line -->
+    <!-- Thin horizontal axis -->
 
     <div
       class="motion-line"
@@ -1468,7 +1249,7 @@
     ></div>
 
 
-    <!-- DJ name -->
+    <!-- DJ -->
 
     <div
       class="dj-name"
@@ -1478,37 +1259,49 @@
     </div>
 
 
-    <!-- DJ subtitle -->
-
     <div
-      class="dj-subtitle"
-      id="djSubtitle"
+      class="dj-meta"
+      id="djMeta"
     >
-      DJ / ROTAROTT / 001
+      DJ / ROTAROTT / FOGGIA
     </div>
 
 
-    <!-- Bottom information -->
+    <!-- Red moving slice -->
 
     <div
-      class="motion-left-data"
-      id="motionLeftData"
+      class="red-slice"
+      id="redSlice"
     >
 
-      <strong>MÆDNESS LIVE</strong><br>
-      41°27'N / 15°33'E
+      <div class="slice-track">
+
+        <span>
+          NORMATHERS — ROTAROTT —
+        </span>
+
+        <span>
+          NORMATHERS — ROTAROTT —
+        </span>
+
+        <span>
+          NORMATHERS — ROTAROTT —
+        </span>
+
+        <span>
+          NORMATHERS — ROTAROTT —
+        </span>
+
+      </div>
 
     </div>
 
 
     <div
-      class="motion-right-data"
-      id="motionRightData"
+      class="motion-number"
+      id="motionNumber"
     >
-
-      <strong>ACTIVE</strong><br>
-      ACCESS / 2026
-
+      01
     </div>
 
 
@@ -1770,6 +1563,27 @@
     const graphics =
       document.getElementById("graphics");
 
+    const djTransition =
+      document.getElementById("djTransition");
+
+    const motionGhost =
+      document.getElementById("motionGhost");
+
+    const redSlice =
+      document.getElementById("redSlice");
+
+    const djName =
+      document.getElementById("djName");
+
+    const djMeta =
+      document.getElementById("djMeta");
+
+    const motionLine =
+      document.getElementById("motionLine");
+
+    const motionNumber =
+      document.getElementById("motionNumber");
+
     const instagramButton =
       document.getElementById("instagramButton");
 
@@ -1796,39 +1610,7 @@
 
 
     /* =========================================================
-       DJ TRANSITION ELEMENTS
-       ========================================================= */
-
-    const djTransition =
-      document.getElementById("djTransition");
-
-    const djName =
-      document.getElementById("djName");
-
-    const djSubtitle =
-      document.getElementById("djSubtitle");
-
-    const djMarquee =
-      document.getElementById("djMarquee");
-
-    const organicForm =
-      document.getElementById("organicForm");
-
-    const orbitRing =
-      document.getElementById("orbitRing");
-
-    const motionLine =
-      document.getElementById("motionLine");
-
-    const motionLeftData =
-      document.getElementById("motionLeftData");
-
-    const motionRightData =
-      document.getElementById("motionRightData");
-
-
-    /* =========================================================
-       GET IN ENTRANCE ANIMATION
+       GET IN ENTRANCE
        ========================================================= */
 
     if (registerTitle) {
@@ -2035,7 +1817,9 @@
     let ticking = false;
 
 
-    /* HERO */
+    /*
+      HERO
+    */
 
     let logoTargetX = -3;
     let logoCurrentX = -3;
@@ -2044,7 +1828,15 @@
     let logoCurrentY = 0;
 
 
-    /* DJ TRANSITION */
+    /*
+      RED SLICE
+    */
+
+    let ghostTargetX = 0;
+    let ghostCurrentX = 0;
+
+    let sliceTargetX = 0;
+    let sliceCurrentX = 0;
 
     let djTargetX = 0;
     let djCurrentX = 0;
@@ -2052,38 +1844,20 @@
     let djTargetY = 0;
     let djCurrentY = 0;
 
-    let subtitleTargetY = 0;
-    let subtitleCurrentY = 0;
-
-    let marqueeTargetY = 0;
-    let marqueeCurrentY = 0;
-
-    let organicTargetX = 0;
-    let organicCurrentX = 0;
-
-    let organicTargetY = 0;
-    let organicCurrentY = 0;
-
-    let orbitTargetX = 0;
-    let orbitCurrentX = 0;
+    let metaTargetX = 0;
+    let metaCurrentX = 0;
 
     let lineTargetX = 0;
     let lineCurrentX = 0;
 
-    let leftTargetX = 0;
-    let leftCurrentX = 0;
 
-    let rightTargetX = 0;
-    let rightCurrentX = 0;
+    function animateScene() {
 
-
-    function animateHeroLogo() {
+      const heroEase = .12;
 
       /*
         HERO
       */
-
-      const heroEase = 0.12;
 
       logoCurrentX +=
         (
@@ -2107,6 +1881,44 @@
 
 
       /*
+        GHOST
+      */
+
+      ghostCurrentX +=
+        (
+          ghostTargetX -
+          ghostCurrentX
+        ) * .055;
+
+
+      motionGhost.style.transform =
+        `translate3d(
+          ${ghostCurrentX}px,
+          -50%,
+          0
+        ) rotate(-7deg)`;
+
+
+      /*
+        RED SLICE
+      */
+
+      sliceCurrentX +=
+        (
+          sliceTargetX -
+          sliceCurrentX
+        ) * .07;
+
+
+      redSlice.style.transform =
+        `translate3d(
+          ${sliceCurrentX}px,
+          -50%,
+          0
+        ) rotate(-8deg)`;
+
+
+      /*
         DJ NAME
       */
 
@@ -2114,107 +1926,44 @@
         (
           djTargetX -
           djCurrentX
-        ) * .085;
+        ) * .09;
 
       djCurrentY +=
         (
           djTargetY -
           djCurrentY
-        ) * .085;
+        ) * .09;
 
 
       djName.style.transform =
         `translate3d(
-          calc(-50% + ${djCurrentX}px),
+          ${djCurrentX}px,
           calc(-50% + ${djCurrentY}px),
           0
         )`;
 
 
       /*
-        SUBTITLE
+        META
       */
 
-      subtitleCurrentY +=
+      metaCurrentX +=
         (
-          subtitleTargetY -
-          subtitleCurrentY
+          metaTargetX -
+          metaCurrentX
         ) * .09;
 
 
-      djSubtitle.style.transform =
+      djMeta.style.transform =
         `translate3d(
-          -50%,
-          ${subtitleCurrentY}px,
+          ${metaCurrentX}px,
+          0,
           0
         )`;
 
 
       /*
-        MARQUEE
-      */
-
-      marqueeCurrentY +=
-        (
-          marqueeTargetY -
-          marqueeCurrentY
-        ) * .08;
-
-
-      djMarquee.style.transform =
-        `translate3d(
-          0,
-          calc(-50% + ${marqueeCurrentY}px),
-          0
-        ) rotate(-6deg)`;
-
-
-      /*
-        ORGANIC FORM
-      */
-
-      organicCurrentX +=
-        (
-          organicTargetX -
-          organicCurrentX
-        ) * .07;
-
-      organicCurrentY +=
-        (
-          organicTargetY -
-          organicCurrentY
-        ) * .07;
-
-
-      organicForm.style.transform =
-        `translate3d(
-          calc(-50% + ${organicCurrentX}px),
-          calc(-50% + ${organicCurrentY}px),
-          0
-        ) rotate(20deg)`;
-
-
-      /*
-        ORBIT
-      */
-
-      orbitCurrentX +=
-        (
-          orbitTargetX -
-          orbitCurrentX
-        ) * .07;
-
-
-      orbitRing.style.transform =
-        `translate3d(
-          calc(-50% + ${orbitCurrentX}px),
-          -50%,
-          0
-        ) rotate(-17deg)`;
-
-
-      /*
-        HORIZONTAL LINE
+        LINE
       */
 
       lineCurrentX +=
@@ -2227,46 +1976,13 @@
       motionLine.style.transform =
         `translate3d(
           ${lineCurrentX}px,
-          0,
-          0
-        )`;
-
-
-      /*
-        BOTTOM DATA
-      */
-
-      leftCurrentX +=
-        (
-          leftTargetX -
-          leftCurrentX
-        ) * .08;
-
-      rightCurrentX +=
-        (
-          rightTargetX -
-          rightCurrentX
-        ) * .08;
-
-
-      motionLeftData.style.transform =
-        `translate3d(
-          ${leftCurrentX}px,
-          0,
-          0
-        )`;
-
-
-      motionRightData.style.transform =
-        `translate3d(
-          ${rightCurrentX}px,
-          0,
+          -50%,
           0
         )`;
 
 
       requestAnimationFrame(
-        animateHeroLogo
+        animateScene
       );
 
     }
@@ -2298,7 +2014,7 @@
 
 
       /* =====================================================
-         MICRO GRAPHICS
+         FIXED GRAPHICS
          ===================================================== */
 
       const graphicsFade =
@@ -2312,7 +2028,7 @@
 
 
       /* =====================================================
-         HERO PARALLAX
+         HERO
          ===================================================== */
 
       const heroOffset =
@@ -2324,10 +2040,6 @@
       hero.style.backgroundPosition =
         `center calc(50% + ${heroOffset}px)`;
 
-
-      /* =====================================================
-         HERO LOGO
-         ===================================================== */
 
       const logoMove =
         Math.min(
@@ -2347,112 +2059,78 @@
 
 
       /* =====================================================
-         TRANSITION
+         RED SLICE SCROLL
          ===================================================== */
 
       if (djTransition) {
 
-        const motionTop =
+        const sectionTop =
           djTransition.offsetTop;
 
-        const motionHeight =
+        const sectionHeight =
           djTransition.offsetHeight;
 
 
-        const progressRaw =
+        const raw =
           (
             scrollTop -
-            motionTop +
-            window.innerHeight * .30
+            sectionTop +
+            window.innerHeight * .38
           ) /
           (
-            motionHeight +
-            window.innerHeight * .38
+            sectionHeight +
+            window.innerHeight * .45
           );
 
 
-        const motionProgress =
+        const p =
           Math.max(
             0,
             Math.min(
               1,
-              progressRaw
+              raw
             )
           );
 
 
         /*
-          NORMATHERS:
-          only a gentle slide.
-          Never leaves the centre.
+          Ghost typography moves opposite
+          to the real DJ name.
+        */
+
+        ghostTargetX =
+          -p * 65;
+
+
+        /*
+          Red slice reacts more strongly.
+        */
+
+        sliceTargetX =
+          p * 34;
+
+
+        /*
+          NORMATHERS moves only a little.
         */
 
         djTargetX =
-          (
-            motionProgress -
-            .5
-          ) * 24;
-
+          p * 22;
 
         djTargetY =
-          -motionProgress * 7;
+          p * -5;
+
+
+        metaTargetX =
+          p * 18;
 
 
         /*
-          Subtitle follows differently.
-        */
-
-        subtitleTargetY =
-          motionProgress * 8;
-
-
-        /*
-          Marquee reacts to scroll,
-          but loop remains active.
-        */
-
-        marqueeTargetY =
-          motionProgress * 18;
-
-
-        /*
-          Organic shape drifts in the
-          opposite direction.
-        */
-
-        organicTargetX =
-          -motionProgress * 24;
-
-        organicTargetY =
-          motionProgress * 12;
-
-
-        /*
-          Orbit follows the organic form.
-        */
-
-        orbitTargetX =
-          motionProgress * 34;
-
-
-        /*
-          Fine line stretches slightly.
+          Line drifts in the opposite direction.
         */
 
         lineTargetX =
-          motionProgress * 18;
-
-
-        /*
-          Bottom information separates.
-        */
-
-        leftTargetX =
-          -motionProgress * 10;
-
-        rightTargetX =
-          motionProgress * 10;
-
+          -p * 22;
 
       }
 
@@ -2488,7 +2166,7 @@
        ========================================================= */
 
     requestAnimationFrame(
-      animateHeroLogo
+      animateScene
     );
 
 
