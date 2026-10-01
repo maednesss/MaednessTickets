@@ -407,7 +407,8 @@
       font-weight: 800;
       letter-spacing: .18em;
       text-transform: uppercase;
-      opacity: .58;
+      opacity: .78;
+      color: var(--red);
     }
 
     .motion-meta-right {
@@ -429,7 +430,8 @@
       font-weight: 800;
       letter-spacing: .16em;
       text-transform: uppercase;
-      opacity: .58;
+      opacity: .78;
+      color: var(--red);
     }
 
     .motion-status-number {
@@ -438,10 +440,23 @@
       letter-spacing: .04em;
       opacity: .8;
       text-align: right;
+      color: var(--white);
     }
 
     .motion-status-text {
       min-width: 110px;
+    }
+
+    .motion-code {
+      display: inline-block;
+      min-width: 118px;
+      white-space: nowrap;
+      text-align: left;
+      color: var(--red);
+    }
+
+    .motion-meta-right .motion-code {
+      text-align: right;
     }
 
     /* REGISTRATION */
@@ -905,13 +920,11 @@
     <div class="motion-meta" aria-hidden="true">
 
       <div>
-        001 / TRANSMISSION<br>
-        18.10.2026
+        <span class="motion-code" id="motionCodeTL">001 / TRANSMISSION</span>
       </div>
 
       <div class="motion-meta-right">
-        ROTAROTT<br>
-        FOGGIA / ITALY
+        <span class="motion-code" id="motionCodeTR">ROTAROTT</span>
       </div>
 
     </div>
@@ -939,7 +952,7 @@
     <div class="motion-status" aria-hidden="true">
 
       <span
-        class="motion-status-text"
+        class="motion-status-text motion-code"
         id="motionStatus"
       >
         ENTER / SIGNAL
@@ -1196,6 +1209,12 @@
     const motionStatusNumber =
       document.getElementById("motionStatusNumber");
 
+    const motionCodeTL =
+      document.getElementById("motionCodeTL");
+
+    const motionCodeTR =
+      document.getElementById("motionCodeTR");
+
     const graphics =
       document.getElementById("graphics");
 
@@ -1417,6 +1436,209 @@
     );
 
 
+    /* =========================================================
+       MOTION MATRIX TEXT LOOP
+       ========================================================= */
+
+    const motionCodeSets = {
+
+      tl: [
+        "001 / TRANSMISSION",
+        "SIGNAL / ACTIVE",
+        "SYSTEM / READY",
+        "ACCESS / 2026",
+        "MÆDNESS / FOGGIA",
+        "CHANNEL / 001",
+        "18.10.2026 / LIVE",
+        "DATA / RECEIVED"
+      ],
+
+      tr: [
+        "ROTAROTT",
+        "FOGGIA / ITALY",
+        "18.10.2026",
+        "SIGNAL / LOCKED",
+        "ACCESS / OPEN",
+        "MÆDNESS / 001",
+        "CHANNEL / ACTIVE",
+        "LOCATION / 41°27'N"
+      ],
+
+      bl: [
+        "ENTER / SIGNAL",
+        "ALIGN / NORMATHERS",
+        "ROTAROTT / ACCESS",
+        "SYNC / ACTIVE",
+        "SYSTEM / ONLINE",
+        "SIGNAL / FOUND",
+        "ACCESS / GRANTED",
+        "TRANSMISSION / OK"
+      ]
+
+    };
+
+
+    const matrixChars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 /.-_:°Æ";
+
+
+    function randomMatrixString(target) {
+
+      if (!target) return;
+
+      const finalText =
+        target.dataset.matrixFinal ||
+        target.textContent;
+
+      const length =
+        finalText.length;
+
+      let frame = "";
+
+      for (
+        let i = 0;
+        i < length;
+        i++
+      ) {
+
+        if (
+          finalText[i] === " "
+        ) {
+
+          frame += " ";
+
+        } else if (
+          Math.random() < 0.24
+        ) {
+
+          frame += finalText[i];
+
+        } else {
+
+          frame +=
+            matrixChars[
+              Math.floor(
+                Math.random() *
+                matrixChars.length
+              )
+            ];
+
+        }
+
+      }
+
+      target.textContent = frame;
+
+    }
+
+
+    function runMatrixCycle(
+      target,
+      values,
+      delay = 0
+    ) {
+
+      if (
+        !target ||
+        !values.length
+      ) {
+        return;
+      }
+
+      setTimeout(() => {
+
+        let currentIndex = 0;
+
+
+        function next() {
+
+          currentIndex =
+            (
+              currentIndex + 1
+            ) % values.length;
+
+          const finalText =
+            values[currentIndex];
+
+          target.dataset.matrixFinal =
+            finalText;
+
+          let frame = 0;
+
+          const totalFrames = 7;
+
+          const frameDuration = 42;
+
+
+          const scramble =
+            setInterval(() => {
+
+              frame++;
+
+              randomMatrixString(
+                target
+              );
+
+
+              if (
+                frame >= totalFrames
+              ) {
+
+                clearInterval(
+                  scramble
+                );
+
+                target.textContent =
+                  finalText;
+
+                setTimeout(
+                  next,
+                  650 +
+                  Math.random() * 650
+                );
+
+              }
+
+            }, frameDuration);
+
+        }
+
+
+        target.dataset.matrixFinal =
+          values[0];
+
+        target.textContent =
+          values[0];
+
+        setTimeout(
+          next,
+          900
+        );
+
+      }, delay);
+
+    }
+
+
+    runMatrixCycle(
+      motionCodeTL,
+      motionCodeSets.tl,
+      0
+    );
+
+    runMatrixCycle(
+      motionCodeTR,
+      motionCodeSets.tr,
+      420
+    );
+
+    runMatrixCycle(
+      motionStatus,
+      motionCodeSets.bl,
+      840
+    );
+
+
     /* SCROLL ANIMATION */
 
     let ticking = false;
@@ -1630,14 +1852,12 @@
         */
 
         if (
-          motionStatus &&
           motionStatusNumber
         ) {
 
-          if (motionProgress < 0.32) {
-
-            motionStatus.textContent =
-              "ENTER / SIGNAL";
+          if (
+            motionProgress < 0.32
+          ) {
 
             motionStatusNumber.textContent =
               "01";
@@ -1646,16 +1866,10 @@
             motionProgress < 0.68
           ) {
 
-            motionStatus.textContent =
-              "ALIGN / NORMATHERS";
-
             motionStatusNumber.textContent =
               "02";
 
           } else {
-
-            motionStatus.textContent =
-              "ROTAROTT / ACCESS";
 
             motionStatusNumber.textContent =
               "03";
