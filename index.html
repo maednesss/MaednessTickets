@@ -339,7 +339,10 @@
       }
     }
 
-    /* MOTION / HORIZONTAL SPLIT */
+    /* =========================================================
+       MOTION / NORMATHERS HORIZONTAL SPLIT
+       ========================================================= */
+
     .motion {
       position: relative;
       height: 32svh;
@@ -354,22 +357,25 @@
     .motion-split {
       position: relative;
       width: 100%;
-      height: clamp(82px, 24vw, 118px);
+      height: clamp(82px, 25vw, 120px);
       overflow: hidden;
     }
 
     .motion-half {
       position: absolute;
+      top: 0;
       left: 50%;
       width: max-content;
       white-space: nowrap;
+
       font-family: "Anton", sans-serif;
       font-size: clamp(72px, 25vw, 122px);
       line-height: .8;
       letter-spacing: -.025em;
+
       color: transparent;
       -webkit-text-stroke: 1px rgba(255,255,255,.28);
-      transform: translateX(-50%);
+
       will-change: transform;
       pointer-events: none;
     }
@@ -378,13 +384,19 @@
       display: block;
     }
 
+    /*
+      La metà superiore mostra esclusivamente
+      la parte alta della parola.
+    */
     .motion-half.top {
-      top: 0;
       clip-path: inset(0 0 50% 0);
     }
 
+    /*
+      La metà inferiore mostra esclusivamente
+      la parte bassa della parola.
+    */
     .motion-half.bottom {
-      top: 0;
       clip-path: inset(50% 0 0 0);
     }
 
@@ -466,7 +478,6 @@
       justify-self: end;
       align-self: start;
 
-      /* Necessario per posizionare le cornici sugli angoli */
       position: relative;
     }
 
@@ -1471,20 +1482,30 @@
 
 
       /*
-        MOTION / HORIZONTAL SPLIT
+        ========================================================
+        NORMATHERS / HORIZONTAL SPLIT
 
-        La scritta entra nella sezione già
-        perfettamente combaciata.
+        IMPORTANTE:
 
-        Il movimento viene calcolato in base
-        alla posizione reale della sezione
-        rispetto alla viewport:
+        Quando la sezione entra nella viewport:
+        le due metà sono SEPARATE.
 
-        0%   = ingresso della motion
-        100% = uscita della motion
+        Al centro della sezione:
+        le due metà si UNISCONO.
 
-        La metà superiore va a destra.
-        La metà inferiore va a sinistra.
+        Quando la sezione esce:
+        le due metà si SEPARANO nuovamente.
+
+        Quindi:
+
+        INGRESSO       CENTRO        USCITA
+
+        TOP   →        NORMATHERS    ← TOP
+        BOTTOM ←        NORMATHERS    → BOTTOM
+
+        Il valore di progressione viene calcolato
+        sulla posizione reale della .motion rispetto
+        alla viewport.
       */
 
       if (
@@ -1502,6 +1523,14 @@
         const viewportHeight =
           window.innerHeight;
 
+        /*
+          progress 0:
+          la sezione sta entrando dal basso.
+
+          progress 1:
+          la sezione sta uscendo verso l'alto.
+        */
+
         const start =
           viewportHeight;
 
@@ -1514,14 +1543,57 @@
         const travelled =
           start - motionRect.top;
 
-        const motionProgress =
+        let motionProgress =
+          travelled / total;
+
+        motionProgress =
           Math.max(
             0,
             Math.min(
               1,
-              travelled / total
+              motionProgress
             )
           );
+
+        /*
+          Trasformiamo:
+
+          0 → 1
+
+          in:
+
+          1 → 0 → 1
+
+          usando il centro come punto
+          di completa ricomposizione.
+        */
+
+        const distanceFromCenter =
+          Math.abs(
+            motionProgress - 0.5
+          ) * 2;
+
+        /*
+          Smoothstep per rendere
+          il movimento più organico:
+          lento vicino al centro,
+          più deciso verso gli estremi.
+        */
+
+        const splitEase =
+          distanceFromCenter *
+          distanceFromCenter *
+          (3 - 2 * distanceFromCenter);
+
+        /*
+          Massima distanza orizzontale.
+
+          La metà superiore viene spinta
+          verso destra.
+
+          La metà inferiore viene spinta
+          verso sinistra.
+        */
 
         const maxSplit =
           Math.min(
@@ -1530,7 +1602,12 @@
           );
 
         const splitDistance =
-          motionProgress * maxSplit;
+          splitEase * maxSplit;
+
+
+        /*
+          TOP → DESTRA
+        */
 
         motionTop.style.transform =
           `translate3d(
@@ -1539,13 +1616,20 @@
             0
           )`;
 
+
+        /*
+          BOTTOM → SINISTRA
+        */
+
         motionBottom.style.transform =
           `translate3d(
             calc(-50% - ${splitDistance}px),
             0,
             0
           )`;
+
       }
+
 
       ticking = false;
 
