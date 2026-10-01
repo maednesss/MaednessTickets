@@ -354,8 +354,179 @@
       background: var(--black);
     }
 
+    /*
+      MICRO DETAILS / TRANSITION UI
+    */
+
+    .motion-meta {
+      position: absolute;
+      z-index: 2;
+      top: 18px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+      font-size: 6px;
+      line-height: 1.55;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.38);
+      transition: opacity .12s ease;
+    }
+
+    .motion-meta-right {
+      text-align: right;
+    }
+
+    .motion-meta .red {
+      color: rgba(255,0,0,.75);
+    }
+
+    .motion-status {
+      position: absolute;
+      z-index: 2;
+      bottom: 17px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      pointer-events: none;
+    }
+
+    .motion-status-label {
+      font-size: 6px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: .22em;
+      color: rgba(255,255,255,.35);
+      transition: color .15s ease;
+    }
+
+    .motion-status-number {
+      font-family: "Anton", sans-serif;
+      font-size: 12px;
+      line-height: 1;
+      letter-spacing: .04em;
+      color: rgba(255,255,255,.22);
+    }
+
+    .motion-signal {
+      position: absolute;
+      z-index: 1;
+      left: 16px;
+      right: 16px;
+      top: 50%;
+      height: 1px;
+      background: rgba(255,255,255,.07);
+      pointer-events: none;
+      transform: translateY(-.5px);
+    }
+
+    .motion-signal::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 27%;
+      height: 1px;
+      background: var(--red);
+      transform-origin: left center;
+      transform: scaleX(.2);
+      opacity: .8;
+      transition: transform .08s linear;
+    }
+
+    .motion-crosshair {
+      position: absolute;
+      z-index: 4;
+      left: 50%;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      opacity: .12;
+      transition:
+        opacity .18s ease,
+        transform .18s ease;
+    }
+
+    .motion-crosshair::before,
+    .motion-crosshair::after {
+      content: "";
+      position: absolute;
+      background: rgba(255,255,255,.65);
+    }
+
+    .motion-crosshair::before {
+      width: 18px;
+      height: 1px;
+      left: 0;
+      top: 9px;
+    }
+
+    .motion-crosshair::after {
+      width: 1px;
+      height: 18px;
+      left: 9px;
+      top: 0;
+    }
+
+    .motion-crosshair-mark {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      transform: translate(-50%, -50%);
+      border: 1px solid var(--red);
+      background: var(--black);
+    }
+
+    .motion-side-index {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      pointer-events: none;
+      opacity: .32;
+    }
+
+    .motion-side-index.left {
+      left: 16px;
+    }
+
+    .motion-side-index.right {
+      right: 16px;
+      align-items: flex-end;
+    }
+
+    .motion-side-index span {
+      display: block;
+      width: 10px;
+      height: 1px;
+      background: rgba(255,255,255,.55);
+    }
+
+    .motion-side-index span:nth-child(2) {
+      width: 18px;
+      background: rgba(255,255,255,.28);
+    }
+
+    .motion-side-index span:nth-child(3) {
+      width: 6px;
+    }
+
     .motion-split {
       position: relative;
+      z-index: 3;
       width: 100%;
       height: clamp(72px, 20vw, 100px);
       overflow: hidden;
@@ -872,6 +1043,43 @@
   <!-- MOTION -->
   <section class="motion" id="motion">
 
+    <!-- TOP TECHNICAL LABELS -->
+    <div class="motion-meta" aria-hidden="true">
+
+      <div>
+        001 / TRANSMISSION<br>
+        <span class="red">18.10.2026</span>
+      </div>
+
+      <div class="motion-meta-right">
+        ROTAROTT<br>
+        FOGGIA / ITALY
+      </div>
+
+    </div>
+
+    <!-- HORIZONTAL SIGNAL LINE -->
+    <div class="motion-signal" id="motionSignal"></div>
+
+    <!-- SIDE INDEXES -->
+    <div class="motion-side-index left" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="motion-side-index right" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- CENTER CROSSHAIR -->
+    <div class="motion-crosshair" id="motionCrosshair" aria-hidden="true">
+      <div class="motion-crosshair-mark"></div>
+    </div>
+
+    <!-- NORMATHERS -->
     <div class="motion-split" aria-label="NORMATHERS">
 
       <div class="motion-half top" id="motionTop" aria-hidden="true">
@@ -880,6 +1088,25 @@
 
       <div class="motion-half bottom" id="motionBottom" aria-hidden="true">
         <span>NORMATHERS</span>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM STATUS -->
+    <div class="motion-status" aria-hidden="true">
+
+      <div
+        class="motion-status-label"
+        id="motionStatus"
+      >
+        ENTER / SIGNAL
+      </div>
+
+      <div
+        class="motion-status-number"
+        id="motionStatusNumber"
+      >
+        01
       </div>
 
     </div>
@@ -1119,6 +1346,18 @@
 
     const motionBottom =
       document.getElementById("motionBottom");
+
+    const motionStatus =
+      document.getElementById("motionStatus");
+
+    const motionStatusNumber =
+      document.getElementById("motionStatusNumber");
+
+    const motionCrosshair =
+      document.getElementById("motionCrosshair");
+
+    const motionSignal =
+      document.getElementById("motionSignal");
 
     const graphics =
       document.getElementById("graphics");
@@ -1555,6 +1794,7 @@
             )
           );
 
+
         /*
           =====================================================
           ZONA CENTRALE PIÙ LUNGA
@@ -1585,6 +1825,7 @@
           ) /
           (0.5 - centerHold);
 
+
         /*
           Smoothstep per rendere
           il movimento più organico:
@@ -1598,6 +1839,7 @@
           distanceFromCenter *
           distanceFromCenter *
           (3 - 2 * distanceFromCenter);
+
 
         /*
           Massima distanza orizzontale.
@@ -1642,12 +1884,180 @@
             0
           )`;
 
+
+        /*
+          =====================================================
+          TRANSITION DETAILS
+
+          I dettagli seguono la stessa progressione
+          della parola e diventano più presenti
+          quando NORMATHERS raggiunge il centro.
+          =====================================================
+        */
+
+        const centerFocus =
+          1 - Math.min(
+            1,
+            Math.abs(motionProgress - 0.5) / 0.5
+          );
+
+
+        /*
+          CROSSHAIR
+
+          Quasi invisibile agli estremi.
+          Diventa più evidente quando
+          NORMATHERS si ricompone.
+        */
+
+        if (motionCrosshair) {
+
+          const crosshairOpacity =
+            0.08 +
+            (centerFocus * 0.48);
+
+          const crosshairScale =
+            0.78 +
+            (centerFocus * 0.22);
+
+          motionCrosshair.style.opacity =
+            crosshairOpacity;
+
+          motionCrosshair.style.transform =
+            `translate(-50%, -50%) scale(${crosshairScale})`;
+
+        }
+
+
+        /*
+          SIGNAL LINE
+
+          Il segmento rosso cresce
+          mentre ci avviciniamo al centro.
+        */
+
+        if (motionSignal) {
+
+          const signal =
+            motionSignal.querySelector("::before");
+
+          motionSignal.style.setProperty(
+            "--signal-progress",
+            centerFocus
+          );
+
+          motionSignal.style.setProperty(
+            "--signal-scale",
+            0.2 + (centerFocus * 0.8)
+          );
+
+          motionSignal.style.setProperty(
+            "--signal-opacity",
+            0.45 + (centerFocus * 0.55)
+          );
+
+        }
+
+
+        /*
+          STATUS TEXT
+
+          ENTER → ALIGN → ROTAROTT
+        */
+
+        if (motionStatus) {
+
+          if (motionProgress < 0.32) {
+
+            motionStatus.textContent =
+              "ENTER / SIGNAL";
+
+          } else if (
+            motionProgress >= 0.32 &&
+            motionProgress < 0.68
+          ) {
+
+            motionStatus.textContent =
+              "ALIGN / NORMATHERS";
+
+          } else {
+
+            motionStatus.textContent =
+              "ROTAROTT / ACCESS";
+
+          }
+
+          motionStatus.style.color =
+            `rgba(
+              255,
+              255,
+              255,
+              ${0.28 + (centerFocus * 0.38)}
+            )`;
+
+        }
+
+
+        /*
+          STATUS NUMBER
+
+          01 → 02 → 03
+        */
+
+        if (motionStatusNumber) {
+
+          if (motionProgress < 0.32) {
+
+            motionStatusNumber.textContent =
+              "01";
+
+          } else if (
+            motionProgress >= 0.32 &&
+            motionProgress < 0.68
+          ) {
+
+            motionStatusNumber.textContent =
+              "02";
+
+          } else {
+
+            motionStatusNumber.textContent =
+              "03";
+
+          }
+
+        }
+
       }
 
 
       ticking = false;
 
     }
+
+
+    /*
+      Aggiorna anche la linea rossa interna
+      della sezione NORMATHERS.
+    */
+
+    const motionStyle =
+      document.createElement("style");
+
+    motionStyle.textContent = `
+      .motion-signal::before {
+        transform:
+          scaleX(
+            var(--signal-scale, .2)
+          );
+        opacity:
+          var(--signal-opacity, .8);
+      }
+    `;
+
+    document.head.appendChild(
+      motionStyle
+    );
 
 
     window.addEventListener(
