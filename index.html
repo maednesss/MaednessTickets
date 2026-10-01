@@ -357,7 +357,7 @@
     .motion-split {
       position: relative;
       width: 100%;
-      height: clamp(82px, 25vw, 120px);
+      height: clamp(72px, 20vw, 100px);
       overflow: hidden;
     }
 
@@ -369,7 +369,7 @@
       white-space: nowrap;
 
       font-family: "Anton", sans-serif;
-      font-size: clamp(72px, 25vw, 122px);
+      font-size: clamp(56px, 19vw, 92px);
       line-height: .8;
       letter-spacing: -.025em;
 
@@ -1500,8 +1500,8 @@
 
         INGRESSO       CENTRO        USCITA
 
-        TOP   →        NORMATHERS    ← TOP
-        BOTTOM ←        NORMATHERS    → BOTTOM
+        TOP   →        NORMATHERS    → TOP
+        BOTTOM ←        NORMATHERS    ← BOTTOM
 
         Il valore di progressione viene calcolato
         sulla posizione reale della .motion rispetto
@@ -1556,28 +1556,42 @@
           );
 
         /*
-          Trasformiamo:
+          =====================================================
+          ZONA CENTRALE PIÙ LUNGA
 
-          0 → 1
+          La parola NON si limita a toccarsi
+          per un istante.
 
-          in:
+          Per una zona centrale della sezione
+          le due metà restano PERFETTAMENTE UNITE.
 
-          1 → 0 → 1
-
-          usando il centro come punto
-          di completa ricomposizione.
+          Con 0.13 abbiamo circa il 26%
+          della transizione totale in cui
+          NORMATHERS rimane completamente leggibile.
+          =====================================================
         */
 
-        const distanceFromCenter =
+        const centerHold = 0.13;
+
+        const rawDistance =
           Math.abs(
             motionProgress - 0.5
-          ) * 2;
+          );
+
+        const distanceFromCenter =
+          Math.max(
+            0,
+            rawDistance - centerHold
+          ) /
+          (0.5 - centerHold);
 
         /*
           Smoothstep per rendere
           il movimento più organico:
-          lento vicino al centro,
-          più deciso verso gli estremi.
+
+          - fermo nella zona centrale
+          - più morbido mentre si avvicina
+          - più deciso verso gli estremi
         */
 
         const splitEase =
@@ -1597,8 +1611,8 @@
 
         const maxSplit =
           Math.min(
-            window.innerWidth * 0.72,
-            230
+            window.innerWidth * 0.62,
+            190
           );
 
         const splitDistance =
