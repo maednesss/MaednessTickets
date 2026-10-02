@@ -54,6 +54,10 @@
       flex-direction: column;
     }
 
+    /* ==========================================================
+       TOP
+       ========================================================== */
+
     .top {
       display: flex;
       justify-content: space-between;
@@ -83,6 +87,10 @@
       line-height: 1.4;
     }
 
+    /* ==========================================================
+       TITLE
+       ========================================================== */
+
     .title {
       margin: 0 0 8px;
       font-size: clamp(54px, 17vw, 92px);
@@ -98,6 +106,40 @@
       font-weight: 800;
       letter-spacing: 0.12em;
     }
+
+    /* ==========================================================
+       AUDIO
+       ========================================================== */
+
+    .audio-button {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      border: 1px solid var(--red);
+      background: var(--black);
+      color: var(--white);
+      padding: 10px 14px;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      display: none;
+    }
+
+    .audio-button.visible {
+      display: block;
+    }
+
+    .audio-button.enabled {
+      color: var(--green);
+      border-color: var(--green);
+    }
+
+    /* ==========================================================
+       SCANNER
+       ========================================================== */
 
     .scanner-frame {
       position: relative;
@@ -217,6 +259,10 @@
       display: block;
     }
 
+    /* ==========================================================
+       RESULT
+       ========================================================== */
+
     .result {
       display: none;
       margin-top: 18px;
@@ -294,53 +340,9 @@
       cursor: pointer;
     }
 
-    .manual {
-      margin-top: 26px;
-      border-top: 1px solid #1d1d1d;
-      padding-top: 20px;
-    }
-
-    .manual-label {
-      margin-bottom: 9px;
-      color: #777;
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-    }
-
-    .manual-row {
-      display: flex;
-      gap: 8px;
-    }
-
-    .manual-row input {
-      min-width: 0;
-      flex: 1;
-      height: 48px;
-      border: 1px solid #333;
-      outline: none;
-      background: #0c0c0c;
-      color: white;
-      padding: 0 13px;
-      font-size: 12px;
-      font-family: monospace;
-    }
-
-    .manual-row input:focus {
-      border-color: var(--red);
-    }
-
-    .manual-row button {
-      height: 48px;
-      border: 0;
-      background: var(--white);
-      color: var(--black);
-      padding: 0 17px;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-    }
+    /* ==========================================================
+       FOOTER
+       ========================================================== */
 
     .footer {
       margin-top: auto;
@@ -355,6 +357,7 @@
     }
 
     @media (max-width: 380px) {
+
       body {
         padding: 14px;
       }
@@ -363,18 +366,20 @@
         min-height: calc(100svh - 28px);
       }
 
-      .manual-row {
-        flex-direction: column;
-      }
-
-      .manual-row button {
-        width: 100%;
-      }
     }
   </style>
 </head>
 
 <body>
+
+  <button
+    id="audioButton"
+    class="audio-button visible"
+    type="button"
+  >
+    ENABLE AUDIO
+  </button>
+
 
   <main class="page">
 
@@ -407,10 +412,15 @@
       <div id="reader"></div>
 
       <div class="scan-corners">
+
         <div class="corner tl"></div>
+
         <div class="corner tr"></div>
+
         <div class="corner bl"></div>
+
         <div class="corner br"></div>
+
       </div>
 
       <div class="scan-line"></div>
@@ -468,39 +478,8 @@
         class="reset-button"
         type="button"
       >
-        SCANSIONA PROSSIMO
+        PRONTO PER IL PROSSIMO
       </button>
-
-    </section>
-
-
-    <section class="manual">
-
-      <div class="manual-label">
-        INSERIMENTO MANUALE TOKEN
-      </div>
-
-
-      <div class="manual-row">
-
-        <input
-          id="manualToken"
-          type="text"
-          autocomplete="off"
-          autocapitalize="off"
-          spellcheck="false"
-          placeholder="INCOLLA TOKEN QR"
-        >
-
-
-        <button
-          id="manualButton"
-          type="button"
-        >
-          VERIFICA
-        </button>
-
-      </div>
 
     </section>
 
@@ -532,10 +511,6 @@
      * ==========================================================
      * SUPABASE
      * ==========================================================
-     *
-     * La Publishable key è sicura da utilizzare nel browser.
-     *
-     * NON è una service_role key.
      */
 
     const SUPABASE_URL =
@@ -598,15 +573,9 @@
       );
 
 
-    const manualToken =
+    const audioButton =
       document.getElementById(
-        "manualToken"
-      );
-
-
-    const manualButton =
-      document.getElementById(
-        "manualButton"
+        "audioButton"
       );
 
 
@@ -622,14 +591,342 @@
 
     let requestInProgress = false;
 
-
     /*
-     * Evita che lo stesso QR venga processato
-     * più volte prima che il risultato venga mostrato.
+     * Ultimo QR elaborato.
+     *
+     * Rimane bloccato per evitare che lo stesso
+     * QR davanti alla camera venga inviato
+     * continuamente al database.
      */
 
     let lastScannedToken = "";
 
+    let lastScanTime = 0;
+
+    const SAME_QR_COOLDOWN = 3500;
+
+
+    /*
+     * ==========================================================
+     * AUDIO STATE
+     * ==========================================================
+     */
+
+    let audioContext = null;
+
+    let audioEnabled = false;
+
+
+    /*
+     * ==========================================================
+     * AUDIO INIT
+     * ==========================================================
+     */
+
+    function enableAudio() {
+
+      try {
+
+        if (!audioContext) {
+
+          audioContext =
+            new (
+              window.AudioContext ||
+              window.webkitAudioContext
+            )();
+
+        }
+
+
+        if (
+          audioContext.state ===
+          "suspended"
+        ) {
+
+          audioContext.resume();
+
+        }
+
+
+        /*
+         * Piccolo suono silenzioso:
+         * serve a sbloccare l'audio
+         * su alcuni browser mobile.
+         */
+
+        const oscillator =
+          audioContext.createOscillator();
+
+
+        const gain =
+          audioContext.createGain();
+
+
+        gain.gain.value =
+          0.00001;
+
+
+        oscillator.connect(
+          gain
+        );
+
+
+        gain.connect(
+          audioContext.destination
+        );
+
+
+        oscillator.start();
+
+
+        oscillator.stop(
+          audioContext.currentTime +
+          0.02
+        );
+
+
+        audioEnabled = true;
+
+
+        audioButton.textContent =
+          "AUDIO ON";
+
+
+        audioButton.classList.remove(
+          "visible"
+        );
+
+
+        audioButton.classList.add(
+          "enabled"
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Audio initialization error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    audioButton.addEventListener(
+      "click",
+      enableAudio
+    );
+
+
+    /*
+     * ==========================================================
+     * SUCCESS SOUND
+     * ==========================================================
+     *
+     * Due note ascendenti:
+     *
+     * BIP → BEEP
+     *
+     * ==========================================================
+     */
+
+    function playValidSound() {
+
+      if (!audioEnabled) {
+        return;
+      }
+
+
+      if (!audioContext) {
+        return;
+      }
+
+
+      const now =
+        audioContext.currentTime;
+
+
+      const oscillator =
+        audioContext.createOscillator();
+
+
+      const gain =
+        audioContext.createGain();
+
+
+      oscillator.type =
+        "sine";
+
+
+      oscillator.frequency.setValueAtTime(
+        660,
+        now
+      );
+
+
+      oscillator.frequency.setValueAtTime(
+        880,
+        now + 0.11
+      );
+
+
+      gain.gain.setValueAtTime(
+        0.0001,
+        now
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.18,
+        now + 0.015
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.28
+      );
+
+
+      oscillator.connect(
+        gain
+      );
+
+
+      gain.connect(
+        audioContext.destination
+      );
+
+
+      oscillator.start(
+        now
+      );
+
+
+      oscillator.stop(
+        now + 0.3
+      );
+
+    }
+
+
+    /*
+     * ==========================================================
+     * REJECT SOUND
+     * ==========================================================
+     *
+     * Due note secche discendenti:
+     *
+     * BZZ → BZZ
+     *
+     * ==========================================================
+     */
+
+    function playRejectSound() {
+
+      if (!audioEnabled) {
+        return;
+      }
+
+
+      if (!audioContext) {
+        return;
+      }
+
+
+      const now =
+        audioContext.currentTime;
+
+
+      const oscillator =
+        audioContext.createOscillator();
+
+
+      const gain =
+        audioContext.createGain();
+
+
+      oscillator.type =
+        "square";
+
+
+      oscillator.frequency.setValueAtTime(
+        260,
+        now
+      );
+
+
+      oscillator.frequency.setValueAtTime(
+        150,
+        now + 0.12
+      );
+
+
+      oscillator.frequency.setValueAtTime(
+        110,
+        now + 0.24
+      );
+
+
+      gain.gain.setValueAtTime(
+        0.0001,
+        now
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.11,
+        now + 0.01
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.1
+      );
+
+
+      gain.gain.setValueAtTime(
+        0.0001,
+        now + 0.14
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.11,
+        now + 0.15
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.34
+      );
+
+
+      oscillator.connect(
+        gain
+      );
+
+
+      gain.connect(
+        audioContext.destination
+      );
+
+
+      oscillator.start(
+        now
+      );
+
+
+      oscillator.stop(
+        now + 0.36
+      );
+
+    }
 
 
     /*
@@ -638,7 +935,9 @@
      * ==========================================================
      */
 
-    function setLoading(active) {
+    function setLoading(
+      active
+    ) {
 
       requestInProgress =
         active;
@@ -649,6 +948,7 @@
         active
       );
 
+
       if (active) {
 
         scannerStatus.textContent =
@@ -656,8 +956,14 @@
 
       }
 
-    }
+      else {
 
+        scannerStatus.textContent =
+          "PRONTO — INQUADRA IL PROSSIMO QR";
+
+      }
+
+    }
 
 
     /*
@@ -666,7 +972,9 @@
      * ==========================================================
      */
 
-    function formatDateTime(value) {
+    function formatDateTime(
+      value
+    ) {
 
       if (!value) {
         return "—";
@@ -702,24 +1010,41 @@
     }
 
 
-
     /*
      * ==========================================================
      * HTML ESCAPE
      * ==========================================================
      */
 
-    function escapeHtml(value) {
+    function escapeHtml(
+      value
+    ) {
 
-      return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+      return String(
+        value ?? ""
+      )
+        .replaceAll(
+          "&",
+          "&amp;"
+        )
+        .replaceAll(
+          "<",
+          "&lt;"
+        )
+        .replaceAll(
+          ">",
+          "&gt;"
+        )
+        .replaceAll(
+          '"',
+          "&quot;"
+        )
+        .replaceAll(
+          "'",
+          "&#039;"
+        );
 
     }
-
 
 
     /*
@@ -728,7 +1053,9 @@
      * ==========================================================
      */
 
-    function showResult(data) {
+    function showResult(
+      data
+    ) {
 
       result.classList.remove(
         "valid",
@@ -755,8 +1082,10 @@
         resultCode.textContent =
           "✓ ACCESSO CONSENTITO";
 
-      }
 
+        playValidSound();
+
+      }
 
       else if (
         data.result ===
@@ -771,8 +1100,10 @@
         resultCode.textContent =
           "⚠ BIGLIETTO GIÀ UTILIZZATO";
 
-      }
 
+        playRejectSound();
+
+      }
 
       else {
 
@@ -783,6 +1114,9 @@
 
         resultCode.textContent =
           "✕ QR NON VALIDO";
+
+
+        playRejectSound();
 
       }
 
@@ -820,7 +1154,9 @@
           ${
             data.used_at
               ? `<br>INGRESSO: ${escapeHtml(
-                  formatDateTime(data.used_at)
+                  formatDateTime(
+                    data.used_at
+                  )
                 )}`
               : ""
           }
@@ -839,19 +1175,10 @@
     }
 
 
-
     /*
      * ==========================================================
      * RPC DIRETTA
      * ==========================================================
-     *
-     * Nessuna Edge Function.
-     *
-     * Browser
-     *    ↓
-     * Supabase REST / RPC
-     *    ↓
-     * PostgreSQL
      */
 
     async function checkTicket(
@@ -945,7 +1272,6 @@
           data
         );
 
-
       }
 
       catch (error) {
@@ -973,20 +1299,20 @@
     }
 
 
-
     /*
      * ==========================================================
      * QR SCAN
      * ==========================================================
+     *
+     * IMPORTANTE:
+     * NON fermiamo più la fotocamera.
      */
 
     async function onScanSuccess(
       decodedText
     ) {
 
-      if (
-        requestInProgress
-      ) {
+      if (requestInProgress) {
         return;
       }
 
@@ -1002,14 +1328,20 @@
       }
 
 
+      const now =
+        Date.now();
+
+
       /*
-       * Evita doppie letture dello stesso
-       * QR nello stesso momento.
+       * Se lo stesso QR è ancora
+       * davanti alla camera, lo ignoriamo.
        */
 
       if (
         token ===
-        lastScannedToken
+          lastScannedToken &&
+        now - lastScanTime <
+          SAME_QR_COOLDOWN
       ) {
 
         return;
@@ -1021,13 +1353,13 @@
         token;
 
 
+      lastScanTime =
+        now;
+
+
       /*
-       * Fermiamo la camera mentre
-       * il database convalida.
+       * LA CAMERA RESTA ATTIVA.
        */
-
-      await stopScanner();
-
 
       await checkTicket(
         token
@@ -1036,15 +1368,13 @@
     }
 
 
-
     function onScanFailure() {
       /*
        * Normale:
-       * non tutti i frame contengono
+       * molti frame non contengono
        * un QR leggibile.
        */
     }
-
 
 
     /*
@@ -1058,7 +1388,9 @@
       if (
         scannerRunning
       ) {
+
         return;
+
       }
 
 
@@ -1071,12 +1403,8 @@
 
 
         /*
-         * Chiediamo direttamente
-         * la fotocamera posteriore.
-         *
-         * Evitiamo getCameras(),
-         * quindi niente attesa inutile
-         * prima dell'avvio.
+         * Proviamo direttamente
+         * la camera posteriore.
          */
 
         await html5QrCode.start(
@@ -1133,7 +1461,7 @@
 
 
         scannerStatus.textContent =
-          "INQUADRA IL QR DEL BIGLIETTO";
+          "PRONTO — INQUADRA IL QR";
 
 
       }
@@ -1147,11 +1475,8 @@
 
 
         /*
-         * Alcuni browser possono non
-         * accettare exact: environment.
-         *
-         * Facciamo un secondo tentativo
-         * senza exact.
+         * Fallback per browser
+         * che non supportano exact.
          */
 
         try {
@@ -1228,7 +1553,7 @@
 
 
           scannerStatus.textContent =
-            "INQUADRA IL QR DEL BIGLIETTO";
+            "PRONTO — INQUADRA IL QR";
 
 
         }
@@ -1253,57 +1578,18 @@
     }
 
 
-
     /*
      * ==========================================================
-     * STOP CAMERA
+     * RESET RISULTATO
      * ==========================================================
-     */
-
-    async function stopScanner() {
-
-      if (
-        !html5QrCode ||
-        !scannerRunning
-      ) {
-
-        return;
-
-      }
-
-
-      try {
-
-        await html5QrCode.stop();
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Scanner stop error:",
-          error
-        );
-
-      }
-
-
-      scannerRunning =
-        false;
-
-    }
-
-
-
-    /*
-     * ==========================================================
-     * RESET
-     * ==========================================================
+     *
+     * NON riavvia la camera.
+     * È già accesa.
      */
 
     resetButton.addEventListener(
       "click",
-      async () => {
+      () => {
 
         result.classList.remove(
           "visible"
@@ -1322,90 +1608,11 @@
           "—";
 
 
-        manualToken.value =
-          "";
-
-
-        lastScannedToken =
-          "";
-
-
-        requestInProgress =
-          false;
-
-
         scannerStatus.textContent =
-          "RIAVVIO FOTOCAMERA...";
-
-
-        await startScanner();
+          "PRONTO — INQUADRA IL PROSSIMO QR";
 
       }
     );
-
-
-
-    /*
-     * ==========================================================
-     * MANUAL TOKEN
-     * ==========================================================
-     */
-
-    manualButton.addEventListener(
-      "click",
-      async () => {
-
-        const token =
-          manualToken.value.trim();
-
-
-        if (!token) {
-
-          manualToken.focus();
-
-          return;
-
-        }
-
-
-        await stopScanner();
-
-
-        lastScannedToken =
-          token;
-
-
-        await checkTicket(
-          token
-        );
-
-      }
-    );
-
-
-
-    manualToken.addEventListener(
-      "keydown",
-      (event) => {
-
-        if (
-          event.key !==
-          "Enter"
-        ) {
-
-          return;
-
-        }
-
-
-        event.preventDefault();
-
-
-        manualButton.click();
-
-      }
-    );
-
 
 
     /*
