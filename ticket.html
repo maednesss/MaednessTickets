@@ -776,6 +776,9 @@
     const eventData =
       ticketData.event || {};
 
+    const walletData =
+      ticketData.wallet || {};
+
 
     const participantFullName =
       `${ticketData.firstName || ""} ${ticketData.lastName || ""}`.trim();
@@ -965,6 +968,36 @@
 
 
     /* =========================================
+       WALLET LINKS
+       ========================================= */
+
+    const appleWalletUrl =
+      walletData.shareUrl ||
+      "";
+
+    const googleWalletUrl =
+      walletData.googleSaveUrl ||
+      "";
+
+
+    if (isIOS && !appleWalletUrl) {
+
+      appleWalletButton.classList.add(
+        "hidden"
+      );
+
+    }
+
+    if (isAndroid && !googleWalletUrl) {
+
+      googleWalletButton.classList.add(
+        "hidden"
+      );
+
+    }
+
+
+    /* =========================================
        APPLE WALLET
        ========================================= */
 
@@ -972,8 +1005,20 @@
       "click",
       () => {
 
+        if (!appleWalletUrl) {
+
+          actionMessage.textContent =
+            "APPLE WALLET / LINK NON DISPONIBILE";
+
+          return;
+
+        }
+
         actionMessage.textContent =
-          "APPLE WALLET / PASS IN PREPARAZIONE";
+          "OPENING APPLE WALLET";
+
+        window.location.href =
+          appleWalletUrl;
 
       }
     );
@@ -987,8 +1032,20 @@
       "click",
       () => {
 
+        if (!googleWalletUrl) {
+
+          actionMessage.textContent =
+            "GOOGLE WALLET / LINK NON DISPONIBILE";
+
+          return;
+
+        }
+
         actionMessage.textContent =
-          "GOOGLE WALLET / PASS IN PREPARAZIONE";
+          "OPENING GOOGLE WALLET";
+
+        window.location.href =
+          googleWalletUrl;
 
       }
     );
