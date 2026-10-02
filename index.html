@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -1059,23 +1060,6 @@
 
       </div>
 
-      <div class="form-group">
-
-        <label for="email">
-          EMAIL
-        </label>
-
-        <input
-          id="email"
-          name="email"
-          type="email"
-          autocomplete="email"
-          placeholder="dove arriverà il tuo QR"
-          required
-        />
-
-      </div>
-
       <!-- INSTAGRAM -->
 
       <div class="instagram-box">
@@ -1544,7 +1528,9 @@
         !target ||
         !values.length
       ) {
+
         return;
+
       }
 
       setTimeout(() => {
@@ -1580,7 +1566,6 @@
               randomMatrixString(
                 target
               );
-
 
               if (
                 frame >= totalFrames
@@ -1922,9 +1907,6 @@
         const lastName =
           document.getElementById("surname").value.trim();
 
-        const email =
-          document.getElementById("email").value.trim();
-
         submitButton.disabled = true;
 
         submitButton.textContent =
@@ -1949,8 +1931,7 @@
                 event_id:
                   "81d5e82d-e4f1-4def-93f5-fcb713b65985",
                 first_name: firstName,
-                last_name: lastName,
-                email: email
+                last_name: lastName
               })
             }
           );
@@ -1967,6 +1948,8 @@
           /*
             SALVIAMO TEMPORANEAMENTE
             I DATI DEL TICKET PER LA PAGINA SUCCESSIVA.
+
+            Ora includiamo anche i dati WalletWallet.
           */
 
           sessionStorage.setItem(
@@ -1976,7 +1959,15 @@
               lastName: lastName,
               token: data.ticket.token,
               status: data.ticket.status,
-              event: data.event
+              event: data.event,
+              wallet: {
+                serialNumber:
+                  data.wallet?.serial_number || null,
+                shareUrl:
+                  data.wallet?.share_url || null,
+                googleSaveUrl:
+                  data.wallet?.google_save_url || null
+              }
             })
           );
 
