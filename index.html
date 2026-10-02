@@ -49,7 +49,6 @@
       font: inherit;
     }
 
-    /* DESKTOP WARNING */
     .desktop-warning {
       display: none;
     }
@@ -76,6 +75,7 @@
     }
 
     /* TOPBAR */
+
     .topbar {
       position: fixed;
       z-index: 100;
@@ -109,6 +109,7 @@
     }
 
     /* SCROLL PROGRESS */
+
     .scroll-progress {
       position: fixed;
       z-index: 110;
@@ -128,6 +129,7 @@
     }
 
     /* FIXED GRAPHICS */
+
     .graphics {
       position: fixed;
       inset: 0;
@@ -169,6 +171,7 @@
     }
 
     /* HERO */
+
     .hero {
       position: relative;
       height: 82svh;
@@ -184,7 +187,6 @@
       filter: contrast(1.15);
     }
 
-    /* SMOOTH DARK GRADIENT */
     .hero::before {
       content: "";
       position: absolute;
@@ -237,7 +239,6 @@
       margin-bottom: 7px;
     }
 
-    /* HERO LOGO */
     .hero-logo {
       font-family: "Anton", sans-serif;
       font-size: clamp(70px, 23vw, 120px);
@@ -250,7 +251,6 @@
         -2px 0 rgba(255,255,255,.3);
 
       transform: translate3d(-3px, 0, 0);
-
       will-change: transform;
     }
 
@@ -275,7 +275,8 @@
       font-weight: 800;
     }
 
-    /* SWIPE INDICATOR */
+    /* SWIPE */
+
     .scroll-label {
       position: absolute;
       z-index: 4;
@@ -339,9 +340,7 @@
       }
     }
 
-    /* =========================================================
-       MOTION / NORMATHERS HORIZONTAL SPLIT
-       ========================================================= */
+    /* MOTION / NORMATHERS */
 
     .motion {
       position: relative;
@@ -391,8 +390,6 @@
     .motion-half.bottom {
       clip-path: inset(50% 0 0 0);
     }
-
-    /* TRANSITION CORNER DETAILS */
 
     .motion-meta {
       position: absolute;
@@ -460,6 +457,7 @@
     }
 
     /* REGISTRATION */
+
     .registration {
       position: relative;
       z-index: 5;
@@ -483,7 +481,6 @@
       color: var(--red);
     }
 
-    /* GET IN + VIDEO */
     .register-heading {
       --register-title-size: clamp(60px, 19.5vw, 76px);
       --register-video-width: clamp(130px, 40vw, 155px);
@@ -529,13 +526,11 @@
       }
     }
 
-    /* VIDEO */
     .register-video-box {
       width: var(--register-video-width);
       margin: 0;
       justify-self: end;
       align-self: start;
-
       position: relative;
     }
 
@@ -619,6 +614,7 @@
     }
 
     /* INSTAGRAM */
+
     .instagram-box {
       margin-top: 22px;
       margin-bottom: 18px;
@@ -745,6 +741,7 @@
     }
 
     /* SUBMIT */
+
     .submit-button {
       width: 100%;
       height: 58px;
@@ -781,6 +778,7 @@
     }
 
     /* BOTTOM */
+
     .registration-bottom {
       margin-top: 45px;
       display: flex;
@@ -854,7 +852,6 @@
     <span id="progress"></span>
   </div>
 
-  <!-- FIXED MICRO GRAPHICS -->
   <div class="graphics" id="graphics">
 
     <div class="micro micro-1">
@@ -876,6 +873,7 @@
   </div>
 
   <!-- HERO -->
+
   <section class="hero" id="hero">
 
     <div class="hero-content">
@@ -915,16 +913,21 @@
   </section>
 
   <!-- MOTION -->
+
   <section class="motion" id="motion">
 
     <div class="motion-meta" aria-hidden="true">
 
       <div>
-        <span class="motion-code" id="motionCodeTL">001 / TRANSMISSION</span>
+        <span class="motion-code" id="motionCodeTL">
+          001 / TRANSMISSION
+        </span>
       </div>
 
       <div class="motion-meta-right">
-        <span class="motion-code" id="motionCodeTR">ROTAROTT</span>
+        <span class="motion-code" id="motionCodeTR">
+          ROTAROTT
+        </span>
       </div>
 
     </div>
@@ -970,6 +973,7 @@
   </section>
 
   <!-- REGISTRATION -->
+
   <section class="registration">
 
     <div class="registration-top">
@@ -984,7 +988,6 @@
 
     </div>
 
-    <!-- GET IN + VIDEO -->
     <div class="register-heading">
 
       <h2 class="register-title">
@@ -1074,6 +1077,7 @@
       </div>
 
       <!-- INSTAGRAM -->
+
       <div class="instagram-box">
 
         <button
@@ -1137,6 +1141,7 @@
       </div>
 
       <!-- SUBMIT -->
+
       <button
         type="submit"
         class="submit-button"
@@ -1152,7 +1157,6 @@
 
     </form>
 
-    <!-- BOTTOM ROTAROTT + HERO2 -->
     <div class="registration-bottom">
 
       <div class="registration-bottom-title">
@@ -1436,9 +1440,7 @@
     );
 
 
-    /* =========================================================
-       MOTION MATRIX TEXT LOOP
-       ========================================================= */
+    /* MOTION MATRIX TEXT LOOP */
 
     const motionCodeSets = {
 
@@ -1746,11 +1748,7 @@
         );
 
 
-      /*
-        ========================================================
-        NORMATHERS / HORIZONTAL SPLIT
-        ========================================================
-      */
+      /* NORMATHERS / HORIZONTAL SPLIT */
 
       if (
         motion &&
@@ -1792,9 +1790,7 @@
           );
 
 
-        /*
-          ZONA CENTRALE PIÙ LUNGA
-        */
+        /* ZONA CENTRALE PIÙ LUNGA */
 
         const centerHold = 0.13;
 
@@ -1847,9 +1843,7 @@
           )`;
 
 
-        /*
-          TRANSITION STATUS
-        */
+        /* TRANSITION STATUS */
 
         if (
           motionStatusNumber
@@ -1969,19 +1963,31 @@
             );
           }
 
-          submitButton.textContent =
-            "ACCESS REQUESTED ✓";
 
-          submitButton.style.background =
-            "#20d878";
+          /*
+            SALVIAMO TEMPORANEAMENTE
+            I DATI DEL TICKET PER LA PAGINA SUCCESSIVA.
+          */
 
-          formStatus.textContent =
-            "TICKET GENERATO — ACCESSO CONFERMATO";
-
-          console.log(
-            "Ticket created:",
-            data
+          sessionStorage.setItem(
+            "maedness_ticket",
+            JSON.stringify({
+              firstName: firstName,
+              lastName: lastName,
+              token: data.ticket.token,
+              status: data.ticket.status,
+              event: data.event
+            })
           );
+
+
+          /*
+            NUOVA PAGINA TICKET
+          */
+
+          window.location.href =
+            "./ticket.html";
+
 
         } catch (error) {
 
