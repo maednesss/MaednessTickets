@@ -23,7 +23,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <!-- PDF GENERATOR -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+  ></script>
 
   <style>
 
@@ -440,15 +442,11 @@
 
 <body>
 
-  <!-- DESKTOP WARNING -->
-
   <div class="desktop-warning">
     MÆDNESS®<br>
     MOBILE EXPERIENCE ONLY
   </div>
 
-
-  <!-- TICKET PAGE -->
 
   <main class="ticket-page">
 
@@ -913,13 +911,6 @@
       );
 
 
-    /*
-      IOS     → APPLE WALLET
-      ANDROID → GOOGLE WALLET
-      ALTRO   → NESSUN WALLET
-    */
-
-
     if (isIOS) {
 
       googleWalletButton.classList.add(
@@ -981,14 +972,6 @@
       "click",
       () => {
 
-        /*
-          QUI COLLEGHEREMO:
-          register-ticket → Apple .pkpass
-
-          Il badge è già quello ufficiale.
-          Il pass vero verrà generato dal backend.
-        */
-
         actionMessage.textContent =
           "APPLE WALLET / PASS IN PREPARAZIONE";
 
@@ -1003,14 +986,6 @@
     googleWalletButton.addEventListener(
       "click",
       () => {
-
-        /*
-          QUI COLLEGHEREMO:
-          register-ticket → Google Wallet JWT
-
-          Il badge è già quello ufficiale.
-          Il link vero verrà generato dal backend.
-        */
 
         actionMessage.textContent =
           "GOOGLE WALLET / PASS IN PREPARAZIONE";
@@ -1027,13 +1002,23 @@
       "click",
       async () => {
 
+        /*
+          Controllo robusto della libreria.
+          jsPDF 2.5.1 espone:
+          window.jspdf.jsPDF
+        */
+
         if (
-          typeof window.jspdf ===
-          "undefined"
+          !window.jspdf ||
+          !window.jspdf.jsPDF
         ) {
 
           actionMessage.textContent =
             "PDF ENGINE NON DISPONIBILE";
+
+          console.error(
+            "jsPDF non è stato caricato."
+          );
 
           return;
 
@@ -1064,23 +1049,12 @@
             "GENERATING TICKET PDF";
 
 
-          /*
-            Aspettiamo che il QR
-            sia effettivamente renderizzato.
-          */
-
           await waitForQR();
 
 
-          const {
-            jsPDF
-          } = window.jspdf;
+          const jsPDF =
+            window.jspdf.jsPDF;
 
-
-          /*
-            A4 verticale
-            dimensioni in millimetri
-          */
 
           const doc =
             new jsPDF({
@@ -1396,18 +1370,22 @@
           const nameForPdf =
             participantFullName
               .toUpperCase()
-              .substring(0, 42);
+              .substring(
+                0,
+                42
+              );
 
 
           doc.text(
-            nameForPdf || "PARTECIPANTE",
+            nameForPdf ||
+            "PARTECIPANTE",
             cardX + 7,
             cardY + 21
           );
 
 
           /* =====================================
-             QR SECTION DIVIDER
+             QR SECTION
              ===================================== */
 
           doc.setDrawColor(
@@ -1427,10 +1405,6 @@
             cardY + 29
           );
 
-
-          /* =====================================
-             QR LABEL
-             ===================================== */
 
           doc.setTextColor(
             5,
@@ -1566,10 +1540,6 @@
           );
 
 
-          /* =====================================
-             INTERNAL TOKEN
-             ===================================== */
-
           doc.setTextColor(
             150,
             150,
@@ -1610,6 +1580,7 @@
             pageHeight - 14
           );
 
+
           doc.text(
             `${formattedEventDate} / ${String(
               eventData.location ||
@@ -1624,7 +1595,7 @@
 
 
           /* =====================================
-             SAVE
+             DOWNLOAD
              ===================================== */
 
           const safeName =
@@ -1640,67 +1611,25 @@
               .toUpperCase();
 
 
+          const safeEventName =
+            eventName
+              .replace(
+                /[^a-z0-9]+/gi,
+                "-"
+              );
+
+
           const fileName =
-            `MAEDNESS-${eventName.replace(
-              /[^a-z0-9]+/gi,
-              "-"
-            )}-${safeName || "TICKET"}.pdf`;
+            `MAEDNESS-${safeEventName}-${safeName || "TICKET"}.pdf`;
 
 
           /*
-            Blob + anchor:
-            niente print UI.
+            Salvataggio diretto.
+            NON usa window.print().
           */
 
-          const pdfBlob =
-            doc.output(
-              "blob"
-            );
-
-
-          const pdfUrl =
-            URL.createObjectURL(
-              pdfBlob
-            );
-
-
-          const downloadLink =
-            document.createElement(
-              "a"
-            );
-
-
-          downloadLink.href =
-            pdfUrl;
-
-
-          downloadLink.download =
-            fileName;
-
-
-          downloadLink.style.display =
-            "none";
-
-
-          document.body.appendChild(
-            downloadLink
-          );
-
-
-          downloadLink.click();
-
-
-          setTimeout(
-            () => {
-
-              downloadLink.remove();
-
-              URL.revokeObjectURL(
-                pdfUrl
-              );
-
-            },
-            1500
+          doc.save(
+            fileName
           );
 
 
