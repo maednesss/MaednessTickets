@@ -776,9 +776,6 @@
     const eventData =
       ticketData.event || {};
 
-    const walletData =
-      ticketData.wallet || {};
-
 
     const participantFullName =
       `${ticketData.firstName || ""} ${ticketData.lastName || ""}`.trim();
@@ -968,38 +965,43 @@
 
 
     /* =========================================
-       WALLET LINKS
-       ========================================= */
-
-    const appleWalletUrl =
-      walletData.shareUrl ||
-      "";
-
-    const googleWalletUrl =
-      walletData.googleSaveUrl ||
-      "";
-
-
-    if (isIOS && !appleWalletUrl) {
-
-      appleWalletButton.classList.add(
-        "hidden"
-      );
-
-    }
-
-    if (isAndroid && !googleWalletUrl) {
-
-      googleWalletButton.classList.add(
-        "hidden"
-      );
-
-    }
-
-
-    /* =========================================
        APPLE WALLET
        ========================================= */
+
+    /*
+      WalletWallet crea e firma il .pkpass.
+
+      Il serialNumber restituito dal backend
+      identifica quel pass in modo univoco.
+
+      WalletWallet espone il file Apple
+      direttamente a questo endpoint:
+
+      https://api.walletwallet.dev/p/<serial>/apple.pkpass
+
+      In questo modo l'utente non passa
+      dalla Share Page di WalletWallet.
+
+      Un solo tap sul badge apre direttamente
+      il pass in Safari / Apple Wallet.
+    */
+
+    const walletData =
+      ticketData.wallet || {};
+
+
+    const walletSerialNumber =
+      walletData.serialNumber ||
+      null;
+
+
+    const appleWalletUrl =
+      walletSerialNumber
+        ? `https://api.walletwallet.dev/p/${encodeURIComponent(
+            walletSerialNumber
+          )}/apple.pkpass`
+        : null;
+
 
     appleWalletButton.addEventListener(
       "click",
@@ -1027,6 +1029,11 @@
     /* =========================================
        GOOGLE WALLET
        ========================================= */
+
+    const googleWalletUrl =
+      walletData.googleSaveUrl ||
+      null;
+
 
     googleWalletButton.addEventListener(
       "click",
