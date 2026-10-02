@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <title>MÆDNESS® — SCANNER</title>
+
+  <style>
+    :root {
+      --red: #ff0000;
+      --black: #050505;
+      --white: #ffffff;
+      --green: #20d878;
+      --gray: #999999;
+      --dark-gray: #151515;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: var(--black);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100svh;
+      padding: 18px;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+      min-height: calc(100svh - 36px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+    }
+
+    .brand span {
+      font-size: 11px;
+      vertical-align: top;
+      margin-left: 2px;
+    }
+
+    .top-label {
+      color: var(--red);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .title {
+      margin: 0 0 8px;
+      font-size: clamp(54px, 17vw, 92px);
+      line-height: 0.84;
+      letter-spacing: -0.07em;
+      font-weight: 900;
+    }
+
+    .subtitle {
+      margin: 0 0 22px;
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .scanner-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #000;
+      overflow: hidden;
+      border: 1px solid #292929;
+    }
+
+    #reader {
+      width: 100%;
+      height: 100%;
+    }
+
+    #reader video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
+    #reader__scan_region {
+      width: 100% !important;
+      min-height: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    #reader__dashboard {
+      display: none !important;
+    }
+
+    .scan-corners {
+      position: absolute;
+      inset: 14%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .corner {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-color: var(--red);
+      border-style: solid;
+    }
+
+    .corner.tl {
+      top: 0;
+      left: 0;
+      border-width: 3px 0 0 3px;
+    }
+
+    .corner.tr {
+      top: 0;
+      right: 0;
+      border-width: 3px 3px 0 0;
+    }
+
+    .corner.bl {
+      bottom: 0;
+      left: 0;
+      border-width: 0 0 3px 3px;
+    }
+
+    .corner.br {
+      bottom: 0;
+      right: 0;
+      border-width: 0 3px 3px 0;
+    }
+
+    .scan-line {
+      position: absolute;
+      left: 14%;
+      right: 14%;
+      top: 50%;
+      height: 2px;
+      background: var(--red);
+      box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+      opacity: 0.85;
+      z-index: 11;
+      pointer-events: none;
+      animation: scan 2s ease-in-out infinite;
+    }
+
+    @keyframes scan {
+      0%,
+      100% {
+        transform: translateY(-95px);
+      }
+
+      50% {
+        transform: translateY(95px);
+      }
+    }
+
+    .scanner-status {
+      margin-top: 10px;
+      color: #777;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .result {
+      display: none;
+      margin-top: 18px;
+      border: 1px solid #292929;
+      padding: 20px;
+    }
+
+    .result.visible {
+      display: block;
+    }
+
+    .result.valid {
+      border-color: var(--green);
+    }
+
+    .result.already {
+      border-color: #ff9d00;
+    }
+
+    .result.invalid {
+      border-color: var(--red);
+    }
+
+    .result-code {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      margin-bottom: 14px;
+    }
+
+    .result.valid .result-code {
+      color: var(--green);
+    }
+
+    .result.already .result-code {
+      color: #ff9d00;
+    }
+
+    .result.invalid .result-code {
+      color: var(--red);
+    }
+
+    .participant {
+      font-size: clamp(28px, 8vw, 44px);
+      line-height: 0.95;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      overflow-wrap: anywhere;
+    }
+
+    .details {
+      color: #aaa;
+      font-size: 11px;
+      line-height: 1.6;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .details strong {
+      color: var(--white);
+    }
+
+    .manual {
+      margin-top: 26px;
+      border-top: 1px solid #1d1d1d;
+      padding-top: 20px;
+    }
+
+    .manual-label {
+      margin-bottom: 9px;
+      color: var(--gray);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .manual-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .manual-row input {
+      min-width: 0;
+      flex: 1;
+      height: 48px;
+      border: 1px solid #333;
+      outline: none;
+      background: #0c0c0c;
+      color: white;
+      padding: 0 13px;
+      font-size: 12px;
+      font-family: monospace;
+    }
+
+    .manual-row input:focus {
+      border-color: var(--red);
+    }
+
+    .manual-row button,
+    .reset-button {
+      height: 48px;
+      border: 0;
+      background: var(--white);
+      color: var(--black);
+      padding: 0 17px;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+    }
+
+    .reset-button {
+      width: 100%;
+      margin-top: 10px;
+      background: var(--red);
+      color: white;
+    }
+
+    .loading {
+      display: none;
+      margin-top: 14px;
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .loading.visible {
+      display: block;
+    }
+
+    .footer {
+      margin-top: auto;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #444;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 380px) {
+      body {
+        padding: 14px;
+      }
+
+      .page {
+        min-height: calc(100svh - 28px);
+      }
+
+      .manual-row {
+        flex-direction: column;
+      }
+
+      .manual-row button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <header class="top">
+      <div class="brand">
+        MÆDNESS<span>®</span>
+      </div>
+
+      <div class="top-label">
+        ENTRY CONTROL<br>
+        18.10.2026
+      </div>
+    </header>
+
+    <h1 class="title">SCANNER</h1>
+
+    <p class="subtitle">
+      ROTAROTT / FOGGIA / ITALY
+    </p>
+
+    <section class="scanner-frame">
+
+      <div id="reader"></div>
+
+      <div class="scan-corners">
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+      </div>
+
+      <div class="scan-line"></div>
+
+    </section>
+
+    <div id="scannerStatus" class="scanner-status">
+      AVVIO FOTOCAMERA...
+    </div>
+
+    <div id="loading" class="loading">
+      VERIFICA TICKET...
+    </div>
+
+    <section id="result" class="result">
+
+      <div id="resultCode" class="result-code">
+        —
+      </div>
+
+      <div id="participant" class="participant">
+        —
+      </div>
+
+      <div id="details" class="details">
+        —
+      </div>
+
+      <button
+        id="resetButton"
+        class="reset-button"
+        type="button"
+      >
+        SCANSIONA PROSSIMO
+      </button>
+
+    </section>
+
+    <section class="manual">
+
+      <div class="manual-label">
+        INSERIMENTO MANUALE TOKEN
+      </div>
+
+      <div class="manual-row">
+
+        <input
+          id="manualToken"
+          type="text"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="INCOLLA TOKEN QR"
+        >
+
+        <button
+          id="manualButton"
+          type="button"
+        >
+          VERIFICA
+        </button>
+
+      </div>
+
+    </section>
+
+    <footer class="footer">
+      <span>MÆDNESS®</span>
+      <span>ENTRY SYSTEM / 01</span>
+    </footer>
+
+  </main>
+
+
+  <!-- QR SCANNER LIBRARY -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <script>
+    const CHECK_TICKET_URL =
+      "https://rmniojqexlasxfxisqbm.supabase.co/functions/v1/check-ticket";
+
+    const readerElement = document.getElementById("reader");
+    const scannerStatus = document.getElementById("scannerStatus");
+    const loading = document.getElementById("loading");
+
+    const result = document.getElementById("result");
+    const resultCode = document.getElementById("resultCode");
+    const participant = document.getElementById("participant");
+    const details = document.getElementById("details");
+
+    const resetButton = document.getElementById("resetButton");
+
+    const manualToken = document.getElementById("manualToken");
+    const manualButton = document.getElementById("manualButton");
+
+    let html5QrCode = null;
+    let scannerRunning = false;
+    let requestInProgress = false;
+
+
+    function setLoading(active) {
+      requestInProgress = active;
+
+      if (active) {
+        loading.classList.add("visible");
+        scannerStatus.textContent = "VERIFICA TICKET...";
+      } else {
+        loading.classList.remove("visible");
+      }
+    }
+
+
+    function formatDateTime(value) {
+      if (!value) {
+        return "—";
+      }
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return value;
+      }
+
+      return date.toLocaleString("it-IT", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+
+    function normalizeText(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+    }
+
+
+    function showResult(data) {
+      result.classList.remove(
+        "valid",
+        "already",
+        "invalid"
+      );
+
+      result.classList.add("visible");
+
+      const resultType = data.result;
+
+      if (resultType === "VALID") {
+        result.classList.add("valid");
+
+        resultCode.textContent =
+          "✓ ACCESSO CONSENTITO";
+
+      } else if (resultType === "ALREADY_USED") {
+        result.classList.add("already");
+
+        resultCode.textContent =
+          "⚠ BIGLIETTO GIÀ UTILIZZATO";
+
+      } else {
+        result.classList.add("invalid");
+
+        resultCode.textContent =
+          "✕ QR NON VALIDO";
+      }
+
+      const person = data.participant;
+
+      if (person) {
+        participant.textContent =
+          `${person.first_name} ${person.last_name}`;
+      } else {
+        participant.textContent =
+          "TICKET NON RICONOSCIUTO";
+      }
+
+      const event = data.event;
+
+      if (event) {
+        details.innerHTML = `
+          <strong>${escapeHtml(event.name || "")}</strong><br>
+          ${escapeHtml(event.location || "")}<br>
+          ${escapeHtml(event.date || "")}
+          ${
+            data.used_at
+              ? `<br>INGRESSO: ${escapeHtml(formatDateTime(data.used_at))}`
+              : ""
+          }
+        `;
+      } else {
+        details.textContent =
+          data.message || "QR non valido.";
+      }
+    }
+
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+
+    async function checkTicket(token) {
+      if (requestInProgress) {
+        return;
+      }
+
+      const cleanToken = String(token || "").trim();
+
+      if (!cleanToken) {
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        const response = await fetch(
+          CHECK_TICKET_URL,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              ticket_token: cleanToken
+            })
+          }
+        );
+
+        const data = await response.json();
+
+        showResult(data);
+
+      } catch (error) {
+        console.error(error);
+
+        showResult({
+          result: "INVALID",
+          message:
+            "ERRORE DI CONNESSIONE AL SERVER."
+        });
+
+      } finally {
+        setLoading(false);
+      }
+    }
+
+
+    async function onScanSuccess(decodedText) {
+      if (requestInProgress) {
+        return;
+      }
+
+      const token = String(decodedText || "").trim();
+
+      if (!token) {
+        return;
+      }
+
+      /*
+       * Fermiamo momentaneamente lo scanner
+       * mentre il backend verifica il ticket.
+       */
+      await stopScanner();
+
+      await checkTicket(token);
+    }
+
+
+    function onScanFailure() {
+      // Normale: durante la ricerca il QR
+      // non viene trovato ad ogni frame.
+    }
+
+
+    async function startScanner() {
+      if (scannerRunning) {
+        return;
+      }
+
+      try {
+        html5QrCode = new Html5Qrcode("reader");
+
+        const cameras =
+          await Html5Qrcode.getCameras();
+
+        if (!cameras || cameras.length === 0) {
+          scannerStatus.textContent =
+            "NESSUNA FOTOCAMERA DISPONIBILE";
+
+          return;
+        }
+
+        /*
+         * Preferiamo la fotocamera posteriore.
+         */
+        let cameraId = cameras[0].id;
+
+        const backCamera =
+          cameras.find((camera) => {
+            const label =
+              String(camera.label || "").toLowerCase();
+
+            return (
+              label.includes("back") ||
+              label.includes("rear") ||
+              label.includes("posteriore") ||
+              label.includes("environment")
+            );
+          });
+
+        if (backCamera) {
+          cameraId = backCamera.id;
+        }
+
+        await html5QrCode.start(
+          cameraId,
+          {
+            fps: 10,
+
+            qrbox: function(viewfinderWidth, viewfinderHeight) {
+              const size = Math.floor(
+                Math.min(
+                  viewfinderWidth,
+                  viewfinderHeight
+                ) * 0.62
+              );
+
+              return {
+                width: size,
+                height: size
+              };
+            },
+
+            aspectRatio: 1.0
+          },
+          onScanSuccess,
+          onScanFailure
+        );
+
+        scannerRunning = true;
+
+        scannerStatus.textContent =
+          "INQUADRA IL QR DEL BIGLIETTO";
+
+      } catch (error) {
+        console.error(error);
+
+        scannerStatus.textContent =
+          "FOTOCAMERA NON DISPONIBILE";
+
+        /*
+         * Se il browser nega la fotocamera,
+         * l'operatore può comunque usare
+         * l'inserimento manuale del token.
+         */
+      }
+    }
+
+
+    async function stopScanner() {
+      if (!html5QrCode || !scannerRunning) {
+        return;
+      }
+
+      try {
+        await html5QrCode.stop();
+      } catch (error) {
+        console.error(error);
+      }
+
+      scannerRunning = false;
+    }
+
+
+    resetButton.addEventListener(
+      "click",
+      async () => {
+        result.classList.remove("visible");
+
+        resultCode.textContent = "—";
+        participant.textContent = "—";
+        details.textContent = "—";
+
+        manualToken.value = "";
+
+        scannerStatus.textContent =
+          "RIAVVIO FOTOCAMERA...";
+
+        await startScanner();
+      }
+    );
+
+
+    manualButton.addEventListener(
+      "click",
+      async () => {
+        const token =
+          manualToken.value.trim();
+
+        if (!token) {
+          manualToken.focus();
+          return;
+        }
+
+        await stopScanner();
+
+        await checkTicket(token);
+      }
+    );
+
+
+    manualToken.addEventListener(
+      "keydown",
+      async (event) => {
+        if (event.key !== "Enter") {
+          return;
+        }
+
+        event.preventDefault();
+
+        manualButton.click();
+      }
+    );
+
+
+    /*
+     * Avvio iniziale.
+     */
+    startScanner();
+  </script>
+
+</body>
+</html>
