@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  />
+  >
 
   <title>MÆDNESS® — TICKET</title>
 
+  <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -20,6 +21,9 @@
 
   <!-- QR GENERATOR -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- PDF GENERATOR -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 
   <style>
 
@@ -53,7 +57,14 @@
       font: inherit;
     }
 
-    /* DESKTOP */
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* =========================================
+       DESKTOP
+       ========================================= */
 
     .desktop-warning {
       display: none;
@@ -82,7 +93,9 @@
 
     }
 
-    /* PAGE */
+    /* =========================================
+       PAGE
+       ========================================= */
 
     .ticket-page {
       min-height: 100svh;
@@ -92,7 +105,9 @@
       overflow: hidden;
     }
 
-    /* TOP */
+    /* =========================================
+       TOP
+       ========================================= */
 
     .ticket-top {
       display: flex;
@@ -124,7 +139,9 @@
       line-height: 1.5;
     }
 
-    /* HEADER */
+    /* =========================================
+       HEADER
+       ========================================= */
 
     .ticket-header {
       padding: 28px 0 22px;
@@ -144,6 +161,8 @@
       line-height: .8;
       letter-spacing: -.025em;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
     }
 
     .ticket-meta {
@@ -169,7 +188,9 @@
       line-height: 1.5;
     }
 
-    /* TICKET CARD */
+    /* =========================================
+       TICKET CARD
+       ========================================= */
 
     .ticket-card {
       background: var(--white);
@@ -220,7 +241,9 @@
       word-break: break-word;
     }
 
-    /* QR */
+    /* =========================================
+       QR
+       ========================================= */
 
     .qr-section {
       margin-top: 18px;
@@ -285,15 +308,67 @@
       color: rgba(0,0,0,.55);
     }
 
-    /* ACTIONS */
+    /* =========================================
+       ACTIONS
+       ========================================= */
 
     .actions {
       margin-top: 16px;
       display: grid;
-      gap: 9px;
+      gap: 10px;
     }
 
-    .action-button {
+    .wallet-action {
+      width: 100%;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1px solid rgba(255,255,255,.18);
+      padding: 8px 12px;
+      cursor: pointer;
+      transition:
+        transform .12s ease,
+        opacity .2s ease;
+    }
+
+    .wallet-action:active {
+      transform: scale(.97);
+    }
+
+    .wallet-action img {
+      width: auto;
+      height: 48px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .wallet-action.hidden {
+      display: none;
+    }
+
+    .wallet-fallback {
+      display: none;
+      font-family: "Anton", sans-serif;
+      font-size: 18px;
+      letter-spacing: .03em;
+      color: #000;
+    }
+
+    .wallet-action.badge-error .wallet-fallback {
+      display: block;
+    }
+
+    .wallet-action.badge-error img {
+      display: none;
+    }
+
+    /* =========================================
+       PDF BUTTON
+       ========================================= */
+
+    .pdf-button {
       width: 100%;
       min-height: 56px;
       border: 0;
@@ -305,38 +380,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      background: var(--red);
+      color: var(--white);
       transition:
         transform .12s ease,
         background .2s ease;
     }
 
-    .action-button:active {
+    .pdf-button:active {
       transform: scale(.97);
-    }
-
-    .wallet-button {
-      background: var(--black);
-      color: var(--white);
-    }
-
-    .wallet-button:hover {
-      background: var(--red);
-    }
-
-    .pdf-button {
-      background: var(--red);
-      color: var(--white);
     }
 
     .pdf-button:hover {
       background: var(--black);
     }
 
-    .wallet-button.hidden {
-      display: none;
+    .pdf-button.loading {
+      opacity: .7;
+      pointer-events: none;
     }
 
-    /* FOOTER */
+    /* =========================================
+       FOOTER
+       ========================================= */
 
     .ticket-footer {
       margin-top: 22px;
@@ -355,7 +421,9 @@
       text-align: right;
     }
 
-    /* MESSAGE */
+    /* =========================================
+       MESSAGE
+       ========================================= */
 
     .action-message {
       min-height: 14px;
@@ -367,74 +435,20 @@
       color: var(--red);
     }
 
-    /* PRINT */
-
-    @media print {
-
-      @page {
-        size: A4;
-        margin: 12mm;
-      }
-
-      html,
-      body {
-        background: #fff !important;
-        color: #000 !important;
-      }
-
-      .desktop-warning {
-        display: none !important;
-      }
-
-      .ticket-page {
-        min-height: auto;
-        padding: 0;
-        background: #fff;
-        color: #000;
-      }
-
-      .ticket-top {
-        border-bottom: 1px solid #000;
-      }
-
-      .ticket-logo {
-        color: #000;
-      }
-
-      .ticket-code {
-        color: #000;
-      }
-
-      .ticket-kicker {
-        color: #000;
-      }
-
-      .ticket-card {
-        border: 1px solid #000;
-        margin-top: 10px;
-      }
-
-      .actions,
-      .action-message,
-      .ticket-footer {
-        display: none !important;
-      }
-
-      .qr-frame {
-        max-width: 260px;
-      }
-
-    }
-
   </style>
 </head>
 
 <body>
 
+  <!-- DESKTOP WARNING -->
+
   <div class="desktop-warning">
     MÆDNESS®<br>
     MOBILE EXPERIENCE ONLY
   </div>
+
+
+  <!-- TICKET PAGE -->
 
   <main class="ticket-page">
 
@@ -516,7 +530,10 @@
             ENTRY QR
           </div>
 
-          <div class="qr-state">
+          <div
+            class="qr-state"
+            id="qrState"
+          >
             VALID
           </div>
 
@@ -541,31 +558,62 @@
 
     <section class="actions">
 
+      <!-- APPLE WALLET -->
+
       <button
         type="button"
-        class="action-button wallet-button"
+        class="wallet-action"
         id="appleWalletButton"
+        aria-label="Add to Apple Wallet"
       >
-        ADD TO APPLE WALLET
+
+        <img
+          src="./apple-wallet.svg"
+          alt="Add to Apple Wallet"
+          id="appleWalletBadge"
+        >
+
+        <span class="wallet-fallback">
+          ADD TO APPLE WALLET
+        </span>
+
       </button>
+
+
+      <!-- GOOGLE WALLET -->
 
       <button
         type="button"
-        class="action-button wallet-button"
+        class="wallet-action"
         id="googleWalletButton"
+        aria-label="Add to Google Wallet"
       >
-        ADD TO GOOGLE WALLET
+
+        <img
+          src="./google-wallet.svg"
+          alt="Add to Google Wallet"
+          id="googleWalletBadge"
+        >
+
+        <span class="wallet-fallback">
+          ADD TO GOOGLE WALLET
+        </span>
+
       </button>
+
+
+      <!-- PDF -->
 
       <button
         type="button"
-        class="action-button pdf-button"
+        class="pdf-button"
         id="pdfButton"
       >
         DOWNLOAD TICKET / PDF
       </button>
 
     </section>
+
 
     <div
       class="action-message"
@@ -583,8 +631,13 @@
       </div>
 
       <div class="ticket-footer-right">
-        18.10.2026<br>
-        FOGGIA / ITALY
+        <span id="footerDate">
+          18.10.2026
+        </span>
+        <br>
+        <span id="footerLocation">
+          FOGGIA / ITALY
+        </span>
       </div>
 
     </footer>
@@ -667,9 +720,24 @@
         "ticketLocation"
       );
 
+    const footerDate =
+      document.getElementById(
+        "footerDate"
+      );
+
+    const footerLocation =
+      document.getElementById(
+        "footerLocation"
+      );
+
     const qrcode =
       document.getElementById(
         "qrcode"
+      );
+
+    const qrState =
+      document.getElementById(
+        "qrState"
       );
 
     const appleWalletButton =
@@ -680,6 +748,16 @@
     const googleWalletButton =
       document.getElementById(
         "googleWalletButton"
+      );
+
+    const appleWalletBadge =
+      document.getElementById(
+        "appleWalletBadge"
+      );
+
+    const googleWalletBadge =
+      document.getElementById(
+        "googleWalletBadge"
       );
 
     const pdfButton =
@@ -701,8 +779,12 @@
       ticketData.event || {};
 
 
-    participantName.textContent =
+    const participantFullName =
       `${ticketData.firstName || ""} ${ticketData.lastName || ""}`.trim();
+
+
+    participantName.textContent =
+      participantFullName || "—";
 
 
     ticketEvent.textContent =
@@ -710,14 +792,27 @@
       "ROTAROTT";
 
 
-    ticketDate.textContent =
+    const formattedEventDate =
       formatDate(
         eventData.date ||
         "2026-10-18"
       );
 
 
+    ticketDate.textContent =
+      formattedEventDate;
+
+
+    footerDate.textContent =
+      formattedEventDate;
+
+
     ticketLocation.textContent =
+      eventData.location ||
+      "FOGGIA / ITALY";
+
+
+    footerLocation.textContent =
       eventData.location ||
       "FOGGIA / ITALY";
 
@@ -735,11 +830,15 @@
       const parts =
         String(value).split("-");
 
+
       if (parts.length === 3) {
 
-        return `${parts[2]}.${parts[1]}.${parts[0]}`;
+        return (
+          `${parts[2]}.${parts[1]}.${parts[0]}`
+        );
 
       }
+
 
       return value;
 
@@ -777,6 +876,12 @@
       qrcode.textContent =
         "QR ERROR";
 
+      qrState.textContent =
+        "ERROR";
+
+      qrState.style.color =
+        "#ff0000";
+
     }
 
 
@@ -809,10 +914,11 @@
 
 
     /*
-      IOS → APPLE
-      ANDROID → GOOGLE
-      ALTRO → NESSUN WALLET
+      IOS     → APPLE WALLET
+      ANDROID → GOOGLE WALLET
+      ALTRO   → NESSUN WALLET
     */
+
 
     if (isIOS) {
 
@@ -840,26 +946,74 @@
 
 
     /* =========================================
-       WALLET — TEMPORANEAMENTE
+       BADGE FALLBACK
+       ========================================= */
+
+    appleWalletBadge.addEventListener(
+      "error",
+      () => {
+
+        appleWalletButton.classList.add(
+          "badge-error"
+        );
+
+      }
+    );
+
+
+    googleWalletBadge.addEventListener(
+      "error",
+      () => {
+
+        googleWalletButton.classList.add(
+          "badge-error"
+        );
+
+      }
+    );
+
+
+    /* =========================================
+       APPLE WALLET
        ========================================= */
 
     appleWalletButton.addEventListener(
       "click",
       () => {
 
+        /*
+          QUI COLLEGHEREMO:
+          register-ticket → Apple .pkpass
+
+          Il badge è già quello ufficiale.
+          Il pass vero verrà generato dal backend.
+        */
+
         actionMessage.textContent =
-          "APPLE WALLET / COMING NEXT";
+          "APPLE WALLET / PASS IN PREPARAZIONE";
 
       }
     );
 
 
+    /* =========================================
+       GOOGLE WALLET
+       ========================================= */
+
     googleWalletButton.addEventListener(
       "click",
       () => {
 
+        /*
+          QUI COLLEGHEREMO:
+          register-ticket → Google Wallet JWT
+
+          Il badge è già quello ufficiale.
+          Il link vero verrà generato dal backend.
+        */
+
         actionMessage.textContent =
-          "GOOGLE WALLET / COMING NEXT";
+          "GOOGLE WALLET / PASS IN PREPARAZIONE";
 
       }
     );
@@ -871,22 +1025,854 @@
 
     pdfButton.addEventListener(
       "click",
-      () => {
+      async () => {
 
-        actionMessage.textContent =
-          "OPENING PDF EXPORT...";
+        if (
+          typeof window.jspdf ===
+          "undefined"
+        ) {
 
-        setTimeout(
-          () => {
+          actionMessage.textContent =
+            "PDF ENGINE NON DISPONIBILE";
 
-            window.print();
+          return;
 
-          },
-          250
-        );
+        }
+
+
+        if (!ticketToken) {
+
+          actionMessage.textContent =
+            "QR NON DISPONIBILE";
+
+          return;
+
+        }
+
+
+        try {
+
+          pdfButton.classList.add(
+            "loading"
+          );
+
+          pdfButton.textContent =
+            "CREATING PDF...";
+
+
+          actionMessage.textContent =
+            "GENERATING TICKET PDF";
+
+
+          /*
+            Aspettiamo che il QR
+            sia effettivamente renderizzato.
+          */
+
+          await waitForQR();
+
+
+          const {
+            jsPDF
+          } = window.jspdf;
+
+
+          /*
+            A4 verticale
+            dimensioni in millimetri
+          */
+
+          const doc =
+            new jsPDF({
+              orientation: "portrait",
+              unit: "mm",
+              format: "a4"
+            });
+
+
+          const pageWidth =
+            doc.internal.pageSize.getWidth();
+
+
+          const pageHeight =
+            doc.internal.pageSize.getHeight();
+
+
+          const margin =
+            14;
+
+
+          /* =====================================
+             BACKGROUND
+             ===================================== */
+
+          doc.setFillColor(
+            5,
+            5,
+            5
+          );
+
+          doc.rect(
+            0,
+            0,
+            pageWidth,
+            pageHeight,
+            "F"
+          );
+
+
+          /* =====================================
+             TOP LOGO
+             ===================================== */
+
+          doc.setTextColor(
+            255,
+            255,
+            255
+          );
+
+          doc.setFont(
+            "helvetica",
+            "bold"
+          );
+
+          doc.setFontSize(
+            20
+          );
+
+          doc.text(
+            "MÆDNESS®",
+            margin,
+            20
+          );
+
+
+          doc.setTextColor(
+            255,
+            0,
+            0
+          );
+
+          doc.setFontSize(
+            7
+          );
+
+          doc.text(
+            "DIGITAL ACCESS",
+            pageWidth - margin,
+            17,
+            {
+              align: "right"
+            }
+          );
+
+
+          doc.text(
+            "ROTAROTT / 001",
+            pageWidth - margin,
+            21,
+            {
+              align: "right"
+            }
+          );
+
+
+          /* =====================================
+             DIVIDER
+             ===================================== */
+
+          doc.setDrawColor(
+            255,
+            255,
+            255
+          );
+
+          doc.setLineWidth(
+            .25
+          );
+
+          doc.line(
+            margin,
+            27,
+            pageWidth - margin,
+            27
+          );
+
+
+          /* =====================================
+             EVENT
+             ===================================== */
+
+          doc.setTextColor(
+            255,
+            0,
+            0
+          );
+
+          doc.setFontSize(
+            7
+          );
+
+          doc.text(
+            "ACCESS CONFIRMED",
+            margin,
+            38
+          );
+
+
+          doc.setTextColor(
+            255,
+            255,
+            255
+          );
+
+          doc.setFont(
+            "helvetica",
+            "bold"
+          );
+
+          doc.setFontSize(
+            30
+          );
+
+
+          const eventName =
+            String(
+              eventData.name ||
+              "ROTAROTT"
+            ).toUpperCase();
+
+
+          doc.text(
+            eventName,
+            margin,
+            51
+          );
+
+
+          /* =====================================
+             DATE / LOCATION
+             ===================================== */
+
+          doc.setFontSize(
+            15
+          );
+
+          doc.text(
+            formattedEventDate,
+            margin,
+            64
+          );
+
+
+          doc.setFontSize(
+            7
+          );
+
+          doc.text(
+            String(
+              eventData.location ||
+              "FOGGIA / ITALY"
+            ).toUpperCase(),
+            pageWidth - margin,
+            64,
+            {
+              align: "right"
+            }
+          );
+
+
+          /* =====================================
+             WHITE TICKET CARD
+             ===================================== */
+
+          const cardX =
+            margin;
+
+          const cardY =
+            74;
+
+          const cardWidth =
+            pageWidth - (
+              margin * 2
+            );
+
+          const cardHeight =
+            165;
+
+
+          doc.setFillColor(
+            255,
+            255,
+            255
+          );
+
+          doc.rect(
+            cardX,
+            cardY,
+            cardWidth,
+            cardHeight,
+            "F"
+          );
+
+
+          /* =====================================
+             RED CORNER MARKS
+             ===================================== */
+
+          doc.setDrawColor(
+            255,
+            0,
+            0
+          );
+
+          doc.setLineWidth(
+            .4
+          );
+
+
+          doc.line(
+            cardX - 2,
+            cardY,
+            cardX + 8,
+            cardY
+          );
+
+          doc.line(
+            cardX,
+            cardY - 2,
+            cardX,
+            cardY + 8
+          );
+
+
+          doc.line(
+            cardX + cardWidth - 8,
+            cardY + cardHeight,
+            cardX + cardWidth + 2,
+            cardY + cardHeight
+          );
+
+          doc.line(
+            cardX + cardWidth,
+            cardY + cardHeight - 8,
+            cardX + cardWidth,
+            cardY + cardHeight + 2
+          );
+
+
+          /* =====================================
+             PARTICIPANT
+             ===================================== */
+
+          doc.setTextColor(
+            90,
+            90,
+            90
+          );
+
+          doc.setFontSize(
+            6
+          );
+
+          doc.text(
+            "NOME E COGNOME PARTECIPANTE",
+            cardX + 7,
+            cardY + 10
+          );
+
+
+          doc.setTextColor(
+            5,
+            5,
+            5
+          );
+
+          doc.setFontSize(
+            18
+          );
+
+
+          const nameForPdf =
+            participantFullName
+              .toUpperCase()
+              .substring(0, 42);
+
+
+          doc.text(
+            nameForPdf || "PARTECIPANTE",
+            cardX + 7,
+            cardY + 21
+          );
+
+
+          /* =====================================
+             QR SECTION DIVIDER
+             ===================================== */
+
+          doc.setDrawColor(
+            190,
+            190,
+            190
+          );
+
+          doc.setLineWidth(
+            .25
+          );
+
+          doc.line(
+            cardX + 7,
+            cardY + 29,
+            cardX + cardWidth - 7,
+            cardY + 29
+          );
+
+
+          /* =====================================
+             QR LABEL
+             ===================================== */
+
+          doc.setTextColor(
+            5,
+            5,
+            5
+          );
+
+          doc.setFontSize(
+            6
+          );
+
+          doc.text(
+            "ENTRY QR",
+            cardX + 7,
+            cardY + 39
+          );
+
+
+          doc.setTextColor(
+            32,
+            216,
+            120
+          );
+
+          doc.text(
+            "VALID",
+            cardX + cardWidth - 7,
+            cardY + 39,
+            {
+              align: "right"
+            }
+          );
+
+
+          /* =====================================
+             QR IMAGE
+             ===================================== */
+
+          const qrCanvas =
+            qrcode.querySelector(
+              "canvas"
+            );
+
+
+          let qrDataUrl = null;
+
+
+          if (qrCanvas) {
+
+            qrDataUrl =
+              qrCanvas.toDataURL(
+                "image/png"
+              );
+
+          } else {
+
+            const qrImage =
+              qrcode.querySelector(
+                "img"
+              );
+
+
+            if (qrImage) {
+
+              qrDataUrl =
+                await imageToDataURL(
+                  qrImage.src
+                );
+
+            }
+
+          }
+
+
+          if (!qrDataUrl) {
+
+            throw new Error(
+              "QR image unavailable"
+            );
+
+          }
+
+
+          const qrSize =
+            82;
+
+
+          const qrX =
+            cardX +
+            (
+              cardWidth -
+              qrSize
+            ) / 2;
+
+
+          const qrY =
+            cardY + 47;
+
+
+          doc.addImage(
+            qrDataUrl,
+            "PNG",
+            qrX,
+            qrY,
+            qrSize,
+            qrSize,
+            undefined,
+            "FAST"
+          );
+
+
+          /* =====================================
+             QR NOTE
+             ===================================== */
+
+          doc.setTextColor(
+            90,
+            90,
+            90
+          );
+
+          doc.setFontSize(
+            5.5
+          );
+
+          doc.text(
+            "PRESENTA QUESTO QR ALL'INGRESSO",
+            pageWidth / 2,
+            cardY + 137,
+            {
+              align: "center"
+            }
+          );
+
+
+          /* =====================================
+             INTERNAL TOKEN
+             ===================================== */
+
+          doc.setTextColor(
+            150,
+            150,
+            150
+          );
+
+          doc.setFontSize(
+            4
+          );
+
+          doc.text(
+            "DIGITAL TICKET / MÆDNESS®",
+            pageWidth / 2,
+            cardY + 145,
+            {
+              align: "center"
+            }
+          );
+
+
+          /* =====================================
+             FOOTER
+             ===================================== */
+
+          doc.setTextColor(
+            255,
+            255,
+            255
+          );
+
+          doc.setFontSize(
+            6
+          );
+
+          doc.text(
+            "MÆDNESS®",
+            margin,
+            pageHeight - 14
+          );
+
+          doc.text(
+            `${formattedEventDate} / ${String(
+              eventData.location ||
+              "FOGGIA / ITALY"
+            ).toUpperCase()}`,
+            pageWidth - margin,
+            pageHeight - 14,
+            {
+              align: "right"
+            }
+          );
+
+
+          /* =====================================
+             SAVE
+             ===================================== */
+
+          const safeName =
+            participantFullName
+              .replace(
+                /[^a-z0-9]+/gi,
+                "-"
+              )
+              .replace(
+                /^-+|-+$/g,
+                ""
+              )
+              .toUpperCase();
+
+
+          const fileName =
+            `MAEDNESS-${eventName.replace(
+              /[^a-z0-9]+/gi,
+              "-"
+            )}-${safeName || "TICKET"}.pdf`;
+
+
+          /*
+            Blob + anchor:
+            niente print UI.
+          */
+
+          const pdfBlob =
+            doc.output(
+              "blob"
+            );
+
+
+          const pdfUrl =
+            URL.createObjectURL(
+              pdfBlob
+            );
+
+
+          const downloadLink =
+            document.createElement(
+              "a"
+            );
+
+
+          downloadLink.href =
+            pdfUrl;
+
+
+          downloadLink.download =
+            fileName;
+
+
+          downloadLink.style.display =
+            "none";
+
+
+          document.body.appendChild(
+            downloadLink
+          );
+
+
+          downloadLink.click();
+
+
+          setTimeout(
+            () => {
+
+              downloadLink.remove();
+
+              URL.revokeObjectURL(
+                pdfUrl
+              );
+
+            },
+            1500
+          );
+
+
+          actionMessage.textContent =
+            "PDF READY";
+
+
+        } catch (error) {
+
+          console.error(
+            "PDF generation error:",
+            error
+          );
+
+          actionMessage.textContent =
+            "PDF ERROR";
+
+        } finally {
+
+          pdfButton.classList.remove(
+            "loading"
+          );
+
+          pdfButton.textContent =
+            "DOWNLOAD TICKET / PDF";
+
+        }
 
       }
     );
+
+
+    /* =========================================
+       WAIT FOR QR
+       ========================================= */
+
+    function waitForQR() {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          let attempts = 0;
+
+          const maxAttempts = 40;
+
+
+          const checkQR = () => {
+
+            const canvas =
+              qrcode.querySelector(
+                "canvas"
+              );
+
+            const image =
+              qrcode.querySelector(
+                "img"
+              );
+
+
+            if (canvas || image) {
+
+              resolve();
+
+              return;
+
+            }
+
+
+            attempts++;
+
+
+            if (
+              attempts >=
+              maxAttempts
+            ) {
+
+              reject(
+                new Error(
+                  "QR generation timeout"
+                )
+              );
+
+              return;
+
+            }
+
+
+            setTimeout(
+              checkQR,
+              100
+            );
+
+          };
+
+
+          checkQR();
+
+        }
+      );
+
+    }
+
+
+    /* =========================================
+       IMAGE → DATA URL
+       ========================================= */
+
+    function imageToDataURL(
+      src
+    ) {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          const image =
+            new Image();
+
+
+          image.crossOrigin =
+            "anonymous";
+
+
+          image.onload =
+            () => {
+
+              const canvas =
+                document.createElement(
+                  "canvas"
+                );
+
+
+              canvas.width =
+                image.naturalWidth;
+
+
+              canvas.height =
+                image.naturalHeight;
+
+
+              const context =
+                canvas.getContext(
+                  "2d"
+                );
+
+
+              context.drawImage(
+                image,
+                0,
+                0
+              );
+
+
+              resolve(
+                canvas.toDataURL(
+                  "image/png"
+                )
+              );
+
+            };
+
+
+          image.onerror =
+            reject;
+
+
+          image.src =
+            src;
+
+        }
+      );
+
+    }
 
   </script>
 
