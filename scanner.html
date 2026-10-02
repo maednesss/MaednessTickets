@@ -16,8 +16,7 @@
       --black: #050505;
       --white: #ffffff;
       --green: #20d878;
-      --gray: #999999;
-      --dark-gray: #151515;
+      --orange: #ff9d00;
     }
 
     * {
@@ -134,15 +133,15 @@
 
     .scan-corners {
       position: absolute;
-      inset: 14%;
+      inset: 12%;
       pointer-events: none;
       z-index: 10;
     }
 
     .corner {
       position: absolute;
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-color: var(--red);
       border-style: solid;
     }
@@ -173,8 +172,8 @@
 
     .scan-line {
       position: absolute;
-      left: 14%;
-      right: 14%;
+      left: 12%;
+      right: 12%;
       top: 50%;
       height: 2px;
       background: var(--red);
@@ -182,17 +181,17 @@
       opacity: 0.85;
       z-index: 11;
       pointer-events: none;
-      animation: scan 2s ease-in-out infinite;
+      animation: scan 1.8s ease-in-out infinite;
     }
 
     @keyframes scan {
       0%,
       100% {
-        transform: translateY(-95px);
+        transform: translateY(-100px);
       }
 
       50% {
-        transform: translateY(95px);
+        transform: translateY(100px);
       }
     }
 
@@ -203,6 +202,19 @@
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+    }
+
+    .loading {
+      display: none;
+      margin-top: 14px;
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .loading.visible {
+      display: block;
     }
 
     .result {
@@ -221,7 +233,7 @@
     }
 
     .result.already {
-      border-color: #ff9d00;
+      border-color: var(--orange);
     }
 
     .result.invalid {
@@ -240,7 +252,7 @@
     }
 
     .result.already .result-code {
-      color: #ff9d00;
+      color: var(--orange);
     }
 
     .result.invalid .result-code {
@@ -269,6 +281,19 @@
       color: var(--white);
     }
 
+    .reset-button {
+      width: 100%;
+      height: 48px;
+      margin-top: 18px;
+      border: 0;
+      background: var(--red);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+    }
+
     .manual {
       margin-top: 26px;
       border-top: 1px solid #1d1d1d;
@@ -277,7 +302,7 @@
 
     .manual-label {
       margin-bottom: 9px;
-      color: var(--gray);
+      color: #777;
       font-size: 9px;
       font-weight: 800;
       letter-spacing: 0.12em;
@@ -305,8 +330,7 @@
       border-color: var(--red);
     }
 
-    .manual-row button,
-    .reset-button {
+    .manual-row button {
       height: 48px;
       border: 0;
       background: var(--white);
@@ -316,26 +340,6 @@
       font-weight: 900;
       letter-spacing: 0.08em;
       cursor: pointer;
-    }
-
-    .reset-button {
-      width: 100%;
-      margin-top: 10px;
-      background: var(--red);
-      color: white;
-    }
-
-    .loading {
-      display: none;
-      margin-top: 14px;
-      color: var(--white);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-    }
-
-    .loading.visible {
-      display: block;
     }
 
     .footer {
@@ -375,6 +379,7 @@
   <main class="page">
 
     <header class="top">
+
       <div class="brand">
         MÆDNESS<span>®</span>
       </div>
@@ -383,13 +388,19 @@
         ENTRY CONTROL<br>
         18.10.2026
       </div>
+
     </header>
 
-    <h1 class="title">SCANNER</h1>
+
+    <h1 class="title">
+      SCANNER
+    </h1>
+
 
     <p class="subtitle">
       ROTAROTT / FOGGIA / ITALY
     </p>
+
 
     <section class="scanner-frame">
 
@@ -406,27 +417,51 @@
 
     </section>
 
-    <div id="scannerStatus" class="scanner-status">
+
+    <div
+      id="scannerStatus"
+      class="scanner-status"
+    >
       AVVIO FOTOCAMERA...
     </div>
 
-    <div id="loading" class="loading">
-      VERIFICA TICKET...
+
+    <div
+      id="loading"
+      class="loading"
+    >
+      VERIFICA INGRESSO...
     </div>
 
-    <section id="result" class="result">
 
-      <div id="resultCode" class="result-code">
+    <section
+      id="result"
+      class="result"
+    >
+
+      <div
+        id="resultCode"
+        class="result-code"
+      >
         —
       </div>
 
-      <div id="participant" class="participant">
+
+      <div
+        id="participant"
+        class="participant"
+      >
         —
       </div>
 
-      <div id="details" class="details">
+
+      <div
+        id="details"
+        class="details"
+      >
         —
       </div>
+
 
       <button
         id="resetButton"
@@ -438,11 +473,13 @@
 
     </section>
 
+
     <section class="manual">
 
       <div class="manual-label">
         INSERIMENTO MANUALE TOKEN
       </div>
+
 
       <div class="manual-row">
 
@@ -455,6 +492,7 @@
           placeholder="INCOLLA TOKEN QR"
         >
 
+
         <button
           id="manualButton"
           type="button"
@@ -466,379 +504,918 @@
 
     </section>
 
+
     <footer class="footer">
-      <span>MÆDNESS®</span>
-      <span>ENTRY SYSTEM / 01</span>
+
+      <span>
+        MÆDNESS®
+      </span>
+
+      <span>
+        ENTRY SYSTEM / 01
+      </span>
+
     </footer>
 
   </main>
 
 
-  <!-- QR SCANNER LIBRARY -->
-  <script src="https://unpkg.com/html5-qrcode"></script>
+  <!-- QR SCANNER -->
+  <script
+    src="https://unpkg.com/html5-qrcode"
+  ></script>
+
 
   <script>
-    const CHECK_TICKET_URL =
-      "https://rmniojqexlasxfxisqbm.supabase.co/functions/v1/check-ticket";
 
-    const readerElement = document.getElementById("reader");
-    const scannerStatus = document.getElementById("scannerStatus");
-    const loading = document.getElementById("loading");
+    /*
+     * ==========================================================
+     * SUPABASE
+     * ==========================================================
+     *
+     * La Publishable key è sicura da utilizzare nel browser.
+     *
+     * NON è una service_role key.
+     */
 
-    const result = document.getElementById("result");
-    const resultCode = document.getElementById("resultCode");
-    const participant = document.getElementById("participant");
-    const details = document.getElementById("details");
+    const SUPABASE_URL =
+      "https://rmniojqexlasxfxisqbm.supabase.co";
 
-    const resetButton = document.getElementById("resetButton");
 
-    const manualToken = document.getElementById("manualToken");
-    const manualButton = document.getElementById("manualButton");
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_SbqTxagdWxbf9QjnMzKQsg_E_aCGvm-";
+
+
+    const RPC_URL =
+      `${SUPABASE_URL}/rest/v1/rpc/check_ticket`;
+
+
+    /*
+     * ==========================================================
+     * ELEMENTI
+     * ==========================================================
+     */
+
+    const scannerStatus =
+      document.getElementById(
+        "scannerStatus"
+      );
+
+
+    const loading =
+      document.getElementById(
+        "loading"
+      );
+
+
+    const result =
+      document.getElementById(
+        "result"
+      );
+
+
+    const resultCode =
+      document.getElementById(
+        "resultCode"
+      );
+
+
+    const participant =
+      document.getElementById(
+        "participant"
+      );
+
+
+    const details =
+      document.getElementById(
+        "details"
+      );
+
+
+    const resetButton =
+      document.getElementById(
+        "resetButton"
+      );
+
+
+    const manualToken =
+      document.getElementById(
+        "manualToken"
+      );
+
+
+    const manualButton =
+      document.getElementById(
+        "manualButton"
+      );
+
+
+    /*
+     * ==========================================================
+     * SCANNER STATE
+     * ==========================================================
+     */
 
     let html5QrCode = null;
+
     let scannerRunning = false;
+
     let requestInProgress = false;
 
 
+    /*
+     * Evita che lo stesso QR venga processato
+     * più volte prima che il risultato venga mostrato.
+     */
+
+    let lastScannedToken = "";
+
+
+
+    /*
+     * ==========================================================
+     * LOADING
+     * ==========================================================
+     */
+
     function setLoading(active) {
-      requestInProgress = active;
+
+      requestInProgress =
+        active;
+
+
+      loading.classList.toggle(
+        "visible",
+        active
+      );
 
       if (active) {
-        loading.classList.add("visible");
-        scannerStatus.textContent = "VERIFICA TICKET...";
-      } else {
-        loading.classList.remove("visible");
+
+        scannerStatus.textContent =
+          "VERIFICA INGRESSO...";
+
       }
+
     }
 
 
+
+    /*
+     * ==========================================================
+     * DATE
+     * ==========================================================
+     */
+
     function formatDateTime(value) {
+
       if (!value) {
         return "—";
       }
 
-      const date = new Date(value);
 
-      if (Number.isNaN(date.getTime())) {
+      const date =
+        new Date(value);
+
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
         return value;
+
       }
 
-      return date.toLocaleString("it-IT", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
+
+      return date.toLocaleString(
+        "it-IT",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      );
+
     }
 
 
-    function normalizeText(value) {
-      return String(value || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim();
+
+    /*
+     * ==========================================================
+     * HTML ESCAPE
+     * ==========================================================
+     */
+
+    function escapeHtml(value) {
+
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
     }
 
+
+
+    /*
+     * ==========================================================
+     * RESULT
+     * ==========================================================
+     */
 
     function showResult(data) {
+
       result.classList.remove(
         "valid",
         "already",
         "invalid"
       );
 
-      result.classList.add("visible");
 
-      const resultType = data.result;
+      result.classList.add(
+        "visible"
+      );
 
-      if (resultType === "VALID") {
-        result.classList.add("valid");
+
+      if (
+        data.result ===
+        "VALID"
+      ) {
+
+        result.classList.add(
+          "valid"
+        );
+
 
         resultCode.textContent =
           "✓ ACCESSO CONSENTITO";
 
-      } else if (resultType === "ALREADY_USED") {
-        result.classList.add("already");
+      }
+
+
+      else if (
+        data.result ===
+        "ALREADY_USED"
+      ) {
+
+        result.classList.add(
+          "already"
+        );
+
 
         resultCode.textContent =
           "⚠ BIGLIETTO GIÀ UTILIZZATO";
 
-      } else {
-        result.classList.add("invalid");
+      }
+
+
+      else {
+
+        result.classList.add(
+          "invalid"
+        );
+
 
         resultCode.textContent =
           "✕ QR NON VALIDO";
+
       }
 
-      const person = data.participant;
+
+      const person =
+        data.participant;
+
 
       if (person) {
+
         participant.textContent =
-          `${person.first_name} ${person.last_name}`;
-      } else {
-        participant.textContent =
-          "TICKET NON RICONOSCIUTO";
+          `${person.first_name || ""} ${person.last_name || ""}`
+            .trim();
+
       }
 
-      const event = data.event;
+      else {
+
+        participant.textContent =
+          "TICKET NON RICONOSCIUTO";
+
+      }
+
+
+      const event =
+        data.event;
+
 
       if (event) {
+
         details.innerHTML = `
-          <strong>${escapeHtml(event.name || "")}</strong><br>
-          ${escapeHtml(event.location || "")}<br>
-          ${escapeHtml(event.date || "")}
+          <strong>${escapeHtml(event.name)}</strong><br>
+          ${escapeHtml(event.location)}<br>
+          ${escapeHtml(event.date)}
           ${
             data.used_at
-              ? `<br>INGRESSO: ${escapeHtml(formatDateTime(data.used_at))}`
+              ? `<br>INGRESSO: ${escapeHtml(
+                  formatDateTime(data.used_at)
+                )}`
               : ""
           }
         `;
-      } else {
+
+      }
+
+      else {
+
         details.textContent =
-          data.message || "QR non valido.";
+          data.message ||
+          "QR NON VALIDO";
+
       }
+
     }
 
 
-    function escapeHtml(value) {
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
 
+    /*
+     * ==========================================================
+     * RPC DIRETTA
+     * ==========================================================
+     *
+     * Nessuna Edge Function.
+     *
+     * Browser
+     *    ↓
+     * Supabase REST / RPC
+     *    ↓
+     * PostgreSQL
+     */
 
-    async function checkTicket(token) {
-      if (requestInProgress) {
-        return;
-      }
+    async function checkTicket(
+      token
+    ) {
 
-      const cleanToken = String(token || "").trim();
+      const cleanToken =
+        String(
+          token || ""
+        ).trim();
+
 
       if (!cleanToken) {
         return;
       }
 
-      setLoading(true);
 
-      try {
-        const response = await fetch(
-          CHECK_TICKET_URL,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              ticket_token: cleanToken
-            })
-          }
-        );
-
-        const data = await response.json();
-
-        showResult(data);
-
-      } catch (error) {
-        console.error(error);
-
-        showResult({
-          result: "INVALID",
-          message:
-            "ERRORE DI CONNESSIONE AL SERVER."
-        });
-
-      } finally {
-        setLoading(false);
-      }
-    }
-
-
-    async function onScanSuccess(decodedText) {
       if (requestInProgress) {
         return;
       }
 
-      const token = String(decodedText || "").trim();
+
+      setLoading(true);
+
+
+      const startedAt =
+        performance.now();
+
+
+      try {
+
+        const response =
+          await fetch(
+            RPC_URL,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json",
+
+                "apikey":
+                  SUPABASE_PUBLISHABLE_KEY,
+
+                "Authorization":
+                  `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+              },
+
+              body: JSON.stringify({
+                p_ticket_token:
+                  cleanToken
+              }),
+
+              cache: "no-store"
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        const elapsed =
+          Math.round(
+            performance.now() -
+            startedAt
+          );
+
+
+        console.log(
+          `Ticket check: ${elapsed} ms`,
+          data
+        );
+
+
+        if (!response.ok) {
+
+          showResult({
+            result: "INVALID",
+            message:
+              data?.message ||
+              "ERRORE SERVER"
+          });
+
+          return;
+
+        }
+
+
+        showResult(
+          data
+        );
+
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Ticket check error:",
+          error
+        );
+
+
+        showResult({
+          result: "INVALID",
+          message:
+            "ERRORE DI CONNESSIONE"
+        });
+
+      }
+
+      finally {
+
+        setLoading(false);
+
+      }
+
+    }
+
+
+
+    /*
+     * ==========================================================
+     * QR SCAN
+     * ==========================================================
+     */
+
+    async function onScanSuccess(
+      decodedText
+    ) {
+
+      if (
+        requestInProgress
+      ) {
+        return;
+      }
+
+
+      const token =
+        String(
+          decodedText || ""
+        ).trim();
+
 
       if (!token) {
         return;
       }
 
+
       /*
-       * Fermiamo momentaneamente lo scanner
-       * mentre il backend verifica il ticket.
+       * Evita doppie letture dello stesso
+       * QR nello stesso momento.
        */
+
+      if (
+        token ===
+        lastScannedToken
+      ) {
+
+        return;
+
+      }
+
+
+      lastScannedToken =
+        token;
+
+
+      /*
+       * Fermiamo la camera mentre
+       * il database convalida.
+       */
+
       await stopScanner();
 
-      await checkTicket(token);
+
+      await checkTicket(
+        token
+      );
+
     }
+
 
 
     function onScanFailure() {
-      // Normale: durante la ricerca il QR
-      // non viene trovato ad ogni frame.
+      /*
+       * Normale:
+       * non tutti i frame contengono
+       * un QR leggibile.
+       */
     }
 
 
+
+    /*
+     * ==========================================================
+     * START CAMERA
+     * ==========================================================
+     */
+
     async function startScanner() {
-      if (scannerRunning) {
+
+      if (
+        scannerRunning
+      ) {
         return;
       }
 
+
       try {
-        html5QrCode = new Html5Qrcode("reader");
 
-        const cameras =
-          await Html5Qrcode.getCameras();
+        html5QrCode =
+          new Html5Qrcode(
+            "reader"
+          );
 
-        if (!cameras || cameras.length === 0) {
-          scannerStatus.textContent =
-            "NESSUNA FOTOCAMERA DISPONIBILE";
-
-          return;
-        }
 
         /*
-         * Preferiamo la fotocamera posteriore.
+         * Chiediamo direttamente
+         * la fotocamera posteriore.
+         *
+         * Evitiamo getCameras(),
+         * quindi niente attesa inutile
+         * prima dell'avvio.
          */
-        let cameraId = cameras[0].id;
-
-        const backCamera =
-          cameras.find((camera) => {
-            const label =
-              String(camera.label || "").toLowerCase();
-
-            return (
-              label.includes("back") ||
-              label.includes("rear") ||
-              label.includes("posteriore") ||
-              label.includes("environment")
-            );
-          });
-
-        if (backCamera) {
-          cameraId = backCamera.id;
-        }
 
         await html5QrCode.start(
-          cameraId,
+
           {
-            fps: 10,
-
-            qrbox: function(viewfinderWidth, viewfinderHeight) {
-              const size = Math.floor(
-                Math.min(
-                  viewfinderWidth,
-                  viewfinderHeight
-                ) * 0.62
-              );
-
-              return {
-                width: size,
-                height: size
-              };
-            },
-
-            aspectRatio: 1.0
+            facingMode:
+              {
+                exact:
+                  "environment"
+              }
           },
+
+          {
+            fps: 15,
+
+            qrbox:
+              function(
+                width,
+                height
+              ) {
+
+                const size =
+                  Math.floor(
+                    Math.min(
+                      width,
+                      height
+                    ) * 0.68
+                  );
+
+
+                return {
+                  width:
+                    size,
+                  height:
+                    size
+                };
+
+              },
+
+            aspectRatio:
+              1.0
+
+          },
+
           onScanSuccess,
+
           onScanFailure
+
         );
 
-        scannerRunning = true;
+
+        scannerRunning =
+          true;
+
 
         scannerStatus.textContent =
           "INQUADRA IL QR DEL BIGLIETTO";
 
-      } catch (error) {
-        console.error(error);
 
-        scannerStatus.textContent =
-          "FOTOCAMERA NON DISPONIBILE";
+      }
+
+      catch (error) {
+
+        console.error(
+          "Camera error:",
+          error
+        );
+
 
         /*
-         * Se il browser nega la fotocamera,
-         * l'operatore può comunque usare
-         * l'inserimento manuale del token.
+         * Alcuni browser possono non
+         * accettare exact: environment.
+         *
+         * Facciamo un secondo tentativo
+         * senza exact.
          */
+
+        try {
+
+          if (
+            html5QrCode
+          ) {
+
+            try {
+
+              await html5QrCode.clear();
+
+            }
+
+            catch (_) {}
+
+          }
+
+
+          html5QrCode =
+            new Html5Qrcode(
+              "reader"
+            );
+
+
+          await html5QrCode.start(
+
+            {
+              facingMode:
+                "environment"
+            },
+
+            {
+              fps: 15,
+
+              qrbox:
+                function(
+                  width,
+                  height
+                ) {
+
+                  const size =
+                    Math.floor(
+                      Math.min(
+                        width,
+                        height
+                      ) * 0.68
+                    );
+
+
+                  return {
+                    width:
+                      size,
+                    height:
+                      size
+                  };
+
+                },
+
+              aspectRatio:
+                1.0
+
+            },
+
+            onScanSuccess,
+
+            onScanFailure
+
+          );
+
+
+          scannerRunning =
+            true;
+
+
+          scannerStatus.textContent =
+            "INQUADRA IL QR DEL BIGLIETTO";
+
+
+        }
+
+        catch (
+          fallbackError
+        ) {
+
+          console.error(
+            "Camera fallback error:",
+            fallbackError
+          );
+
+
+          scannerStatus.textContent =
+            "FOTOCAMERA NON DISPONIBILE";
+
+        }
+
       }
+
     }
 
+
+
+    /*
+     * ==========================================================
+     * STOP CAMERA
+     * ==========================================================
+     */
 
     async function stopScanner() {
-      if (!html5QrCode || !scannerRunning) {
+
+      if (
+        !html5QrCode ||
+        !scannerRunning
+      ) {
+
         return;
+
       }
+
 
       try {
+
         await html5QrCode.stop();
-      } catch (error) {
-        console.error(error);
+
       }
 
-      scannerRunning = false;
+      catch (error) {
+
+        console.error(
+          "Scanner stop error:",
+          error
+        );
+
+      }
+
+
+      scannerRunning =
+        false;
+
     }
 
+
+
+    /*
+     * ==========================================================
+     * RESET
+     * ==========================================================
+     */
 
     resetButton.addEventListener(
       "click",
       async () => {
-        result.classList.remove("visible");
 
-        resultCode.textContent = "—";
-        participant.textContent = "—";
-        details.textContent = "—";
+        result.classList.remove(
+          "visible"
+        );
 
-        manualToken.value = "";
+
+        resultCode.textContent =
+          "—";
+
+
+        participant.textContent =
+          "—";
+
+
+        details.textContent =
+          "—";
+
+
+        manualToken.value =
+          "";
+
+
+        lastScannedToken =
+          "";
+
+
+        requestInProgress =
+          false;
+
 
         scannerStatus.textContent =
           "RIAVVIO FOTOCAMERA...";
 
+
         await startScanner();
+
       }
     );
 
+
+
+    /*
+     * ==========================================================
+     * MANUAL TOKEN
+     * ==========================================================
+     */
 
     manualButton.addEventListener(
       "click",
       async () => {
+
         const token =
           manualToken.value.trim();
 
+
         if (!token) {
+
           manualToken.focus();
+
           return;
+
         }
+
 
         await stopScanner();
 
-        await checkTicket(token);
+
+        lastScannedToken =
+          token;
+
+
+        await checkTicket(
+          token
+        );
+
       }
     );
+
 
 
     manualToken.addEventListener(
       "keydown",
-      async (event) => {
-        if (event.key !== "Enter") {
+      (event) => {
+
+        if (
+          event.key !==
+          "Enter"
+        ) {
+
           return;
+
         }
+
 
         event.preventDefault();
 
+
         manualButton.click();
+
       }
     );
 
 
+
     /*
-     * Avvio iniziale.
+     * ==========================================================
+     * AVVIO
+     * ==========================================================
      */
+
     startScanner();
+
   </script>
 
 </body>
