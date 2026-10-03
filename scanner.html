@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -12,7 +11,6 @@
   <title>MÆDNESS® — SCANNER</title>
 
   <style>
-
     :root {
       --red: #ff0000;
       --black: #050505;
@@ -21,12 +19,10 @@
       --orange: #ff9d00;
     }
 
-
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
-
 
     html,
     body {
@@ -38,19 +34,16 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-
     body {
       min-height: 100svh;
       padding: 18px;
       overflow-x: hidden;
     }
 
-
     button,
     input {
       font: inherit;
     }
-
 
     .page {
       width: 100%;
@@ -60,7 +53,6 @@
       display: flex;
       flex-direction: column;
     }
-
 
     /* ==========================================================
        TOP
@@ -74,20 +66,17 @@
       margin-bottom: 26px;
     }
 
-
     .brand {
       font-size: 22px;
       font-weight: 900;
       letter-spacing: -0.06em;
     }
 
-
     .brand span {
       font-size: 11px;
       vertical-align: top;
       margin-left: 2px;
     }
-
 
     .top-label {
       color: var(--red);
@@ -97,7 +86,6 @@
       text-align: right;
       line-height: 1.4;
     }
-
 
     /* ==========================================================
        TITLE
@@ -111,7 +99,6 @@
       font-weight: 900;
     }
 
-
     .subtitle {
       margin: 0 0 22px;
       color: var(--red);
@@ -120,6 +107,41 @@
       letter-spacing: 0.12em;
     }
 
+    /* ==========================================================
+       PARTICIPANT STATS
+       ========================================================== */
+
+    .participant-stats {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+      margin: 0 0 22px;
+      padding: 12px 0;
+      border-top: 1px solid #292929;
+      border-bottom: 1px solid #292929;
+    }
+
+    .participant-stats-label {
+      color: #777;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    .participant-stats-number {
+      color: var(--white);
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .participant-stats-caption {
+      color: var(--red);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+    }
 
     /* ==========================================================
        AUDIO
@@ -142,17 +164,14 @@
       display: none;
     }
 
-
     .audio-button.visible {
       display: block;
     }
-
 
     .audio-button.enabled {
       color: var(--green);
       border-color: var(--green);
     }
-
 
     /* ==========================================================
        SCANNER
@@ -167,19 +186,16 @@
       border: 1px solid #292929;
     }
 
-
     #reader {
       width: 100%;
       height: 100%;
     }
-
 
     #reader video {
       width: 100% !important;
       height: 100% !important;
       object-fit: cover !important;
     }
-
 
     #reader__scan_region {
       width: 100% !important;
@@ -189,11 +205,9 @@
       justify-content: center !important;
     }
 
-
     #reader__dashboard {
       display: none !important;
     }
-
 
     .scan-corners {
       position: absolute;
@@ -201,7 +215,6 @@
       pointer-events: none;
       z-index: 10;
     }
-
 
     .corner {
       position: absolute;
@@ -211,13 +224,11 @@
       border-style: solid;
     }
 
-
     .corner.tl {
       top: 0;
       left: 0;
       border-width: 3px 0 0 3px;
     }
-
 
     .corner.tr {
       top: 0;
@@ -225,20 +236,17 @@
       border-width: 3px 3px 0 0;
     }
 
-
     .corner.bl {
       bottom: 0;
       left: 0;
       border-width: 0 0 3px 3px;
     }
 
-
     .corner.br {
       bottom: 0;
       right: 0;
       border-width: 0 3px 3px 0;
     }
-
 
     .scan-line {
       position: absolute;
@@ -254,9 +262,7 @@
       animation: scan 1.8s ease-in-out infinite;
     }
 
-
     @keyframes scan {
-
       0%,
       100% {
         transform: translateY(-100px);
@@ -265,9 +271,7 @@
       50% {
         transform: translateY(100px);
       }
-
     }
-
 
     .scanner-status {
       margin-top: 10px;
@@ -278,7 +282,6 @@
       text-transform: uppercase;
     }
 
-
     .loading {
       display: none;
       margin-top: 14px;
@@ -288,11 +291,9 @@
       letter-spacing: 0.1em;
     }
 
-
     .loading.visible {
       display: block;
     }
-
 
     /* ==========================================================
        RESULT
@@ -305,26 +306,21 @@
       padding: 20px;
     }
 
-
     .result.visible {
       display: block;
     }
-
 
     .result.valid {
       border-color: var(--green);
     }
 
-
     .result.already {
       border-color: var(--orange);
     }
 
-
     .result.invalid {
       border-color: var(--red);
     }
-
 
     .result-code {
       font-size: 11px;
@@ -333,21 +329,17 @@
       margin-bottom: 14px;
     }
 
-
     .result.valid .result-code {
       color: var(--green);
     }
-
 
     .result.already .result-code {
       color: var(--orange);
     }
 
-
     .result.invalid .result-code {
       color: var(--red);
     }
-
 
     .participant {
       font-size: clamp(28px, 8vw, 44px);
@@ -359,7 +351,6 @@
       overflow-wrap: anywhere;
     }
 
-
     .details {
       color: #aaa;
       font-size: 11px;
@@ -368,11 +359,9 @@
       text-transform: uppercase;
     }
 
-
     .details strong {
       color: var(--white);
     }
-
 
     .reset-button {
       width: 100%;
@@ -387,165 +376,135 @@
       cursor: pointer;
     }
 
-
     /* ==========================================================
-       SEARCH PARTECIPANTE
+       SEARCH
        ========================================================== */
 
     .search-section {
-      margin-top: 34px;
-      padding-top: 24px;
+      margin-top: 24px;
+      padding-top: 20px;
       border-top: 1px solid #292929;
     }
 
-
     .search-label {
+      display: block;
       margin-bottom: 10px;
-      color: var(--red);
-      font-size: 10px;
+      color: #777;
+      font-size: 9px;
       font-weight: 900;
       letter-spacing: 0.12em;
-      text-transform: uppercase;
     }
-
 
     .search-row {
       display: flex;
       gap: 8px;
     }
 
-
     .search-input {
-      min-width: 0;
       flex: 1;
-      height: 48px;
-      padding: 0 14px;
-      border: 1px solid #333;
+      min-width: 0;
+      height: 46px;
+      border: 1px solid #292929;
       outline: none;
-      background: #0b0b0b;
+      background: #000;
       color: var(--white);
-      font-size: 13px;
+      padding: 0 13px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
+      border-radius: 0;
     }
-
-
-    .search-input:focus {
-      border-color: var(--red);
-    }
-
 
     .search-input::placeholder {
       color: #555;
     }
 
+    .search-input:focus {
+      border-color: var(--red);
+    }
 
     .search-button {
-      flex: 0 0 auto;
-      height: 48px;
-      padding: 0 16px;
-      border: 0;
+      width: 92px;
+      height: 46px;
+      border: 1px solid var(--red);
       background: var(--red);
       color: var(--white);
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 900;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       cursor: pointer;
     }
 
-
-    .search-button:disabled {
-      opacity: 0.45;
-      cursor: default;
-    }
-
-
     .search-status {
-      min-height: 18px;
-      margin-top: 12px;
-      color: #777;
-      font-size: 10px;
+      min-height: 16px;
+      margin-top: 9px;
+      color: #666;
+      font-size: 9px;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-
 
     .search-results {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       margin-top: 8px;
     }
 
-
     .search-item {
-      padding: 15px;
       border: 1px solid #292929;
-      background: #080808;
+      padding: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
-
 
     .search-item-name {
-      margin-bottom: 8px;
+      min-width: 0;
       color: var(--white);
-      font-size: 19px;
-      line-height: 1;
+      font-size: 13px;
       font-weight: 900;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.01em;
       text-transform: uppercase;
+      overflow-wrap: anywhere;
     }
 
+    .search-item-right {
+      flex-shrink: 0;
+      text-align: right;
+    }
 
     .search-item-status {
-      font-size: 9px;
-      font-weight: 900;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-
-    .search-item.valid {
-      border-color: var(--green);
-    }
-
-
-    .search-item.valid .search-item-status {
       color: var(--green);
-    }
-
-
-    .search-item.used {
-      border-color: var(--orange);
-    }
-
-
-    .search-item.used .search-item-status {
-      color: var(--orange);
-    }
-
-
-    .search-item-time {
-      margin-top: 7px;
-      color: #777;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-    }
-
-
-    .search-empty {
-      padding: 15px;
-      border: 1px solid #292929;
-      color: #777;
-      font-size: 10px;
-      font-weight: 800;
+      font-size: 8px;
+      font-weight: 900;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
+    .search-item-status.used {
+      color: var(--orange);
+    }
+
+    .search-item-time {
+      margin-top: 4px;
+      color: #666;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .search-empty {
+      padding: 14px 0;
+      color: #555;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
     /* ==========================================================
        FOOTER
@@ -563,37 +522,29 @@
       letter-spacing: 0.1em;
     }
 
-
     @media (max-width: 380px) {
 
       body {
         padding: 14px;
       }
 
-
       .page {
         min-height: calc(100svh - 28px);
       }
 
-
-      .search-row {
-        flex-direction: column;
+      .participant-stats {
+        gap: 7px;
       }
 
-
-      .search-button {
-        width: 100%;
+      .participant-stats-number {
+        font-size: 20px;
       }
 
     }
-
   </style>
-
 </head>
 
-
 <body>
-
 
   <button
     id="audioButton"
@@ -605,7 +556,6 @@
 
 
   <main class="page">
-
 
     <header class="top">
 
@@ -632,13 +582,32 @@
 
 
     <!-- ========================================================
-         QR SCANNER
+         PARTECIPANTI
          ======================================================== -->
+
+    <div class="participant-stats">
+
+      <span class="participant-stats-label">
+        PARTECIPANTI
+      </span>
+
+      <span
+        id="participantStats"
+        class="participant-stats-number"
+      >
+        0 / 0
+      </span>
+
+      <span class="participant-stats-caption">
+        ENTRATI / TOTALI
+      </span>
+
+    </div>
+
 
     <section class="scanner-frame">
 
       <div id="reader"></div>
-
 
       <div class="scan-corners">
 
@@ -651,7 +620,6 @@
         <div class="corner br"></div>
 
       </div>
-
 
       <div class="scan-line"></div>
 
@@ -673,10 +641,6 @@
       VERIFICA INGRESSO...
     </div>
 
-
-    <!-- ========================================================
-         QR RESULT
-         ======================================================== -->
 
     <section
       id="result"
@@ -719,14 +683,17 @@
 
 
     <!-- ========================================================
-         SEARCH PARTECIPANTE
+         RICERCA PARTECIPANTE
          ======================================================== -->
 
     <section class="search-section">
 
-      <div class="search-label">
+      <label
+        class="search-label"
+        for="searchInput"
+      >
         CERCA PARTECIPANTE
-      </div>
+      </label>
 
 
       <div class="search-row">
@@ -735,12 +702,10 @@
           id="searchInput"
           class="search-input"
           type="search"
-          inputmode="search"
           autocomplete="off"
           autocapitalize="words"
           placeholder="NOME O COGNOME"
         >
-
 
         <button
           id="searchButton"
@@ -779,21 +744,16 @@
 
     </footer>
 
-
   </main>
 
 
-  <!-- ==========================================================
-       QR SCANNER
-       ========================================================== -->
-
+  <!-- QR SCANNER -->
   <script
     src="https://unpkg.com/html5-qrcode"
   ></script>
 
 
   <script>
-
 
     /*
      * ==========================================================
@@ -815,6 +775,10 @@
 
     const SEARCH_RPC_URL =
       `${SUPABASE_URL}/rest/v1/rpc/search_participants`;
+
+
+    const STATS_RPC_URL =
+      `${SUPABASE_URL}/rest/v1/rpc/get_participant_stats`;
 
 
     /*
@@ -868,6 +832,12 @@
     const audioButton =
       document.getElementById(
         "audioButton"
+      );
+
+
+    const participantStats =
+      document.getElementById(
+        "participantStats"
       );
 
 
@@ -965,12 +935,6 @@
         }
 
 
-        /*
-         * Piccolo suono silenzioso:
-         * serve a sbloccare l'audio
-         * su alcuni browser mobile.
-         */
-
         const oscillator =
           audioContext.createOscillator();
 
@@ -1041,12 +1005,6 @@
     /*
      * ==========================================================
      * SUCCESS SOUND
-     * ==========================================================
-     *
-     * Due note ascendenti:
-     *
-     * BIP → BEEP
-     *
      * ==========================================================
      */
 
@@ -1133,12 +1091,6 @@
     /*
      * ==========================================================
      * REJECT SOUND
-     * ==========================================================
-     *
-     * Due note secche discendenti:
-     *
-     * BZZ → BZZ
-     *
      * ==========================================================
      */
 
@@ -1366,6 +1318,382 @@
 
     /*
      * ==========================================================
+     * PARTECIPANTI — STATISTICHE
+     * ==========================================================
+     */
+
+    async function loadParticipantStats() {
+
+      try {
+
+        const response =
+          await fetch(
+            STATS_RPC_URL,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json",
+
+                "apikey":
+                  SUPABASE_PUBLISHABLE_KEY,
+
+                "Authorization":
+                  `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+              },
+
+              body:
+                JSON.stringify({}),
+
+              cache:
+                "no-store"
+            }
+          );
+
+
+        if (!response.ok) {
+
+          console.error(
+            "Participant stats error:",
+            await response.text()
+          );
+
+          return;
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        const total =
+          Number(
+            data?.total || 0
+          );
+
+
+        const entered =
+          Number(
+            data?.entered || 0
+          );
+
+
+        participantStats.textContent =
+          `${entered} / ${total}`;
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Participant stats error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /*
+     * ==========================================================
+     * SEARCH
+     * ==========================================================
+     */
+
+    function clearSearchResults() {
+
+      searchResults.innerHTML = "";
+
+    }
+
+
+    function renderSearchResults(
+      participants
+    ) {
+
+      clearSearchResults();
+
+
+      if (
+        !Array.isArray(
+          participants
+        ) ||
+        participants.length === 0
+      ) {
+
+        searchResults.innerHTML = `
+          <div class="search-empty">
+            NESSUN PARTECIPANTE TROVATO
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      participants.forEach(
+        person => {
+
+          const item =
+            document.createElement(
+              "div"
+            );
+
+          item.className =
+            "search-item";
+
+
+          const name =
+            document.createElement(
+              "div"
+            );
+
+          name.className =
+            "search-item-name";
+
+
+          name.textContent =
+            `${person.first_name || ""} ${person.last_name || ""}`
+              .trim();
+
+
+          const right =
+            document.createElement(
+              "div"
+            );
+
+          right.className =
+            "search-item-right";
+
+
+          const status =
+            document.createElement(
+              "div"
+            );
+
+
+          const used =
+            person.ticket_status ===
+            "USED" ||
+            Boolean(
+              person.used_at
+            );
+
+
+          status.className =
+            used
+              ? "search-item-status used"
+              : "search-item-status";
+
+
+          status.textContent =
+            used
+              ? "GIÀ ENTRATO"
+              : "ISCRITTO — NON ANCORA ENTRATO";
+
+
+          right.appendChild(
+            status
+          );
+
+
+          if (used && person.used_at) {
+
+            const time =
+              document.createElement(
+                "div"
+              );
+
+            time.className =
+              "search-item-time";
+
+            time.textContent =
+              formatDateTime(
+                person.used_at
+              );
+
+            right.appendChild(
+              time
+            );
+
+          }
+
+
+          item.appendChild(
+            name
+          );
+
+          item.appendChild(
+            right
+          );
+
+
+          searchResults.appendChild(
+            item
+          );
+
+        }
+      );
+
+    }
+
+
+    async function searchParticipants() {
+
+      const query =
+        String(
+          searchInput.value || ""
+        ).trim();
+
+
+      clearSearchResults();
+
+
+      if (query.length < 2) {
+
+        searchStatus.textContent =
+          "INSERISCI ALMENO 2 CARATTERI";
+
+        return;
+
+      }
+
+
+      searchStatus.textContent =
+        "RICERCA...";
+
+
+      searchButton.disabled =
+        true;
+
+
+      try {
+
+        const response =
+          await fetch(
+            SEARCH_RPC_URL,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json",
+
+                "apikey":
+                  SUPABASE_PUBLISHABLE_KEY,
+
+                "Authorization":
+                  `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+              },
+
+              body:
+                JSON.stringify({
+                  p_query:
+                    query
+                }),
+
+              cache:
+                "no-store"
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (!response.ok) {
+
+          console.error(
+            "Search error:",
+            data
+          );
+
+          searchStatus.textContent =
+            "ERRORE DI RICERCA";
+
+          return;
+
+        }
+
+
+        if (
+          !Array.isArray(data) ||
+          data.length === 0
+        ) {
+
+          searchStatus.textContent =
+            "NESSUN RISULTATO";
+
+        }
+
+        else {
+
+          searchStatus.textContent =
+            `${data.length} RISULTAT${data.length === 1 ? "O" : "I"}`;
+
+        }
+
+
+        renderSearchResults(
+          data
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Search participants error:",
+          error
+        );
+
+        searchStatus.textContent =
+          "ERRORE DI CONNESSIONE";
+
+      }
+
+      finally {
+
+        searchButton.disabled =
+          false;
+
+      }
+
+    }
+
+
+    searchButton.addEventListener(
+      "click",
+      searchParticipants
+    );
+
+
+    searchInput.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key ===
+          "Enter"
+        ) {
+
+          event.preventDefault();
+
+          searchParticipants();
+
+        }
+
+      }
+    );
+
+
+    /*
+     * ==========================================================
      * RESULT
      * ==========================================================
      */
@@ -1494,7 +1822,7 @@
 
     /*
      * ==========================================================
-     * RPC DIRETTA — CHECK TICKET
+     * RPC DIRETTA
      * ==========================================================
      */
 
@@ -1588,6 +1916,22 @@
         showResult(
           data
         );
+
+
+        /*
+         * Se il QR è stato accettato,
+         * aggiorniamo immediatamente
+         * il contatore Entrati / Totali.
+         */
+
+        if (
+          data.result ===
+          "VALID"
+        ) {
+
+          loadParticipantStats();
+
+        }
 
       }
 
@@ -1757,7 +2101,6 @@
                 return {
                   width:
                     size,
-
                   height:
                     size
                 };
@@ -1850,7 +2193,6 @@
                   return {
                     width:
                       size,
-
                     height:
                       size
                   };
@@ -1938,277 +2280,30 @@
 
     /*
      * ==========================================================
-     * RICERCA PARTECIPANTE
-     * ==========================================================
-     */
-
-    function clearSearchResults() {
-
-      searchResults.innerHTML =
-        "";
-
-    }
-
-
-    function renderSearchResults(
-      participants
-    ) {
-
-      clearSearchResults();
-
-
-      if (
-        !Array.isArray(
-          participants
-        ) ||
-        participants.length === 0
-      ) {
-
-        searchResults.innerHTML = `
-          <div class="search-empty">
-            NESSUN PARTECIPANTE TROVATO
-          </div>
-        `;
-
-        return;
-
-      }
-
-
-      participants.forEach(
-        (person) => {
-
-          const item =
-            document.createElement(
-              "div"
-            );
-
-
-          const isUsed =
-            person.ticket_status ===
-            "USED";
-
-
-          item.className =
-            `search-item ${
-              isUsed
-                ? "used"
-                : "valid"
-            }`;
-
-
-          const name =
-            `${person.first_name || ""} ${person.last_name || ""}`
-              .trim();
-
-
-          const statusText =
-            isUsed
-              ? "GIÀ ENTRATO"
-              : "ISCRITTO — NON ANCORA ENTRATO";
-
-
-          item.innerHTML = `
-            <div class="search-item-name">
-              ${escapeHtml(name)}
-            </div>
-
-            <div class="search-item-status">
-              ${escapeHtml(statusText)}
-            </div>
-
-            ${
-              isUsed && person.used_at
-                ? `
-                  <div class="search-item-time">
-                    INGRESSO:
-                    ${escapeHtml(
-                      formatDateTime(
-                        person.used_at
-                      )
-                    )}
-                  </div>
-                `
-                : ""
-            }
-          `;
-
-
-          searchResults.appendChild(
-            item
-          );
-
-        }
-      );
-
-    }
-
-
-    async function searchParticipants() {
-
-      const query =
-        String(
-          searchInput.value || ""
-        ).trim();
-
-
-      clearSearchResults();
-
-
-      if (
-        query.length < 2
-      ) {
-
-        searchStatus.textContent =
-          "INSERISCI ALMENO 2 CARATTERI";
-
-        return;
-
-      }
-
-
-      searchButton.disabled =
-        true;
-
-
-      searchStatus.textContent =
-        "RICERCA IN CORSO...";
-
-
-      try {
-
-        const response =
-          await fetch(
-            SEARCH_RPC_URL,
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json",
-
-                "apikey":
-                  SUPABASE_PUBLISHABLE_KEY,
-
-                "Authorization":
-                  `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
-              },
-
-              body: JSON.stringify({
-                p_query:
-                  query
-              }),
-
-              cache: "no-store"
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if (!response.ok) {
-
-          console.error(
-            "Participant search error:",
-            data
-          );
-
-
-          searchStatus.textContent =
-            "ERRORE DURANTE LA RICERCA";
-
-          return;
-
-        }
-
-
-        const participants =
-          Array.isArray(data)
-            ? data
-            : [];
-
-
-        if (
-          participants.length ===
-          0
-        ) {
-
-          searchStatus.textContent =
-            "0 PARTECIPANTI TROVATI";
-
-        }
-
-        else {
-
-          searchStatus.textContent =
-            `${participants.length} PARTECIPANTI TROVATI`;
-
-        }
-
-
-        renderSearchResults(
-          participants
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Participant search error:",
-          error
-        );
-
-
-        searchStatus.textContent =
-          "ERRORE DI CONNESSIONE";
-
-      }
-
-      finally {
-
-        searchButton.disabled =
-          false;
-
-      }
-
-    }
-
-
-    searchButton.addEventListener(
-      "click",
-      searchParticipants
-    );
-
-
-    searchInput.addEventListener(
-      "keydown",
-      (event) => {
-
-        if (
-          event.key ===
-          "Enter"
-        ) {
-
-          event.preventDefault();
-
-          searchParticipants();
-
-        }
-
-      }
-    );
-
-
-    /*
-     * ==========================================================
      * AVVIO
      * ==========================================================
      */
 
     startScanner();
+
+
+    /*
+     * Caricamento iniziale
+     * del contatore.
+     */
+
+    loadParticipantStats();
+
+
+    /*
+     * Aggiornamento automatico
+     * ogni 10 secondi.
+     */
+
+    setInterval(
+      loadParticipantStats,
+      10000
+    );
 
   </script>
 
