@@ -45,11 +45,11 @@
     html,
     body {
       min-height: 100%;
-      background: var(--black);
+      background: var(--white);
     }
 
     body {
-      color: var(--white);
+      color: var(--black);
       font-family: "Inter", sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
@@ -81,8 +81,8 @@
       .desktop-warning {
         position: fixed;
         inset: 0;
-        background: var(--black);
-        color: var(--white);
+        background: var(--white);
+        color: var(--black);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -96,73 +96,222 @@
     }
 
     /* =========================================
-       PAGE
+       PAGE / ATMOSPHERE
        ========================================= */
 
     .ticket-page {
       min-height: 100svh;
-      background: var(--black);
-      padding: 18px 16px 30px;
+
+      background:
+        radial-gradient(
+          circle at 88% 8%,
+          rgba(255,0,0,.08),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 8% 72%,
+          rgba(0,0,0,.045),
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #f7f7f7 48%,
+          #ffffff 100%
+        );
+
+      color: var(--black);
+
+      padding: 14px 16px 26px;
+
       position: relative;
       overflow: hidden;
     }
 
+    /*
+      GRANDI ANELLI IN BACKGROUND
+    */
+
     .ticket-page::before {
       content: "";
+
       position: absolute;
-      width: 180px;
-      height: 180px;
+
+      width: 230px;
+      height: 230px;
+
       border: 1px solid rgba(255,0,0,.10);
+
       border-radius: 50%;
-      top: 15%;
+
+      top: -95px;
       right: -105px;
-      animation: orbitGlow 9s linear infinite;
+
+      box-shadow:
+        0 0 0 18px rgba(255,0,0,.018),
+        0 0 0 38px rgba(255,0,0,.012);
+
+      animation:
+        orbitGlow 8s linear infinite;
+
       pointer-events: none;
     }
 
+    /*
+      GRIGLIA MOBILE LEGGERISSIMA
+    */
+
     .ticket-page::after {
       content: "";
+
       position: absolute;
-      width: 1px;
-      height: 90px;
-      background: linear-gradient(
-        transparent,
-        rgba(255,0,0,.35),
-        transparent
-      );
-      left: 8px;
-      top: 55%;
-      animation: scanLine 5s ease-in-out infinite;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          rgba(0,0,0,.028) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(0,0,0,.028) 1px,
+          transparent 1px
+        );
+
+      background-size: 34px 34px;
+
+      mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent 82%
+        );
+
+      -webkit-mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent 82%
+        );
+
+      animation:
+        gridDrift 12s linear infinite;
+
       pointer-events: none;
     }
+
+    /*
+      PICCOLI ELEMENTI ROSSI IN MOVIMENTO
+    */
+
+    .ambient-orb {
+      position: absolute;
+
+      width: 9px;
+      height: 9px;
+
+      border-radius: 50%;
+
+      background: var(--red);
+
+      box-shadow:
+        0 0 0 6px rgba(255,0,0,.07),
+        0 0 22px rgba(255,0,0,.18);
+
+      pointer-events: none;
+
+      z-index: 0;
+    }
+
+    .ambient-orb.one {
+      top: 27%;
+      left: 7px;
+
+      animation:
+        floatOrbOne 6s ease-in-out infinite;
+    }
+
+    .ambient-orb.two {
+      top: 69%;
+      right: 10px;
+
+      width: 6px;
+      height: 6px;
+
+      animation:
+        floatOrbTwo 7s ease-in-out infinite;
+    }
+
+    /*
+      CONTENUTI SOPRA LO SFONDO
+    */
 
     .ticket-top,
     .ticket-header,
     .ticket-card,
+    .thank-you,
     .actions,
-    .ticket-footer {
+    .ticket-footer,
+    .entry-message {
       position: relative;
       z-index: 1;
-      animation: fadeUp .7s cubic-bezier(.2,.7,.2,1) both;
+    }
+
+    /*
+      ENTRATA ELEMENTI
+    */
+
+    .ticket-top {
+      animation:
+        fadeUp .7s
+        cubic-bezier(.2,.7,.2,1)
+        both;
     }
 
     .ticket-header {
-      animation-delay: .08s;
+      animation:
+        fadeUp .7s .08s
+        cubic-bezier(.2,.7,.2,1)
+        both;
     }
 
     .ticket-card {
-      animation-delay: .16s;
+      animation:
+        fadeUp .7s .16s
+        cubic-bezier(.2,.7,.2,1)
+        both;
+    }
+
+    .thank-you {
+      animation:
+        fadeUp .7s .22s
+        cubic-bezier(.2,.7,.2,1)
+        both;
     }
 
     .actions {
-      animation-delay: .24s;
+      animation:
+        fadeUp .7s .28s
+        cubic-bezier(.2,.7,.2,1)
+        both;
     }
 
     .ticket-footer {
-      animation-delay: .32s;
+      animation:
+        fadeUp .7s .34s
+        cubic-bezier(.2,.7,.2,1)
+        both;
+    }
+
+    .entry-message {
+      animation:
+        fadeUp .7s .40s
+        cubic-bezier(.2,.7,.2,1)
+        both;
     }
 
     @keyframes fadeUp {
+
       from {
         opacity: 0;
         transform: translateY(10px);
@@ -172,50 +321,93 @@
         opacity: 1;
         transform: translateY(0);
       }
+
     }
 
     @keyframes orbitGlow {
+
       0% {
         transform: rotate(0deg);
         opacity: .35;
       }
 
       50% {
-        opacity: .7;
+        opacity: .75;
       }
 
       100% {
         transform: rotate(360deg);
         opacity: .35;
       }
+
     }
 
-    @keyframes scanLine {
-      0%,
-      100% {
-        transform: translateY(-35px);
-        opacity: 0;
+    @keyframes gridDrift {
+
+      from {
+        transform:
+          translate3d(0,0,0);
       }
 
-      35%,
-      65% {
-        opacity: 1;
+      to {
+        transform:
+          translate3d(34px,34px,0);
+      }
+
+    }
+
+    @keyframes floatOrbOne {
+
+      0%,
+      100% {
+        transform:
+          translateY(0)
+          scale(1);
+
+        opacity: .45;
       }
 
       50% {
-        transform: translateY(35px);
+        transform:
+          translateY(35px)
+          scale(1.35);
+
+        opacity: .95;
       }
+
+    }
+
+    @keyframes floatOrbTwo {
+
+      0%,
+      100% {
+        transform:
+          translateY(0);
+
+        opacity: .25;
+      }
+
+      50% {
+        transform:
+          translateY(-28px);
+
+        opacity: .8;
+      }
+
     }
 
     @media (prefers-reduced-motion: reduce) {
 
       .ticket-page::before,
       .ticket-page::after,
+      .ambient-orb,
       .ticket-top,
       .ticket-header,
       .ticket-card,
+      .thank-you,
       .actions,
       .ticket-footer,
+      .entry-message,
       #appleWalletButton {
         animation: none !important;
       }
@@ -230,30 +422,50 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-bottom: 18px;
-      border-bottom: 1px solid rgba(255,255,255,.22);
+
+      padding-bottom: 16px;
+
+      border-bottom:
+        1px solid rgba(0,0,0,.14);
     }
 
     .ticket-logo {
       font-family: "Anton", sans-serif;
+
       font-size: 22px;
+
       letter-spacing: .04em;
+
       line-height: 1;
+
+      color: var(--black);
     }
+
+    /*
+      ® ALTO A DESTRA
+    */
 
     .ticket-logo span {
       position: relative;
+
       top: -7px;
+
       font-size: 10px;
+
       margin-left: 2px;
     }
 
     .ticket-code {
       color: var(--red);
+
       font-size: 7px;
+
       font-weight: 900;
+
       letter-spacing: .18em;
+
       text-align: right;
+
       line-height: 1.5;
     }
 
@@ -262,48 +474,80 @@
        ========================================= */
 
     .ticket-header {
-      padding: 28px 0 22px;
+      padding: 24px 0 18px;
     }
 
     .ticket-kicker {
       font-size: 7px;
+
       font-weight: 900;
+
       letter-spacing: .25em;
+
       color: var(--red);
+
       margin-bottom: 7px;
     }
 
     .ticket-event {
       font-family: "Anton", sans-serif;
-      font-size: clamp(54px, 18vw, 78px);
+
+      font-size:
+        clamp(
+          54px,
+          18vw,
+          78px
+        );
+
       line-height: .8;
+
       letter-spacing: -.025em;
+
       white-space: nowrap;
+
       overflow: hidden;
+
       text-overflow: clip;
+
+      color: var(--black);
     }
 
     .ticket-meta {
-      margin-top: 15px;
+      margin-top: 13px;
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: flex-end;
+
       gap: 12px;
     }
 
     .ticket-date {
       font-family: "Anton", sans-serif;
+
       font-size: 24px;
+
       line-height: .9;
+
       letter-spacing: .02em;
+
+      color: var(--red);
     }
 
     .ticket-location {
       font-size: 7px;
+
       font-weight: 900;
+
       letter-spacing: .18em;
+
       text-align: right;
+
       line-height: 1.5;
+
+      color: var(--black);
     }
 
     /* =========================================
@@ -312,51 +556,89 @@
 
     .ticket-card {
       background: var(--white);
+
       color: var(--black);
-      padding: 14px;
+
+      padding: 13px;
+
       position: relative;
-      margin-top: 5px;
+
+      margin-top: 3px;
+
+      border:
+        1px solid rgba(0,0,0,.12);
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.045);
     }
 
     .ticket-card::before,
     .ticket-card::after {
       content: "";
+
       position: absolute;
+
       width: 18px;
       height: 18px;
+
       border-color: var(--red);
+
       pointer-events: none;
     }
 
     .ticket-card::before {
       top: -5px;
       left: -5px;
-      border-top: 1px solid var(--red);
-      border-left: 1px solid var(--red);
+
+      border-top:
+        1px solid var(--red);
+
+      border-left:
+        1px solid var(--red);
     }
 
     .ticket-card::after {
       right: -5px;
       bottom: -5px;
-      border-right: 1px solid var(--red);
-      border-bottom: 1px solid var(--red);
+
+      border-right:
+        1px solid var(--red);
+
+      border-bottom:
+        1px solid var(--red);
     }
 
     .participant-label {
       font-size: 6px;
+
       font-weight: 900;
+
       letter-spacing: .22em;
+
       color: rgba(0,0,0,.55);
+
       margin-bottom: 4px;
     }
 
     .participant-name {
       font-family: "Anton", sans-serif;
-      font-size: clamp(29px, 9vw, 42px);
+
+      font-size:
+        clamp(
+          29px,
+          9vw,
+          42px
+        );
+
       line-height: .9;
+
       letter-spacing: -.01em;
+
       text-transform: uppercase;
+
       word-break: break-word;
+
+      color: var(--black);
     }
 
     /* =========================================
@@ -364,67 +646,120 @@
        ========================================= */
 
     .qr-section {
-      margin-top: 18px;
-      border-top: 1px solid rgba(0,0,0,.15);
-      padding-top: 18px;
+      margin-top: 14px;
+
+      border-top:
+        1px solid rgba(0,0,0,.12);
+
+      padding-top: 13px;
     }
 
     .qr-label-row {
       display: flex;
+
       justify-content: space-between;
+
       align-items: baseline;
-      margin-bottom: 10px;
+
+      margin-bottom: 8px;
     }
 
     .qr-label {
       font-size: 7px;
+
       font-weight: 900;
+
       letter-spacing: .2em;
+
+      color: var(--black);
     }
 
     .qr-state {
       color: var(--green);
+
       font-size: 6px;
+
       font-weight: 900;
+
       letter-spacing: .15em;
     }
 
+    /*
+      FRAME PIÙ PICCOLO E LEGGERMENTE
+      RETTANGOLARE, NON UN QUADRATO PERFETTO
+    */
+
     .qr-frame {
-      width: min(100%, 240px);
-      aspect-ratio: 1 / 1;
-      margin: 0 auto;
+      width:
+        min(
+          100%,
+          198px
+        );
+
+      aspect-ratio:
+        1.08 / 1;
+
+      margin:
+        0 auto;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
-      background: #fff;
-      padding: 10px;
-      border: 1px solid #000;
-      border-radius: 2px;
+
+      background: #ffffff;
+
+      padding: 8px;
+
+      border:
+        1px solid rgba(0,0,0,.9);
+
+      border-radius: 0;
+
+      box-shadow:
+        6px 6px 0 var(--red);
     }
 
     #qrcode {
       width: 100%;
       height: 100%;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
     }
 
     #qrcode img,
     #qrcode canvas {
       display: block;
-      width: 100% !important;
-      height: 100% !important;
+
+      width:
+        176px !important;
+
+      height:
+        176px !important;
+
+      max-width: 100%;
+      max-height: 100%;
+
       image-rendering: pixelated;
     }
 
     .qr-note {
-      margin-top: 10px;
+      margin-top: 8px;
+
       text-align: center;
-      font-size: 7px;
+
+      font-size: 6px;
+
       font-weight: 800;
+
       letter-spacing: .15em;
-      color: rgba(0,0,0,.55);
+
+      color: rgba(0,0,0,.62);
     }
 
     /* =========================================
@@ -432,50 +767,44 @@
        ========================================= */
 
     .thank-you {
-      margin-top: 18px;
+      margin-top: 12px;
+
       text-align: center;
-      color: var(--white);
-      position: relative;
-      z-index: 1;
-      animation: fadeUp .7s .2s cubic-bezier(.2,.7,.2,1) both;
     }
 
     .thank-you-title {
       font-family: "Anton", sans-serif;
-      font-size: 28px;
+
+      font-size: 24px;
+
       line-height: .9;
+
       letter-spacing: .01em;
+
       text-transform: uppercase;
+
+      color: var(--red);
     }
 
     .thank-you-copy {
-      margin-top: 7px;
+      margin-top: 5px;
+
       max-width: 310px;
+
       margin-left: auto;
       margin-right: auto;
-      font-size: 8px;
-      line-height: 1.55;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.68);
-    }
 
-    .entry-message {
-      margin-top: 11px;
-      padding: 10px 12px;
-      border: 1px solid rgba(255,0,0,.55);
-      color: var(--white);
       font-size: 7px;
-      line-height: 1.45;
-      font-weight: 900;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-      background: rgba(255,0,0,.035);
-    }
 
-    .entry-message strong {
-      color: var(--red);
+      line-height: 1.45;
+
+      font-weight: 800;
+
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+
+      color: rgba(0,0,0,.58);
     }
 
     /* =========================================
@@ -483,68 +812,102 @@
        ========================================= */
 
     .actions {
-      margin-top: 16px;
+      margin-top: 9px;
+
       display: grid;
-      gap: 10px;
+
+      gap: 7px;
     }
 
     .wallet-action {
       width: 100%;
+
       min-height: 60px;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       background: transparent;
+
       border: 0;
-      padding: 8px 12px;
+
+      padding: 4px 12px;
+
       cursor: pointer;
+
       transition:
         transform .12s ease,
         opacity .2s ease;
     }
 
     .wallet-action:active {
-      transform: scale(.97);
+      transform:
+        scale(.97);
     }
 
     .wallet-action img {
       width: auto;
+
       height: 48px;
+
       max-width: 100%;
+
       object-fit: contain;
     }
 
-    /* APPLE — HERO BUTTON */
+    /*
+      APPLE WALLET
+    */
 
     #appleWalletButton {
-      min-height: 78px;
+      min-height: 70px;
+
       padding: 0;
-      animation: walletPulse 4s ease-in-out infinite;
+
+      animation:
+        walletPulse
+        4s
+        ease-in-out
+        infinite;
     }
 
     #appleWalletButton img {
-      height: 68px;
+      height: 64px;
+
       width: auto;
     }
 
+    /*
+      GOOGLE WALLET
+    */
+
     #googleWalletButton {
-      min-height: 58px;
+      min-height: 56px;
+
       padding: 0;
     }
 
     @keyframes walletPulse {
+
       0%,
       100% {
-        transform: translateY(0);
+        transform:
+          translateY(0);
       }
 
       50% {
-        transform: translateY(-2px);
+        transform:
+          translateY(-2px);
       }
+
     }
 
     .wallet-action:active {
-      transform: scale(.97) !important;
+      transform:
+        scale(.97) !important;
     }
 
     .wallet-action.hidden {
@@ -553,13 +916,18 @@
 
     .wallet-fallback {
       display: none;
+
       font-family: "Anton", sans-serif;
+
       font-size: 18px;
+
       letter-spacing: .03em;
+
       color: #000;
     }
 
-    .wallet-action.badge-error .wallet-fallback {
+    .wallet-action.badge-error
+    .wallet-fallback {
       display: block;
     }
 
@@ -573,25 +941,39 @@
 
     .pdf-button {
       width: 100%;
-      min-height: 56px;
+
+      min-height: 54px;
+
       border: 0;
+
       border-radius: 0;
+
       cursor: pointer;
+
       font-family: "Anton", sans-serif;
+
       font-size: 18px;
+
       letter-spacing: .035em;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       background: var(--red);
+
       color: var(--white);
+
       transition:
         transform .12s ease,
         background .2s ease;
     }
 
     .pdf-button:active {
-      transform: scale(.97);
+      transform:
+        scale(.97);
     }
 
     .pdf-button:hover {
@@ -600,7 +982,45 @@
 
     .pdf-button.loading {
       opacity: .7;
+
       pointer-events: none;
+    }
+
+    /* =========================================
+       ENTRY MESSAGE — BOTTOM
+       ========================================= */
+
+    .entry-message {
+      margin-top: 15px;
+
+      padding: 10px 12px;
+
+      border-top:
+        1px solid rgba(255,0,0,.55);
+
+      border-bottom:
+        1px solid rgba(255,0,0,.55);
+
+      color: var(--black);
+
+      font-size: 7px;
+
+      line-height: 1.45;
+
+      font-weight: 900;
+
+      letter-spacing: .13em;
+
+      text-transform: uppercase;
+
+      background:
+        rgba(255,0,0,.025);
+
+      text-align: center;
+    }
+
+    .entry-message strong {
+      color: var(--red);
     }
 
     /* =========================================
@@ -608,16 +1028,27 @@
        ========================================= */
 
     .ticket-footer {
-      margin-top: 22px;
+      margin-top: 13px;
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: flex-start;
+
       gap: 20px;
+
       font-size: 6px;
+
       font-weight: 900;
+
       letter-spacing: .16em;
+
       line-height: 1.5;
+
       opacity: .6;
+
+      color: var(--black);
     }
 
     .ticket-footer-right {
@@ -630,11 +1061,17 @@
 
     .action-message {
       min-height: 14px;
-      margin-top: 8px;
+
+      margin-top: 6px;
+
       text-align: center;
+
       font-size: 6px;
+
       font-weight: 900;
+
       letter-spacing: .15em;
+
       color: var(--red);
     }
 
@@ -650,6 +1087,10 @@
 
 
   <main class="ticket-page">
+
+    <span class="ambient-orb one"></span>
+    <span class="ambient-orb two"></span>
+
 
     <!-- TOP -->
 
@@ -745,7 +1186,7 @@
         </div>
 
         <div class="qr-note">
-          PRESENTA QUESTO QR ALL'INGRESSO
+          ENTRY ACCESS / SCAN AT DOOR
         </div>
 
       </div>
@@ -764,11 +1205,6 @@
       <div class="thank-you-copy">
         IL TUO POSTO È STATO BLOCCATO.
         CONSERVA QUESTO TICKET FINO ALL'EVENTO.
-      </div>
-
-      <div class="entry-message">
-        <strong>ALL'INGRESSO:</strong>
-        APRI QUESTO TICKET E MOSTRA IL QR ALLO STAFF.
       </div>
 
     </section>
@@ -839,6 +1275,14 @@
       class="action-message"
       id="actionMessage"
     ></div>
+
+
+    <!-- ENTRY MESSAGE -->
+
+    <div class="entry-message">
+      <strong>ALL'INGRESSO:</strong>
+      APRI QUESTO TICKET E MOSTRA IL QR ALLO STAFF.
+    </div>
 
 
     <!-- FOOTER -->
@@ -1086,10 +1530,13 @@
         qrcode,
         {
           text: ticketToken,
-          width: 220,
-          height: 220,
+
+          width: 176,
+          height: 176,
+
           colorDark: "#050505",
           colorLight: "#ffffff",
+
           correctLevel:
             QRCode.CorrectLevel.H
         }
@@ -1371,9 +1818,9 @@
              ===================================== */
 
           doc.setFillColor(
-            5,
-            5,
-            5
+            255,
+            255,
+            255
           );
 
 
@@ -1391,9 +1838,9 @@
              ===================================== */
 
           doc.setTextColor(
-            255,
-            255,
-            255
+            5,
+            5,
+            5
           );
 
           doc.setFont(
@@ -1447,9 +1894,9 @@
              ===================================== */
 
           doc.setDrawColor(
-            255,
-            255,
-            255
+            5,
+            5,
+            5
           );
 
           doc.setLineWidth(
@@ -1486,9 +1933,9 @@
 
 
           doc.setTextColor(
-            255,
-            255,
-            255
+            5,
+            5,
+            5
           );
 
           doc.setFont(
@@ -1548,7 +1995,7 @@
 
 
           /* =====================================
-             WHITE TICKET CARD
+             TICKET CARD
              ===================================== */
 
           const cardX =
@@ -1567,10 +2014,11 @@
 
 
           doc.setFillColor(
-            255,
-            255,
-            255
+            248,
+            248,
+            248
           );
+
 
           doc.rect(
             cardX,
@@ -1856,9 +2304,9 @@
              ===================================== */
 
           doc.setTextColor(
-            255,
-            255,
-            255
+            5,
+            5,
+            5
           );
 
           doc.setFontSize(
