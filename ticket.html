@@ -360,6 +360,14 @@
       margin-bottom: 7px;
     }
 
+    .ticket-event-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      overflow: hidden;
+    }
+
     .ticket-event {
       font-family: "Anton", sans-serif;
       font-size: clamp(48px, 15vw, 68px);
@@ -368,6 +376,19 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: clip;
+      flex: 0 1 auto;
+      min-width: 0;
+    }
+
+    .ticket-event-hero {
+      width: auto;
+      height: clamp(48px, 15vw, 68px);
+      max-width: 34%;
+      flex: 0 0 auto;
+      object-fit: contain;
+      display: block;
+      transform: none;
+      animation: none;
     }
 
     .ticket-meta {
@@ -718,12 +739,23 @@
         ACCESS CONFIRMED
       </div>
 
-      <h1
-        class="ticket-event"
-        id="ticketEvent"
-      >
-        ROTAROTT
-      </h1>
+      <div class="ticket-event-row">
+
+        <h1
+          class="ticket-event"
+          id="ticketEvent"
+        >
+          ROTAROTT
+        </h1>
+
+        <img
+          class="ticket-event-hero"
+          src="./hero2.svg"
+          alt=""
+          aria-hidden="true"
+        >
+
+      </div>
 
       <div class="ticket-meta">
 
