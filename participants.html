@@ -10,6 +10,9 @@
 
   <title>MÆDNESS® — PARTECIPANTI</title>
 
+  <!-- PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <style>
     :root {
       --red: #ff0000;
@@ -148,7 +151,7 @@
        ========================================================== */
 
     .search-section {
-      margin-bottom: 20px;
+      margin-bottom: 14px;
     }
 
     .search-label {
@@ -216,25 +219,30 @@
     }
 
     /* ==========================================================
-       PDF
+       PDF BUTTON
        ========================================================== */
 
     .pdf-button {
       width: 100%;
-      height: 48px;
-      margin-top: 4px;
+      height: 46px;
       margin-bottom: 24px;
       border: 1px solid var(--red);
+      background: transparent;
+      color: var(--red);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    .pdf-button:active {
       background: var(--red);
       color: var(--white);
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.1em;
-      cursor: pointer;
     }
 
     .pdf-button:disabled {
-      opacity: 0.5;
+      opacity: 0.45;
       cursor: default;
     }
 
@@ -560,22 +568,11 @@
   </main>
 
 
-  <!-- ==========================================================
-       jsPDF
-       ========================================================== -->
-
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
-  ></script>
-
-
   <script>
 
-    /*
-     * ==========================================================
-     * SUPABASE
-     * ==========================================================
-     */
+    /* ==========================================================
+       SUPABASE
+       ========================================================== */
 
     const SUPABASE_URL =
       "https://rmniojqexlasxfxisqbm.supabase.co";
@@ -589,11 +586,9 @@
       `${SUPABASE_URL}/rest/v1/rpc/get_participants_list`;
 
 
-    /*
-     * ==========================================================
-     * ELEMENTI
-     * ==========================================================
-     */
+    /* ==========================================================
+       ELEMENTI
+       ========================================================== */
 
     const totalNumber =
       document.getElementById(
@@ -637,20 +632,16 @@
       );
 
 
-    /*
-     * ==========================================================
-     * DATA
-     * ==========================================================
-     */
+    /* ==========================================================
+       DATA
+       ========================================================== */
 
     let allParticipants = [];
 
 
-    /*
-     * ==========================================================
-     * DATE
-     * ==========================================================
-     */
+    /* ==========================================================
+       DATE
+       ========================================================== */
 
     function formatDateTime(
       value
@@ -690,48 +681,9 @@
     }
 
 
-    /*
-     * ==========================================================
-     * ESCAPE
-     * ==========================================================
-     */
-
-    function escapeHtml(
-      value
-    ) {
-
-      return String(
-        value ?? ""
-      )
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
-        .replaceAll(
-          "'",
-          "&#039;"
-        );
-
-    }
-
-
-    /*
-     * ==========================================================
-     * RENDER LIST
-     * ==========================================================
-     */
+    /* ==========================================================
+       RENDER LIST
+       ========================================================== */
 
     function renderParticipants(
       participants
@@ -889,7 +841,6 @@
                 "div"
               );
 
-
             usedTime.className =
               "participant-status-time";
 
@@ -930,11 +881,9 @@
     }
 
 
-    /*
-     * ==========================================================
-     * LOAD PARTICIPANTS
-     * ==========================================================
-     */
+    /* ==========================================================
+       LOAD PARTICIPANTS
+       ========================================================== */
 
     async function loadParticipants() {
 
@@ -1031,11 +980,9 @@
     }
 
 
-    /*
-     * ==========================================================
-     * SEARCH
-     * ==========================================================
-     */
+    /* ==========================================================
+       SEARCH
+       ========================================================== */
 
     function searchParticipants() {
 
@@ -1052,11 +999,9 @@
         searchStatus.textContent =
           "";
 
-
         renderParticipants(
           allParticipants
         );
-
 
         return;
 
@@ -1112,6 +1057,634 @@
     }
 
 
+    /* ==========================================================
+       PDF
+       ========================================================== */
+
+    function downloadPdf() {
+
+      if (
+        !Array.isArray(
+          allParticipants
+        ) ||
+        allParticipants.length === 0
+      ) {
+
+        alert(
+          "NESSUN PARTECIPANTE DISPONIBILE"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !window.jspdf ||
+        !window.jspdf.jsPDF
+      ) {
+
+        alert(
+          "IMPOSSIBILE CREARE IL PDF"
+        );
+
+        return;
+
+      }
+
+
+      const {
+        jsPDF
+      } = window.jspdf;
+
+
+      /*
+       * IMPORTANTE:
+       * il PDF usa SEMPRE tutta la lista,
+       * anche se è attiva una ricerca.
+       */
+
+      const participants =
+        [...allParticipants]
+          .sort(
+            (
+              a,
+              b
+            ) => {
+
+              const lastA =
+                String(
+                  a.last_name || ""
+                );
+
+              const lastB =
+                String(
+                  b.last_name || ""
+                );
+
+
+              const lastCompare =
+                lastA.localeCompare(
+                  lastB,
+                  "it",
+                  {
+                    sensitivity:
+                      "base"
+                  }
+                );
+
+
+              if (
+                lastCompare !== 0
+              ) {
+
+                return lastCompare;
+
+              }
+
+
+              return String(
+                a.first_name || ""
+              ).localeCompare(
+                String(
+                  b.first_name || ""
+                ),
+                "it",
+                {
+                  sensitivity:
+                    "base"
+                }
+              );
+
+            }
+          );
+
+
+      const doc =
+        new jsPDF({
+          orientation: "portrait",
+          unit: "mm",
+          format: "a4"
+        });
+
+
+      const pageWidth =
+        doc.internal.pageSize.getWidth();
+
+      const pageHeight =
+        doc.internal.pageSize.getHeight();
+
+
+      const margin = 15;
+
+
+      /* ========================================================
+         HEADER
+         ======================================================== */
+
+      doc.setFillColor(
+        5,
+        5,
+        5
+      );
+
+      doc.rect(
+        0,
+        0,
+        pageWidth,
+        pageHeight,
+        "F"
+      );
+
+
+      doc.setTextColor(
+        255,
+        255,
+        255
+      );
+
+      doc.setFont(
+        "helvetica",
+        "bold"
+      );
+
+      doc.setFontSize(
+        22
+      );
+
+      doc.text(
+        "MÆDNESS®",
+        margin,
+        20
+      );
+
+
+      doc.setTextColor(
+        255,
+        0,
+        0
+      );
+
+      doc.setFontSize(
+        8
+      );
+
+      doc.text(
+        "ENTRY CONTROL",
+        pageWidth - margin,
+        16,
+        {
+          align: "right"
+        }
+      );
+
+
+      doc.text(
+        "18.10.2026",
+        pageWidth - margin,
+        21,
+        {
+          align: "right"
+        }
+      );
+
+
+      doc.setTextColor(
+        255,
+        255,
+        255
+      );
+
+      doc.setFontSize(
+        25
+      );
+
+      doc.text(
+        "PARTECIPANTI",
+        margin,
+        38
+      );
+
+
+      doc.setTextColor(
+        255,
+        0,
+        0
+      );
+
+      doc.setFontSize(
+        8
+      );
+
+      doc.text(
+        "ROTAROTT / FOGGIA / ITALY",
+        margin,
+        45
+      );
+
+
+      /* ========================================================
+         TOTAL
+         ======================================================== */
+
+      doc.setDrawColor(
+        50,
+        50,
+        50
+      );
+
+      doc.line(
+        margin,
+        51,
+        pageWidth - margin,
+        51
+      );
+
+
+      doc.line(
+        margin,
+        64,
+        pageWidth - margin,
+        64
+      );
+
+
+      doc.setTextColor(
+        120,
+        120,
+        120
+      );
+
+      doc.setFontSize(
+        7
+      );
+
+      doc.text(
+        "TOTALE",
+        margin,
+        57
+      );
+
+
+      doc.setTextColor(
+        255,
+        255,
+        255
+      );
+
+      doc.setFontSize(
+        17
+      );
+
+      doc.text(
+        String(
+          participants.length
+        ),
+        margin + 22,
+        59
+      );
+
+
+      doc.setTextColor(
+        255,
+        0,
+        0
+      );
+
+      doc.setFontSize(
+        7
+      );
+
+      doc.text(
+        "ISCRITTI",
+        margin + 38,
+        57
+      );
+
+
+      /* ========================================================
+         TABLE HEADER
+         ======================================================== */
+
+      let y = 73;
+
+
+      doc.setTextColor(
+        120,
+        120,
+        120
+      );
+
+      doc.setFontSize(
+        7
+      );
+
+      doc.text(
+        "#",
+        margin,
+        y
+      );
+
+      doc.text(
+        "COGNOME NOME",
+        margin + 12,
+        y
+      );
+
+      doc.text(
+        "STATO",
+        pageWidth - margin,
+        y,
+        {
+          align: "right"
+        }
+      );
+
+
+      y += 5;
+
+
+      doc.setDrawColor(
+        45,
+        45,
+        45
+      );
+
+      doc.line(
+        margin,
+        y,
+        pageWidth - margin,
+        y
+      );
+
+
+      y += 7;
+
+
+      /* ========================================================
+         ROWS
+         ======================================================== */
+
+      participants.forEach(
+        (
+          person,
+          index
+        ) => {
+
+          if (
+            y > pageHeight - 22
+          ) {
+
+            addPdfFooter(
+              doc,
+              pageWidth,
+              pageHeight
+            );
+
+            doc.addPage();
+
+
+            doc.setFillColor(
+              5,
+              5,
+              5
+            );
+
+            doc.rect(
+              0,
+              0,
+              pageWidth,
+              pageHeight,
+              "F"
+            );
+
+
+            y = 20;
+
+
+            doc.setTextColor(
+              255,
+              255,
+              255
+            );
+
+            doc.setFontSize(
+              13
+            );
+
+            doc.text(
+              "MÆDNESS® / PARTECIPANTI",
+              margin,
+              y
+            );
+
+
+            y += 12;
+
+          }
+
+
+          const used =
+            person.ticket_status ===
+            "USED" ||
+            Boolean(
+              person.used_at
+            );
+
+
+          const fullName =
+            `${person.last_name || ""} ${person.first_name || ""}`
+              .trim()
+              .toUpperCase();
+
+
+          doc.setTextColor(
+            70,
+            70,
+            70
+          );
+
+          doc.setFontSize(
+            7
+          );
+
+          doc.text(
+            String(
+              index + 1
+            ).padStart(
+              2,
+              "0"
+            ),
+            margin,
+            y
+          );
+
+
+          doc.setTextColor(
+            255,
+            255,
+            255
+          );
+
+          doc.setFontSize(
+            8
+          );
+
+          doc.text(
+            fullName,
+            margin + 12,
+            y
+          );
+
+
+          doc.setTextColor(
+            used
+              ? 255
+              : 32,
+            used
+              ? 157
+              : 216,
+            used
+              ? 0
+              : 120
+          );
+
+          doc.setFontSize(
+            7
+          );
+
+          doc.text(
+            used
+              ? "ENTRATO"
+              : "ISCRITTO",
+            pageWidth - margin,
+            y,
+            {
+              align: "right"
+            }
+          );
+
+
+          y += 7;
+
+
+          doc.setDrawColor(
+            30,
+            30,
+            30
+          );
+
+          doc.line(
+            margin,
+            y,
+            pageWidth - margin,
+            y
+          );
+
+
+          y += 5;
+
+        }
+      );
+
+
+      /* ========================================================
+         FOOTER
+         ======================================================== */
+
+      addPdfFooter(
+        doc,
+        pageWidth,
+        pageHeight
+      );
+
+
+      /* ========================================================
+         DOWNLOAD
+         ======================================================== */
+
+      const now =
+        new Date();
+
+
+      const date =
+        [
+          now.getFullYear(),
+          String(
+            now.getMonth() + 1
+          ).padStart(
+            2,
+            "0"
+          ),
+          String(
+            now.getDate()
+          ).padStart(
+            2,
+            "0"
+          )
+        ].join("");
+
+
+      doc.save(
+        `MAEDNESS_ROTAROTT_PARTECIPANTI_${date}.pdf`
+      );
+
+    }
+
+
+    /* ==========================================================
+       PDF FOOTER
+       ========================================================== */
+
+    function addPdfFooter(
+      doc,
+      pageWidth,
+      pageHeight
+    ) {
+
+      doc.setTextColor(
+        80,
+        80,
+        80
+      );
+
+      doc.setFont(
+        "helvetica",
+        "normal"
+      );
+
+      doc.setFontSize(
+        6
+      );
+
+
+      doc.text(
+        "MÆDNESS® / ROTAROTT / FOGGIA / ITALY",
+        15,
+        pageHeight - 10
+      );
+
+
+      const pageNumber =
+        doc.internal.getNumberOfPages();
+
+
+      doc.text(
+        `PAGE ${pageNumber}`,
+        pageWidth - 15,
+        pageHeight - 10,
+        {
+          align: "right"
+        }
+      );
+
+    }
+
+
+    /* ==========================================================
+       EVENTS
+       ========================================================== */
+
     searchButton.addEventListener(
       "click",
       searchParticipants
@@ -1143,734 +1716,15 @@
     );
 
 
-    /*
-     * ==========================================================
-     * PDF
-     * ==========================================================
-     *
-     * IMPORTANTE:
-     * Il PDF usa SEMPRE allParticipants.
-     *
-     * Quindi:
-     * - se stai cercando Mario, il PDF contiene comunque tutti
-     * - l'ordine del PDF è per COGNOME
-     * - a parità di cognome ordina per NOME
-     *
-     * ==========================================================
-     */
-
-    function downloadPdf() {
-
-      if (
-        !Array.isArray(
-          allParticipants
-        ) ||
-        allParticipants.length === 0
-      ) {
-
-        alert(
-          "Nessun partecipante da esportare."
-        );
-
-        return;
-
-      }
-
-
-      if (
-        !window.jspdf ||
-        !window.jspdf.jsPDF
-      ) {
-
-        alert(
-          "PDF non disponibile. Ricarica la pagina."
-        );
-
-        return;
-
-      }
-
-
-      pdfButton.disabled =
-        true;
-
-      pdfButton.textContent =
-        "CREAZIONE PDF...";
-
-
-      try {
-
-        const {
-          jsPDF
-        } = window.jspdf;
-
-
-        const doc =
-          new jsPDF({
-            orientation: "portrait",
-            unit: "mm",
-            format: "a4"
-          });
-
-
-        /*
-         * ======================================================
-         * PDF COLORS
-         * ======================================================
-         */
-
-        const BLACK = [
-          5,
-          5,
-          5
-        ];
-
-        const RED = [
-          255,
-          0,
-          0
-        ];
-
-        const WHITE = [
-          255,
-          255,
-          255
-        ];
-
-        const GREY = [
-          110,
-          110,
-          110
-        ];
-
-        const GREEN = [
-          32,
-          216,
-          120
-        ];
-
-        const ORANGE = [
-          255,
-          157,
-          0
-        ];
-
-
-        /*
-         * ======================================================
-         * BACKGROUND
-         * ======================================================
-         */
-
-        doc.setFillColor(
-          ...BLACK
-        );
-
-        doc.rect(
-          0,
-          0,
-          210,
-          297,
-          "F"
-        );
-
-
-        /*
-         * ======================================================
-         * HEADER
-         * ======================================================
-         */
-
-        doc.setTextColor(
-          ...WHITE
-        );
-
-        doc.setFont(
-          "helvetica",
-          "bold"
-        );
-
-        doc.setFontSize(
-          22
-        );
-
-        doc.text(
-          "MÆDNESS®",
-          14,
-          18
-        );
-
-
-        doc.setTextColor(
-          ...RED
-        );
-
-        doc.setFontSize(
-          7
-        );
-
-        doc.text(
-          "ENTRY CONTROL",
-          196,
-          12,
-          {
-            align: "right"
-          }
-        );
-
-
-        doc.text(
-          "18.10.2026",
-          196,
-          17,
-          {
-            align: "right"
-          }
-        );
-
-
-        /*
-         * ======================================================
-         * TITLE
-         * ======================================================
-         */
-
-        doc.setTextColor(
-          ...WHITE
-        );
-
-        doc.setFontSize(
-          28
-        );
-
-        doc.text(
-          "PARTECIPANTI",
-          14,
-          39
-        );
-
-
-        doc.setTextColor(
-          ...RED
-        );
-
-        doc.setFontSize(
-          8
-        );
-
-        doc.text(
-          "ROTAROTT / FOGGIA / ITALY",
-          14,
-          46
-        );
-
-
-        /*
-         * ======================================================
-         * TOTAL
-         * ======================================================
-         */
-
-        doc.setDrawColor(
-          45,
-          45,
-          45
-        );
-
-        doc.line(
-          14,
-          53,
-          196,
-          53
-        );
-
-
-        doc.line(
-          14,
-          65,
-          196,
-          65
-        );
-
-
-        doc.setTextColor(
-          ...GREY
-        );
-
-        doc.setFontSize(
-          7
-        );
-
-        doc.text(
-          "TOTALE ISCRITTI",
-          14,
-          61
-        );
-
-
-        doc.setTextColor(
-          ...WHITE
-        );
-
-        doc.setFontSize(
-          16
-        );
-
-        doc.text(
-          String(
-            allParticipants.length
-          ),
-          196,
-          61,
-          {
-            align: "right"
-          }
-        );
-
-
-        /*
-         * ======================================================
-         * SORT PDF
-         * ======================================================
-         */
-
-        const pdfParticipants =
-          [...allParticipants]
-            .sort(
-              (
-                a,
-                b
-              ) => {
-
-                const lastA =
-                  String(
-                    a.last_name || ""
-                  )
-                    .trim()
-                    .toLocaleLowerCase(
-                      "it"
-                    );
-
-
-                const lastB =
-                  String(
-                    b.last_name || ""
-                  )
-                    .trim()
-                    .toLocaleLowerCase(
-                      "it"
-                    );
-
-
-                const lastCompare =
-                  lastA.localeCompare(
-                    lastB,
-                    "it",
-                    {
-                      sensitivity:
-                        "base"
-                    }
-                  );
-
-
-                if (
-                  lastCompare !==
-                  0
-                ) {
-
-                  return lastCompare;
-
-                }
-
-
-                const firstA =
-                  String(
-                    a.first_name || ""
-                  )
-                    .trim()
-                    .toLocaleLowerCase(
-                      "it"
-                    );
-
-
-                const firstB =
-                  String(
-                    b.first_name || ""
-                  )
-                    .trim()
-                    .toLocaleLowerCase(
-                      "it"
-                    );
-
-
-                return firstA.localeCompare(
-                  firstB,
-                  "it",
-                  {
-                    sensitivity:
-                      "base"
-                  }
-                );
-
-              }
-            );
-
-
-        /*
-         * ======================================================
-         * LIST
-         * ======================================================
-         */
-
-        let y =
-          74;
-
-        const pageBottom =
-          282;
-
-        const rowHeight =
-          9;
-
-
-        pdfParticipants.forEach(
-          (
-            person,
-            index
-          ) => {
-
-            /*
-             * Nuova pagina
-             */
-
-            if (
-              y >
-              pageBottom
-            ) {
-
-              doc.addPage();
-
-
-              doc.setFillColor(
-                ...BLACK
-              );
-
-              doc.rect(
-                0,
-                0,
-                210,
-                297,
-                "F"
-              );
-
-
-              doc.setTextColor(
-                ...WHITE
-              );
-
-              doc.setFont(
-                "helvetica",
-                "bold"
-              );
-
-              doc.setFontSize(
-                12
-              );
-
-              doc.text(
-                "MÆDNESS® — ROTAROTT",
-                14,
-                16
-              );
-
-
-              doc.setTextColor(
-                ...RED
-              );
-
-              doc.setFontSize(
-                7
-              );
-
-              doc.text(
-                "PARTECIPANTI",
-                196,
-                16,
-                {
-                  align: "right"
-                }
-              );
-
-
-              y =
-                27;
-
-            }
-
-
-            /*
-             * Riga
-             */
-
-            const used =
-              person.ticket_status ===
-              "USED" ||
-              Boolean(
-                person.used_at
-              );
-
-
-            if (
-              index % 2 ===
-              0
-            ) {
-
-              doc.setFillColor(
-                12,
-                12,
-                12
-              );
-
-              doc.rect(
-                14,
-                y - 5.5,
-                182,
-                rowHeight,
-                "F"
-              );
-
-            }
-
-
-            /*
-             * Numero
-             */
-
-            doc.setTextColor(
-              ...GREY
-            );
-
-            doc.setFont(
-              "helvetica",
-              "normal"
-            );
-
-            doc.setFontSize(
-              7
-            );
-
-            doc.text(
-              String(
-                index + 1
-              ).padStart(
-                2,
-                "0"
-              ),
-              17,
-              y
-            );
-
-
-            /*
-             * Nome
-             */
-
-            doc.setTextColor(
-              ...WHITE
-            );
-
-            doc.setFont(
-              "helvetica",
-              "bold"
-            );
-
-            doc.setFontSize(
-              8.5
-            );
-
-
-            const fullName =
-              `${person.last_name || ""} ${person.first_name || ""}`
-                .trim();
-
-
-            doc.text(
-              fullName
-                .toLocaleUpperCase(
-                  "it-IT"
-                ),
-              31,
-              y
-            );
-
-
-            /*
-             * Stato
-             */
-
-            doc.setFontSize(
-              7
-            );
-
-
-            if (used) {
-
-              doc.setTextColor(
-                ...ORANGE
-              );
-
-              doc.text(
-                "ENTRATO",
-                196,
-                y,
-                {
-                  align: "right"
-                }
-              );
-
-            }
-
-            else {
-
-              doc.setTextColor(
-                ...GREEN
-              );
-
-              doc.text(
-                "ISCRITTO",
-                196,
-                y,
-                {
-                  align: "right"
-                }
-              );
-
-            }
-
-
-            y +=
-              rowHeight;
-
-          }
-        );
-
-
-        /*
-         * ======================================================
-         * FOOTER SU TUTTE LE PAGINE
-         * ======================================================
-         */
-
-        const pageCount =
-          doc.getNumberOfPages();
-
-
-        for (
-          let page = 1;
-          page <= pageCount;
-          page++
-        ) {
-
-          doc.setPage(
-            page
-          );
-
-
-          doc.setTextColor(
-            ...GREY
-          );
-
-          doc.setFont(
-            "helvetica",
-            "normal"
-          );
-
-          doc.setFontSize(
-            6
-          );
-
-
-          doc.text(
-            "MÆDNESS® / ROTAROTT / FOGGIA / ITALY",
-            14,
-            291
-          );
-
-
-          doc.text(
-            `PAGINA ${page} / ${pageCount}`,
-            196,
-            291,
-            {
-              align: "right"
-            }
-          );
-
-        }
-
-
-        /*
-         * ======================================================
-         * DOWNLOAD
-         * ======================================================
-         */
-
-        const now =
-          new Date();
-
-
-        const date =
-          now
-            .toISOString()
-            .slice(
-              0,
-              10
-            );
-
-
-        doc.save(
-          `MAEDNESS_ROTAROTT_PARTECIPANTI_${date}.pdf`
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "PDF error:",
-          error
-        );
-
-
-        alert(
-          "Errore nella creazione del PDF."
-        );
-
-      }
-
-      finally {
-
-        pdfButton.disabled =
-          false;
-
-        pdfButton.textContent =
-          "SCARICA LISTA PDF";
-
-      }
-
-    }
-
-
     pdfButton.addEventListener(
       "click",
       downloadPdf
     );
 
 
-    /*
-     * ==========================================================
-     * AUTO REFRESH
-     * ==========================================================
-     */
+    /* ==========================================================
+       START
+       ========================================================== */
 
     loadParticipants();
 
