@@ -49,7 +49,7 @@
     }
 
     body {
-      color: var(--black);
+      color: var(--white);
       font-family: "Inter", sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
@@ -530,41 +530,36 @@
        ========================================= */
 
     .actions {
-      margin-top: 18px;
+      margin-top: 16px;
       display: grid;
-      gap: 12px;
+      gap: 10px;
       position: relative;
       z-index: 2;
     }
 
-
-    /* =========================================
-       WALLET
-       ========================================= */
+    /*
+      WALLET:
+      nessun riquadro bianco.
+      Il badge resta direttamente sulla pagina.
+    */
 
     .wallet-action {
       width: 100%;
-      min-height: 72px;
-
+      min-height: 68px;
       display: flex;
       align-items: center;
       justify-content: center;
-
       background: transparent;
       border: 0;
-      outline: 0;
-
-      padding: 2px 0;
-
+      padding: 4px 0;
       cursor: pointer;
-
       transition:
         transform .12s ease,
         opacity .2s ease;
     }
 
     .wallet-action:active {
-      transform: scale(.96);
+      transform: scale(.97);
     }
 
     .wallet-action img {
@@ -581,7 +576,7 @@
     .wallet-fallback {
       display: none;
       font-family: "Anton", sans-serif;
-      font-size: 19px;
+      font-size: 18px;
       letter-spacing: .03em;
       color: #000;
     }
@@ -602,23 +597,17 @@
     .pdf-button {
       width: 100%;
       min-height: 56px;
-
       border: 0;
       border-radius: 0;
-
       cursor: pointer;
-
       font-family: "Anton", sans-serif;
       font-size: 18px;
       letter-spacing: .035em;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       background: var(--red);
       color: var(--white);
-
       transition:
         transform .12s ease,
         background .2s ease;
@@ -884,17 +873,13 @@
       </div>
 
       <div class="ticket-footer-right">
-
         <span id="footerDate">
           18.10.2026
         </span>
-
         <br>
-
         <span id="footerLocation">
           FOGGIA / ITALY
         </span>
-
       </div>
 
     </footer>
@@ -1224,7 +1209,7 @@
 
 
     /* =========================================
-       WALLET
+       APPLE WALLET
        ========================================= */
 
     const walletData =
@@ -1366,16 +1351,17 @@
           const pageWidth =
             doc.internal.pageSize.getWidth();
 
+
           const pageHeight =
             doc.internal.pageSize.getHeight();
 
 
           const margin =
-            14;
+            12;
 
 
           /* =====================================
-             PDF BACKGROUND
+             WHITE BACKGROUND
              ===================================== */
 
           doc.setFillColor(
@@ -1393,79 +1379,66 @@
           );
 
 
-          /*
-            Sottili linee decorative,
-            nello stesso linguaggio della pagina.
-          */
+          /* =====================================
+             SUBTLE BACKGROUND LINES
+             ===================================== */
 
           doc.setDrawColor(
-            245,
-            245,
-            245
+            238,
+            238,
+            238
           );
 
           doc.setLineWidth(
-            .25
+            .18
           );
 
 
-          doc.line(
-            0,
-            45,
-            pageWidth,
-            25
-          );
+          for (
+            let i = -20;
+            i < pageWidth + 50;
+            i += 23
+          ) {
 
-          doc.line(
-            0,
-            92,
-            pageWidth,
-            65
-          );
+            doc.line(
+              i,
+              0,
+              i - 45,
+              pageHeight
+            );
 
-          doc.line(
-            0,
-            180,
-            pageWidth,
-            150
-          );
-
-          doc.line(
-            0,
-            240,
-            pageWidth,
-            205
-          );
+          }
 
 
           doc.setDrawColor(
-            255,
-            0,
-            0
+            248,
+            235,
+            235
           );
 
           doc.setLineWidth(
-            .2
+            .16
           );
 
 
-          doc.line(
-            pageWidth,
-            25,
-            0,
-            62
-          );
+          for (
+            let i = -30;
+            i < pageWidth + 60;
+            i += 31
+          ) {
 
-          doc.line(
-            pageWidth,
-            175,
-            0,
-            220
-          );
+            doc.line(
+              i,
+              pageHeight,
+              i + 55,
+              0
+            );
+
+          }
 
 
           /* =====================================
-             TOP
+             TOP LOGO
              ===================================== */
 
           doc.setTextColor(
@@ -1486,7 +1459,7 @@
           doc.text(
             "MÆDNESS®",
             margin,
-            20
+            19
           );
 
 
@@ -1497,13 +1470,13 @@
           );
 
           doc.setFontSize(
-            6
+            6.5
           );
 
           doc.text(
             "DIGITAL ACCESS",
             pageWidth - margin,
-            17,
+            16,
             {
               align: "right"
             }
@@ -1513,7 +1486,7 @@
           doc.text(
             "ROTAROTT / 001",
             pageWidth - margin,
-            21,
+            20,
             {
               align: "right"
             }
@@ -1531,7 +1504,7 @@
           );
 
           doc.setLineWidth(
-            .25
+            .22
           );
 
           doc.line(
@@ -1553,21 +1526,14 @@
           );
 
           doc.setFontSize(
-            6
+            6.5
           );
 
           doc.text(
             "ACCESS CONFIRMED",
             margin,
-            38
+            37
           );
-
-
-          const eventName =
-            String(
-              eventData.name ||
-              "ROTAROTT"
-            ).toUpperCase();
 
 
           doc.setTextColor(
@@ -1582,14 +1548,21 @@
           );
 
           doc.setFontSize(
-            31
+            29
           );
+
+
+          const eventName =
+            String(
+              eventData.name ||
+              "ROTAROTT"
+            ).toUpperCase();
 
 
           doc.text(
             eventName,
             margin,
-            52
+            50
           );
 
 
@@ -1604,12 +1577,12 @@
           doc.text(
             formattedEventDate,
             margin,
-            64
+            62
           );
 
 
           doc.setFontSize(
-            6
+            6.5
           );
 
           doc.text(
@@ -1618,7 +1591,7 @@
               "FOGGIA / ITALY"
             ).toUpperCase(),
             pageWidth - margin,
-            64,
+            62,
             {
               align: "right"
             }
@@ -1626,14 +1599,14 @@
 
 
           /* =====================================
-             MAIN TICKET
+             WHITE TICKET CARD
              ===================================== */
 
           const cardX =
             margin;
 
           const cardY =
-            76;
+            72;
 
           const cardWidth =
             pageWidth - (
@@ -1641,7 +1614,7 @@
             );
 
           const cardHeight =
-            165;
+            168;
 
 
           doc.setFillColor(
@@ -1650,29 +1623,17 @@
             255
           );
 
-          doc.setDrawColor(
-            5,
-            5,
-            5
-          );
-
-          doc.setLineWidth(
-            .35
-          );
-
-          doc.roundedRect(
+          doc.rect(
             cardX,
             cardY,
             cardWidth,
             cardHeight,
-            2,
-            2,
-            "FD"
+            "F"
           );
 
 
           /* =====================================
-             RED CORNER MARKS
+             CARD CORNER MARKS
              ===================================== */
 
           doc.setDrawColor(
@@ -1682,14 +1643,14 @@
           );
 
           doc.setLineWidth(
-            .4
+            .35
           );
 
 
           doc.line(
             cardX - 2,
             cardY,
-            cardX + 8,
+            cardX + 9,
             cardY
           );
 
@@ -1697,12 +1658,12 @@
             cardX,
             cardY - 2,
             cardX,
-            cardY + 8
+            cardY + 9
           );
 
 
           doc.line(
-            cardX + cardWidth - 8,
+            cardX + cardWidth - 9,
             cardY + cardHeight,
             cardX + cardWidth + 2,
             cardY + cardHeight
@@ -1710,7 +1671,7 @@
 
           doc.line(
             cardX + cardWidth,
-            cardY + cardHeight - 8,
+            cardY + cardHeight - 9,
             cardX + cardWidth,
             cardY + cardHeight + 2
           );
@@ -1721,9 +1682,26 @@
              ===================================== */
 
           doc.setTextColor(
-            95,
-            95,
-            95
+            90,
+            90,
+            90
+          );
+
+          doc.setFontSize(
+            5.8
+          );
+
+          doc.text(
+            "NOME E COGNOME PARTECIPANTE",
+            cardX + 7,
+            cardY + 11
+          );
+
+
+          doc.setTextColor(
+            5,
+            5,
+            5
           );
 
           doc.setFont(
@@ -1732,13 +1710,7 @@
           );
 
           doc.setFontSize(
-            6
-          );
-
-          doc.text(
-            "NOME E COGNOME PARTECIPANTE",
-            cardX + 8,
-            cardY + 12
+            18
           );
 
 
@@ -1751,49 +1723,35 @@
               );
 
 
-          doc.setTextColor(
-            5,
-            5,
-            5
-          );
-
-          doc.setFontSize(
-            18
-          );
-
           doc.text(
             nameForPdf ||
             "PARTECIPANTE",
-            cardX + 8,
-            cardY + 24
+            cardX + 7,
+            cardY + 22
           );
 
 
           /* =====================================
-             QR DIVIDER
+             QR HEADER
              ===================================== */
 
           doc.setDrawColor(
-            215,
-            215,
-            215
+            225,
+            225,
+            225
           );
 
           doc.setLineWidth(
-            .25
+            .2
           );
 
           doc.line(
-            cardX + 8,
-            cardY + 31,
-            cardX + cardWidth - 8,
-            cardY + 31
+            cardX + 7,
+            cardY + 30,
+            cardX + cardWidth - 7,
+            cardY + 30
           );
 
-
-          /* =====================================
-             QR LABEL
-             ===================================== */
 
           doc.setTextColor(
             5,
@@ -1801,14 +1759,19 @@
             5
           );
 
+          doc.setFont(
+            "helvetica",
+            "bold"
+          );
+
           doc.setFontSize(
-            6
+            5.8
           );
 
           doc.text(
             "ENTRY QR",
-            cardX + 8,
-            cardY + 41
+            cardX + 7,
+            cardY + 40
           );
 
 
@@ -1820,8 +1783,8 @@
 
           doc.text(
             "VALID",
-            cardX + cardWidth - 8,
-            cardY + 41,
+            cardX + cardWidth - 7,
+            cardY + 40,
             {
               align: "right"
             }
@@ -1838,138 +1801,15 @@
             );
 
 
-          let qrDataUrl =
-            null;
+          let qrDataUrl = null;
 
 
           if (qrCanvas) {
 
-            /*
-              Creo un'immagine PDF con angoli
-              arrotondati senza modificare
-              il contenuto del QR.
-            */
-
-            const sourceSize =
-              qrCanvas.width;
-
-            const pdfCanvas =
-              document.createElement(
-                "canvas"
-              );
-
-            const scale =
-              3;
-
-            pdfCanvas.width =
-              sourceSize * scale;
-
-            pdfCanvas.height =
-              sourceSize * scale;
-
-            const pdfContext =
-              pdfCanvas.getContext(
-                "2d"
-              );
-
-
-            pdfContext.fillStyle =
-              "#ffffff";
-
-            pdfContext.fillRect(
-              0,
-              0,
-              pdfCanvas.width,
-              pdfCanvas.height
-            );
-
-
-            pdfContext.save();
-
-
-            const radius =
-              20 * scale;
-
-
-            pdfContext.beginPath();
-
-            pdfContext.moveTo(
-              radius,
-              0
-            );
-
-            pdfContext.lineTo(
-              pdfCanvas.width - radius,
-              0
-            );
-
-            pdfContext.quadraticCurveTo(
-              pdfCanvas.width,
-              0,
-              pdfCanvas.width,
-              radius
-            );
-
-            pdfContext.lineTo(
-              pdfCanvas.width,
-              pdfCanvas.height - radius
-            );
-
-            pdfContext.quadraticCurveTo(
-              pdfCanvas.width,
-              pdfCanvas.height,
-              pdfCanvas.width - radius,
-              pdfCanvas.height
-            );
-
-            pdfContext.lineTo(
-              radius,
-              pdfCanvas.height
-            );
-
-            pdfContext.quadraticCurveTo(
-              0,
-              pdfCanvas.height,
-              0,
-              pdfCanvas.height - radius
-            );
-
-            pdfContext.lineTo(
-              0,
-              radius
-            );
-
-            pdfContext.quadraticCurveTo(
-              0,
-              0,
-              radius,
-              0
-            );
-
-            pdfContext.closePath();
-
-            pdfContext.clip();
-
-
-            pdfContext.imageSmoothingEnabled =
-              false;
-
-
-            pdfContext.drawImage(
-              qrCanvas,
-              0,
-              0,
-              pdfCanvas.width,
-              pdfCanvas.height
-            );
-
-
-            pdfContext.restore();
-
-
             qrDataUrl =
-              pdfCanvas.toDataURL(
-                "image/png"
+              createRoundedQRDataURL(
+                qrCanvas,
+                14
               );
 
           } else {
@@ -1982,9 +1822,15 @@
 
             if (qrImage) {
 
-              qrDataUrl =
+              const sourceData =
                 await imageToDataURL(
                   qrImage.src
+                );
+
+              qrDataUrl =
+                createRoundedQRFromDataURL(
+                  sourceData,
+                  14
                 );
 
             }
@@ -2001,15 +1847,8 @@
           }
 
 
-          /*
-            QR più compatto.
-            Nessuna cornice.
-            Nessun bordo.
-            Nessuna ombra rossa.
-          */
-
           const qrSize =
-            78;
+            82;
 
 
           const qrX =
@@ -2021,7 +1860,7 @@
 
 
           const qrY =
-            cardY + 48;
+            cardY + 47;
 
 
           doc.addImage(
@@ -2041,9 +1880,14 @@
              ===================================== */
 
           doc.setTextColor(
-            95,
-            95,
-            95
+            90,
+            90,
+            90
+          );
+
+          doc.setFont(
+            "helvetica",
+            "bold"
           );
 
           doc.setFontSize(
@@ -2053,7 +1897,7 @@
           doc.text(
             "PRESENTA QUESTO QR ALL'INGRESSO",
             pageWidth / 2,
-            cardY + 136,
+            cardY + 138,
             {
               align: "center"
             }
@@ -2061,9 +1905,9 @@
 
 
           doc.setTextColor(
-            150,
-            150,
-            150
+            155,
+            155,
+            155
           );
 
           doc.setFontSize(
@@ -2073,7 +1917,7 @@
           doc.text(
             "DIGITAL TICKET / MÆDNESS®",
             pageWidth / 2,
-            cardY + 145,
+            cardY + 146,
             {
               align: "center"
             }
@@ -2081,7 +1925,7 @@
 
 
           /* =====================================
-             PDF FOOTER
+             FOOTER
              ===================================== */
 
           doc.setTextColor(
@@ -2091,13 +1935,13 @@
           );
 
           doc.setFontSize(
-            6
+            5.5
           );
 
           doc.text(
             "MÆDNESS®",
             margin,
-            pageHeight - 14
+            pageHeight - 13
           );
 
 
@@ -2113,7 +1957,7 @@
               "FOGGIA / ITALY"
             ).toUpperCase()}`,
             pageWidth - margin,
-            pageHeight - 14,
+            pageHeight - 13,
             {
               align: "right"
             }
@@ -2184,6 +2028,234 @@
 
 
     /* =========================================
+       ROUNDED QR — PDF
+       ========================================= */
+
+    function createRoundedQRDataURL(
+      sourceCanvas,
+      radius
+    ) {
+
+      const size =
+        Math.min(
+          sourceCanvas.width,
+          sourceCanvas.height
+        );
+
+      const output =
+        document.createElement(
+          "canvas"
+        );
+
+      output.width =
+        size;
+
+      output.height =
+        size;
+
+      const context =
+        output.getContext(
+          "2d"
+        );
+
+      context.clearRect(
+        0,
+        0,
+        size,
+        size
+      );
+
+
+      roundedRect(
+        context,
+        0,
+        0,
+        size,
+        size,
+        radius
+      );
+
+      context.clip();
+
+
+      context.drawImage(
+        sourceCanvas,
+        0,
+        0,
+        size,
+        size
+      );
+
+
+      return output.toDataURL(
+        "image/png"
+      );
+
+    }
+
+
+    function createRoundedQRFromDataURL(
+      sourceDataURL,
+      radius
+    ) {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          const image =
+            new Image();
+
+
+          image.onload =
+            () => {
+
+              const size =
+                Math.min(
+                  image.naturalWidth,
+                  image.naturalHeight
+                );
+
+
+              const output =
+                document.createElement(
+                  "canvas"
+                );
+
+
+              output.width =
+                size;
+
+              output.height =
+                size;
+
+
+              const context =
+                output.getContext(
+                  "2d"
+                );
+
+
+              roundedRect(
+                context,
+                0,
+                0,
+                size,
+                size,
+                radius
+              );
+
+              context.clip();
+
+
+              context.drawImage(
+                image,
+                0,
+                0,
+                size,
+                size
+              );
+
+
+              resolve(
+                output.toDataURL(
+                  "image/png"
+                )
+              );
+
+            };
+
+
+          image.onerror =
+            reject;
+
+
+          image.src =
+            sourceDataURL;
+
+        }
+      );
+
+    }
+
+
+    function roundedRect(
+      context,
+      x,
+      y,
+      width,
+      height,
+      radius
+    ) {
+
+      const r =
+        Math.min(
+          radius,
+          width / 2,
+          height / 2
+        );
+
+
+      context.beginPath();
+
+      context.moveTo(
+        x + r,
+        y
+      );
+
+      context.lineTo(
+        x + width - r,
+        y
+      );
+
+      context.quadraticCurveTo(
+        x + width,
+        y,
+        x + width,
+        y + r
+      );
+
+      context.lineTo(
+        x + width,
+        y + height - r
+      );
+
+      context.quadraticCurveTo(
+        x + width,
+        y + height,
+        x + width - r,
+        y + height
+      );
+
+      context.lineTo(
+        x + r,
+        y + height
+      );
+
+      context.quadraticCurveTo(
+        x,
+        y + height,
+        x,
+        y + height - r
+      );
+
+      context.lineTo(
+        x,
+        y + r
+      );
+
+      context.quadraticCurveTo(
+        x,
+        y,
+        x + r,
+        y
+      );
+
+      context.closePath();
+
+    }
+
+
+    /* =========================================
        WAIT FOR QR
        ========================================= */
 
@@ -2194,8 +2266,7 @@
 
           let attempts = 0;
 
-          const maxAttempts =
-            40;
+          const maxAttempts = 40;
 
 
           const checkQR = () => {
@@ -2211,10 +2282,7 @@
               );
 
 
-            if (
-              canvas ||
-              image
-            ) {
+            if (canvas || image) {
 
               resolve();
 
