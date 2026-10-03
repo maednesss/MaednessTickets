@@ -107,6 +107,121 @@
       overflow: hidden;
     }
 
+    .ticket-page::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border: 1px solid rgba(255,0,0,.10);
+      border-radius: 50%;
+      top: 15%;
+      right: -105px;
+      animation: orbitGlow 9s linear infinite;
+      pointer-events: none;
+    }
+
+    .ticket-page::after {
+      content: "";
+      position: absolute;
+      width: 1px;
+      height: 90px;
+      background: linear-gradient(
+        transparent,
+        rgba(255,0,0,.35),
+        transparent
+      );
+      left: 8px;
+      top: 55%;
+      animation: scanLine 5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .ticket-top,
+    .ticket-header,
+    .ticket-card,
+    .actions,
+    .ticket-footer {
+      position: relative;
+      z-index: 1;
+      animation: fadeUp .7s cubic-bezier(.2,.7,.2,1) both;
+    }
+
+    .ticket-header {
+      animation-delay: .08s;
+    }
+
+    .ticket-card {
+      animation-delay: .16s;
+    }
+
+    .actions {
+      animation-delay: .24s;
+    }
+
+    .ticket-footer {
+      animation-delay: .32s;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes orbitGlow {
+      0% {
+        transform: rotate(0deg);
+        opacity: .35;
+      }
+
+      50% {
+        opacity: .7;
+      }
+
+      100% {
+        transform: rotate(360deg);
+        opacity: .35;
+      }
+    }
+
+    @keyframes scanLine {
+      0%,
+      100% {
+        transform: translateY(-35px);
+        opacity: 0;
+      }
+
+      35%,
+      65% {
+        opacity: 1;
+      }
+
+      50% {
+        transform: translateY(35px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .ticket-page::before,
+      .ticket-page::after,
+      .ticket-top,
+      .ticket-header,
+      .ticket-card,
+      .actions,
+      .ticket-footer,
+      #appleWalletButton {
+        animation: none !important;
+      }
+
+    }
+
     /* =========================================
        TOP
        ========================================= */
@@ -128,8 +243,9 @@
 
     .ticket-logo span {
       position: relative;
-      top: -2px;
-      font-size: 12px;
+      top: -7px;
+      font-size: 10px;
+      margin-left: 2px;
     }
 
     .ticket-code {
@@ -274,15 +390,16 @@
     }
 
     .qr-frame {
-      width: min(100%, 310px);
+      width: min(100%, 240px);
       aspect-ratio: 1 / 1;
       margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: center;
       background: #fff;
-      padding: 14px;
+      padding: 10px;
       border: 1px solid #000;
+      border-radius: 2px;
     }
 
     #qrcode {
@@ -304,10 +421,61 @@
     .qr-note {
       margin-top: 10px;
       text-align: center;
-      font-size: 6px;
+      font-size: 7px;
       font-weight: 800;
       letter-spacing: .15em;
       color: rgba(0,0,0,.55);
+    }
+
+    /* =========================================
+       THANK YOU
+       ========================================= */
+
+    .thank-you {
+      margin-top: 18px;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      z-index: 1;
+      animation: fadeUp .7s .2s cubic-bezier(.2,.7,.2,1) both;
+    }
+
+    .thank-you-title {
+      font-family: "Anton", sans-serif;
+      font-size: 28px;
+      line-height: .9;
+      letter-spacing: .01em;
+      text-transform: uppercase;
+    }
+
+    .thank-you-copy {
+      margin-top: 7px;
+      max-width: 310px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 8px;
+      line-height: 1.55;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.68);
+    }
+
+    .entry-message {
+      margin-top: 11px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,0,0,.55);
+      color: var(--white);
+      font-size: 7px;
+      line-height: 1.45;
+      font-weight: 900;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      background: rgba(255,0,0,.035);
+    }
+
+    .entry-message strong {
+      color: var(--red);
     }
 
     /* =========================================
@@ -326,8 +494,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #ffffff;
-      border: 1px solid rgba(255,255,255,.18);
+      background: transparent;
+      border: 0;
       padding: 8px 12px;
       cursor: pointer;
       transition:
@@ -344,6 +512,39 @@
       height: 48px;
       max-width: 100%;
       object-fit: contain;
+    }
+
+    /* APPLE — HERO BUTTON */
+
+    #appleWalletButton {
+      min-height: 78px;
+      padding: 0;
+      animation: walletPulse 4s ease-in-out infinite;
+    }
+
+    #appleWalletButton img {
+      height: 68px;
+      width: auto;
+    }
+
+    #googleWalletButton {
+      min-height: 58px;
+      padding: 0;
+    }
+
+    @keyframes walletPulse {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-2px);
+      }
+    }
+
+    .wallet-action:active {
+      transform: scale(.97) !important;
     }
 
     .wallet-action.hidden {
@@ -552,6 +753,27 @@
     </section>
 
 
+    <!-- THANK YOU -->
+
+    <section class="thank-you">
+
+      <div class="thank-you-title">
+        GRAZIE.
+      </div>
+
+      <div class="thank-you-copy">
+        IL TUO POSTO È STATO BLOCCATO.
+        CONSERVA QUESTO TICKET FINO ALL'EVENTO.
+      </div>
+
+      <div class="entry-message">
+        <strong>ALL'INGRESSO:</strong>
+        APRI QUESTO TICKET E MOSTRA IL QR ALLO STAFF.
+      </div>
+
+    </section>
+
+
     <!-- ACTIONS -->
 
     <section class="actions">
@@ -629,13 +851,17 @@
       </div>
 
       <div class="ticket-footer-right">
+
         <span id="footerDate">
           18.10.2026
         </span>
+
         <br>
+
         <span id="footerLocation">
           FOGGIA / ITALY
         </span>
+
       </div>
 
     </footer>
@@ -860,8 +1086,8 @@
         qrcode,
         {
           text: ticketToken,
-          width: 280,
-          height: 280,
+          width: 220,
+          height: 220,
           colorDark: "#050505",
           colorLight: "#ffffff",
           correctLevel:
@@ -1149,6 +1375,7 @@
             5,
             5
           );
+
 
           doc.rect(
             0,
