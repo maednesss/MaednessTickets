@@ -1096,7 +1096,29 @@
       const {
         jsPDF
       } = window.jspdf;
+const participants = [...allParticipants].sort((a, b) => {
+  const lastNameCompare = String(a.last_name || "").localeCompare(
+    String(b.last_name || ""),
+    "it",
+    { sensitivity: "base" }
+  );
 
+  if (lastNameCompare !== 0) {
+    return lastNameCompare;
+  }
+
+  return String(a.first_name || "").localeCompare(
+    String(b.first_name || ""),
+    "it",
+    { sensitivity: "base" }
+  );
+});
+
+const doc = new jsPDF({
+  orientation: "portrait",
+  unit: "mm",
+  format: "a4"
+});
 
       const pageWidth =
         doc.internal.pageSize.getWidth();
