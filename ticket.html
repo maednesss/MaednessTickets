@@ -564,8 +564,16 @@
 
     .location-arrow {
       color: var(--red);
-      font-size: 15px;
-      line-height: 1;
+      display: block;
+      width: 13px;
+      height: 13px;
+      flex: 0 0 13px;
+    }
+
+    .location-arrow svg {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
     .wallet-action {
@@ -875,7 +883,17 @@
 
         <span class="location-cta">
           GOOGLE MAPS
-          <span class="location-arrow" aria-hidden="true">↗</span>
+          <span class="location-arrow" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M4 12 12 4M5 4h7v7"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
         </span>
 
       </a>
