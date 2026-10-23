@@ -465,7 +465,7 @@
       z-index: 5;
       background: var(--white);
       color: var(--black);
-      padding: 24px 16px 45px;
+      padding: 18px 16px 13px;
       min-height: 680px;
     }
 
@@ -473,7 +473,7 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 22px;
+      margin-bottom: 12px;
       font-size: 8px;
       font-weight: 900;
       letter-spacing: .2em;
@@ -496,7 +496,7 @@
 
       column-gap: var(--register-heading-gap);
       align-items: start;
-      margin-bottom: 28px;
+      margin-bottom: 18px;
     }
 
     .register-title {
@@ -586,7 +586,7 @@
     }
 
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
     .form-group label {
@@ -615,11 +615,85 @@
       box-shadow: inset 4px 0 0 var(--red);
     }
 
+    /* INFO ACCESSO E FASCE ORARIE */
+
+    .ticket-info {
+      height: 109px;
+      margin-top: 8px;
+      border: 1px solid var(--black);
+      border-left: 3px solid var(--red);
+      padding: 6px 7px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      text-transform: uppercase;
+    }
+
+    .ticket-access {
+      font-size: 7px;
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: .05em;
+    }
+
+    .ticket-access span {
+      color: var(--red);
+    }
+
+    .ticket-prices {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ticket-price-row {
+      display: grid;
+      grid-template-columns: 77px 27px minmax(0, 1fr);
+      align-items: center;
+      min-height: 15px;
+      border-bottom: 1px solid rgba(5,5,5,.18);
+    }
+
+    .ticket-time {
+      font-size: 6.5px;
+      font-weight: 900;
+      letter-spacing: .025em;
+      white-space: nowrap;
+    }
+
+    .ticket-cost {
+      color: var(--red);
+      font-family: "Anton", sans-serif;
+      font-size: 10px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .ticket-description {
+      font-size: 6.5px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+
+    .ticket-description strong {
+      color: var(--red);
+      font-weight: 900;
+    }
+
+    .ticket-warning {
+      color: var(--red);
+      font-size: 7px;
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: .035em;
+    }
+
     /* INSTAGRAM */
 
     .instagram-box {
-      margin-top: 22px;
-      margin-bottom: 18px;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
 
     .instagram-button {
@@ -747,7 +821,7 @@
     .submit-button {
       width: 100%;
       height: 58px;
-      margin-top: 7px;
+      margin-top: 5px;
       border: 0;
       border-radius: 0;
       background: var(--black);
@@ -772,7 +846,7 @@
 
     .form-status {
       min-height: 20px;
-      margin-top: 10px;
+      margin-top: 6px;
       font-size: 8px;
       font-weight: 900;
       letter-spacing: .14em;
@@ -782,7 +856,7 @@
     /* BOTTOM */
 
     .registration-bottom {
-      margin-top: 45px;
+      margin-top: 25px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -821,7 +895,7 @@
     }
 
     .registration-footer {
-      margin-top: 28px;
+      margin-top: 18px;
       display: flex;
       justify-content: space-between;
       font-size: 7px;
@@ -1058,6 +1132,48 @@
           autocomplete="family-name"
           required
         />
+
+        <div class="ticket-info">
+
+          <div class="ticket-access">
+            ACCESSO CONSENTITO SOLTANTO AI POSSESSORI DI
+            <span>QR-PRENOTAZIONE</span>
+          </div>
+
+          <div class="ticket-prices">
+
+            <div class="ticket-price-row">
+              <span class="ticket-time">23:30 — 01:00</span>
+              <span class="ticket-cost">15€</span>
+              <span class="ticket-description">
+                INGRESSO + <strong>2 DRINK</strong>
+              </span>
+            </div>
+
+            <div class="ticket-price-row">
+              <span class="ticket-time">01:00 — 02:00</span>
+              <span class="ticket-cost">15€</span>
+              <span class="ticket-description">
+                INGRESSO + <strong>1 DRINK</strong>
+              </span>
+            </div>
+
+            <div class="ticket-price-row">
+              <span class="ticket-time">02:00 — TILL LATE</span>
+              <span class="ticket-cost">15€</span>
+              <span class="ticket-description">
+                SOLO INGRESSO
+              </span>
+            </div>
+
+          </div>
+
+          <div class="ticket-warning">
+            SI RICORDA CHE SENZA QR-PRENOTAZIONE NON È CONSENTITO
+            L'INGRESSO ALL'EVENTO
+          </div>
+
+        </div>
 
       </div>
 
