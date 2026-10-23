@@ -617,9 +617,18 @@
 
     /* INFO ACCESSO E FASCE ORARIE */
 
+    .ticket-info-label {
+      display: block;
+      margin: 8px 0 7px;
+      font-size: 8px;
+      line-height: 9px;
+      font-weight: 900;
+      letter-spacing: .2em;
+    }
+
     .ticket-info {
       height: 109px;
-      margin-top: 8px;
+      margin-top: 0;
       border: 1px solid var(--black);
       border-left: 3px solid var(--red);
       padding: 6px 7px;
@@ -631,7 +640,7 @@
     }
 
     .ticket-access {
-      font-size: 7px;
+      font-size: 8px;
       line-height: 1.2;
       font-weight: 900;
       letter-spacing: .05em;
@@ -650,12 +659,12 @@
       display: grid;
       grid-template-columns: 77px 27px minmax(0, 1fr);
       align-items: center;
-      min-height: 15px;
+      min-height: 16px;
       border-bottom: 1px solid rgba(5,5,5,.18);
     }
 
     .ticket-time {
-      font-size: 6.5px;
+      font-size: 7px;
       font-weight: 900;
       letter-spacing: .025em;
       white-space: nowrap;
@@ -664,13 +673,13 @@
     .ticket-cost {
       color: var(--red);
       font-family: "Anton", sans-serif;
-      font-size: 10px;
+      font-size: 12px;
       line-height: 1;
       white-space: nowrap;
     }
 
     .ticket-description {
-      font-size: 6.5px;
+      font-size: 7px;
       font-weight: 800;
       letter-spacing: .02em;
       white-space: nowrap;
@@ -683,7 +692,7 @@
 
     .ticket-warning {
       color: var(--red);
-      font-size: 7px;
+      font-size: 7.5px;
       line-height: 1.2;
       font-weight: 900;
       letter-spacing: .035em;
@@ -856,7 +865,7 @@
     /* BOTTOM */
 
     .registration-bottom {
-      margin-top: 25px;
+      margin-top: 17px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -895,7 +904,7 @@
     }
 
     .registration-footer {
-      margin-top: 18px;
+      margin-top: 10px;
       display: flex;
       justify-content: space-between;
       font-size: 7px;
@@ -1132,6 +1141,10 @@
           autocomplete="family-name"
           required
         />
+
+        <div class="ticket-info-label">
+          INFO DISPONIBILI
+        </div>
 
         <div class="ticket-info">
 
