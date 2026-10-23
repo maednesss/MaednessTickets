@@ -482,6 +482,92 @@
       z-index: 2;
     }
 
+    .location-action {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      color: var(--white);
+      background: var(--black);
+      border-left: 3px solid var(--red);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: transform .12s ease, background .2s ease;
+    }
+
+    .location-action::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 48px;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 49%, rgba(255,0,0,.16) 50%, transparent 52%);
+      pointer-events: none;
+    }
+
+    .location-action:active {
+      transform: scale(.98);
+      background: #181818;
+    }
+
+    .location-icon {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      display: grid;
+      place-items: center;
+      color: var(--red);
+    }
+
+    .location-icon svg {
+      display: block;
+      width: 28px;
+      height: 28px;
+    }
+
+    .location-copy {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .location-label {
+      display: block;
+      color: var(--red);
+      font-size: 6px;
+      font-weight: 900;
+      letter-spacing: .2em;
+      margin-bottom: 4px;
+    }
+
+    .location-title {
+      display: block;
+      font-family: "Anton", sans-serif;
+      font-size: 18px;
+      line-height: 1;
+      letter-spacing: .025em;
+    }
+
+    .location-cta {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      position: relative;
+      z-index: 1;
+      white-space: nowrap;
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: .12em;
+    }
+
+    .location-arrow {
+      color: var(--red);
+      font-size: 15px;
+      line-height: 1;
+    }
+
     .wallet-action {
       width: 100%;
       min-height: 68px;
@@ -707,7 +793,6 @@
     </section>
 
     <section class="actions">
-
       <button
         type="button"
         class="wallet-action"
@@ -753,6 +838,47 @@
       >
         DOWNLOAD TICKET / PDF
       </button>
+
+      <a
+        class="location-action"
+        href="https://maps.app.goo.gl/Vkc4w36chRaWdf4F9"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Apri su Google Maps la posizione precisa dell'evento"
+      >
+
+        <span class="location-icon" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 10.2C19 15.3 12 21 12 21S5 15.3 5 10.2a7 7 0 1 1 14 0Z"
+              stroke="currentColor"
+              stroke-width="1.8"
+            />
+            <circle
+              cx="12"
+              cy="10"
+              r="2.35"
+              stroke="currentColor"
+              stroke-width="1.8"
+            />
+          </svg>
+        </span>
+
+        <span class="location-copy">
+          <span class="location-label">LOCATION / EVENT ACCESS</span>
+          <span class="location-title">APRI LA MAPPA</span>
+        </span>
+
+        <span class="location-cta">
+          GOOGLE MAPS
+          <span class="location-arrow" aria-hidden="true">↗</span>
+        </span>
+
+      </a>
 
     </section>
 
